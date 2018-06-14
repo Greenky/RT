@@ -1,0 +1,15 @@
+camera:
+	dir: (0, 0, 1)
+	cen: (0, 0, -600)
+
+light:
+	direct
+	dir: (100, 0, 400)
+	col: 0xFFFFFF
+	int: 0.5
+
+cylinder:
+	cen: (0, 0, 0)
+	col: 0x4F00FF
+	rad: 120
+	dir: (0, 1, 0)

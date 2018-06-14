@@ -1,0 +1,62 @@
+camera:
+	dir: (0, 0, 1)
+	cen: (0, 0, -1200)
+
+# 2 ракурс камери
+
+#camera:
+#	dir: (-1, -0.2, 1)
+#	cen: (800, 400, -800)
+
+light:
+	point
+	cen: (500, 400, -800)
+	col: 0xFFFFFF
+	int: 0.3
+
+light:
+	point
+	cen: (-200, 200, -800)
+	col: 0xFFFFFF
+	int: 0.2
+
+light:
+	direct
+	dir: (-1, 0, 5)
+	col: 0xFFFFFF
+	int: 0.1
+
+sphere:
+	cen: (0, 0, 0)
+	rad: 100
+	col: 0x00ffff
+	mir: 0.5
+
+sphere:
+	cen: (400, 200, 100)
+	rad: 200
+	col: 0xDD00ff
+	mir: 0.5
+
+#plane:
+#	cen: (0, 0, 400)
+#	nor: (5, 10, 20)
+#	col: 0x00F0aa
+
+plane:
+	cen: (0, -280, 0)
+	nor: (-5, -30, 20)
+	col: 0xaa
+	mir: 0.5
+
+#cone:
+#	cen: (200, 0, 100)
+#	ang: 30
+#	dir: (-0.3, 1, 0)
+#	col: 0x00ff00
+
+#cylinder:
+#	cen: (-250, 0, 0)
+#	dir: (0.8, 0.9, 0)
+#	col: 0xffff00
+#	rad: 140

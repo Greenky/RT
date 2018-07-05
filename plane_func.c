@@ -46,6 +46,7 @@ t_shape *sh)
 		s_ray.id = p->id;
 		s_ray.mirror = p->mirror;
 		s_ray.main_col = p->color;
+        s_ray.transperent = p->transperent;
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
@@ -97,7 +98,7 @@ static void		plane_fill(char **line, t_plane *plane, int l_num, int *flag)
 		error_caster(l_num, "no such parameter as ", *line);
 }
 
-int				plane_parce(int fd, int *l_num, void **shape_list, int id)
+int				plane_parce(int fd, t_grafx *gfx, int id)
 {
 	int			k;
 	int			flag;
@@ -109,8 +110,8 @@ int				plane_parce(int fd, int *l_num, void **shape_list, int id)
 	plane->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(*l_num)++;
-		plane_fill(&line, plane, *l_num, &flag);
+		(gfx->l_num)++;
+		plane_fill(&line, plane, gfx->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -121,6 +122,6 @@ int				plane_parce(int fd, int *l_num, void **shape_list, int id)
 		perror("RTv1");
 		exit(1);
 	}
-	add_shape((t_shape **)shape_list, plane, 'p', id);
+	add_shape(&(gfx->shapes), plane, 'p', id);
 	return (0);
 }

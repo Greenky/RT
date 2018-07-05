@@ -54,7 +54,8 @@ t_shape *sh)
 		(*ray).dest, 0));
 		s_ray.id = s->id;
 		s_ray.main_col = s->color;
-		s_ray.mirror = s->mirror;
+        s_ray.mirror = s->mirror;
+        s_ray.transperent = s->transperent;
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
 		nor = v_to_len(sub_vectors(s_ray.origin, s->centre), 1, 0);
 		return (light_calculate(nor, s_ray, light, sh));
@@ -105,7 +106,7 @@ static void			sphere_fill(char **line, t_sphere *s, int l_num, int *flag)
 		error_caster(l_num, "no such parameter as ", *line);
 }
 
-int					sphere_parce(int fd, int *l_num, void **shape_list, int id)
+int					sphere_parce(int fd, t_grafx *gfx, int id)
 {
 	int			k;
 	int			flag;
@@ -117,8 +118,8 @@ int					sphere_parce(int fd, int *l_num, void **shape_list, int id)
 	sphere->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(*l_num)++;
-		sphere_fill(&line, sphere, *l_num, &flag);
+		(gfx->l_num)++;
+		sphere_fill(&line, sphere, gfx->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -129,6 +130,6 @@ int					sphere_parce(int fd, int *l_num, void **shape_list, int id)
 		perror("RTv1");
 		exit(1);
 	}
-	add_shape((t_shape **)shape_list, sphere, 's', id);
+	add_shape(&(gfx->shapes), sphere, 's', id);
 	return (0);
 }

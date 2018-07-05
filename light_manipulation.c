@@ -80,7 +80,7 @@ static void		feelings(char **line, t_light *light, int l_num, int *flag)
 		more_of_feelings(line, light, l_num, flag);
 }
 
-int				light_parce(int fd, int *l_num, void **light_list, int n)
+int				light_parce(int fd, t_grafx *gfx, int id)
 {
 	int			flag;
 	char		*line;
@@ -89,11 +89,11 @@ int				light_parce(int fd, int *l_num, void **light_list, int n)
 
 	flag = 0;
 	light = (t_light *)malloc(sizeof(t_light));
-	n++;
+	id++; // usless line for Wall Wextra Werror ))
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(*l_num)++;
-		feelings(&line, light, *l_num, &flag);
+		(gfx->l_num)++;
+		feelings(&line, light, gfx->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15 || flag == 23)
 			break ;
@@ -104,6 +104,6 @@ int				light_parce(int fd, int *l_num, void **light_list, int n)
 		perror("RTv1");
 		exit(1);
 	}
-	add_light((t_light **)light_list, light);
+	add_light(&(gfx->light), light);
 	return (0);
 }

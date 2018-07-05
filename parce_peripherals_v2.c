@@ -77,22 +77,22 @@ t_vector		parce_vector(char *line, int l_num)
 	return (set_vector(0, 0, 0));
 }
 
-void			freesher(t_light **light, t_shape **sh)
+void			freesher(t_light *light, t_shape *sh)
 {
 	t_light *step_li;
 	t_shape *step_sh;
 
-	while (*light)
+	while (light)
 	{
-		step_li = (*light)->next;
-		free(*light);
-		*light = step_li;
+		step_li = light->next;
+		free(light);
+		light = step_li;
 	}
-	while (*sh)
+	while (sh)
 	{
-		step_sh = (*sh)->next;
-		free((*sh)->shape);
-		free(*sh);
-		*sh = step_sh;
+		step_sh = sh->next;
+		free(sh->shape);
+		free(sh);
+		sh = step_sh;
 	}
 }

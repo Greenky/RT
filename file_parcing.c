@@ -25,12 +25,13 @@ int fd)
 			break ;
 		else if (ft_strequ(*str, arr[i].name))
 		{
-			if (ft_strequ(*str, "camera:"))
-				cam_parce(fd, &(gfx->l_num), gfx->camera);
-			else if (ft_strequ(*str, "light:"))
-				arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->light), 0);
-			else
-				arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->shapes), id++);
+			arr[i].parce(fd, gfx, id++);
+			// if (ft_strequ(*str, "camera:"))
+			// 	cam_parce(fd, &(gfx->l_num), gfx->camera);
+			// else if (ft_strequ(*str, "light:"))
+			// 	arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->light), 0);
+			// else
+			// 	arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->shapes), id++);
 			break ;
 		}
 		i++;
@@ -85,16 +86,18 @@ static t_camera	cam_config(t_camera camera)
 	return (camera);
 }
 
-static void		correct_plane_normal(t_shape *shape_list, t_camera camera)
+static void		correct_plane_normal(t_grafx *gfx)
 {
 	t_vector nor;
+	t_shape *shape_list;
 
+	shape_list = gfx->shapes;
 	while (shape_list)
 	{
 		if (shape_list->name == 'p')
 		{
 			nor = ((t_plane *)(shape_list->shape))->normal;
-			if (scalar_dob(nor, camera.direct) <= 0)
+			if (scalar_dob(nor, gfx->camera.direct) <= 0)
 				((t_plane *)(shape_list->shape))->normal =
 			v_to_len(nor, -1, 0);
 		}
@@ -104,21 +107,27 @@ static void		correct_plane_normal(t_shape *shape_list, t_camera camera)
 
 void			file_parcing(int fd, t_grafx *gfx)
 {
-	const t_parce arr[] = {{"camera:", NULL}, {"light:", &light_parce},
-	{"sphere:", &sphere_parce}, {"plane:", &plane_parce},
-	{"cone:", &cone_parce}, {"cylinder:", &cylin_parce}};
+	const t_parce arr[] =
+	{
+			{"camera:", &cam_parce},
+			{"light:", &light_parce},
+			{"sphere:", &sphere_parce},
+			{"plane:", &plane_parce},
+			{"cone:", &cone_parce},
+			{"cylinder:", &cylin_parce}
+	};
 
-	*(gfx->shapes) = NULL;
-	*(gfx->light) = NULL;
-	(*(gfx->camera)).is_set = 0;
+	gfx->shapes = NULL;
+	gfx->light = NULL;
+	gfx->camera.is_set = 0;
 	line_reader(gfx, fd, arr);
-	if (!(*(gfx->camera)).is_set)
+	if (!gfx->camera.is_set)
 	{
 		freesher(gfx->light, gfx->shapes);
 		ft_putendl("You have no camera, ma dudes");
 		system("say \"You have no camera, ma dudes\"");
 		exit(1);
 	}
-	correct_plane_normal(*(gfx->shapes), *(gfx->camera));
-	*(gfx->camera) = cam_config(*(gfx->camera));
+	correct_plane_normal(gfx);
+	gfx->camera = cam_config(gfx->camera);
 }

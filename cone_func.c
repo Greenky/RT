@@ -112,7 +112,7 @@ static void		cone_fill(char **line, t_cone *cone, int l_num, int *flag)
 		more_fill(line, cone, l_num, flag);
 }
 
-int				cone_parce(int fd, int *l_num, void **shape_list, int id)
+int				cone_parce(int fd, t_grafx *gfx, int id)
 {
 	int			k;
 	int			flag;
@@ -124,8 +124,8 @@ int				cone_parce(int fd, int *l_num, void **shape_list, int id)
 	cone->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(*l_num)++;
-		cone_fill(&line, cone, *l_num, &flag);
+		(gfx->l_num)++;
+		cone_fill(&line, cone, gfx->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -136,6 +136,6 @@ int				cone_parce(int fd, int *l_num, void **shape_list, int id)
 		exit(1);
 	}
 	cone->mirror = 0;
-	add_shape((t_shape **)shape_list, cone, 'c', id);
+	add_shape(&(gfx->shapes), cone, 'c', id);
 	return (0);
 }

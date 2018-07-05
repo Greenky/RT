@@ -57,6 +57,7 @@ t_shape *sh)
 		s_ray.id = cyl->id;
 		s_ray.main_col = cyl->color;
 		s_ray.mirror = cyl->mirror;
+		s_ray.transperent = cyl->transperent;
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 0);
 		nor = add_vectors((*ray).origin, v_to_len((*ray).direct, (*ray).dest,
 		0));
@@ -111,7 +112,7 @@ static void		cylin_fill(char **line, t_cylinder *cyl, int l_num, int *flag)
 		more_fill(line, cyl, l_num, flag);
 }
 
-int				cylin_parce(int fd, int *l_num, void **shape_list, int id)
+int				cylin_parce(int fd, t_grafx *gfx, int id)
 {
 	int			k;
 	int			flag;
@@ -123,8 +124,8 @@ int				cylin_parce(int fd, int *l_num, void **shape_list, int id)
 	cyl->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(*l_num)++;
-		cylin_fill(&line, cyl, *l_num, &flag);
+		(gfx->l_num)++;
+		cylin_fill(&line, cyl, gfx->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -135,6 +136,6 @@ int				cylin_parce(int fd, int *l_num, void **shape_list, int id)
 		exit(1);
 	}
 	cyl->mirror = 0;
-	add_shape((t_shape **)shape_list, cyl, 0, id);
+	add_shape(&(gfx->shapes), cyl, 0, id);
 	return (0);
 }

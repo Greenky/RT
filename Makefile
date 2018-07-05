@@ -27,7 +27,8 @@ SRC		=	get_next_line.c \
 			parce_peripherals_v2.c \
 			light_manipulation.c \
 			light_calculation.c \
-			file_parcing.c
+			file_parcing.c \
+			camera_func.c
 			
 BINS = $(SRC:.c=.o)
 

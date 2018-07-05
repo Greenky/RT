@@ -42,6 +42,7 @@ typedef struct	s_ray
 	int			id;
 	int			main_col;
 	int			mirror;
+    int         transperent;
 }				t_ray;
 
 typedef struct	s_camera
@@ -61,6 +62,7 @@ typedef struct	s_sphere
 	int			id;
 	double		radius;
 	int			mirror;
+    int         transperent;
 }				t_sphere;
 
 typedef struct	s_light
@@ -79,6 +81,7 @@ typedef struct	s_plane
 	int			id;
 	int			color;
 	int			mirror;
+    int         transperent;
 }				t_plane;
 
 typedef struct	s_cone
@@ -89,6 +92,7 @@ typedef struct	s_cone
 	int			id;
 	int			color;
 	int			mirror;
+    int         transperent;
 }				t_cone;
 
 typedef struct	s_cylinder
@@ -99,6 +103,7 @@ typedef struct	s_cylinder
 	int			id;
 	int			color;
 	int			mirror;
+    int         transperent;
 }				t_cylinder;
 
 typedef struct	s_shape
@@ -110,28 +115,27 @@ typedef struct	s_shape
 	struct s_shape	*next;
 }				t_shape;
 
-typedef struct	s_parce
-{
-	char		*name;
-	int			(*parce)(int, int*, void**, int);
-}				t_parce;
-
 typedef struct	s_grafx
 {
 	void		*mlx;
 	void		*win;
 	void		*img;
-	t_shape		**shapes;
-	t_light		**light;
-	t_camera	*camera;
+	t_shape		*shapes;
+	t_light		*light;
+	t_camera	camera;
 	double		x;
 	double		y;
 	int			l_num;
 }				t_grafx;
 
+typedef struct	s_parce
+{
+	char		*name;
+	int			(*parce)(int, t_grafx *, int);
+}				t_parce;
+
 void			add_shape(t_shape **sh, void *shape, char name, int id);
-void			ray_casting(t_grafx *gfx, t_shape *shape_list, t_light *light,
-t_camera camera);
+void			ray_casting(t_grafx *gfx);
 double			v_mod(t_vector v);
 t_vector		set_vector(double x, double y, double z);
 t_vector		v_to_len(t_vector v, double len, int norm);
@@ -147,10 +151,6 @@ char			*trim_from(char *line, int i);
 double			str_to_double(char *line, int i, int l_num);
 int				parce_color(char *line, int l_num);
 t_vector		parce_vector(char *line, int l_num);
-int				sphere_parce(int fd, int *l_num, void **shape_list, int id);
-int				cone_parce(int fd, int *l_num, void **shape_list, int id);
-int				cylin_parce(int fd, int *l_num, void **shape_list, int id);
-int				plane_parce(int fd, int *l_num, void **shape_list, int id);
 double			intersect_cone(t_ray *ray, void *con, t_light *light,
 t_shape *sh);
 double			intersect_cylinder(t_ray *ray, void *cy, t_light *light,
@@ -159,12 +159,16 @@ double			intersect_plane(t_ray *ray, void *pl, t_light *light,
 t_shape *sh);
 double			intersect_sphere(t_ray *ray, void *sf, t_light *light,
 t_shape *sh);
-int				light_parce(int fd, int *l_num, void **light_list, int n);
 int				light_calculate(t_vector nor, t_ray s_ray, t_light *light,
 t_shape *sh);
 void			file_parcing(int fd, t_grafx *gfx);
-void			freesher(t_light **light, t_shape **sh);
-int				cam_parce(int fd, int *l_num, t_camera *camera);
+void			freesher(t_light *light, t_shape *sh);
+int				cam_parce(int fd, t_grafx *gfx, int id);
+int				light_parce(int fd, t_grafx *gfx, int id);
+int				sphere_parce(int fd, t_grafx *gfx, int id);
+int				cone_parce(int fd, t_grafx *gfx, int id);
+int				cylin_parce(int fd, t_grafx *gfx, int id);
+int				plane_parce(int fd, t_grafx *gfx, int id);
 int				color_add(int first, int second);
 // int				zercal_light(t_ray ray, t_shape *sh, t_light *li, t_vector r);
 

@@ -49,8 +49,7 @@ int			find_color_for_me_pleas(t_ray ray, t_shape *sh, t_light *light)
 	return (color_to_scene);
 }
 
-void		ray_casting(t_grafx *gfx, t_shape *shape_list, t_light *light,
-t_camera camera)
+void		ray_casting(t_grafx *gfx)
 {
 	double		i;
 	double		j;
@@ -59,18 +58,18 @@ t_camera camera)
 	int			color;
 
 	j = (-1) * SCR_SIZE / 2;
-	camera.direct = v_to_len(camera.direct, camera.dest, 1);
-	ray.origin = camera.origin;
+	gfx->camera.direct = v_to_len(gfx->camera.direct, gfx->camera.dest, 1);
+	ray.origin = gfx->camera.origin;
 	while (j < SCR_SIZE / 2)
 	{
 		i = (-1) * SCR_SIZE / 2;
 		while (i < SCR_SIZE / 2)
 		{
-			v[0] = v_to_len(camera.up, j, 1);
-			v[1] = v_to_len(camera.right, i, 1);
+			v[0] = v_to_len(gfx->camera.up, j, 1);
+			v[1] = v_to_len(gfx->camera.right, i, 1);
 			v[2] = add_vectors(v[0], v[1]);
-			ray.direct = v_to_len(add_vectors(v[2], camera.direct), 1, 0);
-			color = find_color_for_me_pleas(ray, shape_list, light);
+			ray.direct = v_to_len(add_vectors(v[2], gfx->camera.direct), 1, 0);
+			color = find_color_for_me_pleas(ray, gfx->shapes, gfx->light);
 			pixel_add(gfx, i + 500, j + 500, color);
 			i++;
 		}

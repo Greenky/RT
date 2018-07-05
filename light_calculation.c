@@ -77,6 +77,11 @@ static int	not_in_the_shadow(t_ray s_ray, t_shape *sh, t_light *light)
 	return (1);
 }
 
+// int				transperent_light(t_vector r, t_ray ray, t_light *li, t_shape *sh)
+// {
+
+// }
+
 int				zercal_light(t_vector r, t_ray ray, t_light *li, t_shape *sh)
 {
 	double		a;
@@ -119,6 +124,8 @@ t_shape *sh)
 	color = ambient_light(s_ray.main_col, light);
 	if (s_ray.mirror)
 		color = color_add(color, zercal_light(nor, s_ray, light, sh));
+    // if (s_ray.transperent)
+    //     color = color_add(color, transperent_light(nor, s_ray, light, sh));
 	while (light)
 	{
 		if (light->is_dir)

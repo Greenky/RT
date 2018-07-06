@@ -66,7 +66,7 @@ static int	not_in_the_shadow(t_ray s_ray, t_shape *sh, t_light *light)
 {
 	while (sh)
 	{
-		if ((sh->id != s_ray.id) && (sh->inter(&s_ray, sh->shape, light, NULL)))
+		if ((sh->id != s_ray.id) && (sh->inter(&s_ray, sh->shape, NULL)))
 		{
 			if ((!light->is_dir && s_ray.dest < v_mod(sub_vectors(s_ray.origin,
 			light->direct))) || light->is_dir)
@@ -82,48 +82,53 @@ static int	not_in_the_shadow(t_ray s_ray, t_shape *sh, t_light *light)
 
 // }
 
-int				zercal_light(t_vector r, t_ray ray, t_light *li, t_shape *sh)
+int				zercal_light(t_vector nor, t_ray ray, t_grafx *gfx)
 {
 	double		a;
-	t_shape		*head;
+	t_shape		*sh;
 	int			color;
 	int			color_to_scene;
 	double		min;
 
-	head = sh;
 	color = 0;
-	a = 2 * scalar_dob(r, v_to_len(ray.rev_dir, -1, 0));
-	r = v_to_len(r, a, 0);
-	ray.direct = v_to_len(sub_vectors(v_to_len(ray.rev_dir, -1, 0), r), 1, 0);
-	min = MAX_LEN;
-	while (sh)
+	if (gfx->reflect_rate < gfx->max_reflections)
 	{
-		if (sh->id != ray.id)
+		(gfx->reflect_rate)++;
+		sh = gfx->shapes;
+		a = 2 * scalar_dob(nor, v_to_len(ray.rev_dir, -1, 0));
+		nor = v_to_len(nor, a, 0);
+		ray.direct = v_to_len(sub_vectors(v_to_len(ray.rev_dir, -1, 0), nor), 1, 0);
+		min = MAX_LEN;
+		while (sh)
 		{
-			color = sh->inter(&ray, sh->shape, li, head);
-			if (ray.dest <= min)
+			if (sh->id != ray.id)
 			{
-				min = ray.dest;
-				color_to_scene = color;
+				color = sh->inter(&ray, sh->shape, gfx);
+				if (ray.dest <= min)
+				{
+					min = ray.dest;
+					color_to_scene = color;
+				}
 			}
+			sh = sh->next;
 		}
-		sh = sh->next;
+		color = color_to_scene;
+		color = ((color & 255) / ray.mirror) + (((color >> 8 & 255) / ray.mirror)
+		<< 8) + (((color >> 16 & 255) / ray.mirror) << 16);
 	}
-	color = color_to_scene;
-	color = ((color & 255) / ray.mirror) + (((color >> 8 & 255) / ray.mirror)
-	<< 8) + (((color >> 16 & 255) / ray.mirror) << 16);
 	return(color);
 }
 
-int			light_calculate(t_vector nor, t_ray s_ray, t_light *light,
-t_shape *sh)
+int			light_calculate(t_vector nor, t_ray s_ray, t_grafx *gfx)
 {
 	t_vector	h;
 	int			color;
+	t_light		*light;
 
-	color = ambient_light(s_ray.main_col, light);
+	light = gfx->light;
+	color = ambient_light(s_ray.main_col, gfx->light);
 	if (s_ray.mirror)
-		color = color_add(color, zercal_light(nor, s_ray, light, sh));
+		color = color_add(color, zercal_light(nor, s_ray, gfx));
     // if (s_ray.transperent)
     //     color = color_add(color, transperent_light(nor, s_ray, light, sh));
 	while (light)
@@ -133,7 +138,7 @@ t_shape *sh)
 		else
 			s_ray.direct = v_to_len(sub_vectors(light->direct, s_ray.origin),
 			1, 0);
-		if (not_in_the_shadow(s_ray, sh, light))
+		if (not_in_the_shadow(s_ray, gfx->shapes, light))
 		{
 			h = add_vectors(s_ray.rev_dir, s_ray.direct);
 			color = color_add(color, lighter(nor, s_ray, light, v_to_len(h,

@@ -14,6 +14,7 @@
 
 void		gfx_init(t_grafx *gfx)
 {
+	gfx->max_reflections = 1;
 	if (!(gfx->mlx = mlx_init()))
 	{
 		freesher(gfx->light, gfx->shapes);
@@ -39,19 +40,27 @@ void		gfx_init(t_grafx *gfx)
 
 int			key_hooks(int key, t_grafx *gfx)
 {
-	if (key == 27)
-		(gfx->camera).dest -= 100;
-	else if (key == 24)
-		gfx->camera.dest += 100;
-	else if (key == 123)
-		gfx->camera.origin.x -= 100;
-	else if (key == 124)
-		gfx->camera.origin.x += 100;
-	else if (key == 126)
-		gfx->camera.direct.x -= 0.1;
-	else if (key == 125)
-		gfx->camera.direct.x += 0.1;
-	if (key == ESC)
+	if (key == UP_ARROW)
+		gfx->camera.origin.z += 100;
+	else if (key == DOWN_ARROW)
+		gfx->camera.origin.z -= 100;
+	else if (key == PLUS)
+		(gfx->max_reflections)++;
+	else if (key == MINUS)
+		gfx->max_reflections = fmax(0, gfx->max_reflections - 1);
+	// if (key == 27)
+	// 	(gfx->camera).dest -= 100;
+	// else if (key == 24)
+	// 	gfx->camera.dest += 100;
+	// else if (key == 123)
+	// 	gfx->camera.origin.x -= 100;
+	// else if (key == 124)
+	// 	gfx->camera.origin.x += 100;
+	// else if (key == 126)
+	// 	gfx->camera.direct.x -= 0.1;
+	// else if (key == 125)
+	// 	gfx->camera.direct.x += 0.1;
+	else if (key == ESC)
 	{
 		freesher(gfx->light, gfx->shapes);
 		free(gfx);

@@ -28,8 +28,7 @@ static double	dest_to_plane(t_ray ray, t_plane *p)
 		return (ray.dest);
 }
 
-double			intersect_plane(t_ray *ray, void *pl, t_light *light,
-t_shape *sh)
+double			intersect_plane(t_ray *ray, void *pl, t_grafx *gfx)
 {
 	t_vector	nor;
 	t_ray		s_ray;
@@ -40,7 +39,7 @@ t_shape *sh)
 	color = 0;
 	if (((*ray).dest = dest_to_plane(*ray, p)) == MAX_LEN)
 		return (0);
-	if (sh)
+	if (gfx)
 	{
 		nor = v_to_len(p->normal, -1, 0);
 		s_ray.id = p->id;
@@ -50,7 +49,7 @@ t_shape *sh)
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
-		return (light_calculate(nor, s_ray, light, sh));
+		return (light_calculate(nor, s_ray, gfx));
 	}
 	else
 		return (1);

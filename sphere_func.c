@@ -12,7 +12,7 @@
 
 #include "gfx.h"
 
-static double		dest_to_phere(t_ray ray, t_sphere *s)
+static double		dest_to_sphere(t_ray ray, t_sphere *s)
 {
 	t_vector	v1;
 	double		descr;
@@ -36,8 +36,7 @@ static double		dest_to_phere(t_ray ray, t_sphere *s)
 		return (ray.dest);
 }
 
-double				intersect_sphere(t_ray *ray, void *sf, t_light *light,
-t_shape *sh)
+double				intersect_sphere(t_ray *ray, void *sf, t_grafx *gfx)
 {
 	t_vector	nor;
 	t_sphere	*s;
@@ -46,19 +45,19 @@ t_shape *sh)
 
 	s = (t_sphere *)sf;
 	color = 0;
-	if (((*ray).dest = dest_to_phere(*ray, s)) == MAX_LEN)
+	if (((*ray).dest = dest_to_sphere(*ray, s)) == MAX_LEN)
 		return (0);
-	if (sh)
+	if (gfx)
 	{
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
 		s_ray.id = s->id;
 		s_ray.main_col = s->color;
-        s_ray.mirror = s->mirror;
-        s_ray.transperent = s->transperent;
+		s_ray.mirror = s->mirror;
+		s_ray.transperent = s->transperent;
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
 		nor = v_to_len(sub_vectors(s_ray.origin, s->centre), 1, 0);
-		return (light_calculate(nor, s_ray, light, sh));
+		return (light_calculate(nor, s_ray, gfx));
 	}
 	else
 		return (1);

@@ -25,6 +25,12 @@
 # define OBJ_NUM 6
 # define MAX_LEN 99999999
 # define ESC 53
+# define LEFT_ARROW 123
+# define RIGHT_ARROW 124
+# define UP_ARROW 126
+# define DOWN_ARROW 125
+# define PLUS 24
+# define MINUS 27
 
 typedef struct	s_vector
 {
@@ -106,14 +112,7 @@ typedef struct	s_cylinder
     int         transperent;
 }				t_cylinder;
 
-typedef struct	s_shape
-{
-	char			name;
-	int				id;
-	void			*shape;
-	double			(*inter)(t_ray *, void *, t_light *, struct s_shape *);
-	struct s_shape	*next;
-}				t_shape;
+typedef struct	s_shape t_shape;
 
 typedef struct	s_grafx
 {
@@ -123,10 +122,21 @@ typedef struct	s_grafx
 	t_shape		*shapes;
 	t_light		*light;
 	t_camera	camera;
+	int			reflect_rate;
+	int			max_reflections;
 	double		x;
 	double		y;
 	int			l_num;
 }				t_grafx;
+
+typedef struct	s_shape
+{
+	char			name;
+	int				id;
+	void			*shape;
+	double			(*inter)(t_ray *, void *, t_grafx *);
+	struct s_shape	*next;
+}				t_shape;
 
 typedef struct	s_parce
 {
@@ -143,24 +153,17 @@ t_vector		add_vectors(t_vector v1, t_vector v2);
 t_vector		sub_vectors(t_vector v1, t_vector v2);
 t_vector		vec_dob(t_vector v1, t_vector v2);
 double			scalar_dob(t_vector v1, t_vector v2);
-int				light_calculate(t_vector nor, t_ray s_ray, t_light *light,
-t_shape *sh);
+int				light_calculate(t_vector nor, t_ray s_ray, t_grafx *gfx);
 void			error_caster(int line_number, char *s1, char *s2);
 int				begin_with(char *line, char *begin);
 char			*trim_from(char *line, int i);
 double			str_to_double(char *line, int i, int l_num);
 int				parce_color(char *line, int l_num);
 t_vector		parce_vector(char *line, int l_num);
-double			intersect_cone(t_ray *ray, void *con, t_light *light,
-t_shape *sh);
-double			intersect_cylinder(t_ray *ray, void *cy, t_light *light,
-t_shape *sh);
-double			intersect_plane(t_ray *ray, void *pl, t_light *light,
-t_shape *sh);
-double			intersect_sphere(t_ray *ray, void *sf, t_light *light,
-t_shape *sh);
-int				light_calculate(t_vector nor, t_ray s_ray, t_light *light,
-t_shape *sh);
+double			intersect_cone(t_ray *ray, void *con, t_grafx *gfx);
+double			intersect_cylinder(t_ray *ray, void *cy, t_grafx *gfx);
+double			intersect_plane(t_ray *ray, void *pl, t_grafx *gfx);
+double			intersect_sphere(t_ray *ray, void *sf, t_grafx *gfx);
 void			file_parcing(int fd, t_grafx *gfx);
 void			freesher(t_light *light, t_shape *sh);
 int				cam_parce(int fd, t_grafx *gfx, int id);

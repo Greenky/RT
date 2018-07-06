@@ -39,8 +39,7 @@ static double	dest_to_cylin(t_ray ray, t_cylinder *cyl)
 		return (ray.dest);
 }
 
-double			intersect_cylinder(t_ray *ray, void *cy, t_light *light,
-t_shape *sh)
+double			intersect_cylinder(t_ray *ray, void *cy, t_grafx *gfx)
 {
 	t_ray		s_ray;
 	t_vector	nor;
@@ -50,7 +49,7 @@ t_shape *sh)
 	cyl = (t_cylinder *)cy;
 	if (((*ray).dest = dest_to_cylin(*ray, cyl)) == MAX_LEN)
 		return (0);
-	if (sh)
+	if (gfx)
 	{
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
@@ -65,7 +64,7 @@ t_shape *sh)
 		scalar_dob(nor, cyl->direct);
 		nor = sub_vectors(nor, cyl->point);
 		nor = v_to_len(sub_vectors(nor, v_to_len(cyl->direct, m, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, light, sh));
+		return (light_calculate(nor, s_ray, gfx));
 	}
 	else
 		return (1);

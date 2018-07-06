@@ -39,8 +39,7 @@ static double	dest_to_cone(t_ray ray, t_cone *cone)
 		return (ray.dest);
 }
 
-double			intersect_cone(t_ray *ray, void *con, t_light *light,
-t_shape *sh)
+double			intersect_cone(t_ray *ray, void *con, t_grafx *gfx)
 {
 	t_vector	nor;
 	double		a;
@@ -50,7 +49,7 @@ t_shape *sh)
 	cone = (t_cone *)con;
 	if (((*ray).dest = dest_to_cone(*ray, cone)) == MAX_LEN)
 		return (0);
-	if (sh)
+	if (gfx)
 	{
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
@@ -64,7 +63,7 @@ t_shape *sh)
 		a = (1 + cone->ang * cone->ang) * a;
 		nor = v_to_len(sub_vectors(sub_vectors(s_ray.origin, cone->point),
 		v_to_len(cone->direct, a, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, light, sh));
+		return (light_calculate(nor, s_ray, gfx));
 	}
 	else
 		return (1);

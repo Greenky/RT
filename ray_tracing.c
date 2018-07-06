@@ -26,19 +26,20 @@ void		pixel_add(t_grafx *gfx, int x, int y, unsigned int color)
 	}
 }
 
-int			find_color_for_me_pleas(t_ray ray, t_shape *sh, t_light *light)
+int			find_color_for_me_pleas(t_ray ray, t_grafx *gfx)
 {
 	double	min;
 	int		color;
 	int		color_to_scene;
-	t_shape	*head;
+	t_shape	*sh;
 
-	head = sh;
+	sh = gfx->shapes;
 	color_to_scene = 0;
 	min = MAX_LEN;
 	while (sh)
 	{
-		color = sh->inter(&ray, sh->shape, light, head);
+		gfx->reflect_rate = 0;
+		color = sh->inter(&ray, sh->shape, gfx);
 		if (ray.dest <= min)
 		{
 			min = ray.dest;
@@ -58,7 +59,7 @@ void		ray_casting(t_grafx *gfx)
 	int			color;
 
 	j = (-1) * SCR_SIZE / 2;
-	gfx->camera.direct = v_to_len(gfx->camera.direct, gfx->camera.dest, 1);
+	gfx->camera.direct = v_to_len(gfx->camera.direct, gfx->camera.dest, 0);
 	ray.origin = gfx->camera.origin;
 	while (j < SCR_SIZE / 2)
 	{
@@ -69,8 +70,8 @@ void		ray_casting(t_grafx *gfx)
 			v[1] = v_to_len(gfx->camera.right, i, 1);
 			v[2] = add_vectors(v[0], v[1]);
 			ray.direct = v_to_len(add_vectors(v[2], gfx->camera.direct), 1, 0);
-			color = find_color_for_me_pleas(ray, gfx->shapes, gfx->light);
-			pixel_add(gfx, i + 500, j + 500, color);
+			color = find_color_for_me_pleas(ray, gfx);
+			pixel_add(gfx, i + SCR_SIZE / 2, j + SCR_SIZE / 2, color);
 			i++;
 		}
 		j++;

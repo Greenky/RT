@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 t_vector	vec_dob(t_vector v1, t_vector v2)
 {

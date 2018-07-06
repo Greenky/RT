@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 static double	dest_to_cone(t_ray ray, t_cone *cone)
 {
@@ -39,7 +39,7 @@ static double	dest_to_cone(t_ray ray, t_cone *cone)
 		return (ray.dest);
 }
 
-double			intersect_cone(t_ray *ray, void *con, t_grafx *gfx)
+double			intersect_cone(t_ray *ray, void *con, t_rt *rt_data)
 {
 	t_vector	nor;
 	double		a;
@@ -49,7 +49,7 @@ double			intersect_cone(t_ray *ray, void *con, t_grafx *gfx)
 	cone = (t_cone *)con;
 	if (((*ray).dest = dest_to_cone(*ray, cone)) == MAX_LEN)
 		return (0);
-	if (gfx)
+	if (rt_data)
 	{
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
@@ -63,7 +63,7 @@ double			intersect_cone(t_ray *ray, void *con, t_grafx *gfx)
 		a = (1 + cone->ang * cone->ang) * a;
 		nor = v_to_len(sub_vectors(sub_vectors(s_ray.origin, cone->point),
 		v_to_len(cone->direct, a, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, gfx));
+		return (light_calculate(nor, s_ray, rt_data));
 	}
 	else
 		return (1);
@@ -111,7 +111,7 @@ static void		cone_fill(char **line, t_cone *cone, int l_num, int *flag)
 		more_fill(line, cone, l_num, flag);
 }
 
-int				cone_parce(int fd, t_grafx *gfx, int id)
+int				cone_parce(int fd, t_rt *rt_data, int id)
 {
 	int			k;
 	int			flag;
@@ -123,18 +123,18 @@ int				cone_parce(int fd, t_grafx *gfx, int id)
 	cone->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
-		cone_fill(&line, cone, gfx->l_num, &flag);
+		(rt_data->l_num)++;
+		cone_fill(&line, cone, rt_data->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
 	}
 	if (k < 0)
 	{
-		perror("RTv1");
+		perror("RT");
 		exit(1);
 	}
 	cone->mirror = 0;
-	add_shape(&(gfx->shapes), cone, 'c', id);
+	add_shape(&(rt_data->shapes), cone, 'c', id);
 	return (0);
 }

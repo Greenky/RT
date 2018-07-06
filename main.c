@@ -10,83 +10,64 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
-void		gfx_init(t_grafx *gfx)
+void		rt_data_init(t_rt *rt_data)
 {
-	gfx->max_reflections = 1;
-	if (!(gfx->mlx = mlx_init()))
+	rt_data->max_reflections = 8;
+	if (!(rt_data->mlx = mlx_init()))
 	{
-		freesher(gfx->light, gfx->shapes);
-		free(gfx);
-		perror("RTv1");
+		freesher(rt_data->light, rt_data->shapes);
+		free(rt_data);
+		perror("RT");
 		exit(1);
 	}
-	if (!(gfx->win = mlx_new_window(gfx->mlx, SCR_SIZE, SCR_SIZE, "RTv1")))
+	if (!(rt_data->win = mlx_new_window(rt_data->mlx, SCR_SIZE, SCR_SIZE, "RT")))
 	{
-		freesher(gfx->light, gfx->shapes);
-		free(gfx);
-		perror("RTv1");
+		freesher(rt_data->light, rt_data->shapes);
+		free(rt_data);
+		perror("RT");
 		exit(1);
 	}
-	if (!(gfx->img = mlx_new_image(gfx->mlx, SCR_SIZE, SCR_SIZE)))
+	if (!(rt_data->img = mlx_new_image(rt_data->mlx, SCR_SIZE, SCR_SIZE)))
 	{
-		freesher(gfx->light, gfx->shapes);
-		free(gfx);
-		perror("RTv1");
+		freesher(rt_data->light, rt_data->shapes);
+		free(rt_data);
+		perror("RT");
 		exit(1);
 	}
 }
 
-int			key_hooks(int key, t_grafx *gfx)
+/*
+** rt_data - RT Data
+** 
+*/
+
+void		check_number_of_params(int argc)
 {
-	if (key == UP_ARROW)
-		gfx->camera.origin.z += 100;
-	else if (key == DOWN_ARROW)
-		gfx->camera.origin.z -= 100;
-	else if (key == PLUS)
-		(gfx->max_reflections)++;
-	else if (key == MINUS)
-		gfx->max_reflections = fmax(0, gfx->max_reflections - 1);
-	// if (key == 27)
-	// 	(gfx->camera).dest -= 100;
-	// else if (key == 24)
-	// 	gfx->camera.dest += 100;
-	// else if (key == 123)
-	// 	gfx->camera.origin.x -= 100;
-	// else if (key == 124)
-	// 	gfx->camera.origin.x += 100;
-	// else if (key == 126)
-	// 	gfx->camera.direct.x -= 0.1;
-	// else if (key == 125)
-	// 	gfx->camera.direct.x += 0.1;
-	else if (key == ESC)
+	if (argc != 2)
 	{
-		freesher(gfx->light, gfx->shapes);
-		free(gfx);
-		exit(0);
+		write(2, "Input must include one parameter\n", 33);
+		write(2, "Usage: ./RT scenes/[scene]\n", 20);
+		exit(1);
 	}
-	ray_casting(gfx);
-	return (0);
 }
 
 int			main(int argc, char **argv)
 {
-	t_grafx		*gfx;
-	int			fd;
+	t_rt	*rt_data;
+	int		fd;
 
-	if (argc != 2 && write(2, "Input must include one parameter\n", 33))
-		exit(1);
+	check_number_of_params(argc);
 	if (((fd = open(argv[1], O_RDONLY)) < 0) || (read(fd, NULL, 0) < 0))
 	{
-		perror("RTv1");
+		perror("RT");
 		exit(1);
 	}
-	gfx = (t_grafx *)malloc(sizeof(t_grafx));
-	file_parcing(fd, gfx);
-	gfx_init(gfx);
-	ray_casting(gfx);
-	mlx_key_hook(gfx->win, key_hooks, gfx);
-	mlx_loop(gfx->mlx);
+	file_parcing(fd, &rt_data);
+	rt_data_initalization(&rt_data);
+	ray_casting(&rt_data);
+	mlx_key_hook(rt_data.win, key_hooks, &rt_data);
+	mlx_loop(rt_data.mlx);
 	return (0);
 }

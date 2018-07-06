@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
-static void		parcer_functions(char **str, t_grafx *gfx, const t_parce arr[],
+static void		parcer_functions(char **str, t_rt *rt_data, const t_parce arr[],
 int fd)
 {
 	static int	id;
@@ -25,43 +25,37 @@ int fd)
 			break ;
 		else if (ft_strequ(*str, arr[i].name))
 		{
-			arr[i].parce(fd, gfx, id++);
-			// if (ft_strequ(*str, "camera:"))
-			// 	cam_parce(fd, &(gfx->l_num), gfx->camera);
-			// else if (ft_strequ(*str, "light:"))
-			// 	arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->light), 0);
-			// else
-			// 	arr[i].parce(fd, &(gfx->l_num), (void **)(gfx->shapes), id++);
+			arr[i].parce(fd, rt_data, id++);
 			break ;
 		}
 		i++;
 		if (i == OBJ_NUM)
 		{
-			freesher(gfx->light, gfx->shapes);
-			error_caster(gfx->l_num, "no such object as ", *str);
+			freesher(rt_data->light, rt_data->shapes);
+			error_caster(rt_data->line_number, "no such object as ", *str);
 		}
 	}
 }
 
-static void		line_reader(t_grafx *gfx, int fd, const t_parce arr[])
+static void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
 {
 	int			k;
 	char		*line;
 	char		*new_line;
 
-	gfx->l_num = 0;
+	rt_data->line_number = 0;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
+		(rt_data->line_number)++;
 		new_line = ft_strtrim(line);
 		free(line);
 		line = new_line;
-		parcer_functions(&line, gfx, arr, fd);
+		parcer_functions(&line, rt_data, arr, fd);
 		ft_strdel(&line);
 	}
 	if (k < 0)
 	{
-		freesher(gfx->light, gfx->shapes);
+		freesher(rt_data->light, rt_data->shapes);
 		perror("RTv1");
 		exit(1);
 	}
@@ -86,18 +80,18 @@ static t_camera	cam_config(t_camera camera)
 	return (camera);
 }
 
-static void		correct_plane_normal(t_grafx *gfx)
+static void		correct_plane_normal(t_rt *rt_data)
 {
 	t_vector nor;
 	t_shape *shape_list;
 
-	shape_list = gfx->shapes;
+	shape_list = rt_data->shapes;
 	while (shape_list)
 	{
 		if (shape_list->name == 'p')
 		{
 			nor = ((t_plane *)(shape_list->shape))->normal;
-			if (scalar_dob(nor, gfx->camera.direct) <= 0)
+			if (scalar_dob(nor, rt_data->camera.direct) <= 0)
 				((t_plane *)(shape_list->shape))->normal =
 			v_to_len(nor, -1, 0);
 		}
@@ -105,7 +99,7 @@ static void		correct_plane_normal(t_grafx *gfx)
 	}
 }
 
-void			file_parcing(int fd, t_grafx *gfx)
+void			file_parcing(int fd, t_rt *rt_data)
 {
 	const t_parce arr[] =
 	{
@@ -117,17 +111,17 @@ void			file_parcing(int fd, t_grafx *gfx)
 			{"cylinder:", &cylin_parce}
 	};
 
-	gfx->shapes = NULL;
-	gfx->light = NULL;
-	gfx->camera.is_set = 0;
-	line_reader(gfx, fd, arr);
-	if (!gfx->camera.is_set)
+	rt_data->shapes = NULL;
+	rt_data->light = NULL;
+	rt_data->camera.is_set = 0;
+	line_reader(rt_data, fd, arr);
+	if (!rt_data->camera.is_set)
 	{
-		freesher(gfx->light, gfx->shapes);
+		freesher(rt_data->light, rt_data->shapes);
 		ft_putendl("You have no camera, ma dudes");
 		system("say \"You have no camera, ma dudes\"");
 		exit(1);
 	}
-	correct_plane_normal(gfx);
-	gfx->camera = cam_config(gfx->camera);
+	correct_plane_normal(rt_data);
+	rt_data->camera = cam_config(rt_data->camera);
 }

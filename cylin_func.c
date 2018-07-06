@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 static double	dest_to_cylin(t_ray ray, t_cylinder *cyl)
 {
@@ -39,7 +39,7 @@ static double	dest_to_cylin(t_ray ray, t_cylinder *cyl)
 		return (ray.dest);
 }
 
-double			intersect_cylinder(t_ray *ray, void *cy, t_grafx *gfx)
+double			intersect_cylinder(t_ray *ray, void *cy, t_rt *rt_data)
 {
 	t_ray		s_ray;
 	t_vector	nor;
@@ -49,7 +49,7 @@ double			intersect_cylinder(t_ray *ray, void *cy, t_grafx *gfx)
 	cyl = (t_cylinder *)cy;
 	if (((*ray).dest = dest_to_cylin(*ray, cyl)) == MAX_LEN)
 		return (0);
-	if (gfx)
+	if (rt_data)
 	{
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
@@ -64,7 +64,7 @@ double			intersect_cylinder(t_ray *ray, void *cy, t_grafx *gfx)
 		scalar_dob(nor, cyl->direct);
 		nor = sub_vectors(nor, cyl->point);
 		nor = v_to_len(sub_vectors(nor, v_to_len(cyl->direct, m, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, gfx));
+		return (light_calculate(nor, s_ray, rt_data));
 	}
 	else
 		return (1);
@@ -111,7 +111,7 @@ static void		cylin_fill(char **line, t_cylinder *cyl, int l_num, int *flag)
 		more_fill(line, cyl, l_num, flag);
 }
 
-int				cylin_parce(int fd, t_grafx *gfx, int id)
+int				cylin_parce(int fd, t_rt *rt_data, int id)
 {
 	int			k;
 	int			flag;
@@ -123,18 +123,18 @@ int				cylin_parce(int fd, t_grafx *gfx, int id)
 	cyl->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
-		cylin_fill(&line, cyl, gfx->l_num, &flag);
+		(rt_data->l_num)++;
+		cylin_fill(&line, cyl, rt_data->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
 	}
 	if (k < 0)
 	{
-		perror("RTv1");
+		perror("RT");
 		exit(1);
 	}
 	cyl->mirror = 0;
-	add_shape(&(gfx->shapes), cyl, 0, id);
+	add_shape(&(rt_data->shapes), cyl, 0, id);
 	return (0);
 }

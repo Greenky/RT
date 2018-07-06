@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 static void	cam_fill(char **line, t_camera *camera, int l_num, int *flag)
 {
@@ -35,7 +35,7 @@ static void	cam_fill(char **line, t_camera *camera, int l_num, int *flag)
 		error_caster(l_num, "no such parameter as ", *line);
 }
 
-int			cam_parce(int fd, t_grafx *gfx, int id)
+int			cam_parce(int fd, t_rt *rt_data, int id)
 {
 	int			k;
 	int			flag;
@@ -45,17 +45,17 @@ int			cam_parce(int fd, t_grafx *gfx, int id)
 	id++; // usless line for Wall Wextra Werror ))
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
-		cam_fill(&line, &(gfx->camera), gfx->l_num, &flag);
+		(rt_data->l_num)++;
+		cam_fill(&line, &(rt_data->camera), rt_data->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 3)
 			break ;
 	}
 	if (k < 0)
 	{
-		perror("RTv1");
+		perror("RT");
 		exit(1);
 	}
-	gfx->camera.is_set = 1;
+	rt_data->camera.is_set = 1;
 	return (0);
 }

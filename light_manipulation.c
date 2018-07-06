@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 static void		add_light(t_light **light_list, t_light *light)
 {
@@ -80,7 +80,7 @@ static void		feelings(char **line, t_light *light, int l_num, int *flag)
 		more_of_feelings(line, light, l_num, flag);
 }
 
-int				light_parce(int fd, t_grafx *gfx, int id)
+int				light_parce(int fd, t_rt *rt_data, int id)
 {
 	int			flag;
 	char		*line;
@@ -92,8 +92,8 @@ int				light_parce(int fd, t_grafx *gfx, int id)
 	id++; // usless line for Wall Wextra Werror ))
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
-		feelings(&line, light, gfx->l_num, &flag);
+		(rt_data->l_num)++;
+		feelings(&line, light, rt_data->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15 || flag == 23)
 			break ;
@@ -104,6 +104,6 @@ int				light_parce(int fd, t_grafx *gfx, int id)
 		perror("RTv1");
 		exit(1);
 	}
-	add_light(&(gfx->light), light);
+	add_light(&(rt_data->light), light);
 	return (0);
 }

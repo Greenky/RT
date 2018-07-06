@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gfx.h"
+#include "rt_data.h"
 
 static double	dest_to_plane(t_ray ray, t_plane *p)
 {
@@ -28,7 +28,7 @@ static double	dest_to_plane(t_ray ray, t_plane *p)
 		return (ray.dest);
 }
 
-double			intersect_plane(t_ray *ray, void *pl, t_grafx *gfx)
+double			intersect_plane(t_ray *ray, void *pl, t_rt *rt_data)
 {
 	t_vector	nor;
 	t_ray		s_ray;
@@ -39,7 +39,7 @@ double			intersect_plane(t_ray *ray, void *pl, t_grafx *gfx)
 	color = 0;
 	if (((*ray).dest = dest_to_plane(*ray, p)) == MAX_LEN)
 		return (0);
-	if (gfx)
+	if (rt_data)
 	{
 		nor = v_to_len(p->normal, -1, 0);
 		s_ray.id = p->id;
@@ -49,7 +49,7 @@ double			intersect_plane(t_ray *ray, void *pl, t_grafx *gfx)
 		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
 		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
 		(*ray).dest, 0));
-		return (light_calculate(nor, s_ray, gfx));
+		return (light_calculate(nor, s_ray, rt_data));
 	}
 	else
 		return (1);
@@ -97,7 +97,7 @@ static void		plane_fill(char **line, t_plane *plane, int l_num, int *flag)
 		error_caster(l_num, "no such parameter as ", *line);
 }
 
-int				plane_parce(int fd, t_grafx *gfx, int id)
+int				plane_parce(int fd, t_rt *rt_data, int id)
 {
 	int			k;
 	int			flag;
@@ -109,8 +109,8 @@ int				plane_parce(int fd, t_grafx *gfx, int id)
 	plane->id = id;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(gfx->l_num)++;
-		plane_fill(&line, plane, gfx->l_num, &flag);
+		(rt_data->l_num)++;
+		plane_fill(&line, plane, rt_data->l_num, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -121,6 +121,6 @@ int				plane_parce(int fd, t_grafx *gfx, int id)
 		perror("RTv1");
 		exit(1);
 	}
-	add_shape(&(gfx->shapes), plane, 'p', id);
+	add_shape(&(rt_data->shapes), plane, 'p', id);
 	return (0);
 }

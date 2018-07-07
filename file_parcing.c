@@ -41,15 +41,15 @@ static void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
 {
 	int			k;
 	char		*line;
-	char		*new_line;
+	char		*buffer_line;
 
 	rt_data->line_number = 0;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
-		new_line = ft_strtrim(line);
+		buffer_line = ft_strtrim(line);
 		free(line);
-		line = new_line;
+		line = buffer_line;
 		parcer_functions(&line, rt_data, arr, fd);
 		ft_strdel(&line);
 	}

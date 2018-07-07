@@ -12,7 +12,7 @@
 
 #include "rt_data.h"
 
-static double		dest_to_sphere(t_ray ray, t_shape *sphere, t_rt *rt_data)
+double		distance_to_sphere(t_ray ray, t_shape *sphere)
 {
 	t_vector	v1;
 	double		descr;
@@ -37,34 +37,15 @@ static double		dest_to_sphere(t_ray ray, t_shape *sphere, t_rt *rt_data)
 		return (distance);
 }
 
-double				intersect_sphere(t_ray *ray, t_shape *sphere, t_rt *rt_data)
+t_vector			normal_to_sphere(t_ray ray, t_intersected intersected)
 {
-	t_vector	nor;
-	t_sphere	*s;
-	t_ray		s_ray;
-	int			color;
+	t_vector	normal;
 
-	s = (t_sphere *)sf;
-	color = 0;
-	if (((*ray).dest = dest_to_sphere(*ray, s)) == MAX_LEN)
-		return (0);
-	if (rt_data)
-	{
-		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
-		(*ray).dest, 0));
-		s_ray.id = s->id;
-		s_ray.main_col = s->color;
-		s_ray.mirror = s->mirror;
-		s_ray.transperent = s->transperent;
-		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
-		nor = v_to_len(sub_vectors(s_ray.origin, s->centre), 1, 0);
-		return (light_calculate(nor, s_ray, rt_data));
-	}
-	else
-		return (1);
+	normal = sub_vectors(intersected.intersected_point, intersected.shape->origin);
+	return (v_to_len(normal, 1, 0));
 }
 
-static void			sphere_fill(char **line, t_shape *sphere, int l_num, int *flag)
+static void			sphere_fill(char **line, t_shape *sphere, int line_number, int *flag)
 {
 	char	*new_line;
 	double	mirror;
@@ -75,35 +56,35 @@ static void			sphere_fill(char **line, t_shape *sphere, int l_num, int *flag)
 	if (begin_with(*line, "cen:"))
 	{
 		*line = trim_from(*line, 4);
-		sphere->origin = parce_vector(*line, l_num);
+		sphere->origin = parce_vector(*line, line_number);
 		*flag = *flag | 1;
 	}
 	else if (begin_with(*line, "col:"))
 	{
 		*line = trim_from(*line, 4);
-		sphere->color = parce_color(*line, l_num);
+		sphere->color = parce_color(*line, line_number);
 		*flag = *flag | 2;
 	}
 	else if (begin_with(*line, "rad:"))
 	{
 		*line = trim_from(*line, 4);
-		sphere->radius = fmax(1, str_to_double(*line, 0, l_num));
+		sphere->radius = fmax(1, str_to_double(*line, 0, line_number));
 		*flag = *flag | 4;
 	}
 	else if (begin_with(*line, "mir:"))
 	{
 		*line = trim_from(*line, 4);
-		mirror = str_to_double(*line, 0, l_num);
+		mirror = str_to_double(*line, 0, line_number);
 		if (mirror > 1 || mirror < 0)
-			error_caster(l_num, "no such mirror coef. as ", *line);
+			error_caster(line_number, "no such mirror coef. as ", *line);
 		if (mirror == 0)
-			sphere->mirror = 0;
+			sphere->mirror_coref = 0;
 		else
-			sphere->mirror = 1 / mirror;
+			sphere->mirror_coref = 1 / mirror;
 		*flag = *flag | (1 << 3);
 	}
 	else
-		error_caster(l_num, "no such parameter as ", *line);
+		error_caster(line_number, "no such parameter as ", *line);
 }
 
 int					sphere_parce(int fd, t_rt *rt_data, int id)
@@ -116,11 +97,13 @@ int					sphere_parce(int fd, t_rt *rt_data, int id)
 	flag = 0;
 	sphere = (t_shape *)malloc(sizeof(t_sphere));
 	sphere->id = id;
-	sphere->find_intersection = &intersect_sphere;
+	sphere->name = SPHERE;
+	sphere->find_distance = &distance_to_sphere;
+	sphere->get_normal = &normal_to_sphere;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(rt_data->l_num)++;
-		sphere_fill(&line, sphere, rt_data->l_num, &flag);
+		(rt_data->line_number)++;
+		sphere_fill(&line, sphere, rt_data->line_number, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;

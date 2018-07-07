@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_calculation.c                                :+:      :+:    :+:   */
+/*   shading_calculation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -62,17 +62,22 @@ int			color_add(int first, int second)
 	return (sum);
 }
 
-static int	not_in_the_shadow(t_ray s_ray, t_shape *sh, t_light *light)
+static int	not_in_the_shadow(t_ray shadow_ray, t_rt *rt_data, t_light *light)
 {
-	while (sh)
+	double distance;
+	t_shape *shapes;
+
+	shapes = rt_data->shapes;
+	while (shapes)
 	{
-		if ((sh->id != s_ray.id) && (sh->inter(&s_ray, sh->shape, NULL)))
+		if (shapes->id != rt_data->intersected,shape->id &&
+		(distance = shapes->find_distance(shadow_ray, shapes, rt_data)) != MAX_LEN)
 		{
-			if ((!light->is_dir && s_ray.dest < v_mod(sub_vectors(s_ray.origin,
+			if ((!light->is_dir && distance < v_mod(sub_vectors(shadow_ray.origin,
 			light->direct))) || light->is_dir)
 				return (0);
 		}
-		sh = sh->next;
+		shapes = shapes->next;
 	}
 	return (1);
 }
@@ -119,29 +124,30 @@ int				zercal_light(t_vector nor, t_ray ray, t_rt *rt_data)
 	return(color);
 }
 
-int			light_calculate(t_vector nor, t_ray s_ray, t_rt *rt_data)
+int			shading_calculation(t_vector nor, t_ray ray, t_rt *rt_data)
 {
 	t_vector	h;
 	int			color;
 	t_light		*light;
+	t_ray		shadow_ray;
 
 	light = rt_data->light;
-	color = ambient_light(s_ray.main_col, rt_data->light);
-	if (s_ray.mirror)
-		color = color_add(color, zercal_light(nor, s_ray, rt_data));
-    // if (s_ray.transperent)
-    //     color = color_add(color, transperent_light(nor, s_ray, light, sh));
+	color = ambient_light(rt_data->intersected.shape->color, rt_data->light);
+	shadow_ray.origin = rt_data->intersected.intersect_point;
+	// if (ray.mirror)
+	// 	color = color_add(color, zercal_light(nor, ray, rt_data));
+    // if (ray.transperent)
+    //     color = color_add(color, transperent_light(nor, ray, light, sh));
 	while (light)
 	{
 		if (light->is_dir)
-			s_ray.direct = v_to_len(light->direct, -1, 0);
+			shadow_ray.direct = v_to_len(light->direct, -1, 0);
 		else
-			s_ray.direct = v_to_len(sub_vectors(light->direct, s_ray.origin),
-			1, 0);
-		if (not_in_the_shadow(s_ray, rt_data->shapes, light))
+			shadow_ray.direct = v_to_len(sub_vectors(light->direct, shadow_ray.origin), 1, 0);
+		if (not_in_the_shadow(shadow_ray, rt_data, light))
 		{
-			h = add_vectors(s_ray.rev_dir, s_ray.direct);
-			color = color_add(color, lighter(nor, s_ray, light, v_to_len(h,
+			h = add_vectors(ray.rev_dir, ray.direct);
+			color = color_add(color, lighter(nor, ray, light, v_to_len(h,
 			1, 0)));
 		}
 		light = light->next;

@@ -28,7 +28,7 @@ NAME			=	RTv1
 
 SRC				=	get_next_line.c \
 					main.c \
-					ray_tracing.c \
+					ray_casting.c \
 					vector_functions.c \
 					vector_functions_v2.c \
 					sphere_func.c \
@@ -38,9 +38,10 @@ SRC				=	get_next_line.c \
 					parce_peripherals.c \
 					parce_peripherals_v2.c \
 					light_manipulation.c \
-					light_calculation.c \
+					shading_calculation.c \
 					file_parcing.c \
-					camera_func.c
+					camera_func.c \
+					key_hooks.c
 			
 BINS			=	$(SRC:.c=.o)
 

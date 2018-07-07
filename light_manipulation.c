@@ -12,12 +12,12 @@
 
 #include "rt_data.h"
 
-static void		add_light(t_light **light_list, t_light *light)
+static void		add_light(t_rt *rt_data, t_light *light)
 {
 	t_light *step;
 
 	light->next = NULL;
-	step = *light_list;
+	step = rt_data->light;
 	if (step)
 	{
 		while (step->next)
@@ -25,10 +25,10 @@ static void		add_light(t_light **light_list, t_light *light)
 		step->next = light;
 	}
 	else
-		*light_list = light;
+		rt_data->light = light;
 }
 
-static void		more_of_feelings(char **line, t_light *light, int l_num,
+static void		more_of_feelings(char **line, t_light *light, int line_number,
 int *flag)
 {
 	double		intence;
@@ -36,23 +36,23 @@ int *flag)
 	if (begin_with(*line, "col:"))
 	{
 		*line = trim_from(*line, 4);
-		light->color = parce_color(*line, l_num);
+		light->color = parce_color(*line, line_number);
 		*flag = *flag | (1 << 1);
 	}
 	else if (begin_with(*line, "int:"))
 	{
 		*line = trim_from(*line, 4);
 		*flag = *flag | 1;
-		intence = str_to_double(*line, 0, l_num);
+		intence = str_to_double(*line, 0, line_number);
 		if (intence > 1 || intence < 0)
-			error_caster(l_num, "no such intence as ", *line);
+			error_caster(line_number, "no such intence as ", *line);
 		light->intence = intence;
 	}
 	else
-		error_caster(l_num, "no such parameter as ", *line);
+		error_caster(line_number, "no such parameter as ", *line);
 }
 
-static void		feelings(char **line, t_light *light, int l_num, int *flag)
+static void		feelings(char **line, t_light *light, int line_number, int *flag)
 {
 	char *new_line;
 
@@ -73,11 +73,11 @@ static void		feelings(char **line, t_light *light, int l_num, int *flag)
 	(begin_with(*line, "cen:") && (*flag & (1 << 4))))
 	{
 		*line = trim_from(*line, 4);
-		light->direct = parce_vector(*line, l_num);
+		light->direct = parce_vector(*line, line_number);
 		*flag = *flag | (1 << 2);
 	}
 	else
-		more_of_feelings(line, light, l_num, flag);
+		more_of_feelings(line, light, line_number, flag);
 }
 
 int				light_parce(int fd, t_rt *rt_data, int id)
@@ -92,8 +92,8 @@ int				light_parce(int fd, t_rt *rt_data, int id)
 	id++; // usless line for Wall Wextra Werror ))
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(rt_data->l_num)++;
-		feelings(&line, light, rt_data->l_num, &flag);
+		(rt_data->line_number)++;
+		feelings(&line, light, rt_data->line_number, &flag);
 		ft_strdel(&line);
 		if (flag == 15 || flag == 23)
 			break ;
@@ -104,6 +104,6 @@ int				light_parce(int fd, t_rt *rt_data, int id)
 		perror("RTv1");
 		exit(1);
 	}
-	add_light(&(rt_data->light), light);
+	add_light(rt_data, light);
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "rt_data.h"
 
-void		rt_data_init(t_rt *rt_data)
+void		rt_data_graphic_init(t_rt *rt_data)
 {
 	rt_data->max_reflections = 8;
 	if (!(rt_data->mlx = mlx_init()))
@@ -65,7 +65,7 @@ int			main(int argc, char **argv)
 		exit(1);
 	}
 	file_parcing(fd, &rt_data);
-	rt_data_initalization(&rt_data);
+	rt_data_graphic_init(&rt_data);
 	ray_casting(&rt_data);
 	mlx_key_hook(rt_data.win, key_hooks, &rt_data);
 	mlx_loop(rt_data.mlx);

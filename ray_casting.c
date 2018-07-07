@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_tracing.c                                      :+:      :+:    :+:   */
+/*   ray_casting.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,10 +28,10 @@ void		pixel_add(t_rt *rt_data, int x, int y, unsigned int color)
 
 int			find_color_for_me_pleas(t_ray ray, t_rt *rt_data)
 {
-	double	min;
-	int		color;
-	int		color_to_scene;
-	t_shape	*shapes;
+	double		min;
+	int			color_to_scene;
+	t_shape		*shapes;
+	t_vector	normal;
 
 	shapes = rt_data->shapes;
 	color_to_scene = 0;
@@ -39,7 +39,7 @@ int			find_color_for_me_pleas(t_ray ray, t_rt *rt_data)
 	while (shapes)
 	{
 		rt_data->reflect_rate = 0;
-		distance = shapes->find_distance(ray, shapes, rt_data);
+		distance = shapes->find_distance(ray, shapes);
 		if (distance < rt_data->intersected.distance)
 		{
 			rt_data->intersected.distance = distance;
@@ -49,8 +49,22 @@ int			find_color_for_me_pleas(t_ray ray, t_rt *rt_data)
 		}
 		shapes = shapes->next;
 	}
-	color_to_scene = rt_data->intersected.shape->make_shading(rt_data);
+	normal = rt_data->intersected.shape->get_normal(ray, rt_data->intersected.shape, rt_data);
+	color_to_scene = shading_calculation(normal, ray, rt_data);
+	// rt_data->intersected.shape->make_shading(rt_data);
 	return (color_to_scene);
+}
+
+t_vector	find_ray_direction(double j, double i, t_rt *rt_data)
+{
+	t_vector up_vector;
+	t_vector right_vector;
+	t_vector sum_vector;
+
+	up_vector = v_to_len(rt_data->camera.up, j, 1);
+	right_vector = v_to_len(rt_data->camera.right, i, 1);
+	sum_vector = add_vectors(add_vectors(up_vector, right_vector), rt_data->camera.direct);
+	return(v_to_len(sum_vector, 1, 0));
 }
 
 void		ray_casting(t_rt *rt_data)
@@ -69,10 +83,7 @@ void		ray_casting(t_rt *rt_data)
 		i = (-1) * SCR_SIZE / 2;
 		while (i < SCR_SIZE / 2)
 		{
-			v[0] = v_to_len(rt_data->camera.up, j, 1);
-			v[1] = v_to_len(rt_data->camera.right, i, 1);
-			v[2] = add_vectors(v[0], v[1]);
-			ray.direct = v_to_len(add_vectors(v[2], rt_data->camera.direct), 1, 0);
+			ray.direct = find_ray_direction(j, i, rt_data);
 			color = find_color_for_me_pleas(ray, rt_data);
 			pixel_add(rt_data, i + SCR_SIZE / 2, j + SCR_SIZE / 2, color);
 			i++;

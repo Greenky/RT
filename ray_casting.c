@@ -10,32 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
-void		pixel_add(t_rt *rt_data, int x, int y, unsigned int color)
-{
-	int bpp;
-	int size_l;
-	int end;
-	int *buff;
+// void		pixel_add(t_rt *rt_data, int x, int y, unsigned int color)
+// {
+// 	int bpp;
+// 	int size_l;
+// 	int end;
+// 	int *buff;
 
-	if (x >= 0 && x < SCR_SIZE && y >= 0 && y < SCR_SIZE)
-	{
-		buff = (int *)mlx_get_data_addr(rt_data->img, &bpp, &size_l, &end);
-		buff[SCR_SIZE * y + x] = color;
-	}
-}
+// 	if (x >= 0 && x < SCR_SIZE && y >= 0 && y < SCR_SIZE)
+// 	{
+// 		buff = (int *)mlx_get_data_addr(rt_data->img, &bpp, &size_l, &end);
+// 		buff[SCR_SIZE * y + x] = color;
+// 	}
+// }
 
 int			find_color_for_me_pleas(t_ray ray, t_rt *rt_data)
 {
-	double		min;
+	double		distance;
 	int			color_to_scene;
 	t_shape		*shapes;
 	t_vector	normal;
 
 	shapes = rt_data->shapes;
 	color_to_scene = 0;
-	min = MAX_LEN;
+	rt_data->intersected.distance = MAX_LEN;
 	while (shapes)
 	{
 		rt_data->reflect_rate = 0;
@@ -49,7 +49,7 @@ int			find_color_for_me_pleas(t_ray ray, t_rt *rt_data)
 		}
 		shapes = shapes->next;
 	}
-	normal = rt_data->intersected.shape->get_normal(ray, rt_data->intersected.shape, rt_data);
+	normal = rt_data->intersected.shape->get_normal(ray, rt_data->intersected);
 	color_to_scene = shading_calculation(normal, ray, rt_data);
 	// rt_data->intersected.shape->make_shading(rt_data);
 	return (color_to_scene);
@@ -85,12 +85,12 @@ void		ray_casting(t_rt *rt_data)
 		{
 			ray.direct = find_ray_direction(j, i, rt_data);
 			color = find_color_for_me_pleas(ray, rt_data);
-			pixel_add(rt_data, i + SCR_SIZE / 2, j + SCR_SIZE / 2, color);
+			// pixel_add(rt_data, i + SCR_SIZE / 2, j + SCR_SIZE / 2, color);
 			i++;
 		}
 		j++;
 	}
-	mlx_put_image_to_window(rt_data->mlx, rt_data->win, rt_data->img, 0, 0);
+	// mlx_put_image_to_window(rt_data->mlx, rt_data->win, rt_data->img, 0, 0);
 }
 
 void		add_shape(t_rt *rt_data, t_shape *shape)

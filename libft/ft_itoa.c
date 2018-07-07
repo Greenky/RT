@@ -82,10 +82,8 @@ char		*ft_itoa(int n)
 {
 	char		*arr;
 	int			flag;
-	int			len;
 
 	flag = 0;
-	len = 0;
 	if (n == 0)
 		return (zero());
 	if (n < 0)

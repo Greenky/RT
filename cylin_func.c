@@ -10,17 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static double	distance_to_cylinder(t_ray ray, t_shape *cylinder)
 {
 	t_vector	x;
 	double		descr;
+	double		distance;
 	double		a_b_c[3];
 	double		t[2];
 
 	ray.direct = v_to_len(ray.direct, 1, 0);
-	x = sub_vectors(ray.origin, cylinder->point);
+	x = sub_vectors(ray.origin, cylinder->origin);
 	t[0] = scalar_dob(ray.direct, cylinder->direct);
 	t[1] = scalar_dob(x, cylinder->direct);
 	a_b_c[0] = scalar_dob(ray.direct, ray.direct) - (t[0] * t[0]);
@@ -32,11 +33,11 @@ static double	distance_to_cylinder(t_ray ray, t_shape *cylinder)
 	descr = sqrt(descr);
 	t[0] = (-a_b_c[1] - descr) / (2 * a_b_c[0]);
 	t[1] = (-a_b_c[1] + descr) / (2 * a_b_c[0]);
-	ray.dest = (t[0] < t[1]) ? t[0] : t[1];
-	if (ray.dest < 0)
+	distance = (t[0] < t[1]) ? t[0] : t[1];
+	if (distance < 0)
 		return (MAX_LEN);
 	else
-		return (ray.dest);
+		return (distance);
 }
 
 t_vector		normal_to_cylinder(t_ray ray, t_intersected intersected)
@@ -111,7 +112,7 @@ int				cylin_parce(int fd, t_rt *rt_data, int id)
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
-		cylin_fill(&line, cyl, rt_data->line_number, &flag);
+		cylin_fill(&line, cylinder, rt_data->line_number, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -121,7 +122,7 @@ int				cylin_parce(int fd, t_rt *rt_data, int id)
 		perror("RT");
 		exit(1);
 	}
-	cyl->mirror = 0;
+	cylinder->mirror_coef = 0;
 	add_shape(rt_data, cylinder);
 	return (0);
 }

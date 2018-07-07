@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 int				parce_color(char *line, int line_number)
 {
@@ -77,22 +77,21 @@ t_vector		parce_vector(char *line, int line_number)
 	return (set_vector(0, 0, 0));
 }
 
-void			freesher(t_light *light, t_shape *sh)
+void			freesher(t_light *light, t_shape *shape)
 {
-	t_light *step_li;
-	t_shape *step_sh;
+	t_light *step_light;
+	t_shape *step_shape;
 
 	while (light)
 	{
-		step_li = light->next;
+		step_light = light->next;
 		free(light);
-		light = step_li;
+		light = step_light;
 	}
-	while (sh)
+	while (shape)
 	{
-		step_sh = sh->next;
-		free(sh->shape);
-		free(sh);
-		sh = step_sh;
+		step_shape = shape->next;
+		free(shape);
+		shape = step_shape;
 	}
 }

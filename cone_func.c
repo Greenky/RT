@@ -10,19 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
-static double	distance_to_cone(t_ray ray, t_shape *cone)
+double			distance_to_cone(t_ray ray, t_shape *cone)
 {
 	t_vector	v;
 	double		descr;
+	double		distance;
 	double		a_b_c[3];
 	double		t[2];
 
-	v = sub_vectors(ray.origin, cone->point);
+	v = sub_vectors(ray.origin, cone->origin);
 	t[0] = scalar_dob(ray.direct, cone->direct);
 	t[1] = scalar_dob(v, cone->direct);
-	a_b_c[2] = (1 + cone->ang * cone->ang);
+	a_b_c[2] = (1 + cone->angle_coef * cone->angle_coef);
 	a_b_c[0] = scalar_dob(ray.direct, ray.direct) - a_b_c[2] * (t[0] * t[0]);
 	a_b_c[1] = 2 * (scalar_dob(ray.direct, v) - a_b_c[2] * t[0] * t[1]);
 	a_b_c[2] = scalar_dob(v, v) - a_b_c[2] * (t[1] * t[1]);
@@ -32,11 +33,11 @@ static double	distance_to_cone(t_ray ray, t_shape *cone)
 	descr = sqrt(descr);
 	t[0] = (-a_b_c[1] - descr) / (2 * a_b_c[0]);
 	t[1] = (-a_b_c[1] + descr) / (2 * a_b_c[0]);
-	ray.dest = (t[0] < t[1]) ? t[0] : t[1];
-	if (ray.dest < 0)
+	distance = (t[0] < t[1]) ? t[0] : t[1];
+	if (distance < 0)
 		return (MAX_LEN);
 	else
-		return (ray.dest);
+		return (distance);
 }
 
 t_vector		normal_to_cone(t_ray ray, t_intersected intersected)
@@ -125,7 +126,7 @@ int				cone_parce(int fd, t_rt *rt_data, int id)
 		perror("RT");
 		exit(1);
 	}
-	cone->mirror = 0;
+	cone->mirror_coef = 0;
 	add_shape(rt_data, cone);
 	return (0);
 }

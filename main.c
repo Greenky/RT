@@ -10,32 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 void		rt_data_graphic_init(t_rt *rt_data)
 {
 	rt_data->max_reflections = 8;
-	if (!(rt_data->mlx = mlx_init()))
-	{
-		freesher(rt_data->light, rt_data->shapes);
-		free(rt_data);
-		perror("RT");
-		exit(1);
-	}
-	if (!(rt_data->win = mlx_new_window(rt_data->mlx, SCR_SIZE, SCR_SIZE, "RT")))
-	{
-		freesher(rt_data->light, rt_data->shapes);
-		free(rt_data);
-		perror("RT");
-		exit(1);
-	}
-	if (!(rt_data->img = mlx_new_image(rt_data->mlx, SCR_SIZE, SCR_SIZE)))
-	{
-		freesher(rt_data->light, rt_data->shapes);
-		free(rt_data);
-		perror("RT");
-		exit(1);
-	}
+	// if (!(rt_data->mlx = mlx_init()))
+	// {
+	// 	freesher(rt_data->light, rt_data->shapes);
+	// 	perror("RT");
+	// 	exit(1);
+	// }
+	// if (!(rt_data->win = mlx_new_window(rt_data->mlx, SCR_SIZE, SCR_SIZE, "RT")))
+	// {
+	// 	freesher(rt_data->light, rt_data->shapes);
+	// 	perror("RT");
+	// 	exit(1);
+	// }
+	// if (!(rt_data->img = mlx_new_image(rt_data->mlx, SCR_SIZE, SCR_SIZE)))
+	// {
+	// 	freesher(rt_data->light, rt_data->shapes);
+	// 	perror("RT");
+	// 	exit(1);
+	// }
 }
 
 /*
@@ -55,7 +52,7 @@ void		check_number_of_params(int argc)
 
 int			main(int argc, char **argv)
 {
-	t_rt	*rt_data;
+	t_rt	rt_data;
 	int		fd;
 
 	check_number_of_params(argc);
@@ -67,7 +64,7 @@ int			main(int argc, char **argv)
 	file_parcing(fd, &rt_data);
 	rt_data_graphic_init(&rt_data);
 	ray_casting(&rt_data);
-	mlx_key_hook(rt_data.win, key_hooks, &rt_data);
-	mlx_loop(rt_data.mlx);
+	// mlx_key_hook(rt_data.win, key_hooks, &rt_data);
+	// mlx_loop(rt_data.mlx);
 	return (0);
 }

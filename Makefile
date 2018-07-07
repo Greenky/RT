@@ -12,13 +12,13 @@
 
 CC				=	gcc
 
-CFLAGS			=	-O3 -Wall -Wextra -Werror 
+CFLAGS			=	-O3 -Wall -Wextra -Werror -lm
 
-SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/ \
-					-I frameworks/SDL2.framework/Versions/Current/Headers \
-					-I frameworks/SDL2_image.framework/SDL2_image/Headers
+# SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/ \
+# 					-I frameworks/SDL2.framework/Versions/Current/Headers \
+# 					-I frameworks/SDL2_image.framework/SDL2_image/Headers
 
-MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
+# MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 # SDL			=	-framework OpenGL -framework AppKit -rpath frameworks/ \
 # 				-F frameworks/	-framework SDL2 \
 # 								-framework SDL2_image \

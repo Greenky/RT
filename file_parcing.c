@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static void		parcer_functions(char **str, t_rt *rt_data, const t_parce arr[],
 int fd)
@@ -83,19 +83,18 @@ static t_camera	cam_config(t_camera camera)
 static void		correct_plane_normal(t_rt *rt_data)
 {
 	t_vector nor;
-	t_shape *shape_list;
+	t_shape *shapes;
 
-	shape_list = rt_data->shapes;
-	while (shape_list)
+	shapes = rt_data->shapes;
+	while (shapes)
 	{
-		if (shape_list->name == 'p')
+		if (shapes->name == PLANE)
 		{
-			nor = ((t_plane *)(shape_list->shape))->normal;
+			nor = shapes->normal;
 			if (scalar_dob(nor, rt_data->camera.direct) <= 0)
-				((t_plane *)(shape_list->shape))->normal =
-			v_to_len(nor, -1, 0);
+				shapes->normal = v_to_len(nor, -1, 0);
 		}
-		shape_list = shape_list->next;
+		shapes = shapes->next;
 	}
 }
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 double		distance_to_plane(t_ray ray, t_shape *plane)
 {
@@ -68,9 +68,9 @@ static void		plane_fill(char **line, t_shape *plane, int line_number, int *flag)
 		if (mirror > 1 || mirror < 0)
 			error_caster(line_number, "no such mirror coef. as ", *line);
 		if (mirror == 0)
-			plane->mirror_coref = 0;
+			plane->mirror_coef = 0;
 		else
-			plane->mirror_coref = 1 / mirror;
+			plane->mirror_coef = 1 / mirror;
 		*flag = *flag | (1 << 3);
 	}
 	else

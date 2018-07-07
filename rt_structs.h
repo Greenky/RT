@@ -82,10 +82,10 @@ typedef struct	s_shape
 	double			radius;
 	double			angle_coef;
 	int				color;
-	int				mirror_coref;
+	int				mirror_coef;
 	int				transperent_coef;
 	double			(*find_distance)(t_ray , t_shape *);
-	double			(*get_normal)(t_ray , t_intersected);
+	t_vector		(*get_normal)(t_ray , t_intersected);
 	struct s_shape	*next;
 }				t_shape;
 

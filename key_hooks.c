@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 int			key_hooks(int key, t_rt *rt_data)
 {
@@ -37,7 +37,6 @@ int			key_hooks(int key, t_rt *rt_data)
 	else if (key == ESC)
 	{
 		freesher(rt_data->light, rt_data->shapes);
-		free(rt_data);
 		exit(0);
 	}
 	ray_casting(rt_data);

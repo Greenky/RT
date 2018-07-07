@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 double		distance_to_sphere(t_ray ray, t_shape *sphere)
 {
@@ -41,7 +41,7 @@ t_vector			normal_to_sphere(t_ray ray, t_intersected intersected)
 {
 	t_vector	normal;
 
-	normal = sub_vectors(intersected.intersected_point, intersected.shape->origin);
+	normal = sub_vectors(intersected.intersect_point, intersected.shape->origin);
 	return (v_to_len(normal, 1, 0));
 }
 
@@ -78,9 +78,9 @@ static void			sphere_fill(char **line, t_shape *sphere, int line_number, int *fl
 		if (mirror > 1 || mirror < 0)
 			error_caster(line_number, "no such mirror coef. as ", *line);
 		if (mirror == 0)
-			sphere->mirror_coref = 0;
+			sphere->mirror_coef = 0;
 		else
-			sphere->mirror_coref = 1 / mirror;
+			sphere->mirror_coef = 1 / mirror;
 		*flag = *flag | (1 << 3);
 	}
 	else
@@ -95,7 +95,7 @@ int					sphere_parce(int fd, t_rt *rt_data, int id)
 	t_shape		*sphere;
 
 	flag = 0;
-	sphere = (t_shape *)malloc(sizeof(t_sphere));
+	sphere = (t_shape *)malloc(sizeof(t_shape));
 	sphere->id = id;
 	sphere->name = SPHERE;
 	sphere->find_distance = &distance_to_sphere;

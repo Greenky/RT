@@ -12,17 +12,18 @@
 
 #include "rt_functions.h"
 
-static double	dest_to_cone(t_ray ray, t_cone *cone)
+double			distance_to_cone(t_ray ray, t_shape *cone)
 {
 	t_vector	v;
 	double		descr;
+	double		distance;
 	double		a_b_c[3];
 	double		t[2];
 
-	v = sub_vectors(ray.origin, cone->point);
+	v = sub_vectors(ray.origin, cone->origin);
 	t[0] = scalar_dob(ray.direct, cone->direct);
 	t[1] = scalar_dob(v, cone->direct);
-	a_b_c[2] = (1 + cone->ang * cone->ang);
+	a_b_c[2] = (1 + cone->angle_coef * cone->angle_coef);
 	a_b_c[0] = scalar_dob(ray.direct, ray.direct) - a_b_c[2] * (t[0] * t[0]);
 	a_b_c[1] = 2 * (scalar_dob(ray.direct, v) - a_b_c[2] * t[0] * t[1]);
 	a_b_c[2] = scalar_dob(v, v) - a_b_c[2] * (t[1] * t[1]);
@@ -32,57 +33,45 @@ static double	dest_to_cone(t_ray ray, t_cone *cone)
 	descr = sqrt(descr);
 	t[0] = (-a_b_c[1] - descr) / (2 * a_b_c[0]);
 	t[1] = (-a_b_c[1] + descr) / (2 * a_b_c[0]);
-	ray.dest = (t[0] < t[1]) ? t[0] : t[1];
-	if (ray.dest < 0)
+	distance = (t[0] < t[1]) ? t[0] : t[1];
+	if (distance < 0)
 		return (MAX_LEN);
 	else
-		return (ray.dest);
+		return (distance);
 }
 
-double			intersect_cone(t_ray *ray, void *con, t_rt *rt_data)
+t_vector		normal_to_cone(t_ray ray, t_intersected intersected)
 {
-	t_vector	nor;
-	double		a;
-	t_cone		*cone;
-	t_ray		s_ray;
+	t_vector buffer_vector;
+	t_vector normal;
+	t_shape *cone;
+	double	usless_coeficient;
+	double	usefull_coeficient;
 
-	cone = (t_cone *)con;
-	if (((*ray).dest = dest_to_cone(*ray, cone)) == MAX_LEN)
-		return (0);
-	if (rt_data)
-	{
-		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
-		(*ray).dest, 0));
-		s_ray.id = cone->id;
-		s_ray.main_col = cone->color;
-		s_ray.mirror = cone->mirror;
-		s_ray.rev_dir = v_to_len((*ray).direct, -1, 1);
-		nor = sub_vectors((*ray).origin, cone->point);
-		a = scalar_dob((*ray).direct, cone->direct) * ((*ray).dest) +
-		scalar_dob(nor, cone->direct);
-		a = (1 + cone->ang * cone->ang) * a;
-		nor = v_to_len(sub_vectors(sub_vectors(s_ray.origin, cone->point),
-		v_to_len(cone->direct, a, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, rt_data));
-	}
-	else
-		return (1);
+	cone = intersected.shape;
+	buffer_vector = sub_vectors(ray.origin, intersected.shape->origin);
+	usless_coeficient = scalar_dob(ray.direct, cone->direct) * (intersected.distance) +
+	scalar_dob(buffer_vector, cone->direct);
+	usefull_coeficient = (1 + cone->angle_coef * cone->angle_coef) * usless_coeficient;
+	normal = sub_vectors(sub_vectors(intersected.intersect_point, cone->origin),
+	v_to_len(cone->direct, usefull_coeficient, 0));
+	return (v_to_len(normal, 1, 0));
 }
 
-static void		more_fill(char **line, t_cone *cone, int l_num, int *flag)
+static void		more_fill(char **line, t_shape *cone, int line_number, int *flag)
 {
 	if (begin_with(*line, "ang:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->ang = fmin(1, fmax(0.05, tan(str_to_double(*line, 0, l_num) *
+		cone->angle_coef = fmin(1, fmax(0.05, tan(str_to_double(*line, 0, line_number) *
 		M_PI / 180)));
 		*flag = *flag | (1 << 3);
 	}
 	else
-		error_caster(l_num, "no such parameter as ", *line);
+		error_caster(line_number, "no such parameter as ", *line);
 }
 
-static void		cone_fill(char **line, t_cone *cone, int l_num, int *flag)
+static void		cone_fill(char **line, t_shape *cone, int line_number, int *flag)
 {
 	char		*new_line;
 
@@ -92,23 +81,23 @@ static void		cone_fill(char **line, t_cone *cone, int l_num, int *flag)
 	if (begin_with(*line, "cen:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->point = parce_vector(*line, l_num);
+		cone->origin = parce_vector(*line, line_number);
 		*flag = *flag | 1;
 	}
 	else if (begin_with(*line, "col:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->color = parce_color(*line, l_num);
+		cone->color = parce_color(*line, line_number);
 		*flag = *flag | 2;
 	}
 	else if (begin_with(*line, "dir:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->direct = v_to_len(parce_vector(*line, l_num), 1, 0);
+		cone->direct = v_to_len(parce_vector(*line, line_number), 1, 0);
 		*flag = *flag | (1 << 2);
 	}
 	else
-		more_fill(line, cone, l_num, flag);
+		more_fill(line, cone, line_number, flag);
 }
 
 int				cone_parce(int fd, t_rt *rt_data, int id)
@@ -116,15 +105,18 @@ int				cone_parce(int fd, t_rt *rt_data, int id)
 	int			k;
 	int			flag;
 	char		*line;
-	t_cone		*cone;
+	t_shape		*cone;
 
 	flag = 0;
-	cone = (t_cone *)malloc(sizeof(t_cone));
+	cone = (t_shape *)malloc(sizeof(t_shape));
 	cone->id = id;
+	cone->name = CONE;
+	cone->find_distance = &distance_to_cone;
+	cone->get_normal = &normal_to_cone;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(rt_data->l_num)++;
-		cone_fill(&line, cone, rt_data->l_num, &flag);
+		(rt_data->line_number)++;
+		cone_fill(&line, cone, rt_data->line_number, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -134,7 +126,7 @@ int				cone_parce(int fd, t_rt *rt_data, int id)
 		perror("RT");
 		exit(1);
 	}
-	cone->mirror = 0;
-	add_shape(&(rt_data->shapes), cone, 'c', id);
+	cone->mirror_coef = 0;
+	add_shape(rt_data, cone);
 	return (0);
 }

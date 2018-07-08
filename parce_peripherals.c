@@ -47,13 +47,13 @@ char			*trim_from(char *line, int i)
 	return (new_line);
 }
 
-static double	drob_finder(char *line, int i, int l_num)
+static double	drob_finder(char *line, int i, int line_number)
 {
 	double	num_drob;
 	int		len;
 
 	if (!ft_isdigit(line[i]))
-		error_caster(l_num, "wrong float number representation ", line);
+		error_caster(line_number, "wrong float number representation ", line);
 	len = 0;
 	num_drob = (double)ft_atoi(line + i);
 	while (ft_isdigit(line[i++]))
@@ -62,7 +62,7 @@ static double	drob_finder(char *line, int i, int l_num)
 	return (num_drob);
 }
 
-double			str_to_double(char *line, int i, int l_num)
+double			str_to_double(char *line, int i, int line_number)
 {
 	double	num_whole;
 	double	negative;
@@ -76,12 +76,12 @@ double			str_to_double(char *line, int i, int l_num)
 		i++;
 	}
 	if (!ft_isdigit(line[i]))
-		error_caster(l_num, "wrong float number representation ", line);
+		error_caster(line_number, "wrong float number representation ", line);
 	num_whole = (double)ft_atoi(line + i);
 	while (ft_isdigit(line[i]))
 		i++;
 	if (line[i++] == '.')
-		num_whole += drob_finder(line, i, l_num);
+		num_whole += drob_finder(line, i, line_number);
 	return (num_whole * negative);
 }
 

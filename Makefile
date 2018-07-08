@@ -12,13 +12,13 @@
 
 CC				=	gcc
 
-CFLAGS			=	-O3 -Wall -Wextra -Werror 
+CFLAGS			=	-O3 -Wall -Wextra -Werror -lm
 
-SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/ \
-					-I frameworks/SDL2.framework/Versions/Current/Headers \
-					-I frameworks/SDL2_image.framework/SDL2_image/Headers
+# SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/ \
+# 					-I frameworks/SDL2.framework/Versions/Current/Headers \
+# 					-I frameworks/SDL2_image.framework/SDL2_image/Headers
 
-MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
+# MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 # SDL			=	-framework OpenGL -framework AppKit -rpath frameworks/ \
 # 				-F frameworks/	-framework SDL2 \
 # 								-framework SDL2_image \
@@ -28,7 +28,7 @@ NAME			=	RTv1
 
 SRC				=	get_next_line.c \
 					main.c \
-					ray_tracing.c \
+					ray_casting.c \
 					vector_functions.c \
 					vector_functions_v2.c \
 					sphere_func.c \
@@ -38,9 +38,10 @@ SRC				=	get_next_line.c \
 					parce_peripherals.c \
 					parce_peripherals_v2.c \
 					light_manipulation.c \
-					light_calculation.c \
+					shading_calculation.c \
 					file_parcing.c \
-					camera_func.c
+					camera_func.c \
+					key_hooks.c
 			
 BINS			=	$(SRC:.c=.o)
 

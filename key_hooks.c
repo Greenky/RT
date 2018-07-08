@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -37,7 +37,6 @@ int			key_hooks(int key, t_rt *rt_data)
 	else if (key == ESC)
 	{
 		freesher(rt_data->light, rt_data->shapes);
-		free(rt_data);
 		exit(0);
 	}
 	ray_casting(rt_data);

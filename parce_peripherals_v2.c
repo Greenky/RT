@@ -12,7 +12,7 @@
 
 #include "rt_functions.h"
 
-int				parce_color(char *line, int l_num)
+int				parce_color(char *line, int line_number)
 {
 	int			i;
 	int			j;
@@ -29,20 +29,20 @@ int				parce_color(char *line, int l_num)
 			while (base[j] && base[j] != ft_toupper(line[i]))
 				j++;
 			if (!base[j])
-				error_caster(l_num, "wrong color representation ", line);
+				error_caster(line_number, "wrong color representation ", line);
 			col = col * 16 + j;
 		}
 		return (col);
 	}
-	error_caster(l_num, "wrong color representation ", line);
+	error_caster(line_number, "wrong color representation ", line);
 	return (0);
 }
 
-static double	float_finder(char *line, int *i, int l_num)
+static double	float_finder(char *line, int *i, int line_number)
 {
 	double a;
 
-	a = str_to_double(line, *i, l_num);
+	a = str_to_double(line, *i, line_number);
 	while (line[*i] && (line[*i] != ',' || ft_isdigit(line[*i]) ||
 	line[*i] == '.'))
 		(*i)++;
@@ -51,7 +51,7 @@ static double	float_finder(char *line, int *i, int l_num)
 	return (a);
 }
 
-t_vector		parce_vector(char *line, int l_num)
+t_vector		parce_vector(char *line, int line_number)
 {
 	int		i;
 	int		flag;
@@ -63,9 +63,9 @@ t_vector		parce_vector(char *line, int l_num)
 	flag = 0;
 	if (begin_with(line, "("))
 	{
-		a = float_finder(line, &i, l_num);
-		b = float_finder(line, &i, l_num);
-		c = str_to_double(line, i, l_num);
+		a = float_finder(line, &i, line_number);
+		b = float_finder(line, &i, line_number);
+		c = str_to_double(line, i, line_number);
 		while (line[i])
 		{
 			if (line[i] == ')')
@@ -73,26 +73,25 @@ t_vector		parce_vector(char *line, int l_num)
 			i++;
 		}
 	}
-	error_caster(l_num, "wrong vector format ", line);
+	error_caster(line_number, "wrong vector format ", line);
 	return (set_vector(0, 0, 0));
 }
 
-void			freesher(t_light *light, t_shape *sh)
+void			freesher(t_light *light, t_shape *shape)
 {
-	t_light *step_li;
-	t_shape *step_sh;
+	t_light *step_light;
+	t_shape *step_shape;
 
 	while (light)
 	{
-		step_li = light->next;
+		step_light = light->next;
 		free(light);
-		light = step_li;
+		light = step_light;
 	}
-	while (sh)
+	while (shape)
 	{
-		step_sh = sh->next;
-		free(sh->shape);
-		free(sh);
-		sh = step_sh;
+		step_shape = shape->next;
+		free(shape);
+		shape = step_shape;
 	}
 }

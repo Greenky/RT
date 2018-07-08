@@ -12,6 +12,10 @@
 
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
+# define SPHERE 's'
+# define CYLINDER 'c'
+# define CONE 'o'
+# define PLANE 'p'
 
 typedef struct	s_vector
 {
@@ -24,12 +28,6 @@ typedef struct	s_ray
 {
 	t_vector	origin;
 	t_vector	direct;
-	// t_vector	rev_dir;
-	// double		dest;
-	// int			id;
-	// int			main_col;
-	// int			mirror;
- //    int         transperent;
 }				t_ray;
 
 typedef struct	s_camera
@@ -42,16 +40,6 @@ typedef struct	s_camera
 	double		dest;
 }				t_camera;
 
-// typedef struct	s_sphere
-// {
-// 	int			color;
-// 	t_vector	centre;
-// 	int			id;
-// 	double		radius;
-// 	int			mirror;
-//     int         transperent;
-// }				t_sphere;
-
 typedef struct	s_light
 {
 	char			is_dir;
@@ -60,38 +48,6 @@ typedef struct	s_light
 	double			intence;
 	struct s_light	*next;
 }				t_light;
-
-// typedef struct	s_plane
-// {
-// 	t_vector	normal;
-// 	t_vector	point;
-// 	int			id;
-// 	int			color;
-// 	int			mirror;
-//     int         transperent;
-// }				t_plane;
-
-// typedef struct	s_cone
-// {
-// 	t_vector	direct;
-// 	t_vector	point;
-// 	double		ang;
-// 	int			id;
-// 	int			color;
-// 	int			mirror;
-//     int         transperent;
-// }				t_cone;
-
-// typedef struct	s_cylinder
-// {
-// 	t_vector	direct;
-// 	t_vector	point;
-// 	double		radius;
-// 	int			id;
-// 	int			color;
-// 	int			mirror;
-//     int         transperent;
-// }				t_cylinder;
 
 typedef struct	s_shape t_shape;
 
@@ -126,10 +82,10 @@ typedef struct	s_shape
 	double			radius;
 	double			angle_coef;
 	int				color;
-	int				mirror_coref;
+	int				mirror_coef;
 	int				transperent_coef;
-	double			(*find_distance)(t_ray *, t_shape *, t_rt *);
-	double			(*make_shading)(t_ray *, t_shape *, t_rt *);
+	double			(*find_distance)(t_ray , t_shape *);
+	t_vector		(*get_normal)(t_ray , t_intersected);
 	struct s_shape	*next;
 }				t_shape;
 

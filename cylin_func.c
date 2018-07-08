@@ -12,77 +12,62 @@
 
 #include "rt_functions.h"
 
-static double	dest_to_cylin(t_ray ray, t_cylinder *cyl)
+static double	distance_to_cylinder(t_ray ray, t_shape *cylinder)
 {
 	t_vector	x;
 	double		descr;
+	double		distance;
 	double		a_b_c[3];
 	double		t[2];
 
 	ray.direct = v_to_len(ray.direct, 1, 0);
-	x = sub_vectors(ray.origin, cyl->point);
-	t[0] = scalar_dob(ray.direct, cyl->direct);
-	t[1] = scalar_dob(x, cyl->direct);
+	x = sub_vectors(ray.origin, cylinder->origin);
+	t[0] = scalar_dob(ray.direct, cylinder->direct);
+	t[1] = scalar_dob(x, cylinder->direct);
 	a_b_c[0] = scalar_dob(ray.direct, ray.direct) - (t[0] * t[0]);
 	a_b_c[1] = 2 * (scalar_dob(ray.direct, x) - t[0] * t[1]);
-	a_b_c[2] = scalar_dob(x, x) - (t[1] * t[1]) - cyl->radius * cyl->radius;
+	a_b_c[2] = scalar_dob(x, x) - (t[1] * t[1]) - cylinder->radius * cylinder->radius;
 	descr = a_b_c[1] * a_b_c[1] - 4 * a_b_c[0] * a_b_c[2];
 	if (descr < 0)
 		return (MAX_LEN);
 	descr = sqrt(descr);
 	t[0] = (-a_b_c[1] - descr) / (2 * a_b_c[0]);
 	t[1] = (-a_b_c[1] + descr) / (2 * a_b_c[0]);
-	ray.dest = (t[0] < t[1]) ? t[0] : t[1];
-	if (ray.dest < 0)
+	distance = (t[0] < t[1]) ? t[0] : t[1];
+	if (distance < 0)
 		return (MAX_LEN);
 	else
-		return (ray.dest);
+		return (distance);
 }
 
-double			intersect_cylinder(t_ray *ray, void *cy, t_rt *rt_data)
+t_vector		normal_to_cylinder(t_ray ray, t_intersected intersected)
 {
-	t_ray		s_ray;
-	t_vector	nor;
-	double		m;
-	t_cylinder	*cyl;
+	t_vector	buffer_vector;
+	t_vector	normal;
+	double		usfull_coeficient;
+	t_shape		*cylinder;
 
-	cyl = (t_cylinder *)cy;
-	if (((*ray).dest = dest_to_cylin(*ray, cyl)) == MAX_LEN)
-		return (0);
-	if (rt_data)
-	{
-		s_ray.origin = add_vectors((*ray).origin, v_to_len((*ray).direct,
-		(*ray).dest, 0));
-		s_ray.id = cyl->id;
-		s_ray.main_col = cyl->color;
-		s_ray.mirror = cyl->mirror;
-		s_ray.transperent = cyl->transperent;
-		s_ray.rev_dir = v_to_len((*ray).direct, -1, 0);
-		nor = add_vectors((*ray).origin, v_to_len((*ray).direct, (*ray).dest,
-		0));
-		m = scalar_dob((*ray).direct, v_to_len(cyl->direct, (*ray).dest, 0)) +
-		scalar_dob(nor, cyl->direct);
-		nor = sub_vectors(nor, cyl->point);
-		nor = v_to_len(sub_vectors(nor, v_to_len(cyl->direct, m, 0)), 1, 0);
-		return (light_calculate(nor, s_ray, rt_data));
-	}
-	else
-		return (1);
+	cylinder = intersected.shape;
+	usfull_coeficient = scalar_dob(ray.direct, v_to_len(cylinder->direct, intersected.distance, 0)) +
+	scalar_dob(intersected.intersect_point, cylinder->direct);
+	buffer_vector = sub_vectors(intersected.intersect_point, cylinder->origin);
+	normal = sub_vectors(buffer_vector, v_to_len(cylinder->direct, usfull_coeficient, 0));
+	return (v_to_len(normal, 1, 0));
 }
 
-static	void	more_fill(char **line, t_cylinder *cyl, int l_num, int *flag)
+static	void	more_fill(char **line, t_shape *cylinder, int line_number, int *flag)
 {
 	if (begin_with(*line, "rad:"))
 	{
 		*line = trim_from(*line, 4);
-		cyl->radius = fmax(1, str_to_double(*line, 0, l_num));
+		cylinder->radius = fmax(1, str_to_double(*line, 0, line_number));
 		*flag = *flag | (1 << 3);
 	}
 	else
-		error_caster(l_num, "no such parameter as ", *line);
+		error_caster(line_number, "no such parameter as ", *line);
 }
 
-static void		cylin_fill(char **line, t_cylinder *cyl, int l_num, int *flag)
+static void		cylin_fill(char **line, t_shape *cylinder, int line_number, int *flag)
 {
 	char		*new_line;
 
@@ -92,23 +77,23 @@ static void		cylin_fill(char **line, t_cylinder *cyl, int l_num, int *flag)
 	if (begin_with(*line, "cen:"))
 	{
 		*line = trim_from(*line, 4);
-		cyl->point = parce_vector(*line, l_num);
+		cylinder->origin = parce_vector(*line, line_number);
 		*flag = *flag | 1;
 	}
 	else if (begin_with(*line, "col:"))
 	{
 		*line = trim_from(*line, 4);
-		cyl->color = parce_color(*line, l_num);
+		cylinder->color = parce_color(*line, line_number);
 		*flag = *flag | 2;
 	}
 	else if (begin_with(*line, "dir:"))
 	{
 		*line = trim_from(*line, 4);
-		cyl->direct = v_to_len(parce_vector(*line, l_num), 1, 0);
+		cylinder->direct = v_to_len(parce_vector(*line, line_number), 1, 0);
 		*flag = *flag | (1 << 2);
 	}
 	else
-		more_fill(line, cyl, l_num, flag);
+		more_fill(line, cylinder, line_number, flag);
 }
 
 int				cylin_parce(int fd, t_rt *rt_data, int id)
@@ -116,15 +101,18 @@ int				cylin_parce(int fd, t_rt *rt_data, int id)
 	int			k;
 	int			flag;
 	char		*line;
-	t_cylinder	*cyl;
+	t_shape		*cylinder;
 
 	flag = 0;
-	cyl = (t_cylinder *)malloc(sizeof(t_cylinder));
-	cyl->id = id;
+	cylinder = (t_shape *)malloc(sizeof(t_shape));
+	cylinder->id = id;
+	cylinder->name = CYLINDER;
+	cylinder->find_distance = &distance_to_cylinder;
+	cylinder->get_normal = &normal_to_cylinder;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
-		(rt_data->l_num)++;
-		cylin_fill(&line, cyl, rt_data->l_num, &flag);
+		(rt_data->line_number)++;
+		cylin_fill(&line, cylinder, rt_data->line_number, &flag);
 		ft_strdel(&line);
 		if (flag == 15)
 			break ;
@@ -134,7 +122,7 @@ int				cylin_parce(int fd, t_rt *rt_data, int id)
 		perror("RT");
 		exit(1);
 	}
-	cyl->mirror = 0;
-	add_shape(&(rt_data->shapes), cyl, 0, id);
+	cylinder->mirror_coef = 0;
+	add_shape(rt_data, cylinder);
 	return (0);
 }

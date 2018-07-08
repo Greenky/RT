@@ -41,15 +41,15 @@ static void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
 {
 	int			k;
 	char		*line;
-	char		*new_line;
+	char		*buffer_line;
 
 	rt_data->line_number = 0;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
-		new_line = ft_strtrim(line);
+		buffer_line = ft_strtrim(line);
 		free(line);
-		line = new_line;
+		line = buffer_line;
 		parcer_functions(&line, rt_data, arr, fd);
 		ft_strdel(&line);
 	}
@@ -83,19 +83,18 @@ static t_camera	cam_config(t_camera camera)
 static void		correct_plane_normal(t_rt *rt_data)
 {
 	t_vector nor;
-	t_shape *shape_list;
+	t_shape *shapes;
 
-	shape_list = rt_data->shapes;
-	while (shape_list)
+	shapes = rt_data->shapes;
+	while (shapes)
 	{
-		if (shape_list->name == 'p')
+		if (shapes->name == PLANE)
 		{
-			nor = ((t_plane *)(shape_list->shape))->normal;
+			nor = shapes->normal;
 			if (scalar_dob(nor, rt_data->camera.direct) <= 0)
-				((t_plane *)(shape_list->shape))->normal =
-			v_to_len(nor, -1, 0);
+				shapes->normal = v_to_len(nor, -1, 0);
 		}
-		shape_list = shape_list->next;
+		shapes = shapes->next;
 	}
 }
 

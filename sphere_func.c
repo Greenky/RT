@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static double		dest_to_sphere(t_ray ray, t_shape *sphere, t_rt *rt_data)
 {

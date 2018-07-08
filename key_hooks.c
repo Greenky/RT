@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 int			key_hooks(int key, t_rt *rt_data)
 {

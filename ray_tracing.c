@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 void		pixel_add(t_rt *rt_data, int x, int y, unsigned int color)
 {

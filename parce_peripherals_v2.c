@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 int				parce_color(char *line, int l_num)
 {

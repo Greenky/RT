@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static void	cam_fill(char **line, t_camera *camera, int l_num, int *flag)
 {

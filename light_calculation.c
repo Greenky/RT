@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static int	lighter(t_vector nor, t_ray s_ray, t_light *light, t_vector h)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_data.h"
+#include "rt_functions.h"
 
 static void		parcer_functions(char **str, t_rt *rt_data, const t_parce arr[],
 int fd)

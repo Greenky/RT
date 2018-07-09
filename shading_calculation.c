@@ -12,7 +12,7 @@
 
 #include "rt_functions.h"
 
-static int	biling_phong_calculation(t_vector nor, t_ray s_ray, t_light *light, t_vector h)
+static int	biling_phong_calculation(t_vector nor, t_ray ray, t_light *light, t_vector h)
 {
 	int		col_b;
 	int		col_g;
@@ -20,10 +20,11 @@ static int	biling_phong_calculation(t_vector nor, t_ray s_ray, t_light *light, t
 	double	nor_li;
 	double	w;
 
-	nor_li = scalar_dob(nor, s_ray.direct);
+	nor = v_to_len(nor, 1, 0);
+	ray.direct = v_to_len(ray.direct, 1, 0);
+	nor_li = scalar_dob(nor, ray.direct);
 	w = fmax(0, scalar_dob(nor, h));
 	w = pow(w, 100);
-	// w = 0;
 	col_b = fmin(0xFF, (light->color & 255) * fmax(0, nor_li) * light->intence
 	+ (light->color & 255) * w * light->intence);
 	col_g = fmin(0xFF, (light->color >> 8 & 255) * fmax(0, nor_li) *
@@ -62,15 +63,13 @@ int			color_add(int first, int second)
 	return (sum);
 }
 
-static int	not_in_the_shadow(t_ray shadow_ray, t_rt *rt_data, t_light *light)
+static int	not_in_the_shadow(t_ray shadow_ray, int id, t_shape *shapes, t_light *light)
 {
 	double distance;
-	t_shape *shapes;
 
-	shapes = rt_data->shapes;
 	while (shapes)
 	{
-		if (shapes->id != rt_data->intersected.shape->id &&
+		if (shapes->id != id &&
 		(distance = shapes->find_distance(shadow_ray, shapes)) != MAX_LEN)
 		{
 			if ((!light->is_dir && distance < v_mod(sub_vectors(shadow_ray.origin,
@@ -124,7 +123,7 @@ static int	not_in_the_shadow(t_ray shadow_ray, t_rt *rt_data, t_light *light)
 // 	return(color);
 // }
 
-int			shading_calculation(t_vector nor, t_ray ray, t_rt *rt_data)
+int			shading_calculation(t_intersected intersected, t_ray ray, t_rt *rt_data)
 {
 	t_vector	h;
 	int			color;
@@ -132,8 +131,8 @@ int			shading_calculation(t_vector nor, t_ray ray, t_rt *rt_data)
 	t_ray		shadow_ray;
 
 	light = rt_data->light;
-	color = ambient_light(rt_data->intersected.shape->color, rt_data->light);
-	shadow_ray.origin = rt_data->intersected.intersect_point;
+	color = ambient_light(intersected.shape->color, light);
+	shadow_ray.origin = intersected.intersect_point;
 	// if (ray.mirror)
 	// 	color = color_add(color, zercal_light(nor, ray, rt_data));
     // if (ray.transperent)
@@ -144,11 +143,11 @@ int			shading_calculation(t_vector nor, t_ray ray, t_rt *rt_data)
 			shadow_ray.direct = v_to_len(light->direct, -1, 0);
 		else
 			shadow_ray.direct = v_to_len(sub_vectors(light->direct, shadow_ray.origin), 1, 0);
-		if (not_in_the_shadow(shadow_ray, rt_data, light))
+		if (not_in_the_shadow(shadow_ray, intersected.shape->id, rt_data->shapes, light))
 		{
 			h = add_vectors(v_to_len(ray.direct, -1, 0), shadow_ray.direct);
 			h = v_to_len(h, 1, 0);
-			color = color_add(color, biling_phong_calculation(nor, ray, light, h));
+			color = color_add(color, biling_phong_calculation(intersected.normal, ray, light, h));
 		}
 		light = light->next;
 	}

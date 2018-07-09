@@ -12,7 +12,7 @@
 
 #include "rt_functions.h"
 
-static double	distance_to_cylinder(t_ray ray, t_shape *cylinder)
+double			distance_to_cylinder(t_ray ray, t_shape *cylinder)
 {
 	t_vector	x;
 	double		descr;
@@ -46,13 +46,13 @@ t_vector		normal_to_cylinder(t_ray ray, t_intersected intersected)
 	t_vector	normal;
 	double		usfull_coeficient;
 	t_shape		*cylinder;
-
+	
 	cylinder = intersected.shape;
 	usfull_coeficient = scalar_dob(ray.direct, v_to_len(cylinder->direct, intersected.distance, 0)) +
 	scalar_dob(intersected.intersect_point, cylinder->direct);
 	buffer_vector = sub_vectors(intersected.intersect_point, cylinder->origin);
 	normal = sub_vectors(buffer_vector, v_to_len(cylinder->direct, usfull_coeficient, 0));
-	return (v_to_len(normal, 1, 0));
+	return (v_to_len(normal, -1, 0));
 }
 
 static	void	more_fill(char **line, t_shape *cylinder, int line_number, int *flag)

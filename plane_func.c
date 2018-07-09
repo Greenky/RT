@@ -101,7 +101,7 @@ int				plane_parce(int fd, t_rt *rt_data, int id)
 	if (k < 0)
 	{
 		free(plane);
-		perror("RTv1");
+		perror("RT");
 		exit(1);
 	}
 	add_shape(rt_data, plane);

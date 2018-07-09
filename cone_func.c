@@ -45,14 +45,14 @@ t_vector		normal_to_cone(t_ray ray, t_intersected intersected)
 	t_vector buffer_vector;
 	t_vector normal;
 	t_shape *cone;
-	double	usless_coeficient;
+	double	useless_coeficient;
 	double	usefull_coeficient;
 
 	cone = intersected.shape;
 	buffer_vector = sub_vectors(ray.origin, intersected.shape->origin);
-	usless_coeficient = scalar_dob(ray.direct, cone->direct) * (intersected.distance) +
+	useless_coeficient = scalar_dob(ray.direct, cone->direct) * (intersected.distance) +
 	scalar_dob(buffer_vector, cone->direct);
-	usefull_coeficient = (1 + cone->angle_coef * cone->angle_coef) * usless_coeficient;
+	usefull_coeficient = (1 + cone->angle_coef * cone->angle_coef) * useless_coeficient;
 	normal = sub_vectors(sub_vectors(intersected.intersect_point, cone->origin),
 	v_to_len(cone->direct, usefull_coeficient, 0));
 	return (v_to_len(normal, 1, 0));

@@ -12,19 +12,16 @@
 
 CC				=	gcc
 
-CFLAGS			=	-O3 -Wall -Wextra -Werror -lm
+CFLAGS			=	-O3 -Wall -Wextra -Werror
 
-# SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/ \
-# 					-I frameworks/SDL2.framework/Versions/Current/Headers \
-# 					-I frameworks/SDL2_image.framework/SDL2_image/Headers
+SDL_INCLUDES	=	-I frameworks/SDL2.framework/Headers/
 
 # MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
-# SDL			=	-framework OpenGL -framework AppKit -rpath frameworks/ \
-# 				-F frameworks/	-framework SDL2 \
-# 								-framework SDL2_image \
-# 								-framework SDL2_ttf
 
-NAME			=	RTv1
+SDL				=	-framework OpenGL -framework AppKit \
+					-F frameworks/ -framework SDL2
+
+NAME			=	RT
 
 SRC				=	get_next_line.c \
 					main.c \
@@ -49,10 +46,10 @@ all: $(NAME)
 
 $(NAME): $(BINS)
 	cd libft ; make ; cd ..
-	$(CC) $(CFLAGS) -o $(NAME) $(BINS) $(SDL_INCLUDES) $(MLX_FLAGS) libft/libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(BINS) $(SDL_INCLUDES) $(SDL) libft/libft.a
 
 .c.o:
-	$(CC) -c $(CFLAGS) $<
+	$(CC) -c $(CFLAGS) $(SDL_INCLUDES) $<
 
 clean:
 	cd libft ; make clean ; cd ..

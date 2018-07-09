@@ -12,7 +12,7 @@
 
 #ifndef rt_data_H
 # define rt_data_H
-// # include <mlx.h>
+# include "SDL.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -44,7 +44,7 @@ t_vector		add_vectors(t_vector v1, t_vector v2);
 t_vector		sub_vectors(t_vector v1, t_vector v2);
 t_vector		vec_dob(t_vector v1, t_vector v2);
 double			scalar_dob(t_vector v1, t_vector v2);
-int				shading_calculation(t_vector nor, t_ray ray, t_rt *rt_data);
+int				shading_calculation(t_intersected intersected, t_ray ray, t_rt *rt_data);
 int				color_add(int first, int second);
 
 void			error_caster(int line_number, char *s1, char *s2);
@@ -74,6 +74,8 @@ t_vector		normal_to_sphere(t_ray ray, t_intersected intersected);
 t_vector		normal_to_cone(t_ray ray, t_intersected intersected);
 t_vector		normal_to_cylinder(t_ray ray, t_intersected intersected);
 t_vector		normal_to_plane(t_ray ray, t_intersected intersected);
+
+int				key_hooks(int key, t_rt *rt_data);
 // int				zercal_light(t_ray ray, t_shape *sh, t_light *li, t_vector r);
 
 #endif

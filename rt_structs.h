@@ -54,15 +54,18 @@ typedef struct	s_shape t_shape;
 typedef struct	s_intersected
 {
 	t_shape		*shape;
+	t_vector	normal;
 	t_vector	intersect_point;
 	double		distance;
 }				t_intersected;
 
 typedef struct	s_rt
 {
-	void			*mlx;
-	void			*win;
-	void			*img;
+	// void			*mlx;
+	// void			*win;
+	// void			*img;
+	SDL_Window		*window;
+	SDL_Surface		*surface;
 	t_shape			*shapes;
 	t_light			*light;
 	t_camera		camera;

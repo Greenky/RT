@@ -33,6 +33,11 @@ void		rt_data_graphic_init(t_rt *rt_data)
 	// 	perror("RT");
 	// 	exit(1);
 	// }
+	SDL_Init(SDL_INIT_EVERYTHING);
+	rt_data->window = SDL_CreateWindow("SDL window", SDL_WINDOWPOS_UNDEFINED,
+								SDL_WINDOWPOS_UNDEFINED, 1000,
+								1000, SDL_WINDOW_ALLOW_HIGHDPI);
+	rt_data->surface = SDL_GetWindowSurface(rt_data->window);
 }
 
 /*
@@ -45,7 +50,7 @@ void		check_number_of_params(int argc)
 	if (argc != 2)
 	{
 		write(2, "Input must include one parameter\n", 33);
-		write(2, "Usage: ./RT scenes/[scene]\n", 20);
+		write(2, "Usage: ./RT scenes/[scene]\n", 27);
 		exit(1);
 	}
 }
@@ -62,8 +67,16 @@ int			main(int argc, char **argv)
 		exit(1);
 	}
 	file_parcing(fd, &rt_data);
+	printf("file parsed\n");
 	rt_data_graphic_init(&rt_data);
-	ray_casting(&rt_data);
+	printf("file parsed1\n");
+	// while (rt_data.shapes)
+	// {
+	// 	printf("name - %c, id - %i\n", rt_data.shapes->name, rt_data.shapes->id);
+	// 	rt_data.shapes = rt_data.shapes->next;
+	// }
+	while (1)
+		ray_casting(&rt_data);
 	// mlx_key_hook(rt_data.win, key_hooks, &rt_data);
 	// mlx_loop(rt_data.mlx);
 	return (0);

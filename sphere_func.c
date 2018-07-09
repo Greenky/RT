@@ -24,6 +24,7 @@ double		distance_to_sphere(t_ray ray, t_shape *sphere)
 	a_b_c[0] = scalar_dob(ray.direct, ray.direct);
 	a_b_c[1] = 2 * scalar_dob(ray.direct, v1);
 	a_b_c[2] = scalar_dob(v1, v1) - sphere->radius * sphere->radius;
+	//---------------------------------------------------------------------
 	descr = a_b_c[1] * a_b_c[1] - 4 * a_b_c[0] * a_b_c[2];
 	if (descr <= 0)
 		return (MAX_LEN);
@@ -41,7 +42,8 @@ t_vector			normal_to_sphere(t_ray ray, t_intersected intersected)
 {
 	t_vector	normal;
 
-	normal = sub_vectors(intersected.intersect_point, intersected.shape->origin);
+	ray.origin.x++; // usless line for -Werror
+	normal = sub_vectors(intersected.shape->origin, intersected.intersect_point);
 	return (v_to_len(normal, 1, 0));
 }
 

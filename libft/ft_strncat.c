@@ -3,33 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 20:02:29 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/26 20:04:58 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 17:38:08 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 17:38:10 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-char	*ft_strncat(char *dest, const char *src, size_t nb)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	size_t l1;
-	size_t l2;
-	size_t i;
+	unsigned long	idx;
+	unsigned long	idx2;
 
-	l1 = 0;
-	l2 = 0;
-	while (dest[l1] != 0)
-		l1++;
-	while (src[l2] != 0)
-		l2++;
-	i = 0;
-	while (i < l2 && i < nb)
+	idx = 0;
+	while (s1[idx] != '\0')
+		idx++;
+	idx2 = 0;
+	while (idx2 < n && s2[idx2] != '\0')
 	{
-		dest[l1 + i] = src[i];
-		i++;
+		s1[idx] = s2[idx2];
+		idx++;
+		idx2++;
 	}
-	dest[l1 + i] = 0;
-	return (dest);
+	s1[idx] = '\0';
+	return (s1);
 }

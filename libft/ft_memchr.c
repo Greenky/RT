@@ -3,27 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/25 19:20:37 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/25 19:20:47 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 13:53:27 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 13:53:28 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memchr(const void *src, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned char	*src_c;
+	unsigned long		idx;
+	unsigned char		*s_cpy;
+	unsigned char		c_cpy;
+	unsigned char		*pnt;
 
-	src_c = (unsigned char *)src;
-	while (n > 0)
+	s_cpy = (unsigned char*)s;
+	c_cpy = (unsigned char)c;
+	idx = 0;
+	pnt = NULL;
+	while (idx < n)
 	{
-		if (*src_c == (unsigned char)c)
-			return (src_c);
-		src_c++;
-		n--;
+		if (s_cpy[idx] == c_cpy)
+		{
+			pnt = &s_cpy[idx];
+			break ;
+		}
+		idx++;
 	}
-	return (NULL);
+	return (pnt);
 }

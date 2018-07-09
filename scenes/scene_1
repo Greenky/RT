@@ -1,0 +1,31 @@
+scene_1
+Camera:
+origin = {0, 0, 0}
+basis = {1, 0, 0} {0, -1, 0} {0, 0, -1}
+
+Figures:
+***
+type = SPHERE
+color = {255, 0, 255}
+origin = {-0.5, 0, 2}
+radius_or_cone_coef = 0.2
+basis = {1, 0, 0} {0, 0, 1} {0, -1, 0}
+bling_phong = 1
+***
+type = SPHERE
+color = {255, 0, 0}
+origin = {1.5, 0, 3}
+radius_or_cone_coef = 0.3
+basis = {1, 0, 0} {0, 0, 1} {0, -1, 0}
+bling_phong = 100
+
+Light:
+***
+type = AMBIENT
+color = {255, 255, 255}
+brightness = 0.2
+***
+type = SPOT
+origin = {1, 0, -2}
+color = {255, 255, 255}
+brightness = 0.6

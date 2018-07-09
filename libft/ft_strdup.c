@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/27 20:31:09 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/27 20:40:37 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 14:52:46 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 14:52:50 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(const char *s1)
 {
-	int		i;
-	char	*copy;
+	int		idx;
+	char	*dst;
 
-	i = 0;
-	while (src[i] != '\0')
-		i++;
-	if (!(copy = (char *)malloc(sizeof(char) * (i + 1))))
+	idx = 0;
+	while (s1[idx] != '\0')
+		idx++;
+	if (!(dst = (char*)malloc(sizeof(char) * (idx + 1))))
 		return (NULL);
-	i = 0;
-	while (src[i] != '\0')
+	idx = 0;
+	while (s1[idx] != '\0')
 	{
-		copy[i] = src[i];
-		i++;
+		dst[idx] = s1[idx];
+		idx++;
 	}
-	copy[i] = '\0';
-	return (copy);
+	dst[idx] = '\0';
+	return (dst);
 }

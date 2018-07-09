@@ -3,59 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/03 18:19:39 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/03 18:20:08 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/11 12:30:46 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/11 12:30:47 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
+#include "libft.h"
 
-static int		lencer(const char *s)
+static int		whitespaces(char const *s, int idx)
 {
-	int i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (s[i])
+	if (idx < 1)
 	{
-		i++;
-		len++;
+		while (s[idx] == ' ' || s[idx] == '\n' || s[idx] == '\t')
+			idx++;
+		if (s[idx] == '\0')
+			return (-1);
 	}
-	while (s[--i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		len--;
-	return (len);
+	else
+		while (s[idx] == ' ' || s[idx] == '\n' || s[idx] == '\t')
+			idx--;
+	return (idx);
 }
 
 char			*ft_strtrim(char const *s)
 {
-	char	*str;
-	int		i;
-	int		len;
-	int		j;
+	unsigned long	size;
+	unsigned long	idx;
+	char			*str;
 
-	i = 0;
-	j = 0;
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	if ((len = lencer(s)) <= 0)
+	s += whitespaces(s, 0);
+	size = whitespaces(s, (ft_strlen(s) - 1)) + 1;
+	if (!(str = malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	idx = 0;
+	while (idx < size)
 	{
-		if (!(str = (char *)malloc(sizeof(char) * (1))))
-			return (NULL);
-		*str = '\0';
-		return (str);
+		str[idx] = s[idx];
+		idx++;
 	}
-	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (j < len)
-		str[j++] = s[i++];
-	str[j] = 0;
+	str[idx] = '\0';
 	return (str);
 }

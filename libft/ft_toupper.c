@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 19:21:03 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/26 19:24:59 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/06 20:02:35 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/06 20:02:36 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-int	ft_toupper(int c)
+int		ft_toupper(int c)
 {
-	if (c > 96 && c < 123)
+	if (c >= 97 && c <= 122)
 		return (c - 32);
 	else
 		return (c);

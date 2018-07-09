@@ -3,29 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 12:02:06 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/26 12:03:48 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 21:31:10 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 21:31:11 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t			i;
-	unsigned char	*s1_c;
-	unsigned char	*s2_c;
+	unsigned long	idx;
+	unsigned char	*s1_cpy;
+	unsigned char	*s2_cpy;
 
-	s1_c = (unsigned char *)s1;
-	s2_c = (unsigned char *)s2;
-	i = 0;
-	while (i < n && (s1_c[i] != '\0' || s2_c[i] != '\0'))
-	{
-		if (s1_c[i] != s2_c[i])
-			return (s1_c[i] - s2_c[i]);
-		i++;
-	}
-	return (0);
+	s1_cpy = (unsigned char*)s1;
+	s2_cpy = (unsigned char*)s2;
+	idx = 0;
+	while (idx < n && s1_cpy[idx] != '\0' && s1_cpy[idx] == s2_cpy[idx])
+		idx++;
+	if (idx == n)
+		return (0);
+	else
+		return (s1_cpy[idx] - s2_cpy[idx]);
 }

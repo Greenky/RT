@@ -3,50 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 20:02:29 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/26 20:04:58 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 17:47:31 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 17:47:33 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-static int	lencer(char *s)
+size_t		ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	int i;
+	unsigned long	idx;
+	unsigned long	size_dst;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-size_t		ft_strlcat(char *dest, const char *src, size_t size)
-{
-	char		*dnew;
-	char		*snew;
-	size_t		nnew;
-	size_t		dlen;
-
-	dnew = dest;
-	snew = (char *)src;
-	nnew = size;
-	while (nnew-- != 0 && *dnew != '\0')
-		dnew++;
-	dlen = dnew - dest;
-	nnew = size - dlen;
-	if (nnew == 0)
-		return (dlen + lencer(snew));
-	while (*snew != '\0')
+	size_dst = ft_strlen(dst);
+	idx = 0;
+	if (dstsize > size_dst)
 	{
-		if (nnew != 1)
+		while (src[idx] != '\0' && idx < (dstsize - size_dst - 1))
 		{
-			*dnew++ = *snew;
-			nnew--;
+			dst[size_dst + idx] = src[idx];
+			idx++;
 		}
-		snew++;
+		dst[size_dst + idx] = '\0';
+		return (ft_strlen(src) + size_dst);
 	}
-	*dnew = '\0';
-	return (dlen + (snew - (char *)src));
+	else
+		return (ft_strlen(src) + dstsize);
 }

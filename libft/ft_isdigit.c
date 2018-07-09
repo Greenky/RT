@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 11:19:45 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/26 11:19:48 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/06 19:54:18 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/06 19:54:20 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int c)
+int		ft_isdigit(int c)
 {
 	if (c > 47 && c < 58)
 		return (1);

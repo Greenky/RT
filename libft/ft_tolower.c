@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 19:21:03 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/26 19:24:59 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/06 20:05:04 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/06 20:05:05 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-int	ft_tolower(int c)
+int		ft_tolower(int c)
 {
-	if (c > 64 && c < 91)
+	if (c >= 65 && c <= 90)
 		return (c + 32);
 	else
 		return (c);

@@ -3,45 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 21:29:54 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/25 21:34:45 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/16 19:44:11 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/16 19:44:12 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-static void	ft_putik(char c)
+void	ft_putnbr(int n)
 {
-	write(1, &c, 1);
-}
+	int		step;
+	long	ln;
 
-void		ft_putnbr(int nb)
-{
-	int s[10];
-	int	i;
-	int num;
-
-	i = 0;
-	num = nb;
-	if (num == -2147483648)
-		nb++;
-	if (nb < 0)
+	ln = n;
+	step = 1;
+	if (ln < 0)
 	{
-		ft_putik('-');
-		nb = nb * (-1);
+		ln *= -1;
+		ft_putchar('-');
 	}
-	if (nb == 0)
-		ft_putik('0');
-	while (nb != 0)
+	while ((ln / step) > 9)
+		step *= 10;
+	while (step)
 	{
-		s[i] = nb % 10;
-		nb = nb / 10;
-		i++;
+		ft_putchar('0' + (ln / step));
+		ln %= step;
+		step /= 10;
 	}
-	if (num == -2147483648)
-		s[0] = 8;
-	while (i-- > 0)
-		ft_putik(s[i] + '0');
 }

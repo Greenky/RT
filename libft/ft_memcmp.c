@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/25 20:23:58 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/25 20:26:15 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 14:20:33 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 14:20:50 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t			i;
-	unsigned char	*s1_c;
-	unsigned char	*s2_c;
+	unsigned long		idx;
+	unsigned char		*s1_cpy;
+	unsigned char		*s2_cpy;
 
-	s1_c = (unsigned char *)s1;
-	s2_c = (unsigned char *)s2;
-	i = 0;
-	while (i < n)
+	s1_cpy = (unsigned char*)s1;
+	s2_cpy = (unsigned char*)s2;
+	idx = 0;
+	while (idx < n)
 	{
-		if (s1_c[i] != s2_c[i])
-			return (s1_c[i] - s2_c[i]);
-		i++;
+		if (s1_cpy[idx] != s2_cpy[idx])
+			return (s1_cpy[idx] - s2_cpy[idx]);
+		idx++;
 	}
 	return (0);
 }

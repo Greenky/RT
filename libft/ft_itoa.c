@@ -3,91 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/03 19:39:03 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/03 19:39:06 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/11 16:38:57 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/11 16:38:57 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
+#include "libft.h"
 
-static int	lencer(int num)
+static void		put_str(char **str, long ln, int is_negative, int step)
 {
-	int len;
+	int		idx;
 
-	len = 0;
-	while (num > 0)
+	idx = 0;
+	if (is_negative == 2)
 	{
-		len++;
-		num = num / 10;
+		(*str)[idx] = '-';
+		idx++;
 	}
-	return (len);
+	while (step)
+	{
+		(*str)[idx] = '0' + (ln / step);
+		ln %= step;
+		step /= 10;
+		idx++;
+	}
+	(*str)[idx] = '\0';
 }
 
-static char	*zero(void)
+char			*ft_itoa(int n)
 {
-	char *arr;
+	char	*str;
+	int		is_negative;
+	int		step;
+	int		idx;
+	long	ln;
 
-	if (!(arr = (char *)malloc(sizeof(char) * 2)))
+	step = 1;
+	is_negative = 1;
+	idx = 0;
+	ln = (long)n;
+	if (ln < 0)
+	{
+		is_negative = 2;
+		ln *= -1;
+	}
+	while ((ln / step) > 9)
+	{
+		step *= 10;
+		idx++;
+	}
+	if (!(str = (char*)malloc(sizeof(char) * (idx + is_negative + 1))))
 		return (NULL);
-	arr[0] = '0';
-	arr[1] = 0;
-	return (arr);
-}
-
-static	int	chaeacker(int *n)
-{
-	if (*n == -2147483648)
-	{
-		*n = *n + 1;
-		*n = *n * (-1);
-		return (1);
-	}
-	if (*n < 0)
-	{
-		*n = *n * (-1);
-		return (0);
-	}
-	return (0);
-}
-
-static char	*str_make(int n, int flag)
-{
-	char	*arr;
-	int		len;
-	int		cheack;
-	int		buf;
-
-	cheack = chaeacker(&n);
-	len = lencer(n);
-	buf = len;
-	if (!(arr = (char *)malloc(sizeof(char) * (len + flag + 1))))
-		return (NULL);
-	arr[len + flag] = '\0';
-	while (--len >= 0)
-	{
-		arr[len + flag] = n % 10 + '0';
-		n = n / 10;
-	}
-	if (flag)
-		arr[0] = '-';
-	if (cheack)
-		arr[buf] = 8 + '0';
-	return (arr);
-}
-
-char		*ft_itoa(int n)
-{
-	char		*arr;
-	int			flag;
-
-	flag = 0;
-	if (n == 0)
-		return (zero());
-	if (n < 0)
-		flag = 1;
-	arr = str_make(n, flag);
-	return (arr);
+	put_str(&str, ln, is_negative, step);
+	return (str);
 }

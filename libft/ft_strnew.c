@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 17:52:03 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/01 17:54:15 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/10 19:55:31 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/10 19:55:33 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,17 @@
 
 char	*ft_strnew(size_t size)
 {
-	size_t	i;
-	char	*fresh;
+	char			*str;
+	unsigned long	idx;
 
-	i = 0;
-	if (!(fresh = (char *)malloc(size + 1)))
-	{
-		write(1, "Can't malloc in ft_strnew\n", 26);
+	idx = 0;
+	if (!(str = malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	}
-	i = 0;
-	while (i < size + 1)
+	while (idx < size)
 	{
-		fresh[i] = 0;
-		i++;
+		str[idx] = 0;
+		idx++;
 	}
-	return (fresh);
+	str[idx] = '\0';
+	return (str);
 }

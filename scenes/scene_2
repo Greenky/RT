@@ -1,0 +1,71 @@
+scene_2
+Camera:
+origin = {0, 0, -10}
+basis = {0, 0, 0} {0, -1, 0} {0, 0, -1}
+
+Figures:
+***
+type = SPHERE
+color = {255, 5, 255}
+origin = {-0.5, 2, 2}
+radius_or_cone_coef = 2
+basis = {1, 0, 0} {0, 0, 1} {0, -1, 0}
+bling_phong = 100000
+***
+type = SPHERE
+color = {255, 5, 5}
+origin = {0.5, 0, 2}
+radius_or_cone_coef = 1.7
+basis = {1, 0, 0} {0, 0, 1} {0, -1, 0}
+bling_phong = 500
+***
+type = PLANE
+color = {225, 225, 225}
+origin = {-5, 0, 3}
+radius_or_cone_coef = 0.3
+basis = {0, -1, 0} {0, 0, 1} {1, 0, 0}
+bling_phong = 1
+***
+type = PLANE
+color = {225, 225, 225}
+origin = {0, -5, 3}
+radius_or_cone_coef = 0.3
+basis = {1, 0, 0} {0, 0, 1} {0, 1, 0}
+bling_phong = 1
+***
+type = PLANE
+color = {225, 225, 225}
+origin = {5, 0, 3}
+radius_or_cone_coef = 0.3
+basis = {0, -1, 0} {0, 0, 1} {-1, 0, 0}
+bling_phong = 1
+***
+type = PLANE
+color = {225, 225, 225}
+origin = {0, 5, 3}
+radius_or_cone_coef = 0.3
+basis = {1, 0, 0} {0, 0, 1} {0, -1, 0}
+bling_phong = 1
+***
+type = PLANE
+color = {110, 66, 255}
+origin = {0, 0, 8}
+radius_or_cone_coef = 0.3
+basis = {1, 0, 0} {0, 1, 0} {0, 0, -1}
+bling_phong = 1
+
+Light:
+***
+type = AMBIENT
+color = {255, 255, 255}
+brightness = 0.2
+***
+type = SPOT
+origin = {-3, 0, -8}
+color = {255, 255, 255}
+brightness = 0.6
+***
+type = SPOT
+origin = {3, 0, -4}
+color = {100, 100, 222}
+brightness = -0.3

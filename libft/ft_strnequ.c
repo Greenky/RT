@@ -3,36 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 21:10:00 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/01 21:14:14 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/10 21:31:56 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/10 21:31:57 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-int	ft_strnequ(char const *s1, char const *s2, size_t n)
+int		ft_strnequ(char const *s1, char const *s2, size_t n)
 {
-	int i;
+	unsigned long	idx;
 
-	i = 0;
-	n++;
-	if (!(s1) || !(s2))
+	if (s1 == NULL || s2 == NULL)
 		return (0);
-	if (s1[0] == 0 && s2[0] == 0)
-		return (1);
-	while ((s1[i] || s2[i]) && n != 1)
-	{
-		if (s1[i] != s2[i])
-			return (0);
-		else if (s1[i + 1] == 0 && s2[i + 1] == 0)
-			return (1);
-		i++;
-		n--;
-	}
-	if (n == 1)
-		return (1);
+	idx = 0;
+	while (idx < n && s1[idx] != '\0' && s1[idx] == s2[idx])
+		idx++;
+	if (idx == n)
+		return (s1[idx - 1] == s2[idx - 1]);
 	else
-		return (0);
+		return (s1[idx] == s2[idx]);
 }

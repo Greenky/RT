@@ -3,31 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 20:01:45 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/01 20:04:04 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/10 21:23:59 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/10 21:24:00 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-int	ft_strequ(char const *s1, char const *s2)
+int		ft_strequ(char const *s1, char const *s2)
 {
-	int i;
+	int		idx;
 
-	i = 0;
-	if (!(s1) || !(s2))
+	if (s1 == NULL || s2 == NULL)
 		return (0);
-	if (s1[0] == 0 && s2[0] == 0)
-		return (1);
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (0);
-		else if (s1[i + 1] == 0 && s2[i + 1] == 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	idx = 0;
+	while (s1[idx] != '\0' && s1[idx] == s2[idx])
+		idx++;
+	return (s1[idx] == s2[idx]);
 }

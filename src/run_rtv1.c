@@ -51,6 +51,7 @@ t_intersect	find_closest_inter(t_scene_data *scene, t_ray primary_ray)
 	while (tmp_node != NULL)
 	{
 		tmp_inter.fig = tmp_node->content;
+//		if (tmp_inter.fig->type == )
 		tmp_inter.fig->find_intersection(primary_ray, &tmp_inter);
 		if (tmp_inter.distance < closest_inter.distance)
 			closest_inter = tmp_inter;

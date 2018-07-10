@@ -12,6 +12,20 @@
 
 #include "../inc/rtv1.h"
 
+t_vector	choose_normal(t_figure *figure, t_vector inter)
+{
+	if (figure->type == SPHERE)
+		return (find_normal_to_sphere(figure, inter));
+	else if (figure->type == CYLINDER)
+		return (find_normal_to_cylinder(figure, inter));
+	else if (figure->type == CONE)
+		return (find_normal_to_cone(figure, inter));
+	else if (figure->type == PLANE)
+		return (find_normal_to_plane(figure, inter));
+	else
+		return (t_vector){0,0,0}; // idk, let it be
+}
+
 t_vector	find_normal_to_sphere(t_figure *sphere, t_vector inter)
 {
 	t_vector		normal_to_sphere;

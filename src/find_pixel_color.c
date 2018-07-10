@@ -51,8 +51,9 @@ t_channel	find_lamp_coef(t_scene_data *scene, t_light *current_lamp,
 	else
 	{
 		light_ray = find_light_ray(current_lamp->origin, closest_inter.point);
-		normal = closest_inter.fig->
-			find_normal_to_figure(closest_inter.fig, closest_inter.point);
+		normal = choose_normal(closest_inter.fig, closest_inter.point);
+//		normal = closest_inter.fig->
+//			find_normal_to_figure(closest_inter.fig, closest_inter.point);
 		if (!is_shadows_here(light_ray, normal, r) ||
 			!is_figure_first_inter_by_light(scene, light_ray, closest_inter))
 			return (lamp_coef);

@@ -3,40 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/03 14:33:26 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/03 14:48:33 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/11 11:57:19 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/11 11:57:20 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
 #include "libft.h"
 
-char			*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*new_str;
-	int		i;
-	int		j;
+	char			*str;
+	unsigned long	idx;
 
-	if (!s1 || !s2)
+	idx = 0;
+	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
 		return (NULL);
-	if (!(new_str = (char *)ft_memalloc(sizeof(char) *
-	(ft_strlen(s1) + ft_strlen(s2) + 1))))
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		new_str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		new_str[i + j] = s2[j];
-		j++;
-	}
-	new_str[i + j] = 0;
-	return (new_str);
+	if (s1 != NULL)
+		while (*s1 != '\0')
+		{
+			str[idx] = *s1;
+			s1++;
+			idx++;
+		}
+	if (s2 != NULL)
+		while (s2 != NULL && *s2 != '\0')
+		{
+			str[idx] = *s2;
+			s2++;
+			idx++;
+		}
+	str[idx] = '\0';
+	return (str);
 }

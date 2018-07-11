@@ -3,49 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 20:34:12 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/25 20:34:19 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/15 20:50:53 by dadavyde          #+#    #+#             */
+/*   Updated: 2018/06/17 14:15:07 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	chekni_pleas(char *str, int n, int sign)
-{
-	unsigned long long number;
+#include "libft.h"
 
-	number = 0;
-	while (str[n] > 47 && str[n] < 58)
+static int		ft_nbr(const char *str, int is_negative)
+{
+	int				idx;
+	long long int	ans;
+	long long int	prev_ans;
+
+	idx = 0;
+	ans = 0;
+	prev_ans = 0;
+	while (ft_isdigit(str[idx]) && prev_ans <= ans)
 	{
-		number = number * 10 + (str[n] - 48);
-		if (number > 9223372036854775807 && sign == 1)
-			return (-1);
-		if (number > 9223372036854775807 && sign == -1)
-			return (0);
-		n++;
+		prev_ans = ans;
+		ans = ans * 10 + (str[idx++] - '0');
 	}
-	return (sign * (int)number);
+	if (prev_ans > ans)
+		return (is_negative > 0 ? (-1) : 0);
+	else
+		return ((int)(ans * is_negative));
 }
 
-int			ft_atoi(const char *str)
+int				ft_atoi(const char *str)
 {
-	int	n;
-	int	num;
+	int		is_negative;
+	char	*str_cpy;
 
-	n = 0;
-	num = 0;
-	while (str[n] != '\0')
+	if (str == NULL || *str == '\0')
+		return (0);
+	is_negative = 1;
+	str_cpy = (char*)str;
+	while ((*str_cpy >= '\t' && *str_cpy <= '\r') || *str_cpy == ' ')
+		str_cpy++;
+	if (*str_cpy == '+' || *str_cpy == '-')
 	{
-		if ((str[n] >= 9 && str[n] <= 13) || str[n] == 32)
-			n++;
-		else
-			break ;
+		if (*str_cpy == '-')
+			is_negative = -1;
+		str_cpy++;
 	}
-	if (str[n] == '-')
-		num = chekni_pleas((char *)str, n + 1, -1);
-	else if (str[n] == '+')
-		num = chekni_pleas((char *)str, n + 1, 1);
+	if (ft_isdigit(*str_cpy))
+		return (ft_nbr(str_cpy, is_negative));
 	else
-		num = chekni_pleas((char *)str, n, 1);
-	return (num);
+		return (0);
 }

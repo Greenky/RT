@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/25 17:55:14 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/25 17:59:41 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/03 20:52:54 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/03 20:55:20 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_bzero(void *arr, size_t num)
+void	ft_bzero(void *s, size_t n)
 {
-	unsigned char	*temp;
-	size_t			i;
+	unsigned long		idx;
+	unsigned char		*a;
 
-	if (num == 0)
-		return (arr);
-	temp = (unsigned char *)arr;
-	i = 0;
-	while (num--)
+	idx = 0;
+	a = (unsigned char*)s;
+	while (idx < n)
 	{
-		temp[i] = 0;
-		if (num != 0)
-			i++;
+		a[idx] = '\0';
+		idx++;
 	}
-	return (arr);
 }

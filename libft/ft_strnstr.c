@@ -3,39 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/25 19:37:39 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/25 19:37:49 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 20:58:45 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 20:58:46 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *str, const char *to_find, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	size_t l1;
-	size_t l2;
+	unsigned long	idx;
+	unsigned long	idx2;
 
-	l1 = 0;
-	if (to_find[0] == 0)
-		return ((char *)str);
-	while (str[l1] != '\0' && l1 < len - ft_strlen((char *)to_find) + 1)
+	idx = 0;
+	if (needle[idx] == '\0')
+		return ((char*)haystack);
+	while (haystack[idx] != '\0')
 	{
-		if (ft_strlen((char *)to_find) > len)
-			return (NULL);
-		l2 = 0;
-		while (str[l1] == to_find[l2])
-		{
-			if (to_find[l2 + 1] == '\0')
-			{
-				return (&(*(char *)(str + l1 - l2)));
-			}
-			l1++;
-			l2++;
-		}
-		l1 = l1 - l2;
-		l1++;
+		idx2 = 0;
+		while (idx < len && haystack[idx] != *needle && haystack[idx] != '\0')
+			idx++;
+		if (haystack[idx] == '\0')
+			break ;
+		while ((idx + idx2) < len && needle[idx2] != '\0' &&
+				needle[idx2] == haystack[idx + idx2])
+			idx2++;
+		if (needle[idx2] == '\0')
+			return ((char*)&(haystack[idx]));
+		idx++;
 	}
-	return (0);
+	return (NULL);
 }

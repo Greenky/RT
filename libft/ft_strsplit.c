@@ -3,86 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/03 15:30:52 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/03 15:31:18 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/11 14:49:32 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/11 14:49:33 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_strl(char const *s, int i, char c)
+static int		num_of_words(char const *str, char c)
 {
-	while (s[i] != c && s[i])
-		i++;
-	return (i);
-}
+	int		inx;
+	int		count_of_words;
 
-static int		words(char const *s, char c)
-{
-	int nb;
-
-	nb = 0;
-	while (*s == c)
-		s++;
-	while (*s)
+	inx = 0;
+	count_of_words = 0;
+	while (str[inx] != '\0')
 	{
-		if (*s == c || *(s + 1) == 0)
-		{
-			nb++;
-			while (*s && (*s == c || *(s + 1) == 0))
-				s++;
-			s--;
-		}
-		s++;
+		while ((str[inx]) != c && str[inx] != '\0')
+			inx++;
+		count_of_words++;
+		while ((str[inx]) == c && str[inx] != '\0')
+			inx++;
 	}
-	return (nb);
+	return (count_of_words);
 }
 
-static char		*str_create(char const *s, int i, char c)
+static int		size_of_word(char const *str, char c)
 {
-	char	*tmp;
-	int		j;
+	int		size_of_word;
 
-	j = 0;
-	if (!(tmp = (char *)malloc(sizeof(char) * (ft_strl(s, i, c)))))
-		return (NULL);
-	while (s[i] != c && s[i])
-		tmp[j++] = s[i++];
-	tmp[j] = 0;
-	return (tmp);
+	size_of_word = 0;
+	while (str[size_of_word] != c && str[size_of_word] != '\0')
+		size_of_word++;
+	return (size_of_word);
 }
 
-char			**error_msg(void)
+static int		del(char ***array, int i)
 {
-	write(1, "ft_strsplit passed pointer is NULL\n", 35);
-	return (NULL);
+	int		idx;
+
+	idx = 0;
+	if ((*array)[i] == NULL)
+	{
+		while (idx < i)
+		{
+			free((*array)[idx]);
+			idx++;
+		}
+		free(*array);
+		return (1);
+	}
+	else
+		return (0);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
-	char	**arr;
 	int		i;
-	int		nb;
-	int		len;
+	char	**array;
+	int		size;
 
-	i = 0;
-	nb = 0;
-	if (!s)
-		return (error_msg());
-	len = words(s, c);
-	if (!(arr = (char **)malloc(sizeof(char *) * (len + 1))))
+	if (s == NULL)
 		return (NULL);
-	while (s[i])
+	i = 0;
+	while (*s == c)
+		s++;
+	if (!(array = malloc(sizeof(char*) * (num_of_words(s, c) + 1))))
+		return (NULL);
+	while (*s != '\0')
 	{
-		while (s[i] == c)
-			i++;
-		if (!(arr[nb++] = str_create(s, i, c)))
+		size = size_of_word(s, c);
+		if (!(array[i] = malloc(sizeof(char) * (size + 1))) && del(&array, i))
 			return (NULL);
-		while (s[i] && s[i] != c)
-			i++;
+		array[i] = ft_strncpy(array[i], s, size);
+		array[i][size] = '\0';
+		s += size;
+		while (*s == c)
+			s++;
+		i++;
 	}
-	arr[len] = NULL;
-	return (arr);
+	array[i] = NULL;
+	return (array);
 }

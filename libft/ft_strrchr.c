@@ -3,31 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 11:05:59 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/10/26 11:06:23 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 19:16:22 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 19:16:23 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	i;
-	char	*buf;
-	char	*s1;
+	int		idx;
+	char	*pnt;
+	char	c_cpy;
+	char	*s_cpy;
 
-	s1 = (char *)s;
-	buf = NULL;
-	i = (char)c;
-	while (*s1)
+	c_cpy = (char)c;
+	s_cpy = (char*)s;
+	idx = 0;
+	pnt = NULL;
+	while (s_cpy[idx] != '\0')
+		idx++;
+	while (idx >= 0)
 	{
-		if (*s1 == i)
-			buf = s1;
-		else if (*(s1 + 1) == i)
-			buf = s1 + 1;
-		s1++;
+		if (s_cpy[idx] == c_cpy)
+		{
+			pnt = &s_cpy[idx];
+			break ;
+		}
+		idx--;
 	}
-	return (buf);
+	return (pnt);
 }

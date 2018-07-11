@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/25 22:13:37 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/09/25 22:47:11 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/04 15:17:39 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/04 15:17:42 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	int l1;
+	int		idx;
 
-	l1 = 0;
-	while (src[l1] != '\0')
+	idx = 0;
+	while (src[idx] != '\0')
 	{
-		dest[l1] = src[l1];
-		l1++;
+		dst[idx] = src[idx];
+		idx++;
 	}
-	dest[l1] = 0;
-	return (dest);
+	dst[idx] = '\0';
+	return (dst);
 }

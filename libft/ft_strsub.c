@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 21:33:28 by vmazurok          #+#    #+#             */
-/*   Updated: 2017/11/01 21:44:56 by vmazurok         ###   ########.fr       */
+/*   Created: 2017/11/10 21:37:09 by dadavyde          #+#    #+#             */
+/*   Updated: 2017/11/10 21:37:11 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft.h"
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	size_t	n;
-	size_t	i;
+	char			*sub_s;
+	unsigned long	idx;
 
-	if (!s)
-	{
-		write(1, "ft_strsub parametr is NULL\n", 27);
+	if (s == NULL || len <= 0)
 		return (NULL);
-	}
-	i = 0;
-	n = (size_t)start;
-	if (!(str = (char *)malloc(len + 1)))
+	idx = 0;
+	if (!(sub_s = malloc(len + 1)))
 		return (NULL);
-	while (i < len)
+	s += start;
+	while (idx < len)
 	{
-		str[i] = s[n];
-		n++;
-		i++;
+		sub_s[idx] = s[idx];
+		idx++;
 	}
-	str[i] = 0;
-	return (str);
+	sub_s[idx] = '\0';
+	return (sub_s);
 }

@@ -1,0 +1,55 @@
+#### CAMERA ####
+    camera:
+        dir: (0, 0, -1)
+        cen: (0, 0, -10)
+################
+#### LIGHTS ####
+    light:
+        point
+        cen: (-3, 0, -8)
+        col: 0xFFFFFF
+        int: 0.6
+    light:
+        point
+        cen: (3, 0, -4)
+        col: 0xAAAAFF
+        int: 0.3
+################
+#### SHAPES ####
+    sphere:
+        cen: (-0.5, 2, 2)
+        rad: 2
+        col: 0x00ffff
+        b_p: 100000
+    sphere:
+        col: 0xFF04ff
+        cen: (0.5, 0, 2)
+        rad: 1.7
+        b_p: 500
+    plane:
+        col: 0xFFFFFF
+        cen: (-5, 0, 3)
+        nor: (1, 0, 0)
+        b_p: 1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, -5, 3)
+        nor: (0, 1, 0)
+        b_p: 1
+    plane:
+        col: 0xFFFFFF
+        cen: (5, 0, 3)
+        nor: (-1, 0, 0)
+        b_p: 1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, 5, 3)
+        nor: (0, -1, 0)
+        b_p: 1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, 0, 8)
+        nor: (0, 0, -1)
+        b_p: 1
+#################
+$ b_p - biling - phong

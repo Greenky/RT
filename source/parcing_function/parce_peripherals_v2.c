@@ -34,8 +34,8 @@ t_channel				parce_color(char *line, int line_number)
 			col = col * 16 + j;
 		}
 		channnels.blue = col & 255;
-		channnels.green = col & (255 << 8);
-		channnels.red = col & (255 << 16);
+		channnels.green = col >> 8 & 255;
+		channnels.red = col  >> 16 & 255;
 		return (channnels);
 	}
 	error_caster(line_number, "wrong color representation ", line);

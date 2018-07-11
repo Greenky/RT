@@ -108,6 +108,7 @@ t_coord_sys	create_coord_system(t_coord_sys basis)
 		basis.b_x = vect_cross_product(basis.b_z, basis.b_y);
 		basis.b_x = normalize_vector(basis.b_x);
 		basis.b_y = vect_cross_product(basis.b_x, basis.b_z);
+		basis.b_x = vect_mult(basis.b_x, -1); // TODO костиль для правильного керування - пофіксити
 	}
 	return (basis);
 }

@@ -17,14 +17,12 @@ char	*ft_find_after_c(const char *s, int c)
 	int		idx;
 	char	c_cpy;
 	char	*s_cpy;
-	int		count;
 
 	if (s == NULL || *s == '\0' || c == 0)
 		return (NULL);
 	c_cpy = (char)c;
 	s_cpy = (char*)s;
 	idx = 0;
-	count = 0;
 	while (s_cpy[idx] != c_cpy && s_cpy[idx] != '\0')
 		idx++;
 	while (s_cpy[idx] == c_cpy)

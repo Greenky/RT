@@ -13,12 +13,11 @@
 # ifndef RT_FUNCTIONS_H
 # define RT_FUNCTIONS_H
 
-# include <SDL.h>
+# include <SDL2/SDL.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
 # include <unistd.h>
-# include <pthread.h>
 # include <stdio.h>
 # include <errno.h>
 # include "libft.h"
@@ -26,7 +25,7 @@
 
 # define FALSE 0
 # define TRUE 1
-# define SCR_SIZE 1000
+# define SCR_SIZE 800
 # define OBJ_NUM 6
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
@@ -43,7 +42,6 @@
 # define A 0
 # define B 1
 # define C 2
-# define THREAD_MAX 4
 # define ANGLE (M_PI * (5) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
 
@@ -83,7 +81,8 @@ void			add_light(t_rt *rt_data, t_light *light);
 
 int				begin_with(char *line, char *begin);
 char			*trim_from(char *line, int i);
-double			drob_finder(char *line, int i, int line_number);
+
+float			drob_finder(char *line, int i, int line_number);
 float			str_to_float(char *line, int i, int line_number);
 
 t_channel		parce_color(char *line, int line_number);

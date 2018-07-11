@@ -42,7 +42,7 @@ int				plane_parce(int fd, t_rt *rt_data)
 void		plane_fill(char **line, t_objects *plane, int line_number, int *flag)
 {
 	char	*buffer_line;
-	float	mirror;
+//	float	mirror;
 
 	buffer_line = ft_strtrim(*line);
 	ft_strdel(line);
@@ -66,16 +66,23 @@ void		plane_fill(char **line, t_objects *plane, int line_number, int *flag)
 		plane->basis.b_z = plane->normal;
 		*flag = *flag | 4;
 	}
-	else if (begin_with(*line, "mir:"))
+//	else if (begin_with(*line, "mir:"))
+//	{
+//		*line = trim_from(*line, 4);
+//		mirror = str_to_float(*line, 0, line_number);
+//		if (mirror > 1 || mirror < 0)
+//			error_caster(line_number, "no such mirror coef. as ", *line);
+//		if (mirror == 0)
+//			plane->mirror_coef = 0;
+//		else
+//			plane->mirror_coef = 1 / mirror;
+//		*flag = *flag | (1 << 3);
+//	}
+	else if (begin_with(*line, "b_p:"))
 	{
 		*line = trim_from(*line, 4);
-		mirror = str_to_float(*line, 0, line_number);
-		if (mirror > 1 || mirror < 0)
-			error_caster(line_number, "no such mirror coef. as ", *line);
-		if (mirror == 0)
-			plane->mirror_coef = 0;
-		else
-			plane->mirror_coef = 1 / mirror;
+		if ((plane->bling_phong = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such biling-phong coef. as ", *line);
 		*flag = *flag | (1 << 3);
 	}
 	else

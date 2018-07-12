@@ -67,7 +67,7 @@ $(NAME): $(OBJDIR) $(OBJ) $(LIBFT)
 $(OBJDIR)%.o: source/find_intersection/%.c $(HEADERS) $(SOURCES) $(LIBFT)
 	$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 
-$(OBJDIR)%.o: source/math_functions/%.c $(HEADERS) $(SOURCES) $(LIBFT)
+$(OBJDIR)%.o: source/math_functions/%.c $(HEADERS) $(LIBFT)
 	$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 
 $(OBJDIR)%.o: source/%.c $(HEADERS) $(SOURCES) $(LIBFT)

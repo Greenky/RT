@@ -26,10 +26,10 @@ int				light_parce(int fd, t_rt *rt_data)
 		(rt_data->line_number)++;
 		feelings(&line, light, rt_data->line_number, &flag);
 		ft_strdel(&line);
-		if (flag == DIRECT_LIGHT_IS_PARSED || flag == POINT_LIGHT_IS_PARSED)
+		if (flag == DIRECT_LIGHT_IS_PARSED || flag == POINT_LIGHT_IS_PARSED || flag == AMBIENT_LIGHT_IS_PARSED)
 			break;
 	}
-	if (k < 0 || (flag != DIRECT_LIGHT_IS_PARSED && flag != POINT_LIGHT_IS_PARSED))
+	if (k < 0 || (flag != DIRECT_LIGHT_IS_PARSED && flag != POINT_LIGHT_IS_PARSED & flag != AMBIENT_LIGHT_IS_PARSED))
 	{
 		free(light);
 		perror("RT");
@@ -46,7 +46,12 @@ void		feelings(char **line, t_light *light, int line_number, int *flag)
 	new_line = ft_strtrim(*line);
 	ft_strdel(line);
 	*line = new_line;
-	if (ft_strequ(*line, "point"))
+	if (ft_strequ(*line, "ambient"))
+	{
+		light->type = AMBIENT;
+		*flag = *flag | (1 << 5);
+	}
+	else if (ft_strequ(*line, "point"))
 	{
 		light->type = POINT;
 		*flag = (*flag & ~(1 << 3)) | (1 << 4);

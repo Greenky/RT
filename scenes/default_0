@@ -1,6 +1,6 @@
 camera:
-	dir: (0, 0, 1)
-	cen: (0, 0, -600)
+    dir: (0, 0, -1)
+    cen: (0, 0, -10)
 
 light:
 	direct

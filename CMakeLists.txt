@@ -40,4 +40,4 @@ set_target_properties(rt PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
 # linkage
-target_link_libraries(rt -lft ${SDL})
+target_link_libraries(rt -L libft -lft ${SDL})

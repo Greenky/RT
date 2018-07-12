@@ -66,6 +66,7 @@ $(OBJDIR): $(HEADERS) $(LIBFT)
 
 clean:
 	rm -f $(OBJ)
+	make clean -C libft
 	rm -rf $(OBJDIR)
 
 fclean: clean

@@ -52,6 +52,7 @@ void		draw_pixel(t_scene_data *scene, t_dot pixel);
 void		run_rtv1(t_scene_data *scene);
 t_ray		compute_ray(t_cam camera, t_dot pixel);
 t_intersect	find_closest_inter(t_scene_data *scene, t_ray primary_ray);
+void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter); // added
 
 void		set_pixel(SDL_Surface *surface, int x, int y, Uint32 color);
 
@@ -76,6 +77,7 @@ int			key_down(t_scene_data *scene, SDL_Event *event);
 void		rotating_camera(int keycode, t_scene_data *scene);
 t_coord_sys	init_rot_matrix(int keycode, double angle);
 
+t_vector	choose_normal(t_figure *figure, t_vector inter); // added
 t_vector	find_normal_to_sphere(t_figure *fig, t_vector inter);
 t_vector	find_normal_to_cone(t_figure *cone, t_vector inter);
 t_vector	find_normal_to_plane(t_figure *plane, t_vector inter);

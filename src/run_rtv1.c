@@ -12,6 +12,18 @@
 
 #include "../inc/rtv1.h"
 
+void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
+{
+	if (tmp_inter->fig->type == SPHERE)
+		sphere_find_closest_intersect(primary_ray, tmp_inter);
+	else if (tmp_inter->fig->type == CYLINDER)
+		cyl_find_closest_intersect(primary_ray, tmp_inter);
+	else if (tmp_inter->fig->type == CONE)
+		cone_find_closest_intersect(primary_ray, tmp_inter);
+	else if (tmp_inter->fig->type == PLANE)
+		plane_find_closest_intersect(primary_ray, tmp_inter);
+}
+
 void		run_rtv1(t_scene_data *scene)
 {
 	SDL_Event	event;
@@ -51,8 +63,7 @@ t_intersect	find_closest_inter(t_scene_data *scene, t_ray primary_ray)
 	while (tmp_node != NULL)
 	{
 		tmp_inter.fig = tmp_node->content;
-//		if (tmp_inter.fig->type == )
-		tmp_inter.fig->find_intersection(primary_ray, &tmp_inter);
+		choose_intersection(primary_ray, &tmp_inter);
 		if (tmp_inter.distance < closest_inter.distance)
 			closest_inter = tmp_inter;
 		tmp_node = tmp_node->next;

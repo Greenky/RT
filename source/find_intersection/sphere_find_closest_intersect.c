@@ -23,7 +23,7 @@ void	sphere_find_closest_intersect(t_ray r, t_intersect *inter)
 		inter->distance = INFINITY;
 	else
 	{
-		inter->point = vect_sum(r.origin, vect_mult(r.direction, t[0]));
+		inter->point = vect_sum(r.origin, vect_mult_scalar(r.direction, t[0]));
 		inter->distance = t[0];
 	}
 }

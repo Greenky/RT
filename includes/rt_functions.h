@@ -13,8 +13,7 @@
 # ifndef RT_FUNCTIONS_H
 # define RT_FUNCTIONS_H
 
-// Windows - # include <SDL2/SDL.h>
-# include "../frameworks/SDL2.framework/Headers/SDL.h"
+# include <../frameworks/SDL2.framework/Versions/A/Headers/SDL.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -26,6 +25,10 @@
 
 # define FALSE 0
 # define TRUE 1
+
+# define DIVISION 0
+# define MULTIPLICATION 1
+
 # define SCR_SIZE 800
 # define OBJ_NUM 6
 # define DISTANCE 1
@@ -103,12 +106,14 @@ void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_rt *rt_data, t_ray primary_ray);
 t_ray			compute_ray(t_camera camera, t_dot pixel);
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
-
-t_coord_sys	    init_rot_matrix(t_rt *rt_data, int keycode, double angle);
 void			rotating_camera(int keycode, t_rt *rt_data);
 int				exit_x(t_rt *rt_data, SDL_Event *event);
 int				key_down(t_rt *rt_data, SDL_Event *event);
+
 void			event_management(t_rt *rt_data, SDL_Event *event);
+t_coord_sys	    init_basis_after_rot(t_rt *rt_data);
+t_coord_sys    rot_matrix_about_the_axis(float angle, t_vector axis);
+
 t_vector	    choose_normal(t_objects *figure, t_vector inter);
 t_vector	    find_normal_to_sphere(t_objects *sphere, t_vector inter);
 t_vector	    find_normal_to_cone(t_objects *cone, t_vector inter);
@@ -151,17 +156,18 @@ void			error_exit(int error_name,t_rt *rt_data);
 void			freesher(t_light *light, t_objects *shapes);
 void			error_caster(int line_number, char *s1, char *s2);
 /*math_functions*/
-t_vector		matrice_mult_vect(t_coord_sys a, t_vector v);
+t_vector		matrix_mult_vect(t_coord_sys a, t_vector v);
+t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
 t_coord_sys		count_inverse_matrix(t_coord_sys a);
 void			normalize_basis(t_coord_sys *a);
-t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);
 
 t_vector		vect_diff(t_vector v1, t_vector v2);
 t_vector		vect_sum(t_vector v1, t_vector v2);
-t_vector		vect_mult(t_vector v1, float multiplier);
+t_vector		vect_mult_scalar(t_vector v1, float multiplier);
 t_vector		vect_cross_product(t_vector a, t_vector b);
 float			vect_scalar_mult(t_vector v1, t_vector v2);
 t_vector		normalize_vector(t_vector a);
+t_vector	    change_vector(t_vector v,  int flag, t_vector mult_coef);
 
 float			find_square(float a);
 float			distance(t_vector v1, t_vector v2);

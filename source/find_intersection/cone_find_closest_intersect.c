@@ -21,17 +21,17 @@ void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 
 	r_cone_sys.origin = vect_diff(r.origin, inter->fig->origin);
 	r_cone_sys.origin =
-	matrice_mult_vect(count_inverse_matrix(inter->fig->basis),
-						r_cone_sys.origin);
+            matrix_mult_vect(count_inverse_matrix(inter->fig->basis),
+                             r_cone_sys.origin);
 	r_cone_sys.direction =
-	matrice_mult_vect(count_inverse_matrix(inter->fig->basis), r.direction);
+            matrix_mult_vect(count_inverse_matrix(inter->fig->basis), r.direction);
 	discriminant = find_cone_discriminant(r_cone_sys, coefficient,
 					inter->fig->angle_coef);
 	if (!find_the_root(coefficient, discriminant, t))
 		inter->distance = INFINITY;
 	else
 	{
-		inter->point = vect_sum(r.origin, vect_mult(r.direction, t[0]));
+		inter->point = vect_sum(r.origin, vect_mult_scalar(r.direction, t[0]));
 		inter->distance = t[0];
 	}
 }

@@ -32,7 +32,6 @@ int			cam_parce(int fd, t_rt *rt_data)
 	rt_data->camera.dest = SCR_SIZE * cos(M_PI / 6);
 	rt_data->camera.is_set = 1;
 	rt_data->camera.basis = create_coord_system(rt_data->camera.basis);
-	rt_data->camera.initial_basis = rt_data->camera.basis;
 	return (0);
 }
 

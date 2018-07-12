@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "rt_functions.h"
 
 int		find_fd(char *file)
 {

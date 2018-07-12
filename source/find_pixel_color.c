@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "rt_functions.h"
 
 uint32_t	find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r)
 {

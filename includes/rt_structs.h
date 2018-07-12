@@ -53,11 +53,12 @@ typedef struct		s_coord_sys
 typedef struct	s_camera
 {
 	t_vector		origin;
+	t_coord_sys		initial_basis;
 	t_coord_sys		basis;
-	t_coord_sys     initial_basis;
-	t_vector        angle_rot;
+	t_vector		angle_rot;
 	int			    is_set;
-	double		    dest;
+
+	double		    dest;//TODO delete if unnecessary
 
 }				t_camera;
 

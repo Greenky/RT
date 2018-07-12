@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "rt_functions.h"
 
 int			main(int argc, char **argv)
 {

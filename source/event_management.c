@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/rt_functions.h"
+//t_coord_sys    rot_matrix_about_the_axis(int angle, t_vector axis);
 
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
@@ -50,20 +51,20 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 {
 	if (event->key.keysym.sym == SDLK_w)
 		rt_data->camera.origin =
-				vect_diff(rt_data->camera.origin,
-				vect_mult(rt_data->camera.basis.b_z, 0.1));
+					vect_diff(rt_data->camera.origin,
+							vect_mult_scalar(rt_data->camera.basis.b_z, 0.1));
 	else if (event->key.keysym.sym == SDLK_s)
 		rt_data->camera.origin =
 				vect_sum(rt_data->camera.origin,
-				vect_mult(rt_data->camera.basis.b_z, 0.1));
+						 vect_mult_scalar(rt_data->camera.basis.b_z, 0.1));
 	else if (event->key.keysym.sym == SDLK_d)
 		rt_data->camera.origin =
 				vect_sum(rt_data->camera.origin,
-				vect_mult(rt_data->camera.basis.b_x, 0.1));
+						 vect_mult_scalar(rt_data->camera.basis.b_x, 0.1));
 	else if (event->key.keysym.sym == SDLK_a)
 		rt_data->camera.origin =
 				vect_diff(rt_data->camera.origin,
-				vect_mult(rt_data->camera.basis.b_x, 0.1));
+						  vect_mult_scalar(rt_data->camera.basis.b_x, 0.1));
 	else if (event->key.keysym.sym == SDLK_UP ||
 			 event->key.keysym.sym == SDLK_DOWN ||
 			 event->key.keysym.sym == SDLK_RIGHT ||
@@ -85,50 +86,52 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 
 void		rotating_camera(int keycode, t_rt *rt_data)
 {
-	t_coord_sys	s;
 	double		angle;
-	t_coord_sys	rot_matrix;
 
 	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
-			 keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
-	s = rt_data->camera.initial_basis;
-	rot_matrix = init_rot_matrix(rt_data, keycode, angle);
-	s = matrix_mult_matrix(rt_data->camera.initial_basis, rot_matrix);
-	rt_data->camera.basis = s;
-}
-
-t_coord_sys	init_rot_matrix(t_rt *rt_data, int keycode, double angle)
-{
-	t_coord_sys	rot_matrix;
-
+			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
 	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
 		rt_data->camera.angle_rot.x += angle;
 	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
 		rt_data->camera.angle_rot.y -= angle;
 	else
 		rt_data->camera.angle_rot.z += angle;
+	printf("x = %f, y = %f, z = %f\n", rt_data->camera.angle_rot.x, rt_data->camera.angle_rot.y, rt_data->camera.angle_rot.z);//TODO delete
+		rt_data->camera.basis = init_basis_after_rot(rt_data);
+}
 
-	rot_matrix.b_x.x = (float)(cos(rt_data->camera.angle_rot.y) *
-							   cos(rt_data->camera.angle_rot.z));
-	rot_matrix.b_x.y = (float)(sin(rt_data->camera.angle_rot.x) *
-							   sin(rt_data->camera.angle_rot.y) * cos(rt_data->camera.angle_rot.z) +
-							   cos(rt_data->camera.angle_rot.x) * sin(rt_data->camera.angle_rot.z));
-	rot_matrix.b_x.z = (float)(-sin(rt_data->camera.angle_rot.y) *
-							   cos(rt_data->camera.angle_rot.x) * cos(rt_data->camera.angle_rot.z) +
-							   sin(rt_data->camera.angle_rot.x) * sin(rt_data->camera.angle_rot.z));
-	rot_matrix.b_y.x = (float)(-cos(rt_data->camera.angle_rot.y) *
-							   sin(rt_data->camera.angle_rot.z));
-	rot_matrix.b_y.y = (float)(cos(rt_data->camera.angle_rot.x) *
-							   cos(rt_data->camera.angle_rot.z) - sin(rt_data->camera.angle_rot.x) *
-																  sin(rt_data->camera.angle_rot.y) * sin(rt_data->camera.angle_rot.z));
-	rot_matrix.b_y.z = (float)(sin(rt_data->camera.angle_rot.x) *
-							   cos(rt_data->camera.angle_rot.z) + cos(rt_data->camera.angle_rot.x) *
-																  sin(rt_data->camera.angle_rot.y) * sin(rt_data->camera.angle_rot.z));
-	rot_matrix.b_z.x = (float)(sin(rt_data->camera.angle_rot.y));
-	rot_matrix.b_z.y = (float)(-sin(rt_data->camera.angle_rot.x) *
-							   cos(rt_data->camera.angle_rot.y));
-	rot_matrix.b_z.z = (float)(cos(rt_data->camera.angle_rot.x) *
-							   cos(rt_data->camera.angle_rot.y));
-//	printf("rot_x = %f, rot_y = %f, rot_z = %f\n", rt_data->camera.angle_rot.x, rt_data->camera.angle_rot.y, rt_data->camera.angle_rot.z);
+t_coord_sys	init_basis_after_rot(t_rt *rt_data)
+{
+	t_coord_sys	new_basis;
+	t_vector    x_cam_sys;
+	t_vector    y_cam_sys;
+	//t_vector    z_cam_sys;
+
+	new_basis = matrix_mult_matrix(rt_data->camera.initial_basis,
+								rot_matrix_about_the_axis(rt_data->camera.angle_rot.z, VEC(0, 0, 1)));
+	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x);
+	new_basis = matrix_mult_matrix(new_basis,
+								(rot_matrix_about_the_axis(rt_data->camera.angle_rot.x, x_cam_sys)));
+	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_y);
+	new_basis = matrix_mult_matrix(new_basis,
+								rot_matrix_about_the_axis(rt_data->camera.angle_rot.y, y_cam_sys));
+	return (new_basis);
+}
+
+t_coord_sys    rot_matrix_about_the_axis(float angle, t_vector axis)
+{
+	t_coord_sys rot_matrix;
+
+	rot_matrix.b_x.x = cosf(angle) + (1 - cosf(angle)) * find_square(axis.x);
+	rot_matrix.b_y.x = (1 - cosf(angle)) * axis.x * axis.y - sinf(angle) * axis.z;
+	rot_matrix.b_z.x = (1 - cosf(angle)) * axis.x * axis.z + sinf(angle) * axis.y;
+
+	rot_matrix.b_x.y = (1 - cosf(angle)) * axis.y * axis.x + sinf(angle) * axis.z;
+	rot_matrix.b_y.y = cosf(angle) + (1 - cosf(angle)) * find_square(axis.y);
+	rot_matrix.b_z.y = (1 - cosf(angle)) * axis.y * axis.z - sinf(angle) * axis.x;
+
+	rot_matrix.b_x.z = (1 - cosf(angle)) * axis.z * axis.x - sinf(angle) * axis.y;
+	rot_matrix.b_y.z = (1 - cosf(angle)) * axis.z * axis.y + sinf(angle) * axis.x;
+	rot_matrix.b_z.z = cosf(angle) + (1 - cosf(angle)) * find_square(axis.z);
 	return (rot_matrix);
 }

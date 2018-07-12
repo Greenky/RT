@@ -30,6 +30,7 @@ void		ray_tracing(t_rt *rt_data)
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	rt_data->max_reflections = 8;
+	rt_data->camera.initial_basis = rt_data->camera.basis;//new
 	rt_data->window = SDL_CreateWindow(W_TITLE, SDL_WINDOWPOS_UNDEFINED,
 								SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
 								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
@@ -48,8 +49,8 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 	r.origin = camera.origin;
 	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
 	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
-	r.direction = normalize_vector(matrice_mult_vect(camera.basis,
-					(t_vector){horizontal, -vertical, -DISTANCE}));
+	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
+													(t_vector) {horizontal, -vertical, -DISTANCE}));
 	return (r);
 }
 
@@ -65,6 +66,7 @@ t_intersect	find_closest_inter(t_rt *rt_data, t_ray primary_ray)
 	{
 		tmp_inter.fig = tmp_node;
 		choose_intersection(primary_ray, &tmp_inter);
+//		tmp_inter.fig->find_intersection(primary_ray, &tmp_inter);
 		if (tmp_inter.distance < closest_inter.distance)
 			closest_inter = tmp_inter;
 		tmp_node = tmp_node->next;

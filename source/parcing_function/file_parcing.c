@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/rt_functions.h"
+#include "rt_functions.h"
 
 void			file_parcing(char *file, t_rt *rt_data)
 {
@@ -88,7 +88,7 @@ void		correct_plane_normal(t_rt *rt_data)//перенести
 		if (object_list->type == PLANE)
 		{
 			if (vect_scalar_mult(object_list->normal, rt_data->camera.basis.b_z) <= 0)
-                object_list->normal = vect_mult(object_list->normal, -1);
+                object_list->normal = vect_mult_scalar(object_list->normal, -1);
 		}
 		object_list = object_list->next;
 	}
@@ -108,7 +108,7 @@ t_coord_sys	create_coord_system(t_coord_sys basis)
 		basis.b_x = vect_cross_product(basis.b_z, basis.b_y);
 		basis.b_x = normalize_vector(basis.b_x);
 		basis.b_y = vect_cross_product(basis.b_x, basis.b_z);
-		basis.b_x = vect_mult(basis.b_x, -1); // TODO костиль для правильного керування - пофіксити
+		basis.b_x = vect_mult_scalar(basis.b_x, -1); // TODO костиль для правильного керування - пофіксити
 	}
 	return (basis);
 }

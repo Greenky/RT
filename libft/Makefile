@@ -31,27 +31,19 @@ INCLUDES = libft.h get_next_line.h
 OBJ = $(SOURCES:.c=.o)
 NAME = libft.a
 
-C_RED = \033[31m
-C_YELLOW = \033[33m
-C_GREEN = \033[32m
-C_NONE = \033[0m
-
 all: $(NAME)
 	
 %.o: %.c
-	@$(CC) $(CFLAGS)  -o $@ $<
+	$(CC) $(CFLAGS)  -o $@ $<
 	
 
 $(NAME): $(OBJ) 
-	@ar rc $(NAME) $(OBJ)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	ar rc $(NAME) $(OBJ)
 
 clean: 
-	@rm -f $(OBJ)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	rm -f $(NAME)
 
 re: fclean all

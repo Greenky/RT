@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "rt_functions.h"
 
 int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 {

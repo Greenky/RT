@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../includes/rt_functions.h"
 
 t_vector	choose_normal(t_objects *figure, t_vector inter)
 {

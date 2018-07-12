@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 void		add_shape(t_rt *rt_data, t_objects *shape)
 {

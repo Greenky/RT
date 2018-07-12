@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-///* THREADS ----------------------------------------------
+//* THREADS  for debug ----------------------------------------------
 
 #include <pthread.h>
 #define THREAD_MAX 20
@@ -49,17 +49,15 @@ void	*draw_strings(void *thread_data_void)
 {
 	t_dot			pixel;
 	t_thread_data	*thread_data;
-	t_rt	*scene;
 
 	thread_data = (t_thread_data*)thread_data_void;
-	scene = thread_data->scene;
 	pixel.y = thread_data->string_num;
 	while (pixel.y < SCR_SIZE)
 	{
 		pixel.x = 0;
 		while (pixel.x < SCR_SIZE)
 		{
-			draw_pixel(scene, pixel);
+			draw_pixel(thread_data->scene, pixel);
 			pixel.x++;
 		}
 		pixel.y += THREAD_MAX;

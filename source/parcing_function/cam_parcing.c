@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 int			cam_parce(int fd, t_rt *rt_data)
 {

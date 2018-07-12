@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../includes/rt_functions.h"
 
 void		set_pixel(SDL_Surface *surface, int x, int y, uint32_t color)
 {

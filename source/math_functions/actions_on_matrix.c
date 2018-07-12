@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 t_vector		matrice_mult_vect(t_coord_sys a, t_vector v)
 {

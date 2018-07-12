@@ -14,7 +14,7 @@
 # define RT_FUNCTIONS_H
 
 // Windows - # include <SDL2/SDL.h>
-# include <SDL.h>
+# include "../frameworks/SDL2.framework/Headers/SDL.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -102,6 +102,7 @@ void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_rt *rt_data, t_ray primary_ray);
 t_ray			compute_ray(t_camera camera, t_dot pixel);
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
+
 t_coord_sys	    init_rot_matrix(t_rt *rt_data, int keycode, double angle);
 void			rotating_camera(int keycode, t_rt *rt_data);
 int				exit_x(t_rt *rt_data, SDL_Event *event);

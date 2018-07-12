@@ -11,7 +11,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
 set(SOURCE_FILES  source/main.c
         source/parcing_function/file_parcing.c
         source/find_fd.c
-        source/parcing_function/shape_parcing.c
         source/parcing_function/plane_parcing.c
         source/parcing_function/sphere_parcing.c
         source/parcing_function/cone_parcing.c

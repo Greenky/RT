@@ -11,14 +11,12 @@
 /* ************************************************************************** */
 
 #include "../includes/rt_functions.h"
-//t_coord_sys    rot_matrix_about_the_axis(int angle, t_vector axis);
 
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
 	int		running;
 
 	running = 1;
-	rt_data->camera.angle_rot = VEC(0, 0, 0);
 	SDL_UpdateWindowSurface(rt_data->window);
 	while (running)
 	{
@@ -53,19 +51,19 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 	if (event->key.keysym.sym == SDLK_w)
 		rt_data->camera.origin =
 					vect_diff(rt_data->camera.origin,
-							vect_mult_scalar(rt_data->camera.basis.b_z, 0.1));
+							vect_mult_scalar(rt_data->camera.basis.b_z, SHIFT_STEP));
 	else if (event->key.keysym.sym == SDLK_s)
 		rt_data->camera.origin =
 				vect_sum(rt_data->camera.origin,
-						 vect_mult_scalar(rt_data->camera.basis.b_z, 0.1));
+						 vect_mult_scalar(rt_data->camera.basis.b_z, SHIFT_STEP));
 	else if (event->key.keysym.sym == SDLK_d)
 		rt_data->camera.origin =
 				vect_sum(rt_data->camera.origin,
-						 vect_mult_scalar(rt_data->camera.basis.b_x, 0.1));
+						 vect_mult_scalar(rt_data->camera.basis.b_x, SHIFT_STEP));
 	else if (event->key.keysym.sym == SDLK_a)
 		rt_data->camera.origin =
 				vect_diff(rt_data->camera.origin,
-						  vect_mult_scalar(rt_data->camera.basis.b_x, 0.1));
+						  vect_mult_scalar(rt_data->camera.basis.b_x, SHIFT_STEP));
 	else if (event->key.keysym.sym == SDLK_UP ||
 			 event->key.keysym.sym == SDLK_DOWN ||
 			 event->key.keysym.sym == SDLK_RIGHT ||
@@ -76,7 +74,19 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 	else if (event->key.keysym.sym == SDLK_SPACE)
 	{
 		rt_data->camera.basis = rt_data->camera.initial_basis;
-		rt_data->camera.origin = VEC(0, 0, 0);
+		rt_data->camera.origin = VEC(0, 0, -10);
+		rt_data->camera.angle_rot = VEC(0, 0, 0);
+	}
+	else if (event->key.keysym.sym == SDLK_7)
+	{
+		//printf("type = %d\n", rt_data->objects->type);
+		rt_data->objects->axis_dimensions.y -= 0.1;
+		//handle_axis_dimensions(rt_data->objects);
+	}
+	else if (event->key.keysym.sym == SDLK_8)
+	{
+		rt_data->objects->axis_dimensions.y += 0.1;
+		//handle_axis_dimensions(rt_data->objects);
 	}
 	else
 		return (0);
@@ -103,23 +113,23 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 
 t_coord_sys	init_basis_after_rot(t_rt *rt_data)
 {
-	t_coord_sys	new_basis;
-	t_vector    x_cam_sys;
-	t_vector    y_cam_sys;
-	//t_vector    z_cam_sys;
+	t_coord_sys		new_basis;
+	t_vector		x_cam_sys;
+	t_vector		y_cam_sys;
+	//t_vector		z_cam_sys;
 
 	new_basis = matrix_mult_matrix(rt_data->camera.initial_basis,
 								rot_matrix_about_the_axis(rt_data->camera.angle_rot.z, VEC(0, 0, 1)));
-	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x);
-	new_basis = matrix_mult_matrix(new_basis,
-								(rot_matrix_about_the_axis(rt_data->camera.angle_rot.x, x_cam_sys)));
 	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_y);
 	new_basis = matrix_mult_matrix(new_basis,
-								rot_matrix_about_the_axis(rt_data->camera.angle_rot.y, y_cam_sys));
+								   rot_matrix_about_the_axis(rt_data->camera.angle_rot.y, y_cam_sys));
+	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x);
+	new_basis = matrix_mult_matrix(new_basis,
+								   (rot_matrix_about_the_axis(rt_data->camera.angle_rot.x, x_cam_sys)));
 	return (new_basis);
 }
 
-t_coord_sys    rot_matrix_about_the_axis(float angle, t_vector axis)
+t_coord_sys		rot_matrix_about_the_axis(float angle, t_vector axis)
 {
 	t_coord_sys rot_matrix;
 

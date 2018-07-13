@@ -13,7 +13,7 @@
 # ifndef RT_FUNCTIONS_H
 # define RT_FUNCTIONS_H
 
-# include <../frameworks/SDL2.framework/Versions/A/Headers/SDL.h>
+# include <SDL.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -34,13 +34,14 @@
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
-# define AMBIENT_LIGHT_IS_PARSED 35
 # define SPHERE_IS_PARSED 15
 # define CAMERA_IS_PARSED 3
 # define CONE_IS_PARSED 15
 # define CYLINDER_IS_PARSED 15
 # define PLANE_IS_PARSED 15
+# define MAX_LEN 99999999//////
 # define STEP (1.0 / SCR_SIZE)
+# define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(SCR_SIZE / 2))
 # define TOP_BOUND (-(SCR_SIZE / 2))
 # define A 0
@@ -111,27 +112,30 @@ int				exit_x(t_rt *rt_data, SDL_Event *event);
 int				key_down(t_rt *rt_data, SDL_Event *event);
 
 void			event_management(t_rt *rt_data, SDL_Event *event);
-t_coord_sys	    init_basis_after_rot(t_rt *rt_data);
-t_coord_sys    rot_matrix_about_the_axis(float angle, t_vector axis);
+t_coord_sys	init_basis_after_rot(t_rt *rt_data);
+t_coord_sys		rot_matrix_about_the_axis(float angle, t_vector axis);
 
-t_vector	    choose_normal(t_objects *figure, t_vector inter);
-t_vector	    find_normal_to_sphere(t_objects *sphere, t_vector inter);
-t_vector	    find_normal_to_cone(t_objects *cone, t_vector inter);
-t_vector	    find_normal_to_plane(t_objects *plane, t_vector inter);
-t_vector	    find_normal_to_cylinder(t_objects *cyl, t_vector inter);
+t_vector		choose_normal(t_objects *figure, t_vector inter);
+t_vector		find_normal_to_sphere(t_objects *sphere, t_vector inter);
+t_vector		find_normal_to_cone(t_objects *cone, t_vector inter);
+t_vector		find_normal_to_plane(t_objects *plane, t_vector inter);
+t_vector		find_normal_to_cylinder(t_objects *cyl, t_vector inter);
+t_vector		find_normal_to_ellipsoid(t_objects *ellipsoid, t_vector inter);//new
 
-void		    add_coef(t_channel *coef1, t_channel coef2, float coef);
-t_channel	    find_lamp_coef(t_rt *rt_data, t_light *current_lamp, t_intersect closest_inter, t_ray r);
-t_ray		    find_light_ray(t_vector origin, t_vector end);
-uint32_t	    find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
+void			handle_axis_dimensions(t_objects *ellipsoid);//new
 
-int			    is_shadows_here(t_ray light_ray, t_vector normal, t_ray r);
-int			    is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray, t_intersect closest_inter);
-float		    *find_cos_angle(t_ray light_ray, t_intersect closest_inter, t_vector normal, t_ray r);
-uint32_t	    find_color_hex(t_channel light_coef, t_intersect closest_inter);
-uint32_t	    find_color_channel(float fig_color_channel, float light_color_channel, int step);
+void			add_coef(t_channel *coef1, t_channel coef2, float coef);
+t_channel		find_lamp_coef(t_rt *rt_data, t_light *current_lamp, t_intersect closest_inter, t_ray r);
+t_ray			find_light_ray(t_vector origin, t_vector end);
+uint32_t		find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
 
-void		    set_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
+int				is_shadows_here(t_ray light_ray, t_vector normal, t_ray r);
+int				is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray, t_intersect closest_inter);
+float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, t_vector normal, t_ray r);
+uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
+uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
+
+void			set_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
 /* find_intersection directory */
 void			sphere_find_closest_intersect(t_ray r, t_intersect *inter);
@@ -141,10 +145,13 @@ int				find_the_root(float coefficient[3], float discriminant, float t[2]);
 void			cyl_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cyl_discriminant(t_ray r, float radius, float *coefficient);
 
-void	        plane_find_closest_intersect(t_ray r, t_intersect *inter);
+void			plane_find_closest_intersect(t_ray r, t_intersect *inter);
 
-void	        cone_find_closest_intersect(t_ray r, t_intersect *inter);
-float	        find_cone_discriminant(t_ray r, float *coefficient, float coef);
+void			cone_find_closest_intersect(t_ray r, t_intersect *inter);
+float			find_cone_discriminant(t_ray r, float *coefficient, float coef);
+
+void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
+
 //------------------------------------------------------------------------------------
 
 
@@ -167,7 +174,7 @@ t_vector		vect_mult_scalar(t_vector v1, float multiplier);
 t_vector		vect_cross_product(t_vector a, t_vector b);
 float			vect_scalar_mult(t_vector v1, t_vector v2);
 t_vector		normalize_vector(t_vector a);
-t_vector	    change_vector(t_vector v,  int flag, t_vector mult_coef);
+t_vector	    scale_vector(t_vector v, int flag, t_vector scale_coef);
 
 float			find_square(float a);
 float			distance(t_vector v1, t_vector v2);

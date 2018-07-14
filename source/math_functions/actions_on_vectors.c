@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 t_vector	vect_diff(t_vector v1, t_vector v2)
 {
@@ -32,7 +32,7 @@ t_vector	vect_sum(t_vector v1, t_vector v2)
 	return (result_vector);
 }
 
-t_vector	vect_mult(t_vector v1, float multiplier)
+t_vector	vect_mult_scalar(t_vector v1, float multiplier)
 {
 	t_vector	result_vector;
 
@@ -71,4 +71,21 @@ t_vector	normalize_vector(t_vector a)
 	normal.y = a.y * coef;
 	normal.z = a.z * coef;
 	return (normal);
+}
+
+t_vector	change_vector(t_vector v,  int flag, t_vector mult_coef)
+{
+	if (flag == DIVISION)
+	{
+		v.x /= mult_coef.x;
+		v.y /= mult_coef.y;
+		v.z /= mult_coef.z;
+	}
+	else if (flag == MULTIPLICATION)
+	{
+		v.x *= mult_coef.x;
+		v.y *= mult_coef.y;
+		v.z *= mult_coef.z;
+	}
+	return (v);
 }

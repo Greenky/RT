@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../includes/rt_functions.h"
 
 int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
 {
@@ -27,15 +27,15 @@ int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
 int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 										t_intersect closest_inter)
 {
-	t_objects		*tmp_node;
 	t_intersect		clost_to_light;
 	float			distance_to_light;
+	int 			current;
 
-	tmp_node = rt_data->objects;
+	current = 0;
 	distance_to_light = distance(light_ray.origin, closest_inter.point);
-	while (tmp_node)
+	while (current < rt_data->objects_num)
 	{
-		clost_to_light.fig = tmp_node;
+		clost_to_light.fig = rt_data->objects_arr + current;
 		if (clost_to_light.fig != closest_inter.fig)
 		{
 			choose_intersection(light_ray, &clost_to_light);
@@ -45,7 +45,7 @@ int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 			if (clost_to_light.distance < distance_to_light)
 				return (FALSE);
 		}
-		tmp_node = tmp_node->next;
+		current++;
 	}
 	return (TRUE);
 }

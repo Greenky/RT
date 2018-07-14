@@ -12,7 +12,7 @@
 
 #include "rt_functions.h"
 
-int			main(int argc, char **argv)
+int			WinMain(int argc, char **argv)
 {
 	t_rt	rt_data;
 //	if (argc != 2)

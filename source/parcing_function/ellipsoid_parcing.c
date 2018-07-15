@@ -1,71 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane_parcing.c                                    :+:      :+:    :+:   */
+/*   ellipsoid_parcing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/07 12:41:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:41:00 by dadavyde         ###   ########.fr       */
+/*   Created: 2018/07/15 13:28:00 by dadavyde          #+#    #+#             */
+/*   Updated: 2018/07/15 13:28:00 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/rt_functions.h"
 
-int				plane_parce(int fd, t_rt *rt_data)
+int					ellipsoid_parce(int fd, t_rt *rt_data)//TODO check
 {
 	int			ret;
 	int			flag;
 	char		*line;
-	t_objects	*plane;
+	t_objects	*ellipsoid;
 
 	flag = 0;
-	plane = (t_objects *)malloc(sizeof(t_objects));
-	plane->type = PLANE;
+	ellipsoid = (t_objects *)malloc(sizeof(t_objects));
+	ellipsoid->type = ELLIPSOID;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
-		plane_fill(&line, plane, rt_data->line_number, &flag);
+		ellipsoid_fill(&line, ellipsoid, rt_data->line_number, &flag);
 		ft_strdel(&line);
-		if (flag == PLANE_IS_PARSED)
+		if (flag == ELLIPSOID_IS_PARSED)//TODO add define for this
 			break ;
 	}
-	if (ret < 0 || flag != PLANE_IS_PARSED)
+	if (ret < 0 || flag != ELLIPSOID_IS_PARSED)//TODO add define for this
 	{
-		free(plane);
+		free(ellipsoid);
 		error_exit(ERROR, NULL);
 	}
-	add_shape(rt_data, plane);
+	ellipsoid->basis.b_z = VEC(0, 0, 1);
+	ellipsoid->radius = find_biggest_axis(ellipsoid);
+	handle_axis_dimensions(ellipsoid);
+	add_shape(rt_data, ellipsoid);
 	return (0);
 }
 
-void		plane_fill(char **line, t_objects *plane, int line_number, int *flag)
+void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *flag)//TODO check
 {
-	char	*buffer_line;
+	char	*new_line;
 //	float	mirror;
 
-	buffer_line = ft_strtrim(*line);
+	new_line = ft_strtrim(*line);
 	ft_strdel(line);
-	*line = buffer_line;
+	*line = new_line;
 	if (begin_with(*line, "cen:"))
 	{
 		*line = trim_from(*line, 4);
-		plane->origin = parce_vector(*line, line_number);
+		ellipsoid->origin = parce_vector(*line, line_number);
 		*flag = *flag | 1;
 	}
 	else if (begin_with(*line, "col:"))
 	{
 		*line = trim_from(*line, 4);
-		plane->color = parce_color(*line, line_number);
+		ellipsoid->color = parce_color(*line, line_number);
 		*flag = *flag | 2;
 	}
-	else if (begin_with(*line, "nor:"))
+	else if (begin_with(*line, "axis sizes:"))
 	{
-		*line = trim_from(*line, 4);
-		plane->normal = normalize_vector(parce_vector(*line, line_number));
-		plane->basis.b_z = plane->normal;
-		*flag = *flag | 4;
+		*line = trim_from(*line, 11);
+		ellipsoid->axis_dimensions = parce_vector(*line, line_number);
+		*flag = *flag | 4;//TODO check
 	}
+
 //	else if (begin_with(*line, "mir:"))
 //	{
 //		*line = trim_from(*line, 4);
@@ -73,16 +76,16 @@ void		plane_fill(char **line, t_objects *plane, int line_number, int *flag)
 //		if (mirror > 1 || mirror < 0)
 //			error_caster(line_number, "no such mirror coef. as ", *line);
 //		if (mirror == 0)
-//			plane->mirror_coef = 0;
+//			ellipsoid->mirror_coef = 0;
 //		else
-//			plane->mirror_coef = 1 / mirror;
+//			ellipsoid->mirror_coef = 1 / mirror;
 //		*flag = *flag | (1 << 3);
 //	}
 	else if (begin_with(*line, "b_p:"))
 	{
 		*line = trim_from(*line, 4);
-		if ((plane->specular_coef = ft_atoi(*line)) <= 0)
-			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		if ((ellipsoid->specular_coef = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such specular coef. as ", *line);
 		*flag = *flag | (1 << 3);
 	}
 	else

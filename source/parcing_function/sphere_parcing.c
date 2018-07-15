@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 int					sphere_parce(int fd, t_rt *rt_data)
 {
@@ -81,7 +81,7 @@ void			sphere_fill(char **line, t_objects *sphere, int line_number, int *flag)
 	else if (begin_with(*line, "b_p:"))
 	{
 		*line = trim_from(*line, 4);
-		if ((sphere->bling_phong = ft_atoi(*line)) <= 0)
+		if ((sphere->specular_coef = ft_atoi(*line)) <= 0)
 			error_caster(line_number, "no such biling-phong coef. as ", *line);
 		*flag = *flag | (1 << 3);
 	}

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "../../includes/rt_functions.h"
 
-///* THREADS ----------------------------------------------
+//* THREADS  for debug ----------------------------------------------
 
 #include <pthread.h>
-#define THREAD_MAX 20
+# define THREAD_MAX 20
 typedef struct		s_thread_data
 {
 	t_rt			*scene;
@@ -49,17 +49,15 @@ void	*draw_strings(void *thread_data_void)
 {
 	t_dot			pixel;
 	t_thread_data	*thread_data;
-	t_rt	*scene;
 
 	thread_data = (t_thread_data*)thread_data_void;
-	scene = thread_data->scene;
 	pixel.y = thread_data->string_num;
 	while (pixel.y < SCR_SIZE)
 	{
 		pixel.x = 0;
 		while (pixel.x < SCR_SIZE)
 		{
-			draw_pixel(scene, pixel);
+			draw_pixel(thread_data->scene, pixel);
 			pixel.x++;
 		}
 		pixel.y += THREAD_MAX;
@@ -100,7 +98,6 @@ void	draw_pixel(t_rt *scene, t_dot pixel)
 int		draw_scene(t_rt *rt_data)
 {
 	t_dot	pixel;
-
 	pixel.y = 0;
 	while (pixel.y < SCR_SIZE)
 	{
@@ -114,13 +111,11 @@ int		draw_scene(t_rt *rt_data)
 	}
 	return (0);
 }
-
 void	draw_pixel(t_rt *rt_data, t_dot pixel)
 {
 	t_ray		primary_ray;
 	uint32_t	color;
 	t_intersect	closest_inter;
-
 	primary_ray = compute_ray(rt_data->camera, pixel);
 	closest_inter = find_closest_inter(rt_data, primary_ray);
 	if (closest_inter.distance == INFINITY)

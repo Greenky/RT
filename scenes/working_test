@@ -1,31 +1,41 @@
 #### CAMERA ####
     camera:
         dir: (0, 0, -1)
-        cen: (0, 0, -10)
+        cen: (0, 0, -12)
 ################
 #### LIGHTS ####
     light:
         point
-        cen: (-3, 0, -8)
-        col: 0xFFFFFF
+        cen: (-3, -3, -7)
+        col: 0xbbFFFF
         int: 0.6
     light:
         point
         cen: (3, 0, -4)
         col: 0xAAAAFF
         int: 0.3
+    light:
+        ambient
+        col: 0xAAAAFF
+        int: 0.2
 ################
 #### SHAPES ####
+    ellipsoid:
+        cen: (0, 0, 0)
+        col: 0x884a5f
+        axis sizes: (3, 2, 2)
+        b_p: 100000
     sphere:
-        cen: (-0.5, 2, 2)
+        cen: (0, -3, 0)
         rad: 2
         col: 0x00ffff
         b_p: 100000
-    sphere:
-        col: 0xFF04ff
-        cen: (0.5, 0, 2)
+    cylinder:
+        col: 0x0365ff
+        cen: (-2, -2, 4)
         rad: 1.7
-        b_p: 500
+        dir: (-0.5, -0.5, 0)
+        b_p: 100000
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)

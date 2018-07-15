@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 int				cone_parce(int fd, t_rt *rt_data)
 {
@@ -71,7 +71,7 @@ void		more_cone_data_fill(char **line, t_objects *cone, int l_num, int *flag)
 	if (begin_with(*line, "ang:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->angle_coef = fmin(1, fmax(0.05, tan(ANGLE_IN_DEGREES(str_to_float(*line, 0, l_num)))));
+		cone->angle_coef = fmin(1, fmax(0.05, tan(ANGLE_IN_RADIANS(str_to_float(*line, 0, l_num)))));
 		*flag = *flag | (1 << 3);
 	}
 	else

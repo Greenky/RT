@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 void	plane_find_closest_intersect(t_ray r, t_intersect *inter)
 {
@@ -31,7 +31,7 @@ void	plane_find_closest_intersect(t_ray r, t_intersect *inter)
 		if (inter->distance != INFINITY)
 		{
 			inter->point = vect_sum(r.origin,
-									vect_mult(r.direction, inter->distance));
+                                    vect_mult_scalar(r.direction, inter->distance));
 		}
 	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 int			cam_parce(int fd, t_rt *rt_data)
 {
@@ -32,7 +32,7 @@ int			cam_parce(int fd, t_rt *rt_data)
 	rt_data->camera.dest = SCR_SIZE * cos(M_PI / 6);
 	rt_data->camera.is_set = 1;
 	rt_data->camera.basis = create_coord_system(rt_data->camera.basis);
-	rt_data->camera.initial_basis = rt_data->camera.basis;
+	rt_data->camera.angle_rot = VEC(0, 0, 0);
 	return (0);
 }
 
@@ -53,7 +53,7 @@ void	camera_data_fill(char **line, t_camera *camera, int line_number, int *flag)
 	else if (begin_with(*line, "cen:"))
 	{
 		*line = trim_from(*line, 4);
-        camera->origin = parce_vector(*line, line_number);
+		camera->origin = parce_vector(*line, line_number);
 		*flag = *flag | 2;
 	}
 	else

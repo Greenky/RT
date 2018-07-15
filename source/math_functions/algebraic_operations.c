@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 float	find_square(float a)
 {
@@ -26,10 +26,10 @@ float	distance(t_vector v1, t_vector v2)
 	div_x = v2.x - v1.x;
 	div_y = v2.y - v1.y;
 	div_z = v2.z - v1.z;
-	return (sqrtf(div_x * div_x + div_y * div_y + div_z * div_z));
+	return (sqrtf(find_square(div_x) + find_square(div_y) + find_square(div_z)));
 }
 
 float	length(t_vector v)
 {
-	return (sqrtf(v.x * v.x + v.y * v.y + v.z * v.z));
+	return (sqrtf(find_square(v.x) + find_square(v.y)+ find_square(v.z)));
 }

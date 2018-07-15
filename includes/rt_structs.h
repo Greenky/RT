@@ -53,11 +53,12 @@ typedef struct		s_coord_sys
 typedef struct	s_camera
 {
 	t_vector		origin;
+	t_coord_sys		initial_basis;
 	t_coord_sys		basis;
-	t_coord_sys     initial_basis;
-	t_vector        angle_rot;
-	int			    is_set;
-	double		    dest;
+	t_vector		angle_rot;
+	int				is_set;
+
+	double			dest;//TODO delete if unnecessary
 
 }				t_camera;
 
@@ -72,28 +73,30 @@ typedef struct		s_light // ADDED TYPE, fix
 }					t_light;
 
 struct s_intersect;
-typedef struct		s_figure
+typedef struct		s_object
 {
 	int				type;
 	t_channel		color;
 	t_vector		origin;
-    t_vector		normal;
-	float			radius;
-    float			angle_coef;
 	t_coord_sys		basis;
 	float			mirror_coef;
 	float			transperent_coef;
+	int				specular_coef;
+
+	float			radius;
+	float			angle_coef;
+	t_vector		normal;
 	t_vector		axis_dimensions;//размеры осей x y z для эллипсоида
-	int				bling_phong;
-	struct s_figure	*next;
+
+	struct s_object	*next;
 }					t_objects;
 
 typedef struct		s_intersect
 {
-	t_vector	    point;//точка пересечения фигуры и луча
+	t_vector		point;//точка пересечения фигуры и луча
 	float			distance;
 	t_objects		*fig;
-	t_vector		normal;
+	t_vector		normal;//TODO delete if unnecessary
 }					t_intersect;
 
 typedef struct	s_rt
@@ -103,6 +106,10 @@ typedef struct	s_rt
 	t_camera		camera;
 	t_light			*lights;
 	t_objects		*objects;
+	t_light			*lights_arr; // масив для CL
+	t_objects		*objects_arr; // масив для CL
+	int				objects_num;
+	int				lights_num;
 	int				reflect_rate;
 	int				max_reflections;
 	int				line_number;

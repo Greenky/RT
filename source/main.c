@@ -12,6 +12,61 @@
 
 #include "../includes/rt_functions.h"
 
+void	ft_error(char *str)
+{
+	ft_putendl(str);
+	exit(2);
+}
+
+void	cl_init(t_rt *rt)
+{
+	int		fd;
+	char	*src;
+	size_t	src_size;
+
+	fd = open("kernel.cl", O_RDONLY);
+	if (fd <= 0)
+		ft_error("Failed to load kernel.");
+	src = (char *)malloc(MAX_SRC_SIZE);
+	src_size = (size_t)read(fd, src, MAX_SRC_SIZE);
+	close(fd);
+	rt->cl.err = clGetPlatformIDs(1, &rt->cl.platform_id,
+								  &rt->cl.platforms_num);
+	ft_putendl("clGetPlatformIDs done.");
+	rt->cl.err |= clGetDeviceIDs(rt->cl.platform_id, CL_DEVICE_TYPE_CPU,
+								1, &rt->cl.device_id, &rt->cl.devices_num);
+	ft_putendl("clGetDeviceIDs done.");
+	rt->cl.context = clCreateContext(NULL, 1, &rt->cl.device_id, NULL,
+									 NULL, &rt->cl.err);
+	ft_putendl("clCreateContext done.");
+	rt->cl.queue = clCreateCommandQueue(rt->cl.context, rt->cl.device_id,
+										0, &rt->cl.err);
+	ft_putendl("clCreateCommandQueue done.");
+	rt->cl.program = clCreateProgramWithSource(rt->cl.context, 1,
+											   (const char **)&src, (const size_t *)&src_size, &rt->cl.err);
+	ft_putendl("clCreateProgramWithSource done.");
+	rt->cl.err |= clBuildProgram(rt->cl.program, 1, &rt->cl.device_id, NULL,
+										 NULL, NULL);
+	ft_putendl("clBuildProgram done.");
+	if (rt->cl.err != CL_SUCCESS) {
+		// Determine the size of the log
+		size_t log_size;
+		clGetProgramBuildInfo(rt->cl.program, rt->cl.device_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+
+		// Allocate memory for the log
+		char *log = (char *) malloc(log_size);
+
+		// Get the log
+		clGetProgramBuildInfo(rt->cl.program, rt->cl.device_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+
+		// Print the log
+		printf("%s\n", log);
+	}
+	rt->cl.kernel = clCreateKernel(rt->cl.program, "renderer", &rt->cl.err);
+	ft_putendl("clCreateKernel done.");
+	free(src);
+}
+
 int			main(int argc, char **argv)
 {
 	t_rt	rt_data;

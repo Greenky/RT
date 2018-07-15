@@ -31,7 +31,7 @@ void	sphere_find_closest_intersect(t_ray r, t_intersect *inter)
 float	find_sphere_discriminant(t_ray r, t_objects *fig, float coefficient[3])
 {
 	float		discriminant;
-	t_vector	cam_origin;
+	cl_float3	cam_origin;
 
 	cam_origin = vect_diff(r.origin, fig->origin);
 	coefficient[A] = vect_scalar_mult(r.direction, r.direction);

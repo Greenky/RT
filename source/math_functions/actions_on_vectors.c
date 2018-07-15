@@ -12,9 +12,9 @@
 
 #include "../../includes/rt_functions.h"
 
-t_vector	vect_diff(t_vector v1, t_vector v2)
+cl_float3	vect_diff(cl_float3 v1, cl_float3 v2)
 {
-	t_vector	result_vector;
+	cl_float3	result_vector;
 
 	result_vector.x = v1.x - v2.x;
 	result_vector.y = v1.y - v2.y;
@@ -22,9 +22,9 @@ t_vector	vect_diff(t_vector v1, t_vector v2)
 	return (result_vector);
 }
 
-t_vector	vect_sum(t_vector v1, t_vector v2)
+cl_float3	vect_sum(cl_float3 v1, cl_float3 v2)
 {
-	t_vector	result_vector;
+	cl_float3	result_vector;
 
 	result_vector.x = v1.x + v2.x;
 	result_vector.y = v1.y + v2.y;
@@ -32,9 +32,9 @@ t_vector	vect_sum(t_vector v1, t_vector v2)
 	return (result_vector);
 }
 
-t_vector	vect_mult(t_vector v1, float multiplier)
+cl_float3	vect_mult(cl_float3 v1, float multiplier)
 {
-	t_vector	result_vector;
+	cl_float3	result_vector;
 
 	result_vector.x = v1.x * multiplier;
 	result_vector.y = v1.y * multiplier;
@@ -42,14 +42,14 @@ t_vector	vect_mult(t_vector v1, float multiplier)
 	return (result_vector);
 }
 
-float		vect_scalar_mult(t_vector v1, t_vector v2)
+float		vect_scalar_mult(cl_float3 v1, cl_float3 v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
-t_vector	vect_cross_product(t_vector a, t_vector b)
+cl_float3	vect_cross_product(cl_float3 a, cl_float3 b)
 {
-	t_vector c;
+	cl_float3 c;
 
 	c.x = a.y * b.z - a.z * b.y;
 	c.y = a.z * b.x - a.x * b.z;
@@ -57,15 +57,16 @@ t_vector	vect_cross_product(t_vector a, t_vector b)
 	return (c);
 }
 
-t_vector	normalize_vector(t_vector a)
+cl_float3	normalize_vector(cl_float3 a)
 {
 	float		coef;
-	t_vector	normal;
+	cl_float3	normal;
 	float		len;
 
 	len = length(a);
 	if (len == 0)
-		return ((t_vector){0, 0, 0});
+		return VEC(0, 0, 0);
+//		return ((cl_float3){0, 0, 0});
 	coef = 1.0f / len;
 	normal.x = a.x * coef;
 	normal.y = a.y * coef;

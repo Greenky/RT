@@ -42,7 +42,7 @@ t_channel	find_lamp_coef(t_rt *rt_data, t_light *current_lamp,
 {
 	t_ray			light_ray;
 	t_channel		lamp_coef;
-	t_vector		normal;
+	cl_float3		normal;
 	float			*cos_angle;
 
 	ft_bzero(&lamp_coef, sizeof(t_channel));
@@ -67,7 +67,7 @@ t_channel	find_lamp_coef(t_rt *rt_data, t_light *current_lamp,
 	return (lamp_coef);
 }
 
-t_ray		find_light_ray(t_vector origin, t_vector end)
+t_ray		find_light_ray(cl_float3 origin, cl_float3 end)
 {
 	t_ray		light_ray;
 

@@ -12,9 +12,9 @@
 
 #include "../../includes/rt_functions.h"
 
-t_vector		matrice_mult_vect(t_coord_sys a, t_vector v)
+cl_float3		matrice_mult_vect(t_coord_sys a, cl_float3 v)
 {
-	t_vector		new_v;
+	cl_float3		new_v;
 
 	new_v.x = a.b_x.x * v.x + a.b_y.x * v.y + a.b_z.x * v.z;
 	new_v.y = a.b_x.y * v.x + a.b_y.y * v.y + a.b_z.y * v.z;

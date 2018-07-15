@@ -14,7 +14,7 @@
 
 void	plane_find_closest_intersect(t_ray r, t_intersect *inter)
 {
-	t_vector	origin_diff;
+	cl_float3	origin_diff;
 	float		n_mult_dir;
 
 	n_mult_dir = vect_scalar_mult(inter->fig->basis.b_z, r.direction);

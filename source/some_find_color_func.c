@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
+int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 {
 	float	is_light_with_cam;
 
@@ -51,11 +51,11 @@ int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
-			t_vector normal, t_ray r)
+			cl_float3 normal, t_ray r)
 {
-	t_vector	light_ray_unit;
+	cl_float3	light_ray_unit;
 	float		*cos_angle;
-	t_vector	bisector;
+	cl_float3	bisector;
 
 	cos_angle = malloc(sizeof(float) * 2);
 	light_ray_unit = normalize_vector(light_ray.direction);

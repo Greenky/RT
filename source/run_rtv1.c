@@ -48,8 +48,7 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 	r.origin = camera.origin;
 	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
 	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
-	r.direction = normalize_vector(matrice_mult_vect(camera.basis,
-					(t_vector){horizontal, -vertical, -DISTANCE}));
+	r.direction = normalize_vector(matrice_mult_vect(camera.basis, VEC(horizontal, -vertical, -DISTANCE)));
 	return (r);
 }
 

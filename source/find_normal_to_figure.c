@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-t_vector	choose_normal(t_objects *figure, t_vector inter)
+cl_float3	choose_normal(t_objects *figure, cl_float3 inter)
 {
 	if (figure->type == SPHERE)
 		return (find_normal_to_sphere(figure, inter));
@@ -23,25 +23,25 @@ t_vector	choose_normal(t_objects *figure, t_vector inter)
 	else if (figure->type == PLANE)
 		return (find_normal_to_plane(figure, inter));
 	else
-		return (t_vector){1,1,1}; // idk, let it be
+		return VEC(1, 1, 1);//(cl_float3){1,1,1}; // idk, let it be
 }
 
-t_vector	find_normal_to_sphere(t_objects *sphere, t_vector inter)
+cl_float3	find_normal_to_sphere(t_objects *sphere, cl_float3 inter)
 {
-	t_vector		normal_to_sphere;
-	t_vector		normal_to_sphere_unit;
+	cl_float3		normal_to_sphere;
+	cl_float3		normal_to_sphere_unit;
 
 	normal_to_sphere = vect_diff(inter, sphere->origin);
 	normal_to_sphere_unit = vect_mult(normalize_vector(normal_to_sphere), -1);
 	return (normal_to_sphere_unit);
 }
 
-t_vector	find_normal_to_cone(t_objects *cone, t_vector inter)
+cl_float3	find_normal_to_cone(t_objects *cone, cl_float3 inter)
 {
-	t_vector		normal;
-	t_vector		normal_unit;
+	cl_float3		normal;
+	cl_float3		normal_unit;
 	float			height;
-	t_vector		inter_orig;
+	cl_float3		inter_orig;
 
 	inter_orig = vect_diff(cone->origin, inter);
 	height = -vect_scalar_mult(inter_orig, inter_orig) /
@@ -52,18 +52,18 @@ t_vector	find_normal_to_cone(t_objects *cone, t_vector inter)
 	return (normal_unit);
 }
 
-t_vector	find_normal_to_plane(t_objects *plane, t_vector inter)
+cl_float3	find_normal_to_plane(t_objects *plane, cl_float3 inter)
 {
 	(void)inter;
 	return (vect_mult(plane->basis.b_z, -1));
 }
 
-t_vector	find_normal_to_cylinder(t_objects *cyl, t_vector inter)
+cl_float3	find_normal_to_cylinder(t_objects *cyl, cl_float3 inter)
 {
-	t_vector		normal;
-	t_vector		normal_unit;
+	cl_float3		normal;
+	cl_float3		normal_unit;
 	float			t;
-	t_vector		orig_inter;
+	cl_float3		orig_inter;
 
 	orig_inter = vect_diff(inter, cyl->origin);
 	t = vect_scalar_mult(orig_inter, cyl->basis.b_z) /

@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-/* THREADS  for debug ----------------------------------------------
+//* THREADS  for debug ----------------------------------------------
 
 #include <pthread.h>
 #define THREAD_MAX 20
@@ -92,9 +92,9 @@ void	draw_pixel(t_rt *scene, t_dot pixel)
 		color = find_color(scene, closest_inter, primary_ray);
 	set_pixel(scene->screen_surface, pixel.x, pixel.y, color);
 }
------------------------------------------------------------------------------ */
+//----------------------------------------------------------------------------- */
 
-//*
+/*
 int		draw_scene(t_rt *rt_data)
 {
 	t_dot	pixel;
@@ -124,4 +124,4 @@ void	draw_pixel(t_rt *rt_data, t_dot pixel)
 		color = find_color(rt_data, closest_inter, primary_ray);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
 }
-//*/
+*/

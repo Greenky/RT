@@ -66,14 +66,21 @@ void		cone_data_fill(char **line, t_objects *cone, int line_number, int *flag)
 		more_cone_data_fill(line, cone, line_number, flag);
 }
 
-void		more_cone_data_fill(char **line, t_objects *cone, int l_num, int *flag)
+void		more_cone_data_fill(char **line, t_objects *cone, int line_number, int *flag)
 {
 	if (begin_with(*line, "ang:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->angle_coef = fmin(1, fmax(0.05, tan(ANGLE_IN_DEGREES(str_to_float(*line, 0, l_num)))));
+		cone->angle_coef = fmin(1, fmax(0.05, tan(ANGLE_IN_DEGREES(str_to_float(*line, 0, line_number)))));
 		*flag = *flag | (1 << 3);
 	}
+	else if (begin_with(*line, "b_p:"))
+	{
+		*line = trim_from(*line, 4);
+		if ((cone->bling_phong = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		*flag = *flag | (1 << 4);
+	}
 	else
-		error_caster(l_num, "no such parameter as ", *line);
+		error_caster(line_number, "no such parameter as ", *line);
 }

@@ -14,26 +14,22 @@
 
 uint32_t	find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r)
 {
-//	t_light		*tmp_node;
 	t_light		*current_lamp;
 	t_channel	light_coef;
 	int			current;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
-//	float i = vect_scalar_mult(vect_mult_scalar(rt_data->camera.initial_basis.b_z, -1),
+//	float i = vect_scalar_mult(r.direction,
 //	choose_normal(closest_inter.fig, closest_inter.point));
-//	if (i < 0.3 && i >= 0)
+//	if (i < 0.2 && i >= 0)
 //		return (0xFFFFFF);
-//	tmp_node = rt_data->lights;
 	current = 0;
-//	while (tmp_node)
 	while (current < rt_data->lights_num)
 	{
-		current_lamp = (rt_data->lights_arr) + current; //tmp_node;//
+		current_lamp = (rt_data->lights_arr) + current;
 		add_coef(&light_coef, find_lamp_coef(rt_data, current_lamp,
 		closest_inter, r), 1);
 		current++;
-//		tmp_node = tmp_node->next;
 	}
 	return (find_color_hex(light_coef, closest_inter));
 }

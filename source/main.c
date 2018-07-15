@@ -14,15 +14,13 @@
 
 int			main(int argc, char **argv)
 {
-	argc = 1;
-	argv = NULL;
+//	argc = 1;
+//	argv = NULL;
 	t_rt	rt_data;
-//	if (argc != 2)
-//		error_exit(NUM_OF_ARG, NULL);
-//	(void)argv;
-//	(void)argc;
+	if (argc != 2)
+		error_exit(NUM_OF_ARG, NULL);
 // 	Я хз як передавати параметри в Windows тому так. І потім це єдиний працюючий файл)
-	file_parcing("scenes/working_test", &rt_data);
+	file_parcing(argv[1], &rt_data);
 	ray_tracing(&rt_data);
 	return (0);
 }

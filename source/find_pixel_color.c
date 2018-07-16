@@ -17,12 +17,16 @@ uint32_t	find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r)
 	t_light		*current_lamp;
 	t_channel	light_coef;
 	int			current;
+	float		i;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
-//	float i = vect_scalar_mult(r.direction,
-//	choose_normal(closest_inter.fig, closest_inter.point));
-//	if (i < 0.2 && i >= 0)
-//		return (0xFFFFFF);
+	if (closest_inter.fig->is_cartoon)
+	{
+		i = vect_scalar_mult(r.direction,
+		choose_normal(closest_inter.fig, closest_inter.point));
+		if (i < 0.2 && i >= 0)
+			return (0xFFFFFF);
+	}
 	current = 0;
 	while (current < rt_data->lights_num)
 	{

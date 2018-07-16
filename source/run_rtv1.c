@@ -27,6 +27,7 @@ void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 void		ray_tracing(t_rt *rt_data)
 {
 	SDL_Event	event;
+	SDL_Surface *wall;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	rt_data->max_reflections = 8;
@@ -35,23 +36,62 @@ void		ray_tracing(t_rt *rt_data)
 								SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
 								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
+	// 1 texture ---------------------------------------------------------------- TODO БЕШЕНИЙ КОСТИЛЯКА
+
+	rt_data->textures = (unsigned int **)malloc(sizeof(unsigned int *) * 1);
+	if (!(wall = SDL_LoadBMP("textures/Stonewall15_512x512.bmp")))
+	{
+		printf("SDL_Init failed: %s\n", SDL_GetError());
+		exit(1);
+	}
+	wall = SDL_ConvertSurfaceFormat(wall, SDL_PIXELFORMAT_ARGB8888, 0);
+	rt_data->textures[0] = (unsigned int *)wall->pixels;
+
+	// --------------------------------------------------------------------------
 	draw_scene(rt_data);
-	SDL_UpdateWindowSurface(rt_data->window);
 	event_management(rt_data, &event);
+	SDL_UpdateWindowSurface(rt_data->window);
 }
 
 t_ray		compute_ray(t_camera camera, t_dot pixel)
 {
 	t_ray	r;
-	float	vertical;
-	float	horizontal;
+//	float	vertical;
+//	float	horizontal;
 
 	r.origin = camera.origin;
-	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
-	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
-	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
-													(t_vector) {horizontal, -vertical, -DISTANCE}));
+	camera.basis.b_x = normalize_vector(camera.basis.b_x);
+	camera.basis.b_x = vect_mult_scalar(camera.basis.b_x, (LEFT_BOUND + pixel.x) * STEP);
+	camera.basis.b_y = normalize_vector(camera.basis.b_y);
+	camera.basis.b_y = vect_mult_scalar(camera.basis.b_y, -(LEFT_BOUND + pixel.y) * STEP);
+//	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
+//	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
+//	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
+//													(t_vector) {horizontal, -vertical, -DISTANCE}));
+//	vect_scalar_mult()vect_mult_scalar()
+	camera.basis.b_z = vect_mult_scalar(normalize_vector(camera.basis.b_z), -DISTANCE);
+	r.direction = normalize_vector(vect_sum(vect_sum(camera.basis.b_x, camera.basis.b_y), camera.basis.b_z));
 	return (r);
+}
+
+void get_texture(t_intersect *closest_inter, unsigned int **textures)
+{
+	t_vector nor;
+	nor = normalize_vector(vect_diff(closest_inter->point, closest_inter->fig->origin));
+	float ro = acosf(-nor.z);
+	float fi = atan2f(nor.y, nor.x);
+	int i;
+	int j;
+	if (closest_inter->fig->texture_index == 0)
+	{
+		j = ro * 512 * M_1_PI;
+		i = fi * 512 * M_1_PI / 2;
+		closest_inter->texture_color = int_to_channels(textures[0][j * 512 + i]);
+	}
+	else
+	{
+		closest_inter->texture_color =  closest_inter->fig->color;
+	}
 }
 
 t_intersect	find_closest_inter(t_rt *rt_data, t_ray primary_ray)
@@ -70,5 +110,6 @@ t_intersect	find_closest_inter(t_rt *rt_data, t_ray primary_ray)
 			closest_inter = tmp_inter;
 		current++;
 	}
+	get_texture(&closest_inter, rt_data->textures);
 	return (closest_inter);
 }

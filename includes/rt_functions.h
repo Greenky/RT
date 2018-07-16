@@ -151,7 +151,7 @@ void			cone_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cone_discriminant(t_ray r, float *coefficient, float coef);
 
 void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
-
+t_channel		int_to_channels(int col);
 //------------------------------------------------------------------------------------
 
 

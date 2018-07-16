@@ -71,7 +71,7 @@ void		more_cone_data_fill(char **line, t_objects *cone, int line_number, int *fl
 	if (begin_with(*line, "ang:"))
 	{
 		*line = trim_from(*line, 4);
-		cone->angle_coef = fmin(1, fmax(0.05, tan(ANGLE_IN_DEGREES(str_to_float(*line, 0, line_number)))));
+		cone->angle_coef = fminf(1, fmaxf(0.05, tanf(ANGLE_IN_DEGREES(str_to_float(*line, 0, line_number)))));
 		*flag = *flag | (1 << 3);
 	}
 	else if (begin_with(*line, "b_p:"))

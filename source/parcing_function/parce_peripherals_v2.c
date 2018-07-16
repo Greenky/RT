@@ -12,12 +12,21 @@
 
 #include "../../includes/rt_functions.h"
 
+t_channel				int_to_channels(int col)
+{
+	t_channel channels;
+
+	channels.blue = col & 255;
+	channels.green = col >> 8 & 255;
+	channels.red = col >> 16 & 255;
+	return (channels);
+}
+
 t_channel				parce_color(char *line, int line_number)
 {
 	int			i;
 	int			j;
 	int			col;
-	t_channel	channnels;
 	const char	base[17] = "0123456789ABCDEF";
 
 	i = 1;
@@ -33,10 +42,7 @@ t_channel				parce_color(char *line, int line_number)
 				error_caster(line_number, "wrong color representation ", line);
 			col = col * 16 + j;
 		}
-		channnels.blue = col & 255;
-		channnels.green = col >> 8 & 255;
-		channnels.red = col  >> 16 & 255;
-		return (channnels);
+		return (int_to_channels(col));
 	}
 	error_caster(line_number, "wrong color representation ", line);
 	return ((t_channel){0, 0, 0});

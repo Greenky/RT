@@ -75,7 +75,9 @@ typedef struct		s_light // ADDED TYPE, fix
 struct s_intersect;
 typedef struct		s_objects
 {
+	int					is_cartoon;
 	int					type;
+	int 				texture_index;
 	t_channel			color;
 	t_vector			origin;
     t_vector			normal;
@@ -91,10 +93,11 @@ typedef struct		s_objects
 
 typedef struct		s_intersect
 {
-	t_vector	    point;//точка пересечения фигуры и луча
+	t_vector	    point; // точка пересечения фигуры и луча
 	float			distance;
 	t_objects		*fig;
 	t_vector		normal;
+	t_channel		texture_color;
 }					t_intersect;
 
 typedef struct	s_rt
@@ -106,6 +109,7 @@ typedef struct	s_rt
 	t_objects		*objects;
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
+	unsigned int	**textures;
 	int				objects_num;
 	int				lights_num;
 	int				reflect_rate;

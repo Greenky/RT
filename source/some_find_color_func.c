@@ -76,11 +76,11 @@ uint32_t	find_color_hex(t_channel light_coef, t_intersect closest_inter)
 	uint32_t	color_hex;
 
 	color_hex = 0;
-	color_hex += find_color_channel(closest_inter.fig->color.red,
+	color_hex += find_color_channel(closest_inter.texture_color.red,
 									light_coef.red, 16);
-	color_hex += find_color_channel(closest_inter.fig->color.green,
+	color_hex += find_color_channel(closest_inter.texture_color.green,
 									light_coef.green, 8);
-	color_hex += find_color_channel(closest_inter.fig->color.blue,
+	color_hex += find_color_channel(closest_inter.texture_color.blue,
 									light_coef.blue, 0);
 	return (color_hex);
 }

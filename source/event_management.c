@@ -11,7 +11,40 @@
 /* ************************************************************************** */
 
 #include "../includes/rt_functions.h"
+// NEW FUNC -----------------------------------------------
+int mouse_click_event(t_rt *rt_data, SDL_Event *event)
+{
+	t_ray		primary_ray;
+	uint32_t	color;
+	t_intersect	closest_inter;
+	t_dot		pixel;
+	int			i;
 
+	pixel.x = event->button.x;
+	pixel.y = event->button.y;
+	primary_ray = compute_ray(rt_data->camera, pixel);
+	closest_inter = find_closest_inter(rt_data, primary_ray);
+	i = 0;
+	if (closest_inter.distance != INFINITY)
+		while (i < rt_data->objects_num)
+		{
+			if (closest_inter.fig == (rt_data->objects_arr + i)) {
+				if (rt_data->objects_arr[i].is_cartoon)
+					rt_data->objects_arr[i].is_cartoon = 0;
+				else
+					rt_data->objects_arr[i].is_cartoon = 1;
+			}
+			else
+				rt_data->objects_arr[i].is_cartoon = 0;
+			i++;
+		}
+	draw_scene(rt_data);
+	SDL_UpdateWindowSurface(rt_data->window);
+	return (0);
+}
+
+
+//------------------------------------------------------------
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
 	int		running;
@@ -25,7 +58,9 @@ void		event_management(t_rt *rt_data, SDL_Event *event)
 		{
 			if (!exit_x(rt_data, event))
 				running = 0;
-			else if (event->type == SDL_KEYDOWN)
+			if (event->type == SDL_MOUSEBUTTONDOWN)
+				mouse_click_event(rt_data, event);
+			if (event->type == SDL_KEYDOWN)
 				key_down(rt_data, event);
 		}
 	}

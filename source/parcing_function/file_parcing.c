@@ -44,6 +44,12 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		rt_data->objects_arr[len].transperent_coef = step_obj->transperent_coef;
 		rt_data->objects_arr[len].axis_dimensions = step_obj->axis_dimensions;
 		rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
+		// KOSTIL ---------------------------------------------------------------- // TODO udolit
+
+		rt_data->objects_arr[len].texture_index = (step_obj->type == SPHERE) ? 0 : 2;
+
+		// ------------------------------------------------------------------------
+		rt_data->objects_arr[len].is_cartoon = 0;
 		rt_data->objects_arr[len].next = NULL;
 		len++;
 		step_obj = step_obj->next;

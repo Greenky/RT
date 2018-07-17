@@ -20,8 +20,8 @@ void		ray_tracing(t_rt *rt_data)
 	rt_data->max_reflections = 8;
 	rt_data->camera.initial_basis = rt_data->camera.basis;//new
 	rt_data->window = SDL_CreateWindow(W_TITLE, SDL_WINDOWPOS_UNDEFINED,
-									SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
-									SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
+									SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
+									WIN_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
@@ -31,7 +31,7 @@ void		ray_tracing(t_rt *rt_data)
 void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 {
 	if (tmp_inter->fig->type == SPHERE)
-		sphere_find_closest_intersect(primary_ray, tmp_inter);//ellipsoid_find_closest_intersect(primary_ray, tmp_inter);//
+		sphere_find_closest_intersect(primary_ray, tmp_inter);
 	else if (tmp_inter->fig->type == CYLINDER)
 		cyl_find_closest_intersect(primary_ray, tmp_inter);
 	else if (tmp_inter->fig->type == CONE)
@@ -50,8 +50,8 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 	float	horizontal;
 
 	r.origin = camera.origin;
-	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
-	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
+	vertical = (float)((TOP_BOUND + (float)pixel.y / ANTI_ALIASING) * STEP);
+	horizontal = (float)((LEFT_BOUND + (float)pixel.x / ANTI_ALIASING) * STEP);
 	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
 									(t_vector) {horizontal, -vertical, -DISTANCE}));
 	return (r);

@@ -1,7 +1,7 @@
 #### CAMERA ####
     camera:
         dir: (0, 0, -1)
-        cen: (0, 0, -12)
+        cen: (0, 0, -10)
 ################
 #### LIGHTS ####
     light:
@@ -18,6 +18,11 @@
         ambient
         col: 0xAAAAFF
         int: 0.2
+    light:
+        direct
+        col: 0xAAAAFF
+        dir: (0, 1, 0)
+        int: 0.4
 ################
 #### SHAPES ####
     ellipsoid:
@@ -34,7 +39,7 @@
         col: 0x0365ff
         cen: (-2, -2, 4)
         rad: 1.7
-        dir: (-0.5, -0.5, 0)
+        dir: (0, 1, 0)
         b_p: 100000
     plane:
         col: 0xFFFFFF
@@ -43,7 +48,7 @@
         b_p: 1
     plane:
         col: 0xFFFFFF
-        cen: (0, -5, 3)
+        cen: (0, 6, 3)
         nor: (0, 1, 0)
         b_p: 1
     plane:

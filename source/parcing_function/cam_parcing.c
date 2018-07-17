@@ -29,7 +29,7 @@ int			cam_parce(int fd, t_rt *rt_data)
 	}
 	if (ret < 0 || flag != CAMERA_IS_PARSED)
 		error_exit(ERROR, NULL);
-	rt_data->camera.dest = SCR_SIZE * cos(M_PI / 6);
+	rt_data->camera.dest = WIN_SIZE * cos(M_PI / 6);
 	rt_data->camera.is_set = 1;
 	rt_data->camera.basis = create_coord_system(rt_data->camera.basis);
 	rt_data->camera.angle_rot = VEC(0, 0, 0);

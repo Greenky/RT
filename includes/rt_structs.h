@@ -15,7 +15,7 @@
 
 enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR};
 enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID};
-enum	e_lights {AMBIENT, POINT, DIRECT};
+enum	e_lights {AMBIENT, SPOT, DIRECT};
 
 typedef struct		s_dot
 {

@@ -15,7 +15,7 @@
 void	error_exit(int error_name,t_rt *rt_data)
 {
 	if (error_name == NUM_OF_ARG)
-		ft_putstr_fd("Input must include one parameter\nUsage: ./RT\t[scene]\n", 2);
+		ft_putstr_fd("Input must include one parameter\nUsage: ./RT\t[rt_data]\n", 2);
 	else if (error_name == ERROR)
 		perror("RT");
 	else if (error_name == CAM_ERROR)

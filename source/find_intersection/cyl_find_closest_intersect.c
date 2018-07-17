@@ -21,10 +21,10 @@ void	cyl_find_closest_intersect(t_ray r, t_intersect *inter)
 
 	r_cyl_sys.origin = vect_diff(r.origin, inter->fig->origin);
 	r_cyl_sys.origin =
-            matrix_mult_vect(count_inverse_matrix(inter->fig->basis),
-                             r_cyl_sys.origin);
+			matrix_mult_vect(count_inverse_matrix(inter->fig->basis),
+							r_cyl_sys.origin);
 	r_cyl_sys.direction =
-            matrix_mult_vect(count_inverse_matrix(inter->fig->basis), r.direction);
+			matrix_mult_vect(count_inverse_matrix(inter->fig->basis), r.direction);
 	discriminant = find_cyl_discriminant(r_cyl_sys,
 					inter->fig->radius, coefficient);
 	if (!find_the_root(coefficient, discriminant, t))

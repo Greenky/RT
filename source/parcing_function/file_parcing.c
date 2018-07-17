@@ -168,7 +168,7 @@ t_coord_sys	create_coord_system(t_coord_sys basis)
 	if (basis.b_z.x == 0 && basis.b_z.z == 0)
 	{
 		basis.b_y = VEC(1, 0, 0);
-		basis.b_x = VEC(0, 1, 0);
+		basis.b_x = VEC(0, 0, 1);
 	}
 	else
 	{

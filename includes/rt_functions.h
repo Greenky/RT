@@ -32,7 +32,8 @@
 # define SHIFT 0
 # define ROTATE 1
 
-# define SCR_SIZE 800
+# define ANTI_ALIASING 1
+# define WIN_SIZE 800
 # define OBJ_NUM 7
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
@@ -45,10 +46,10 @@
 # define PLANE_IS_PARSED 15
 # define ELLIPSOID_IS_PARSED 15//TODO check!!
 //# define AMBIENT_DEFAULT 0.1
-# define STEP (1.0 / SCR_SIZE)
+# define STEP (1.0 / WIN_SIZE)
 # define SHIFT_STEP 0.2
-# define LEFT_BOUND (-(SCR_SIZE / 2))
-# define TOP_BOUND (-(SCR_SIZE / 2))
+# define LEFT_BOUND (-(WIN_SIZE / 2))
+# define TOP_BOUND (-(WIN_SIZE / 2))
 # define A 0
 # define B 1
 # define C 2
@@ -112,7 +113,9 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 //------------------------------------------------------------------------------------
 
-void			draw_pixel(t_rt *rt_data, t_dot pixel);
+void			draw_pixel_with_aa(t_rt *rt_data, t_dot pixel);
+uint32_t		channel_color_to_uint(t_channel color);
+t_channel		get_pixel_color(t_rt *rt_data, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
 void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_rt *rt_data, t_ray primary_ray);
@@ -148,15 +151,17 @@ t_vector		find_normal_to_ellipsoid(t_objects *ellipsoid, t_vector inter);//new
 
 
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
-t_channel		find_lamp_coef(t_rt *rt_data, t_light *current_lamp, t_intersect closest_inter, t_ray r);
-t_ray			find_light_ray(t_vector origin, t_vector end);
-uint32_t		find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
+t_channel		find_light_color(t_rt *rt_data, t_light *current_lamp, t_intersect closest_inter, t_ray r);
+t_ray			find_light_ray(t_vector origin, t_light *light);
+t_channel		find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, t_vector normal, t_ray r);
-int				is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray, t_intersect closest_inter);
-float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, t_vector normal, t_ray r);
-uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
-uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
+int			is_light_ray_cross_figure(t_rt *rt_data, int type_light, t_ray light_ray,
+										t_intersect closest_inter);
+float			*find_cos_angle(t_vector light_dir, t_intersect closest_inter,
+							t_vector normal, t_ray r);
+t_channel		fig_color_with_light(t_channel light_coef, t_intersect closest_inter);
+uint32_t		fig_color_with_light_channel(float fig_color, float light_color);
 
 void			set_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 

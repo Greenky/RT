@@ -53,7 +53,7 @@ void		feelings(char **line, t_light *light, int line_number, int *flag)
 	}
 	else if (ft_strequ(*line, "point"))
 	{
-		light->type = POINT;
+		light->type = SPOT;
 		*flag = (*flag & ~(1 << 3)) | (1 << 4);
 	}
 	else if (ft_strequ(*line, "direct"))

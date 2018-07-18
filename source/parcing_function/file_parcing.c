@@ -27,11 +27,12 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		len++;
 		step_obj = step_obj->next;
 	}
-	rt_data->objects_num = len;
+	rt_data->cl_data.num_of_objects = len;
+//	rt_data->camera.num_of_objects = len;
 	rt_data->objects_arr = (t_objects *)malloc(sizeof(t_objects) * len);
 	len = 0;
 	step_obj = rt_data->objects;
-	while (len < rt_data->objects_num)
+	while (len < rt_data->cl_data.num_of_objects)
 	{
 		rt_data->objects_arr[len].type = step_obj->type;
 		rt_data->objects_arr[len].color = step_obj->color;
@@ -46,8 +47,8 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
 		// KOSTIL ---------------------------------------------------------------- // TODO udolit
 
+		rt_data->objects_arr[len].mirror_coef = (step_obj->type == PLANE) ? 0.4f : 0;
 		rt_data->objects_arr[len].texture_index = (step_obj->type == SPHERE) ? 0 : 2;
-
 		// ------------------------------------------------------------------------
 		rt_data->objects_arr[len].is_cartoon = 0;
 		rt_data->objects_arr[len].next = NULL;
@@ -61,11 +62,12 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		len++;
 		step_light = step_light->next;
 	}
-	rt_data->lights_num = len;
+//	rt_data->lights_num = len;
+	rt_data->cl_data.num_of_lights = len;
 	rt_data->lights_arr = (t_light *)malloc(sizeof(t_light) * len);
 	len = 0;
 	step_light = rt_data->lights;
-	while (len < rt_data->lights_num)
+	while (len < rt_data->cl_data.num_of_lights)
 	{
 		rt_data->lights_arr[len].origin = step_light->origin;
 		rt_data->lights_arr[len].color = step_light->color;
@@ -99,9 +101,12 @@ void			file_parcing(char *file, t_rt *rt_data)
 	fd = find_fd(file);
 	rt_data->objects = NULL;
 	rt_data->lights = NULL;
-	rt_data->camera.is_set = 0;
+	rt_data->cl_data.camera.is_set = 0; // new
+	rt_data->cl_data.max_reflections = 5;
 	line_reader(rt_data, fd, arr);
-	if (!rt_data->camera.is_set)
+//	if (!rt_data->camera.is_set)
+//		error_exit(CAM_ERROR, rt_data);
+	if (!rt_data->cl_data.camera.is_set)
 		error_exit(CAM_ERROR, rt_data);
 	init_arrays(rt_data);
 	correct_plane_normal(rt_data);
@@ -159,8 +164,8 @@ void		correct_plane_normal(t_rt *rt_data)//перенести
 	{
 		if (object_list->type == PLANE)
 		{
-			if (vect_scalar_mult(object_list->normal, rt_data->camera.basis.b_z) <= 0)
-                object_list->normal = vect_mult_scalar(object_list->normal, -1);
+			if (vect_scalar_mult(object_list->normal, rt_data->cl_data.camera.basis.b_z) <= 0)
+				object_list->normal = vect_mult_scalar(object_list->normal, -1);
 		}
 		object_list = object_list->next;
 	}

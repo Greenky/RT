@@ -17,7 +17,7 @@ float	find_square(float a)
 	return (a * a);
 }
 
-float	distance(t_vector v1, t_vector v2)
+float	distance(cl_float3 v1, cl_float3 v2)
 {
 	float	div_x;
 	float	div_y;
@@ -29,7 +29,7 @@ float	distance(t_vector v1, t_vector v2)
 	return (sqrtf(div_x * div_x + div_y * div_y + div_z * div_z));
 }
 
-float	length(t_vector v)
+float	length(cl_float3 v)
 {
 	return (sqrtf(v.x * v.x + v.y * v.y + v.z * v.z));
 }

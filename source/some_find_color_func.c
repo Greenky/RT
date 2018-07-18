@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
+int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 {
 	float	is_light_with_cam;
 
@@ -24,7 +24,7 @@ int			is_shadows_here(t_ray light_ray, t_vector normal, t_ray r)
 		return (FALSE);
 }
 
-int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
+int			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
 										t_intersect closest_inter)
 {
 	t_intersect		clost_to_light;
@@ -33,9 +33,9 @@ int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 
 	current = 0;
 	distance_to_light = distance(light_ray.origin, closest_inter.point);
-	while (current < rt_data->objects_num)
+	while (current < cl_data.num_of_objects)
 	{
-		clost_to_light.fig = rt_data->objects_arr + current;
+		clost_to_light.fig = &objects[current];
 		if (clost_to_light.fig != closest_inter.fig)
 		{
 			choose_intersection(light_ray, &clost_to_light);
@@ -51,11 +51,11 @@ int			is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
-			t_vector normal, t_ray r)
+			cl_float3 normal, t_ray r)
 {
-	t_vector	light_ray_unit;
-	float		*cos_angle;
-	t_vector	bisector;
+	cl_float3		light_ray_unit;
+	float			*cos_angle;
+	cl_float3		bisector;
 
 	cos_angle = malloc(sizeof(float) * 2);
 	light_ray_unit = normalize_vector(light_ray.direction);
@@ -76,12 +76,25 @@ uint32_t	find_color_hex(t_channel light_coef, t_intersect closest_inter)
 	uint32_t	color_hex;
 
 	color_hex = 0;
+//	if (closest_inter.fig->type != SPHERE)
+//	{ fig->color texture_color
+//	color_hex += find_color_channel(closest_inter.fig->color.red,
+//									light_coef.red, 16);
+//	color_hex += find_color_channel(closest_inter.fig->color.green,
+//									light_coef.green, 8);
+//	color_hex += find_color_channel(closest_inter.fig->color.blue,
+//									light_coef.blue, 0);
+//	}
+//	else
+//	{
+//		get_texture(&closest_inter);
 	color_hex += find_color_channel(closest_inter.texture_color.red,
 									light_coef.red, 16);
 	color_hex += find_color_channel(closest_inter.texture_color.green,
 									light_coef.green, 8);
 	color_hex += find_color_channel(closest_inter.texture_color.blue,
 									light_coef.blue, 0);
+//	}
 	return (color_hex);
 }
 

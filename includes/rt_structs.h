@@ -39,79 +39,107 @@ typedef struct		s_channel
 
 typedef struct	s_ray
 {
-	t_vector	origin;
-	t_vector	direction;
+	cl_float3	origin;
+	cl_float3	direction;
 }				t_ray;
 
 typedef struct		s_coord_sys
 {
-	t_vector		b_x;
-	t_vector		b_y;
-	t_vector		b_z;
+	cl_float3		b_x;
+	cl_float3		b_y;
+	cl_float3		b_z;
 }					t_coord_sys;
 
 typedef struct	s_camera
 {
-	t_vector		origin;
+	cl_float3		origin;
 	t_coord_sys		initial_basis;
 	t_coord_sys		basis;
-	t_vector		angle_rot;
-	int			    is_set;
+	cl_float3		angle_rot;
+	int				is_set;
 
-	double		    dest;//TODO delete if unnecessary
-
+	double			dest;//TODO delete if unnecessary
 }				t_camera;
 
 typedef struct		s_light // ADDED TYPE, fix
 {
 	int				type;
-	t_vector		origin;
-	t_channel		color;
 	float			intensity;
-	t_vector		direct;
+	cl_float3		origin;
+	t_channel		color;
+	cl_float3		direct;
 	struct s_light	*next;
 }					t_light;
 
 struct s_intersect;
 typedef struct		s_objects
 {
-	int					is_cartoon;
 	int					type;
 	int 				texture_index;
+	int 				is_cartoon;
 	t_channel			color;
-	t_vector			origin;
-    t_vector			normal;
 	float				radius;
-    float				angle_coef;
-	t_coord_sys			basis;
+	float				angle_coef;
 	float				mirror_coef;
 	float				transperent_coef;
-	t_vector			axis_dimensions;//размеры осей x y z для эллипсоида
+	cl_float3			origin;
+	cl_float3			normal;
+	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида
+	t_coord_sys			basis;
 	int					bling_phong;
 	struct s_objects	*next;
 }					t_objects;
 
 typedef struct		s_intersect
 {
-	t_vector	    point; // точка пересечения фигуры и луча
 	float			distance;
+	cl_float3		point;//точка пересечения фигуры и луча
+	cl_float3		normal;
 	t_objects		*fig;
-	t_vector		normal;
 	t_channel		texture_color;
 }					t_intersect;
+
+typedef struct	s_cl_data
+{
+	int				num_of_objects;
+	int				num_of_lights;
+	int				reflect_rate;
+	int				max_reflections;
+	unsigned int	*texture; // NEW VARIABLE
+	t_camera		camera;
+}				t_cl_data;
+
+typedef struct		s_cl
+{
+	cl_device_id		device_id;
+	cl_context			context;
+	cl_command_queue	queue;
+	cl_program			program;
+	cl_kernel			kernel;
+	cl_platform_id		platform_id;
+	cl_uint				devices_num;
+	cl_uint				platforms_num;
+	size_t				local_size;
+	size_t				global_size;
+	cl_int				err;
+	cl_mem				lights;
+	cl_mem				objects;
+	cl_mem				image;
+}						t_cl;
 
 typedef struct	s_rt
 {
 	SDL_Window		*window;
 	SDL_Surface		*screen_surface;
-	t_camera		camera;
+//	t_camera		camera;
+	t_cl			cl;
+	t_cl_data		cl_data;
 	t_light			*lights;
 	t_objects		*objects;
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
-	unsigned int	**textures;
-	int				objects_num;
-	int				lights_num;
+//	int				objects_num;
+//	int				lights_num;
 	int				reflect_rate;
 	int				max_reflections;
 	int				line_number;

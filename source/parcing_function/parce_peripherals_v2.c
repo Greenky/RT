@@ -50,7 +50,7 @@ t_channel				parce_color(char *line, int line_number)
 
 
 
-t_vector		parce_vector(char *line, int line_number)
+cl_float3		parce_vector(char *line, int line_number)
 {
 	int		i;
 	//int		flag;

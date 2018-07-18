@@ -12,44 +12,44 @@
 
 #include "../../includes/rt_functions.h"
 
-t_vector	vect_diff(t_vector v1, t_vector v2)
+cl_float3	vect_diff(cl_float3 v1, cl_float3 v2)
 {
-	t_vector	result_vector;
+	cl_float3	resulcl_float3;
 
-	result_vector.x = v1.x - v2.x;
-	result_vector.y = v1.y - v2.y;
-	result_vector.z = v1.z - v2.z;
-	return (result_vector);
+	resulcl_float3.x = v1.x - v2.x;
+	resulcl_float3.y = v1.y - v2.y;
+	resulcl_float3.z = v1.z - v2.z;
+	return (resulcl_float3);
 }
 
-t_vector	vect_sum(t_vector v1, t_vector v2)
+cl_float3	vect_sum(cl_float3 v1, cl_float3 v2)
 {
-	t_vector	result_vector;
+	cl_float3	resulcl_float3;
 
-	result_vector.x = v1.x + v2.x;
-	result_vector.y = v1.y + v2.y;
-	result_vector.z = v1.z + v2.z;
-	return (result_vector);
+	resulcl_float3.x = v1.x + v2.x;
+	resulcl_float3.y = v1.y + v2.y;
+	resulcl_float3.z = v1.z + v2.z;
+	return (resulcl_float3);
 }
 
-t_vector	vect_mult_scalar(t_vector v1, float multiplier)
+cl_float3	vect_mult_scalar(cl_float3 v1, float multiplier)
 {
-	t_vector	result_vector;
+	cl_float3	resulcl_float3;
 
-	result_vector.x = v1.x * multiplier;
-	result_vector.y = v1.y * multiplier;
-	result_vector.z = v1.z * multiplier;
-	return (result_vector);
+	resulcl_float3.x = v1.x * multiplier;
+	resulcl_float3.y = v1.y * multiplier;
+	resulcl_float3.z = v1.z * multiplier;
+	return (resulcl_float3);
 }
 
-float		vect_scalar_mult(t_vector v1, t_vector v2)
+float		vect_scalar_mult(cl_float3 v1, cl_float3 v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
-t_vector	vect_cross_product(t_vector a, t_vector b)
+cl_float3	vect_cross_product(cl_float3 a, cl_float3 b)
 {
-	t_vector c;
+	cl_float3 c;
 
 	c.x = a.y * b.z - a.z * b.y;
 	c.y = a.z * b.x - a.x * b.z;
@@ -57,15 +57,20 @@ t_vector	vect_cross_product(t_vector a, t_vector b)
 	return (c);
 }
 
-t_vector	normalize_vector(t_vector a)
+cl_float3	normalize_vector(cl_float3 a)
 {
 	float		coef;
-	t_vector	normal;
+	cl_float3	normal;
 	float		len;
 
 	len = length(a);
 	if (len == 0)
-		return ((t_vector){0, 0, 0});
+	{
+		normal.x = 0;
+		normal.y = 0;
+		normal.z = 0;
+		return (normal);
+	}
 	coef = 1.0f / len;
 	normal.x = a.x * coef;
 	normal.y = a.y * coef;
@@ -73,7 +78,7 @@ t_vector	normalize_vector(t_vector a)
 	return (normal);
 }
 
-t_vector	change_vector(t_vector v,  int flag, t_vector mult_coef)
+cl_float3	change_vector(cl_float3 v,  int flag, cl_float3 mult_coef)
 {
 	if (flag == DIVISION)
 	{

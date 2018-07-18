@@ -11,22 +11,22 @@
 /* ************************************************************************** */
 
 #include "../includes/rt_functions.h"
-// NEW FUNC -----------------------------------------------
+
+
 int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 {
 	t_ray		primary_ray;
-	uint32_t	color;
 	t_intersect	closest_inter;
 	t_dot		pixel;
 	int			i;
 
 	pixel.x = event->button.x;
 	pixel.y = event->button.y;
-	primary_ray = compute_ray(rt_data->camera, pixel);
-	closest_inter = find_closest_inter(rt_data, primary_ray);
+	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
+	closest_inter = find_closest_inter(rt_data->cl_data, rt_data->objects_arr, primary_ray);
 	i = 0;
 	if (closest_inter.distance != INFINITY)
-		while (i < rt_data->objects_num)
+		while (i < rt_data->cl_data.num_of_objects)
 		{
 			if (closest_inter.fig == (rt_data->objects_arr + i)) {
 				if (rt_data->objects_arr[i].is_cartoon)
@@ -44,24 +44,27 @@ int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 }
 
 
-//------------------------------------------------------------
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
 	int		running;
+	cl_float3	res;
 
 	running = 1;
 	SDL_UpdateWindowSurface(rt_data->window);
-	rt_data->camera.angle_rot = VEC(0, 0, 0);
+	res.x = 0;
+	res.y = 0;
+	res.z = 0;
+	rt_data->cl_data.camera.angle_rot = res; // new
 	while (running)
 	{
 		while (SDL_PollEvent(event))
 		{
 			if (!exit_x(rt_data, event))
 				running = 0;
-			if (event->type == SDL_MOUSEBUTTONDOWN)
-				mouse_click_event(rt_data, event);
 			if (event->type == SDL_KEYDOWN)
 				key_down(rt_data, event);
+			if (event->type == SDL_MOUSEBUTTONDOWN)
+				mouse_click_event(rt_data, event);
 		}
 	}
 }
@@ -84,21 +87,29 @@ int			exit_x(t_rt *rt_data, SDL_Event *event)
 int			key_down(t_rt *rt_data, SDL_Event *event)
 {
 	if (event->key.keysym.sym == SDLK_w)
-		rt_data->camera.origin =
-					vect_diff(rt_data->camera.origin,
-							vect_mult_scalar(rt_data->camera.basis.b_z, SHIFT_STEP));
+	{
+		rt_data->cl_data.camera.origin =
+				vect_diff(rt_data->cl_data.camera.origin,
+						  vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP)); // new
+	}
 	else if (event->key.keysym.sym == SDLK_s)
-		rt_data->camera.origin =
-				vect_sum(rt_data->camera.origin,
-						 vect_mult_scalar(rt_data->camera.basis.b_z, SHIFT_STEP));
+	{
+		rt_data->cl_data.camera.origin =
+				vect_sum(rt_data->cl_data.camera.origin,
+						 vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP)); // new
+	}
 	else if (event->key.keysym.sym == SDLK_d)
-		rt_data->camera.origin =
-				vect_sum(rt_data->camera.origin,
-						 vect_mult_scalar(rt_data->camera.basis.b_x, SHIFT_STEP));
+	{
+		rt_data->cl_data.camera.origin =
+				vect_sum(rt_data->cl_data.camera.origin,
+						 vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP)); // new
+	}
 	else if (event->key.keysym.sym == SDLK_a)
-		rt_data->camera.origin =
-				vect_diff(rt_data->camera.origin,
-						  vect_mult_scalar(rt_data->camera.basis.b_x, SHIFT_STEP));
+	{
+		rt_data->cl_data.camera.origin =
+				vect_diff(rt_data->cl_data.camera.origin,
+						  vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP)); // new
+	}
 	else if (event->key.keysym.sym == SDLK_UP ||
 			 event->key.keysym.sym == SDLK_DOWN ||
 			 event->key.keysym.sym == SDLK_RIGHT ||
@@ -108,9 +119,9 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 		rotating_camera(event->key.keysym.sym, rt_data);
 	else if (event->key.keysym.sym == SDLK_SPACE)
 	{
-		rt_data->camera.basis = rt_data->camera.initial_basis;
-		rt_data->camera.origin = VEC(0, 0, -10);
-		rt_data->camera.angle_rot = VEC(0, 0, 0);
+		rt_data->cl_data.camera.basis = rt_data->cl_data.camera.initial_basis; // new
+		rt_data->cl_data.camera.origin = VEC(0, 0, -20); // new
+		rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0); // new
 	}
 	else if (event->key.keysym.sym == SDLK_7)
 	{
@@ -126,6 +137,7 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 	else
 		return (0);
 	draw_scene(rt_data);
+//	cl_start(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);
 }
@@ -137,34 +149,40 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
 			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
 	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
-		rt_data->camera.angle_rot.x += angle;
+	{
+		rt_data->cl_data.camera.angle_rot.x += angle; // new
+	}
 	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
-		rt_data->camera.angle_rot.y -= angle;
+	{
+		rt_data->cl_data.camera.angle_rot.y -= angle; // new
+	}
 	else
-		rt_data->camera.angle_rot.z += angle;
-	printf("x = %f, y = %f, z = %f\n", rt_data->camera.angle_rot.x, rt_data->camera.angle_rot.y, rt_data->camera.angle_rot.z);//TODO delete
-		rt_data->camera.basis = init_basis_after_rot(rt_data);
+	{
+		rt_data->cl_data.camera.angle_rot.z += angle; // new
+	}
+//	printf("x = %f, y = %f, z = %f\n", rt_data->camera.angle_rot.x, rt_data->camera.angle_rot.y, rt_data->camera.angle_rot.z);//TODO delete
+	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data); // new
 }
 
 t_coord_sys	init_basis_after_rot(t_rt *rt_data)
 {
 	t_coord_sys		new_basis;
-	t_vector		x_cam_sys;
-	t_vector		y_cam_sys;
-	//t_vector		z_cam_sys;
+	cl_float3		x_cam_sys;
+	cl_float3		y_cam_sys;
+	//cl_float3		z_cam_sys;
 
-	new_basis = matrix_mult_matrix(rt_data->camera.initial_basis,
-								rot_matrix_about_the_axis(rt_data->camera.angle_rot.z, VEC(0, 0, 1)));
-	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_y);
+	new_basis = matrix_mult_matrix(rt_data->cl_data.camera.initial_basis,
+								   rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.z, VEC(0, 0, 1))); // new
+	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_y); // new
 	new_basis = matrix_mult_matrix(new_basis,
-								   rot_matrix_about_the_axis(rt_data->camera.angle_rot.y, y_cam_sys));
-	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x);
+								   rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.y, y_cam_sys)); // new
+	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x); // new
 	new_basis = matrix_mult_matrix(new_basis,
-								   (rot_matrix_about_the_axis(rt_data->camera.angle_rot.x, x_cam_sys)));
+								   (rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.x, x_cam_sys))); // new
 	return (new_basis);
 }
 
-t_coord_sys		rot_matrix_about_the_axis(float angle, t_vector axis)
+t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis)
 {
 	t_coord_sys rot_matrix;
 
@@ -181,3 +199,36 @@ t_coord_sys		rot_matrix_about_the_axis(float angle, t_vector axis)
 	rot_matrix.b_z.z = cosf(angle) + (1 - cosf(angle)) * find_square(axis.z);
 	return (rot_matrix);
 }
+
+
+//------------------------------------------------------------------
+
+//
+//t_channel				int_to_channels(int col)
+//{
+//	t_channel channels;
+//
+//	channels.blue = col & 255;
+//	channels.green = col >> 8 & 255;
+//	channels.red = col >> 16 & 255;
+//	return (channels);
+//}
+////
+//t_intersect	find_closest_reflected_inter(t_cl_data cl_data,__constant t_objects *objects, t_ray ray, __constant t_objects *this)
+//{
+//t_intersect	tmp_inter;
+//t_intersect	closest_inter;
+//int current;
+//
+//closest_inter.distance = INFINITY;
+//current = 0;
+//while (current < cl_data.num_of_objects)
+//{
+//	tmp_inter.fig = &objects[current];
+//	choose_intersection(ray, &tmp_inter);
+//	if (tmp_inter.distance < closest_inter.distance && tmp_inter.fig != this)
+//		closest_inter = tmp_inter;
+//	current++;
+//}
+//return (closest_inter);
+//}

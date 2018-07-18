@@ -106,6 +106,8 @@ set(SOURCE_FILES  source/main.c
 #		libft/ft_tolower.c
 #		libft/ft_toupper.c
 #		libft/get_next_line.c)
+		#kernel.c)
+
 #-------------------------------------------------------------
 
 set(HEADERS includes/rt_structs.h includes/rt_functions.h)
@@ -116,10 +118,13 @@ include_directories(libft)
 link_directories(libft) # library directories
 
 find_library(SDL SDL2)
-
+find_package(OpenCL REQUIRED) # OpenCL package
 # MAC OS -------------
 include_directories(frameworks/SDL2.framework/Versions/A/Headers)
 #--------------------
+
+include_directories(${OpenCL_INCLUDE_DIRS})
+link_directories(${OpenCL_LIBRARY})
 
 # Windows -----------
 #include_directories(frameworks/SDL_Windows/include/SDL2)
@@ -129,4 +134,4 @@ add_executable(RT ${SOURCE_FILES} ${HEADERS})
 set_target_properties(RT PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
-target_link_libraries(RT -lft ${SDL})
+target_link_libraries(RT ${SDL} ${OpenCL_LIBRARY} -lft)

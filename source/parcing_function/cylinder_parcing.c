@@ -62,13 +62,6 @@ void		    cylin_data_fill(char **line, t_objects *cylinder, int line_number, int
 		cylinder->basis.b_z = normalize_vector(parce_vector(*line, line_number));
 		*flag = *flag | (1 << 2);
 	}
-	else if (begin_with(*line, "b_p:"))
-	{
-		*line = trim_from(*line, 4);
-		if ((cylinder->bling_phong = ft_atoi(*line)) <= 0)
-			error_caster(line_number, "no such biling-phong coef. as ", *line);
-		*flag = *flag | (1 << 4);
-	}
 	else
         more_cylin_data_fill(line, cylinder, line_number, flag);
 }
@@ -80,6 +73,13 @@ void    	    more_cylin_data_fill(char **line, t_objects *cylinder, int line_num
 		*line = trim_from(*line, 4);
 		cylinder->radius = (float)fmax(1, str_to_float(*line, 0, line_number));
 		*flag = *flag | (1 << 3);
+	}
+	else if (begin_with(*line, "b_p:"))
+	{
+		*line = trim_from(*line, 4);
+		if ((cylinder->bling_phong = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		*flag = *flag | (1 << 4);
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);

@@ -11,8 +11,13 @@
 # **************************************************************************** #
 
 CC              =   gcc
-C_FLAGS         =   -c -Wall -Wextra -Werror -O3 -flto=thin -Ofast -march=native -mtune=native
-RTV_FLAGS       =   -F frameworks -framework SDL2
+
+
+WWW             =   -Wall -Wextra -Werror # НЕ ЗАБУДЬ ПОВЕРНУТИ МУДІЛА
+
+
+C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native
+RTV_FLAGS       =   -F frameworks -framework SDL2 -framework OpenCL
 
 SOURCES         =   source/draw_scene.c \
                     source/error_manager.c \

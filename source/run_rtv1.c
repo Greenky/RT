@@ -30,20 +30,15 @@ void		ray_tracing(t_rt *rt_data)
 	SDL_Surface *wall;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
-//	rt_data->camera.initial_basis = rt_data->camera.basis;// old
 	rt_data->cl_data.camera.initial_basis = rt_data->cl_data.camera.basis; // new
 	rt_data->window = SDL_CreateWindow(W_TITLE, SDL_WINDOWPOS_UNDEFINED,
 								SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
 								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
 
-	if (!(wall = SDL_LoadBMP("textures/Stonewall15_512x512.bmp")))
-	{
-		printf("SDL_Init failed: %s\n", SDL_GetError());
-		exit(1);
-	}
-	wall = SDL_ConvertSurfaceFormat(wall, SDL_PIXELFORMAT_ARGB8888, 0);
-	rt_data->cl_data.texture = (unsigned int *)wall->pixels;
+	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
+	load_texture(rt_data->cl_data.textures, 0, "textures/Earth_1024x512.bmp");
+	load_texture(rt_data->cl_data.textures, 1, "textures/Brick_Wall.bmp");
 
 	draw_scene(rt_data);
 //	cl_start(rt_data);
@@ -66,20 +61,63 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 	return (r);
 }
 
-void		get_texture(t_intersect *closest_inter, unsigned int *texture)
+void 		load_texture(SDL_Surface **textures, int index, char *path)
+{
+	SDL_Surface *texture;
+	if (!(texture = SDL_LoadBMP(path)))
+	{
+		printf("SDL_LoadBMP failed: %s\n", SDL_GetError());
+		exit(1);
+	}
+	texture = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
+	textures[index] = texture;
+}
+
+void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 {
 	cl_float3 nor;
+	SDL_Surface *texture;
 
-	nor = normalize_vector(vect_diff(closest_inter->point, closest_inter->fig->origin));
-	float ro = acosf(-nor.z);
-	float fi = atan2f(nor.y, nor.x);
+	float u;
+	float v;
 	int i;
 	int j;
-	if (closest_inter->fig->texture_index == 0)
+
+	if (closest_inter->distance == INFINITY)
 	{
-		j = (int)(ro * 512 * M_1_PI);
-		i = (int)(fi * 512 * M_1_PI / 2);
-		closest_inter->texture_color = int_to_channels(texture[j * 512 + i]);
+		closest_inter->texture_color = (t_channel) {0, 0, 0};
+		return ;
+	}
+	nor = choose_normal(*closest_inter->fig, closest_inter->point);
+//	nor = normalize_vector(vect_diff(closest_inter->point, closest_inter->fig->origin));
+//	nor = normalize_vector(matrix_mult_vect(closest_inter->fig->basis, nor));
+	if (closest_inter->fig->texture_index != -1)
+	{
+		texture = cl_data.textures[closest_inter->fig->texture_index];
+		if (closest_inter->fig->type == SPHERE)
+		{
+			u = acosf(nor.y);
+			v = atan2f(nor.z, -nor.x);
+			j = (int) (u * texture->h * M_1_PI);
+			i = (int) (v * texture->w * M_1_PI / 2);
+		}
+		else if (closest_inter->fig->type == CYLINDER || closest_inter->fig->type == CONE)
+		{
+			v = atan2f(nor.z, -nor.x);
+			nor = vect_mult_scalar(nor, closest_inter->fig->radius);
+			u = length(vect_diff(vect_sum(nor, closest_inter->point), closest_inter->fig->origin));
+			i = (int)(v * texture->w * M_1_PI);
+			j = (int)(u * 100) % texture->h;
+		}
+//		else
+//		{
+//			nor = (closest_inter->fig->origin, closest_inter->point);
+//			nor = matrix_mult_vect((t_coord_sys){(cl_float3){1, 0, 0}, (cl_float3){0, 1, 0}, (cl_float3){0, 0, 1}}, nor);
+////			i = vect_diff(closest_inter->point)
+//			i = (int)(nor.x) % texture->w;
+//			j = (int)(nor.y) % texture->h;
+//		}
+		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 	}
 	else
 	{
@@ -103,6 +141,6 @@ t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray prim
 			closest_inter = tmp_inter;
 		current++;
 	}
-	get_texture(&closest_inter, cl_data.texture);
+	get_texture(&closest_inter, cl_data);
 	return (closest_inter);
 }

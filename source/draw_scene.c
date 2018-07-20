@@ -86,6 +86,7 @@ void	draw_pixel(t_rt *rt_data, t_cl_data cl_data, t_objects *objects, t_light *l
 
 	primary_ray = compute_ray(cl_data.camera, pixel);
 	closest_inter = find_closest_inter(cl_data, objects, primary_ray);
+	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;
@@ -128,4 +129,4 @@ void	draw_pixel(t_rt *rt_data, t_cl_data cl_data, t_objects *objects, t_light *l
 		color = find_color(rt_data->cl_data, lights, objects, closest_inter, primary_ray);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
 }
-//*/
+*/

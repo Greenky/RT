@@ -35,7 +35,7 @@ int					sphere_parce(int fd, t_rt *rt_data)
 		free(sphere);
 		error_exit(ERROR, NULL);
 	}
-	sphere->basis.b_z = VEC(0, 0, 1);
+	sphere->basis.b_z = VEC(-1, 0, 0);
 	add_shape(rt_data, sphere);
 	return (0);
 }
@@ -43,7 +43,7 @@ int					sphere_parce(int fd, t_rt *rt_data)
 void			sphere_fill(char **line, t_objects *sphere, int line_number, int *flag)
 {
 	char	*new_line;
-//	float	mirror;
+	float	mirror;
 
 	new_line = ft_strtrim(*line);
 	ft_strdel(line);
@@ -66,24 +66,21 @@ void			sphere_fill(char **line, t_objects *sphere, int line_number, int *flag)
 		sphere->radius = (float)fmax(1, str_to_float(*line, 0, line_number));
 		*flag = *flag | 4;
 	}
-//	else if (begin_with(*line, "mir:"))
-//	{
-//		*line = trim_from(*line, 4);
-//		mirror = str_to_float(*line, 0, line_number);
-//		if (mirror > 1 || mirror < 0)
-//			error_caster(line_number, "no such mirror coef. as ", *line);
-//		if (mirror == 0)
-//			sphere->mirror_coef = 0;
-//		else
-//			sphere->mirror_coef = 1 / mirror;
-//		*flag = *flag | (1 << 3);
-//	}
+	else if (begin_with(*line, "mir:"))
+	{
+		*line = trim_from(*line, 4);
+		mirror = str_to_float(*line, 0, line_number);
+		if (mirror > 1 || mirror < 0)
+			error_caster(line_number, "no such mirror coef. as ", *line);
+		sphere->mirror_coef = mirror;
+		*flag = *flag | (1 << 3);
+	}
 	else if (begin_with(*line, "b_p:"))
 	{
 		*line = trim_from(*line, 4);
 		if ((sphere->bling_phong = ft_atoi(*line)) <= 0)
 			error_caster(line_number, "no such biling-phong coef. as ", *line);
-		*flag = *flag | (1 << 3);
+		*flag = *flag | (1 << 4);
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);

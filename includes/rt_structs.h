@@ -105,7 +105,7 @@ typedef struct	s_cl_data
 	int				num_of_lights;
 	int				reflect_rate;
 	int				max_reflections;
-	unsigned int	*texture; // NEW VARIABLE
+	SDL_Surface		**textures; // NEW VARIABLE
 	t_camera		camera;
 }				t_cl_data;
 

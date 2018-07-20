@@ -45,10 +45,17 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		rt_data->objects_arr[len].transperent_coef = step_obj->transperent_coef;
 		rt_data->objects_arr[len].axis_dimensions = step_obj->axis_dimensions;
 		rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
-		// KOSTIL ---------------------------------------------------------------- // TODO udolit
+		rt_data->objects_arr[len].mirror_coef = step_obj->mirror_coef;
+		// KOSTIL ----------------------------------------------------------------- // TODO udolit
 
-		rt_data->objects_arr[len].mirror_coef = (step_obj->type == PLANE) ? 0.4f : 0;
-		rt_data->objects_arr[len].texture_index = (step_obj->type == SPHERE) ? 0 : 2;
+		if (step_obj->type == SPHERE)
+			rt_data->objects_arr[len].texture_index = 0;
+		else if (step_obj->type == CYLINDER)
+			rt_data->objects_arr[len].texture_index = 1;
+		else if (step_obj->type == CONE)
+			rt_data->objects_arr[len].texture_index = 1;
+		else
+			rt_data->objects_arr[len].texture_index = -1;
 		// ------------------------------------------------------------------------
 		rt_data->objects_arr[len].is_cartoon = 0;
 		rt_data->objects_arr[len].next = NULL;
@@ -78,9 +85,9 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		len++;
 		step_light = step_light->next;
 	}
-	freesher(rt_data->lights, rt_data->objects);
-	rt_data->lights = NULL;
-	rt_data->objects = NULL;
+//	freesher(rt_data->lights, rt_data->objects);
+//	rt_data->lights = NULL;
+//	rt_data->objects = NULL;
 }
 
 //--------------------------------------------------------------------------
@@ -177,7 +184,7 @@ t_coord_sys	create_coord_system(t_coord_sys basis)
 	if (basis.b_z.x == 0 && basis.b_z.z == 0)
 	{
 		basis.b_y = VEC(1, 0, 0);
-		basis.b_x = VEC(0, 1, 0);
+		basis.b_x = VEC(0, 0, 1);
 	}
 	else
 	{

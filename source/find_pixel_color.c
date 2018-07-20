@@ -65,7 +65,7 @@ t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, 
 			closest_inter = tmp_inter;
 		current++;
 	}
-	get_texture(&closest_inter, cl_data.texture);
+	get_texture(&closest_inter, cl_data);
 	return (closest_inter);
 }
 

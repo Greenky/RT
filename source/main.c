@@ -167,7 +167,7 @@ int			main(int argc, char **argv)
 //	(void)argc;
 // 	Я хз як передавати параметри в Windows тому так. І потім це єдиний працюючий файл)
 	file_parcing("scenes/working_test", &rt_data);
-	cl_init(&rt_data);
+//	cl_init(&rt_data);
 	ray_tracing(&rt_data);
 	return (0);
 }

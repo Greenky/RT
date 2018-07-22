@@ -12,12 +12,6 @@
 
 #include "../includes/rt_functions.h"
 
-//void	change_object(t_rt *rt_data, int flag)
-//{
-//
-//}
-//
-
 void	change_sphere(t_objects *object, int arrow)
 {
 	if (arrow == LEFT1 && object->radius >= 1.0)
@@ -152,15 +146,58 @@ void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 		rt_data->aliasing = !rt_data->aliasing;
 }
 
+int	check_filter_type(t_rt *rt_data, SDL_Event *event)
+{
+	if (event->button.x >= 0 && event->button.x <= 700
+		&& event->button.y > SCR_SIZE - 430 && event->button.y <= SCR_SIZE - 330)
+		return (GREYSCALE);
+	else if (event->button.x >= 0 && event->button.x <= 700
+		&& event->button.y > SCR_SIZE - 330 && event->button.y <= SCR_SIZE - 230)
+		return (PIXEL);
+	else if (event->button.x >= 0 && event->button.x <= 700
+			 && event->button.y > SCR_SIZE - 230 && event->button.y <= SCR_SIZE - 130)
+		return (SEPIA);
+}
+
+void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
+{
+	if (event->button.x >= 0 && event->button.x <= 300
+		&& event->button.y > SCR_SIZE - 430 && event->button.y <= SCR_SIZE - 350)
+		rt_data->filter = GREYSCALE;
+	else if (event->button.x >= 0 && event->button.x <= 300
+			 && event->button.y > SCR_SIZE - 350 && event->button.y <= SCR_SIZE - 280)
+		rt_data->filter = PIXEL;
+	else if (event->button.x >= 0 && event->button.x <= 300
+			 && event->button.y > SCR_SIZE - 280 && event->button.y <= SCR_SIZE - 200)
+		rt_data->filter = SEPIA;
+	else if (event->button.x >= 0 && event->button.x <= 300
+			&& event->button.y > SCR_SIZE - 200 && event->button.y <= SCR_SIZE - 130)
+		rt_data->filter = NEGATIVE;
+}
+
+void	create_gui(t_rt *rt_data, SDL_Event *event, int flag)
+{
+	if (flag == FOOT_GUI)
+		foot_panel_interaction_event(rt_data, event);
+	else if (flag == FIGURE_GUI)
+		gui_interaction_event(rt_data, event);
+	else if (flag == FILTER_GUI)
+		filter_panel_interaction_event(rt_data, event);
+}
+
 int	check_if_in_gui(t_rt *rt_data, SDL_Event *event)
 {
 	if (event->button.x >= 0 && event->button.x <= 200
 			&& event->button.y >= 0 && event->button.y <= 400)
 		return (FIGURE_GUI);
-	else if (rt_data->filter && event->button.x >= 0 && event->button.x <= 300)
+	else if (rt_data->gui.filter_gui && event->button.x >= 0 && event->button.x <= 300
+			&& event->button.y >= SCR_SIZE - 430 && event->button.y <= SCR_SIZE - 100)
 		return (FILTER_GUI);
-//	else if (event->button.x >= 0 && event->button.x <= 700
-//			&& event->button.y >= SCR_SIZE - 100)
+	else if (event->button.x >= 0 && event->button.x <= 700
+			&& event->button.y >= SCR_SIZE - 100 && event->button.y <= SCR_SIZE)
+		return (FOOT_GUI);
+	else
+		return (NO_GUI);
 }
 
 int mouse_click_event(t_rt *rt_data, SDL_Event *event)
@@ -175,10 +212,8 @@ int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
 	closest_inter = find_closest_inter(rt_data->cl_data, rt_data->objects_arr, primary_ray);
 	i = 0;
-	if (pixel.x >= 0 && pixel.x <= 200 && pixel.y >= 0 && pixel.y <= 400)
-		gui_interaction_event(rt_data, event);
-	else if (pixel.x >= 0 && pixel.x <= 700 && pixel.y >= SCR_SIZE - 100 && pixel.y <= SCR_SIZE)
-		foot_panel_interaction_event(rt_data, event);
+	if (check_if_in_gui(rt_data, event) != NO_GUI)
+		create_gui(rt_data, event, check_if_in_gui(rt_data, event));
 	else
 	{
 		if (closest_inter.distance != INFINITY)

@@ -21,7 +21,7 @@ enum	e_object_data {RADIUS, POS_X, POS_Y, POS_Z, ANGLE_KOEF};
 enum	e_buttons {LEFT1, LEFT2, LEFT3, LEFT4, RIGHT1, RIGHT2, RIGHT3, RIGHT4, NONE};
 enum	e_foot_buttons {FILTERS, SAVE, ALIASING};
 enum	e_filters {SEPIA, GREYSCALE, NEGATIVE, PIXEL};
-enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI};
+enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI, NO_GUI};
 
 typedef struct		s_dot
 {
@@ -182,7 +182,6 @@ typedef struct	s_rt
 	SDL_Window		*window;
 	SDL_Surface		*screen_surface;
 	t_gui			gui;
-//	t_camera		camera;
 	int				aliasing;
 	int				filter;
 	t_cl			cl;
@@ -192,8 +191,6 @@ typedef struct	s_rt
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
 	int				bar_is_shown;
-//	int				objects_num;
-//	int				lights_num;
 	int				reflect_rate;
 	int				max_reflections;
 	int				line_number;

@@ -34,7 +34,8 @@ set(SOURCE_FILES  source/main.c
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
-		source/find_intersection/sphere_find_closest_intersect.c)
+		source/find_intersection/sphere_find_closest_intersect.c
+		source/gui/gui.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author
@@ -117,10 +118,15 @@ include_directories(libft)
 
 link_directories(libft) # library directories
 
-find_library(SDL SDL2)
+find_library(SDL SDL2.framework)
+find_library(SDL_ttf SDL2_ttf.framework)
+find_library(SDL_image SDL2_image.framework)
+
 find_package(OpenCL REQUIRED) # OpenCL package
 # MAC OS -------------
 include_directories(frameworks/SDL2.framework/Versions/A/Headers)
+include_directories(frameworks/SDL2_image.framework/Versions/A/Headers)
+include_directories(frameworks/SDL2_ttf.framework/Versions/A/Headers)
 #--------------------
 
 include_directories(${OpenCL_INCLUDE_DIRS})
@@ -134,4 +140,5 @@ add_executable(RT ${SOURCE_FILES} ${HEADERS})
 set_target_properties(RT PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
-target_link_libraries(RT ${SDL} ${OpenCL_LIBRARY} -lft)
+target_link_libraries(RT ${SDL}  ${OpenCL_LIBRARY} -lft)
+#${SDL_image} ${SDL_ttf}

@@ -17,7 +17,7 @@ WWW             =   -Wall -Wextra -Werror # НЕ ЗАБУДЬ ПОВЕРНУТИ
 
 
 C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native
-RTV_FLAGS       =   -F frameworks -framework SDL2 -framework OpenCL
+RTV_FLAGS       =   -F frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_image -framework OpenCL
 
 SOURCES         =   source/draw_scene.c \
                     source/error_manager.c \
@@ -45,7 +45,8 @@ SOURCES         =   source/draw_scene.c \
                     source/find_intersection/cone_find_closest_intersect.c \
                     source/find_intersection/cyl_find_closest_intersect.c \
                     source/find_intersection/plane_find_closest_intersect.c \
-                    source/find_intersection/sphere_find_closest_intersect.c
+                    source/find_intersection/sphere_find_closest_intersect.c \
+                    source/gui/gui.c
 
         
 C_RED = \033[31m
@@ -57,7 +58,11 @@ HEADERS         =   includes/rt_functions.h includes/rt_structs.h
 
 INCLUDES        =   -I libft/
 
-INCLUDES_SDL    =   -I frameworks/SDL2.framework/Headers/
+SDL    =   -I frameworks/SDL2.framework/Version/A/Headers/
+SDL_TTF = -I frameworks/SDL2_ttf.framework/Version/A/Headers/
+SDL_IMAGE = -I frameworks/SDL2_image.framework/Version/A/Headers/
+
+INCLUDES_SDL = $(SDL) $(SDL_TTF) $(SDL_IMAGE)
 
 OBJ             =   $(addprefix $(OBJDIR), $(notdir $(SOURCES:.c=.o)))
 
@@ -89,6 +94,9 @@ $(OBJDIR)%.o: source/parcing_function/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
+$(OBJDIR)%.o: source/gui/%.c $(HEADERS) $(LIBFT)
+	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(LIBFT):
 	@make -C libft

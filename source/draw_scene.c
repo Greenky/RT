@@ -42,6 +42,9 @@ int		draw_scene(t_rt *scene)
 	idx = 0;
 	while (idx < THREAD_MAX)
 		pthread_join(threads[idx++], NULL);
+//	draw_bar(scene);
+	draw_clicked_info(scene);
+	draw_gui(scene);
 	return (0);
 }
 
@@ -86,6 +89,7 @@ void	draw_pixel(t_rt *rt_data, t_cl_data cl_data, t_objects *objects, t_light *l
 
 	primary_ray = compute_ray(cl_data.camera, pixel);
 	closest_inter = find_closest_inter(cl_data, objects, primary_ray);
+	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;

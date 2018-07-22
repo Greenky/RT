@@ -46,6 +46,9 @@ void		ray_tracing(t_rt *rt_data)
 	rt_data->cl_data.texture = (unsigned int *)wall->pixels;
 
 	draw_scene(rt_data);
+//	draw_bar(rt_data);
+//	text_output(rt_data);
+//	draw_clicked_info(rt_data);
 //	cl_start(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	event_management(rt_data, &event);
@@ -65,6 +68,8 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 													VEC(horizontal, -vertical, -DISTANCE)));
 	return (r);
 }
+
+
 
 void		get_texture(t_intersect *closest_inter, unsigned int *texture)
 {

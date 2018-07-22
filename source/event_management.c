@@ -12,6 +12,156 @@
 
 #include "../includes/rt_functions.h"
 
+//void	change_object(t_rt *rt_data, int flag)
+//{
+//
+//}
+//
+
+void	change_sphere(t_objects *object, int arrow)
+{
+	if (arrow == LEFT1 && object->radius >= 1.0)
+		object->radius -= 0.1;
+	else if (arrow == RIGHT1 && object->radius <= 50.0)
+		object->radius += 0.1;
+	else if (arrow == LEFT2)
+		object->origin.x -= 0.1;
+	else if (arrow == RIGHT2)
+		object->origin.x += 0.1;
+	else if (arrow == LEFT3)
+		object->origin.y -= 0.1;
+	else if (arrow == RIGHT3)
+		object->origin.y += 0.1;
+	else if (arrow == LEFT4)
+		object->origin.z -= 0.1;
+	else if (arrow == RIGHT4)
+		object->origin.z += 0.1;
+}
+
+void	change_cylinder(t_objects *object, int arrow)
+{
+	if (arrow == LEFT1 && object->radius >= 1.0)
+		object->radius -= 0.1;
+	else if (arrow == RIGHT1 && object->radius <= 50.0)
+		object->radius += 0.1;
+	else if (arrow == LEFT2)
+		object->origin.x -= 0.1;
+	else if (arrow == RIGHT2)
+		object->origin.x += 0.1;
+	else if (arrow == LEFT3)
+		object->origin.y -= 0.1;
+	else if (arrow == RIGHT3)
+		object->origin.y += 0.1;
+	else if (arrow == LEFT4)
+		object->origin.z -= 0.1;
+	else if (arrow == RIGHT4)
+		object->origin.z += 0.1;
+}
+
+void	change_cone(t_objects *object, int arrow)
+{
+	if (arrow == LEFT1 && object->angle_coef >= 0.2)
+		object->angle_coef -= 0.1;
+	else if (arrow == RIGHT1 && object->angle_coef <= 3.0)
+		object->angle_coef += 0.1;
+	else if (arrow == LEFT2)
+		object->origin.x -= 0.1;
+	else if (arrow == RIGHT2)
+		object->origin.x += 0.1;
+	else if (arrow == LEFT3)
+		object->origin.y -= 0.1;
+	else if (arrow == RIGHT3)
+		object->origin.y += 0.1;
+	else if (arrow == LEFT4)
+		object->origin.z -= 0.1;
+	else if (arrow == RIGHT4)
+		object->origin.z += 0.1;
+}
+
+void	change_object(t_objects *object, int arrow)
+{
+	if (object->type == SPHERE)
+		change_sphere(object, arrow);
+	else if (object->type == CYLINDER)
+		change_cylinder(object, arrow);
+	else if (object->type == CONE)
+		change_cone(object, arrow);
+}
+
+int		check_arrow_type(SDL_Event *event)
+{
+	if (event->button.x >= 8 && event->button.x <= 58
+		&& event->button.y >= 125 && event->button.y <= 165)
+		return (LEFT1);
+	if (event->button.x >= 138 && event->button.x <= 188
+		&& event->button.y >= 120 && event->button.y <= 160)
+		return (RIGHT1);
+	if (event->button.x >= 8 && event->button.x <= 58
+		&& event->button.y >= 175 && event->button.y <= 215)
+		return (LEFT2);
+	if (event->button.x >= 138 && event->button.x <= 188
+		&& event->button.y >= 175 && event->button.y <= 215)
+		return (RIGHT2);
+	if (event->button.x >= 8 && event->button.x <= 58
+		&& event->button.y >= 230 && event->button.y <= 270)
+		return (LEFT3);
+	if (event->button.x >= 138 && event->button.x <= 188
+		&& event->button.y >= 230 && event->button.y <= 270)
+		return (RIGHT3);
+	if (event->button.x >= 8 && event->button.x <= 58
+		&& event->button.y >= 285 && event->button.y <= 325)
+		return (LEFT4);
+	if (event->button.x >= 138 && event->button.x <= 188
+		&& event->button.y >= 285 && event->button.y <= 325)
+		return (RIGHT4);
+	return (NONE);
+}
+
+void	gui_interaction_event(t_rt *rt_data, SDL_Event *event)
+{
+	int	i;
+
+	i = -1;
+	while (++i < rt_data->cl_data.num_of_objects)
+	{
+		if (rt_data->objects_arr[i].is_cartoon)
+			change_object(&rt_data->objects_arr[i], check_arrow_type(event));
+	}
+}
+
+int	check_foot_press_type(t_rt *rt_data, SDL_Event *event)
+{
+	if (event->button.x >= 10 && event->button.x <= 176
+		&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE - 50)
+		return (FILTERS);
+	else if (event->button.x >= 600 && event->button.x <= 680
+			&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE - 50)
+		return (ALIASING);
+	else
+		return (NONE);
+}
+
+void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
+{
+	int	flag;
+
+	flag = check_foot_press_type(rt_data, event);
+	if (flag == FILTERS)
+		rt_data->gui.filter_gui = !rt_data->gui.filter_gui;
+	else if (flag == ALIASING)
+		rt_data->aliasing = !rt_data->aliasing;
+}
+
+int	check_if_in_gui(t_rt *rt_data, SDL_Event *event)
+{
+	if (event->button.x >= 0 && event->button.x <= 200
+			&& event->button.y >= 0 && event->button.y <= 400)
+		return (FIGURE_GUI);
+	else if (rt_data->filter && event->button.x >= 0 && event->button.x <= 300)
+		return (FILTER_GUI);
+	else if (event->button.x >= 0 && event->button.x <= 700
+			&& event->button.y >= SCR_SIZE - 100)
+}
 
 int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 {
@@ -25,19 +175,26 @@ int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
 	closest_inter = find_closest_inter(rt_data->cl_data, rt_data->objects_arr, primary_ray);
 	i = 0;
-	if (closest_inter.distance != INFINITY)
-		while (i < rt_data->cl_data.num_of_objects)
-		{
-			if (closest_inter.fig == (rt_data->objects_arr + i)) {
-				if (rt_data->objects_arr[i].is_cartoon)
-					rt_data->objects_arr[i].is_cartoon = 0;
+	if (pixel.x >= 0 && pixel.x <= 200 && pixel.y >= 0 && pixel.y <= 400)
+		gui_interaction_event(rt_data, event);
+	else if (pixel.x >= 0 && pixel.x <= 700 && pixel.y >= SCR_SIZE - 100 && pixel.y <= SCR_SIZE)
+		foot_panel_interaction_event(rt_data, event);
+	else
+	{
+		if (closest_inter.distance != INFINITY)
+			while (i < rt_data->cl_data.num_of_objects)
+			{
+				if (closest_inter.fig->type != PLANE && closest_inter.fig == (rt_data->objects_arr + i)) {
+					if (rt_data->objects_arr[i].is_cartoon)
+						rt_data->objects_arr[i].is_cartoon = 0;
+					else
+						rt_data->objects_arr[i].is_cartoon = 1;
+				}
 				else
-					rt_data->objects_arr[i].is_cartoon = 1;
+					rt_data->objects_arr[i].is_cartoon = 0;
+				i++;
 			}
-			else
-				rt_data->objects_arr[i].is_cartoon = 0;
-			i++;
-		}
+	}
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);

@@ -14,7 +14,13 @@
 # define RT_FUNCTIONS_H
 
 # include <OpenCL/opencl.h>
-# include <SDL.h>
+//# include <SDL.h>
+//# include <SDL_ttf.h>
+//# include <SDL_image.h>
+# include "../frameworks/SDL2.framework/Headers/SDL.h"
+# include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+# include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
+
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -30,7 +36,7 @@
 # define DIVISION 0
 # define MULTIPLICATION 1
 
-# define SCR_SIZE 800
+# define SCR_SIZE 1000
 # define OBJ_NUM 6
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
@@ -54,6 +60,18 @@
 # define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOBMA_RAKETA"
+
+# define DEEP_BLUE (SDL_Color){33, 150, 243}
+# define SKY_BLUE (SDL_Color){144, 202, 249}
+# define BLACK (SDL_Color){0, 0, 0}
+# define WHITE (SDL_Color){255, 255, 255}
+
+# define GUI_ALIAS_ON_BMP "gui_images/foot_bar_aliasing_on.bmp"
+# define GUI_ALIAS_OFF_BMP "gui_images/foot_bar_aliasing_off.bmp"
+# define GUI_SEPIA_BMP "gui_images/sepia.bmp"
+# define GUI_GREYSCALE_BMP "gui_images/greyscale.bmp"
+# define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
+# define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
 // ---------------------------------------------------------------------------------
 
@@ -197,6 +215,12 @@ void			cl_init(t_rt *rt);
 t_channel		int_to_channels(int col);
 void			get_texture(t_intersect *closest_inter, unsigned int *texture);
 
+void			draw_clicked_info(t_rt *rt_data);
+void			draw_bar(t_rt *rt_data);
 
+void			init_gui_bmps(t_rt	*rt_data);
+void			init_foot_gui_bmps(t_rt *rt_data);
 
+void			init_bar_positions(t_rt	*rt_data);
+void			draw_gui(t_rt *rt_data);
 #endif

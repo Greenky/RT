@@ -17,6 +17,12 @@ enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR};
 enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID};
 enum	e_lights {AMBIENT, POINT, DIRECT};
 
+enum	e_object_data {RADIUS, POS_X, POS_Y, POS_Z, ANGLE_KOEF};
+enum	e_buttons {LEFT1, LEFT2, LEFT3, LEFT4, RIGHT1, RIGHT2, RIGHT3, RIGHT4, NONE};
+enum	e_foot_buttons {FILTERS, SAVE, ALIASING};
+enum	e_filters {SEPIA, GREYSCALE, NEGATIVE, PIXEL};
+enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI};
+
 typedef struct		s_dot
 {
 	int				x;
@@ -127,17 +133,65 @@ typedef struct		s_cl
 	cl_mem				image;
 }						t_cl;
 
+typedef struct	s_gui
+{
+	int			filter_gui;
+	SDL_Rect	pos;
+	TTF_Font	*chunk_font;
+	TTF_Font	*open_sans;
+
+	SDL_Surface	*bar;
+	SDL_Rect	bar_pos;
+
+	SDL_Surface	*arrow_left_active;
+	SDL_Rect	arr_left_act_pos;
+
+	SDL_Surface	*arrow_right_active;
+	SDL_Rect	arr_right_act_pos;
+
+	SDL_Surface	*arrow_left_unactive;
+	SDL_Rect	arr_left_unact_pos;
+
+	SDL_Surface	*arrow_right_unactive;
+	SDL_Rect	arr_right_unact_pos;
+
+	SDL_Surface	*little_text_area;
+	SDL_Rect	lil_text_area_pos;
+
+	SDL_Surface	*big_text_area;
+	SDL_Rect	big_text_area_pos;
+
+	SDL_Surface	*checked;
+	SDL_Rect	checked_pos;
+
+	SDL_Surface	*unchecked;
+	SDL_Rect	unchecked_pos;
+
+	SDL_Surface	*aliasing_on_foot;
+	SDL_Surface	*aliasing_off_foot;
+
+	SDL_Surface	*sepia;
+	SDL_Surface	*greyscale;
+	SDL_Surface	*pixel;
+	SDL_Surface	*negative;
+
+}				t_gui;
+
 typedef struct	s_rt
 {
 	SDL_Window		*window;
 	SDL_Surface		*screen_surface;
+	t_gui			gui;
 //	t_camera		camera;
+	int				aliasing;
+	int				filter;
 	t_cl			cl;
 	t_cl_data		cl_data;
 	t_light			*lights;
 	t_objects		*objects;
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
+	int				bar_is_shown;
 //	int				objects_num;
 //	int				lights_num;
 	int				reflect_rate;

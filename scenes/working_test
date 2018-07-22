@@ -47,7 +47,7 @@
         mir: 0
     plane:
         col: 0xAAAAFF
-        cen: (0, 0, 8)
+        cen: (0, 10, 8)
         nor: (0, 0, -1)
         b_p: 1
         mir: 0
@@ -57,13 +57,13 @@
         dir: (0.1, 1, 0)
         ang: 30
         b_p: 1000
-        mir: 0
+        mir: 0.1
     cylinder:
         col: 0xFFAAAA
-        cen: (-4, -2, 2)
+        cen: (-2.5, -6, 2)
         dir: (-0.6, 2, 0)
         rad: 1.2
         b_p: 1000
-        mir: 0
+        mir: 0.2
 #################
 $ b_p - biling - phong

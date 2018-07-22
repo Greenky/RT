@@ -42,9 +42,11 @@ int		draw_scene(t_rt *scene)
 	idx = 0;
 	while (idx < THREAD_MAX)
 		pthread_join(threads[idx++], NULL);
-//	draw_bar(scene);
-	draw_clicked_info(scene);
-	draw_gui(scene);
+	if (scene->take_screenshot == 0)
+	{
+		draw_clicked_info(scene);
+		draw_gui(scene);
+	}
 	return (0);
 }
 

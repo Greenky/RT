@@ -2,3 +2,4 @@
 .idea/
 cmake-build-debug/
 i686-w64-mingw32/
+objects/

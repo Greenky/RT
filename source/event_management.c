@@ -123,40 +123,49 @@ void	gui_interaction_event(t_rt *rt_data, SDL_Event *event)
 	}
 }
 
-int	check_foot_press_type(t_rt *rt_data, SDL_Event *event)
+int	check_foot_press_type(SDL_Event *event)
 {
-	if (event->button.x >= 10 && event->button.x <= 176
-		&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE - 50)
+	if (event->button.x >= 0 && event->button.x <= 195
+		&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
 		return (FILTERS);
 	else if (event->button.x >= 600 && event->button.x <= 680
-			&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE - 50)
+			&& event->button.y >= SCR_SIZE - 83 && event->button.y <= SCR_SIZE - 20)
 		return (ALIASING);
-	else
-		return (NONE);
+	else if (event->button.x >= 195 && event->button.x <= 550
+             && event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
+        return (SAVE);
+    return (NONE);
 }
 
 void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 {
-	int	flag;
+	int         flag;
+    SDL_Surface *surface;
+    static int  img_num;
+    char        *num;
+    char        *scr_name;
 
-	flag = check_foot_press_type(rt_data, event);
+	flag = check_foot_press_type(event);
 	if (flag == FILTERS)
 		rt_data->gui.filter_gui = !rt_data->gui.filter_gui;
 	else if (flag == ALIASING)
 		rt_data->aliasing = !rt_data->aliasing;
-}
-
-int	check_filter_type(t_rt *rt_data, SDL_Event *event)
-{
-	if (event->button.x >= 0 && event->button.x <= 700
-		&& event->button.y > SCR_SIZE - 430 && event->button.y <= SCR_SIZE - 330)
-		return (GREYSCALE);
-	else if (event->button.x >= 0 && event->button.x <= 700
-		&& event->button.y > SCR_SIZE - 330 && event->button.y <= SCR_SIZE - 230)
-		return (PIXEL);
-	else if (event->button.x >= 0 && event->button.x <= 700
-			 && event->button.y > SCR_SIZE - 230 && event->button.y <= SCR_SIZE - 130)
-		return (SEPIA);
+    else
+    {
+        rt_data->take_screenshot = 1;
+        draw_scene(rt_data);
+        surface = SDL_GetWindowSurface(rt_data->window);
+        surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+        num = ft_itoa(img_num);
+        scr_name = ft_strjoin("ScreenShot", num);
+        free(num);
+        num = scr_name;
+        scr_name = ft_strjoin(scr_name, ".jpg");
+        free(num);
+        SDL_SaveBMP(surface, scr_name);
+        rt_data->take_screenshot = 0;
+        img_num++;
+    }
 }
 
 void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event)

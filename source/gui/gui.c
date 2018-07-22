@@ -140,31 +140,31 @@ void		draw_sphere_info(t_rt *rt_data, t_objects *object)
 {
 	SDL_Rect	pos;
 
-	pos = (SDL_Rect){50, 35};
+	pos = (SDL_Rect){50, 35, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Sphere", BLACK, WHITE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){56, 100};
+	pos = (SDL_Rect){56, 100, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Radius: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 120};
+	pos = (SDL_Rect){88, 120, 0, 0};
 	sphere_control_bars_show(rt_data, pos, RADIUS, object);
-	pos = (SDL_Rect){88, 128};
+	pos = (SDL_Rect){88, 128, 0, 0};
 	blit_surface_data(rt_data, object->radius, &pos);
-	pos = (SDL_Rect){85, 155};
+	pos = (SDL_Rect){85, 155, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "X: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 175};
+	pos = (SDL_Rect){88, 175, 0, 0};
 	sphere_control_bars_show(rt_data, pos, POS_X, object);
-	pos = (SDL_Rect){88, 183};
+	pos = (SDL_Rect){88, 183, 0, 0};
 	blit_surface_data(rt_data, object->origin.x, &pos);
-	pos = (SDL_Rect){85, 210};
+	pos = (SDL_Rect){85, 210, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Y: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 230};
+	pos = (SDL_Rect){88, 230, 0, 0};
 	sphere_control_bars_show(rt_data, pos, POS_Y, object);
-	pos = (SDL_Rect){88, 238};
+	pos = (SDL_Rect){88, 238, 0, 0};
 	blit_surface_data(rt_data, object->origin.y, &pos);
-	pos = (SDL_Rect){85, 265};
+	pos = (SDL_Rect){85, 265, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Z: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 285};
+	pos = (SDL_Rect){88, 285, 0, 0};
 	sphere_control_bars_show(rt_data, pos, POS_Z, object);
-	pos = (SDL_Rect){88, 293};
+	pos = (SDL_Rect){88, 293, 0, 0};
 	blit_surface_data(rt_data, object->origin.z, &pos);
 }
 
@@ -172,31 +172,31 @@ void	draw_cylinder_info(t_rt *rt_data, t_objects *object)
 {
 	SDL_Rect	pos;
 
-	pos = (SDL_Rect){45, 35};
+	pos = (SDL_Rect){45, 35, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Cylinder", BLACK, WHITE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){56, 100};
+	pos = (SDL_Rect){56, 100, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Radius: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 120};
+	pos = (SDL_Rect){88, 120, 0, 0};
 	cylinder_control_bars_show(rt_data, pos, RADIUS, object);
-	pos = (SDL_Rect){88, 128};
+	pos = (SDL_Rect){88, 128, 0, 0};
 	blit_surface_data(rt_data, object->radius, &pos);
-	pos = (SDL_Rect){85, 155};
+	pos = (SDL_Rect){85, 155, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "X: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 175};
+	pos = (SDL_Rect){88, 175, 0, 0};
 	cylinder_control_bars_show(rt_data, pos, POS_X, object);
-	pos = (SDL_Rect){88, 183};
+	pos = (SDL_Rect){88, 183, 0, 0};
 	blit_surface_data(rt_data, object->origin.x, &pos);
-	pos = (SDL_Rect){85, 210};
+	pos = (SDL_Rect){85, 210, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Y: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 230};
+	pos = (SDL_Rect){88, 230, 0, 0};
 	cylinder_control_bars_show(rt_data, pos, POS_Y, object);
-	pos = (SDL_Rect){88, 238};
+	pos = (SDL_Rect){88, 238, 0, 0};
 	blit_surface_data(rt_data, object->origin.y, &pos);
-	pos = (SDL_Rect){85, 265};
+	pos = (SDL_Rect){85, 265, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Z: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 285};
+	pos = (SDL_Rect){88, 285, 0, 0};
 	cylinder_control_bars_show(rt_data, pos, POS_Z, object);
-	pos = (SDL_Rect){88, 293};
+	pos = (SDL_Rect){88, 293, 0, 0};
 	blit_surface_data(rt_data, object->origin.z, &pos);
 }
 
@@ -204,31 +204,31 @@ void	draw_cone_info(t_rt *rt_data, t_objects *object)
 {
 	SDL_Rect	pos;
 
-	pos = (SDL_Rect){45, 35};
+	pos = (SDL_Rect){45, 35, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Cone", BLACK, WHITE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){56, 100};
+	pos = (SDL_Rect){56, 100, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Angle: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 120};
+	pos = (SDL_Rect){88, 120, 0, 0};
 	cone_control_bars_show(rt_data, pos, ANGLE_KOEF, object);
-	pos = (SDL_Rect){88, 128};
+	pos = (SDL_Rect){88, 128, 0, 0};
 	blit_surface_data(rt_data, object->angle_coef, &pos);
-	pos = (SDL_Rect){85, 155};
+	pos = (SDL_Rect){85, 155, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "X: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 175};
+	pos = (SDL_Rect){88, 175, 0, 0};
 	cone_control_bars_show(rt_data, pos, POS_X, object);
-	pos = (SDL_Rect){88, 183};
+	pos = (SDL_Rect){88, 183, 0, 0};
 	blit_surface_data(rt_data, object->origin.x, &pos);
-	pos = (SDL_Rect){85, 210};
+	pos = (SDL_Rect){85, 210, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Y: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 230};
+	pos = (SDL_Rect){88, 230, 0, 0};
 	cone_control_bars_show(rt_data, pos, POS_Y, object);
-	pos = (SDL_Rect){88, 238};
+	pos = (SDL_Rect){88, 238, 0, 0};
 	blit_surface_data(rt_data, object->origin.y, &pos);
-	pos = (SDL_Rect){85, 265};
+	pos = (SDL_Rect){85, 265, 0, 0};
 	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.chunk_font, "Z: ", BLACK, DEEP_BLUE), NULL, rt_data->screen_surface, &pos);
-	pos = (SDL_Rect){88, 285};
+	pos = (SDL_Rect){88, 285, 0, 0};
 	cone_control_bars_show(rt_data, pos, POS_Z, object);
-	pos = (SDL_Rect){88, 293};
+	pos = (SDL_Rect){88, 293, 0, 0};
 	blit_surface_data(rt_data, object->origin.z, &pos);
 }
 
@@ -289,8 +289,9 @@ void	init_foot_gui_bmps(t_rt *rt_data)
 
 void		init_bar_positions(t_rt	*rt_data)
 {
-	rt_data->gui.bar_pos = (SDL_Rect){0, 0};
-	rt_data->gui.big_text_area_pos = (SDL_Rect){25, 25};
+    rt_data->take_screenshot = 0;
+	rt_data->gui.bar_pos = (SDL_Rect){0, 0, 0, 0};
+	rt_data->gui.big_text_area_pos = (SDL_Rect){25, 25, 0, 0};
 }
 
 void		draw_clicked_info(t_rt *rt_data)
@@ -310,7 +311,7 @@ void		draw_clicked_info(t_rt *rt_data)
 
 void		draw_filter_bar(t_rt *rt_data)
 {
-	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 430};
+	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 430, 0, 0};
 	if (rt_data->filter == SEPIA)
 		SDL_BlitSurface(rt_data->gui.sepia, NULL,
 			rt_data->screen_surface, &rt_data->gui.pos);
@@ -327,7 +328,7 @@ void		draw_filter_bar(t_rt *rt_data)
 
 void		draw_foot_info(t_rt *rt_data)
 {
-	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 100};
+	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 100, 0, 0};
 	rt_data->aliasing ?
 	SDL_BlitSurface(rt_data->gui.aliasing_on_foot, NULL,
 					rt_data->screen_surface, &rt_data->gui.pos)
@@ -340,7 +341,7 @@ void		draw_bar(t_rt *rt_data)
 {
 	SDL_Rect	bar_pos;
 
-	bar_pos = (SDL_Rect){0, 0};
+	bar_pos = (SDL_Rect){0, 0, 0, 0};
 	SDL_BlitSurface(rt_data->gui.bar, NULL, rt_data->screen_surface, &rt_data->gui.bar_pos);
 	SDL_BlitSurface(rt_data->gui.big_text_area, NULL, rt_data->screen_surface, &rt_data->gui.big_text_area_pos);
 }

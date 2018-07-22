@@ -73,6 +73,8 @@
 # define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
+# define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
+//# define interpolate(a, b, x) a * (1 - x) + b * x
 // ---------------------------------------------------------------------------------
 
 unsigned int **g_wall; // GLOBAL

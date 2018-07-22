@@ -38,9 +38,9 @@ typedef struct		s_vector
 
 typedef struct		s_channel
 {
-	float			red;
-	float			green;
-	float			blue;
+	int			red;
+	int			green;
+	int			blue;
 }					t_channel;
 
 typedef struct	s_ray

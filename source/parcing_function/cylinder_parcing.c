@@ -32,7 +32,6 @@ int				cylinder_parce(int fd, t_rt *rt_data)
 	}
 	if (ret < 0 || flag != CYLINDER_IS_PARSED)
 		error_exit(ERROR, NULL);
-	cylinder->mirror_coef = 0;
 	add_shape(rt_data, cylinder);
 	return (0);
 }
@@ -68,6 +67,8 @@ void		    cylin_data_fill(char **line, t_objects *cylinder, int line_number, int
 
 void    	    more_cylin_data_fill(char **line, t_objects *cylinder, int line_number, int *flag)
 {
+	float mirror;
+
 	if (begin_with(*line, "rad:"))
 	{
 		*line = trim_from(*line, 4);
@@ -80,6 +81,15 @@ void    	    more_cylin_data_fill(char **line, t_objects *cylinder, int line_num
 		if ((cylinder->bling_phong = ft_atoi(*line)) <= 0)
 			error_caster(line_number, "no such biling-phong coef. as ", *line);
 		*flag = *flag | (1 << 4);
+	}
+	else if (begin_with(*line, "mir:"))
+	{
+		*line = trim_from(*line, 4);
+		mirror = str_to_float(*line, 0, line_number);
+		if (mirror > 1 || mirror < 0)
+			error_caster(line_number, "no such mirror coef. as ", *line);
+		cylinder->mirror_coef = mirror;
+		*flag = *flag | (1 << 5);
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);

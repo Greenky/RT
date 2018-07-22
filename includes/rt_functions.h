@@ -42,11 +42,11 @@
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
 # define AMBIENT_LIGHT_IS_PARSED 35
-# define SPHERE_IS_PARSED 15
+# define SPHERE_IS_PARSED 31
 # define CAMERA_IS_PARSED 3
-# define CONE_IS_PARSED 31
-# define CYLINDER_IS_PARSED 31
-# define PLANE_IS_PARSED 15
+# define CONE_IS_PARSED 63
+# define CYLINDER_IS_PARSED 63
+# define PLANE_IS_PARSED 31
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(SCR_SIZE / 2))
@@ -213,7 +213,8 @@ void			cl_start(t_rt *rt);
 void			cl_init(t_rt *rt);
 
 t_channel		int_to_channels(int col);
-void			get_texture(t_intersect *closest_inter, unsigned int *texture);
+void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);
+void 			load_texture(SDL_Surface **textures, int index, char *path);
 
 void			draw_clicked_info(t_rt *rt_data);
 void			draw_bar(t_rt *rt_data);

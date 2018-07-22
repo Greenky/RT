@@ -159,8 +159,8 @@ int	check_if_in_gui(t_rt *rt_data, SDL_Event *event)
 		return (FIGURE_GUI);
 	else if (rt_data->filter && event->button.x >= 0 && event->button.x <= 300)
 		return (FILTER_GUI);
-	else if (event->button.x >= 0 && event->button.x <= 700
-			&& event->button.y >= SCR_SIZE - 100)
+//	else if (event->button.x >= 0 && event->button.x <= 700
+//			&& event->button.y >= SCR_SIZE - 100)
 }
 
 int mouse_click_event(t_rt *rt_data, SDL_Event *event)

@@ -27,7 +27,6 @@ void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 void		ray_tracing(t_rt *rt_data)
 {
 	SDL_Event	event;
-	SDL_Surface *wall;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	rt_data->cl_data.camera.initial_basis = rt_data->cl_data.camera.basis; // new
@@ -39,7 +38,8 @@ void		ray_tracing(t_rt *rt_data)
 	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
 	load_texture(rt_data->cl_data.textures, 0, "textures/Earth_1024x512.bmp");
 	load_texture(rt_data->cl_data.textures, 1, "textures/Brick_Wall.bmp");
-
+    load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
+    load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
 	draw_scene(rt_data);
 //	draw_bar(rt_data);
 //	text_output(rt_data);
@@ -92,8 +92,8 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		return ;
 	}
 	nor = choose_normal(*closest_inter->fig, closest_inter->point);
-//	nor = normalize_vector(vect_diff(closest_inter->point, closest_inter->fig->origin));
-//	nor = normalize_vector(matrix_mult_vect(closest_inter->fig->basis, nor));
+	i = 0;
+	j = 0;
 	if (closest_inter->fig->texture_index != -1)
 	{
 		texture = cl_data.textures[closest_inter->fig->texture_index];
@@ -112,14 +112,21 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			i = (int)(v * texture->w * M_1_PI);
 			j = (int)(u * 100) % texture->h;
 		}
-//		else
-//		{
-//			nor = (closest_inter->fig->origin, closest_inter->point);
-//			nor = matrix_mult_vect((t_coord_sys){(cl_float3){1, 0, 0}, (cl_float3){0, 1, 0}, (cl_float3){0, 0, 1}}, nor);
-////			i = vect_diff(closest_inter->point)
-//			i = (int)(nor.x) % texture->w;
-//			j = (int)(nor.y) % texture->h;
-//		}
+		else if (closest_inter->fig->type == PLANE)
+		{
+			nor = vect_diff(closest_inter->point, closest_inter->fig->origin);
+			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
+			if (nor.x != 0)
+			{
+				i = (int) ((nor.x > 0 ? nor.x : -nor.x) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+			}
+			else
+			{
+				i = (int) ((nor.z > 0 ? nor.z : -nor.z) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+			}
+		}
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 	}
 	else

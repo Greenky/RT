@@ -184,6 +184,7 @@ typedef struct	s_rt
 	t_gui			gui;
 	int				aliasing;
 	int				filter;
+	int 			take_screenshot;
 	t_cl			cl;
 	t_cl_data		cl_data;
 	t_light			*lights;

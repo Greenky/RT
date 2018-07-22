@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 90)
 
 execute_process(COMMAND make -C ../libft)
 
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
 # -O3 -flto=thin -Ofast -march=native -mtune=native")
 
 set(SOURCE_FILES  source/main.c
@@ -118,9 +118,9 @@ include_directories(libft)
 
 link_directories(libft) # library directories
 
-find_library(SDL SDL2.framework)
-find_library(SDL_ttf SDL2_ttf.framework)
-find_library(SDL_image SDL2_image.framework)
+find_library(SDL SDL2)
+find_library(SDL_ttf SDL2_ttf)
+find_library(SDL_image SDL2_image)
 
 find_package(OpenCL REQUIRED) # OpenCL package
 # MAC OS -------------
@@ -140,5 +140,4 @@ add_executable(RT ${SOURCE_FILES} ${HEADERS})
 set_target_properties(RT PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
-target_link_libraries(RT ${SDL}  ${OpenCL_LIBRARY} -lft)
-#${SDL_image} ${SDL_ttf}
+target_link_libraries(RT ${SDL} ${SDL_image} ${SDL_ttf} ${OpenCL_LIBRARY} -lft)

@@ -61,10 +61,10 @@
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOBMA_RAKETA"
 
-# define DEEP_BLUE (SDL_Color){33, 150, 243}
-# define SKY_BLUE (SDL_Color){144, 202, 249}
-# define BLACK (SDL_Color){0, 0, 0}
-# define WHITE (SDL_Color){255, 255, 255}
+# define DEEP_BLUE (SDL_Color){33, 150, 243, 0}
+# define SKY_BLUE (SDL_Color){144, 202, 249, 0}
+# define BLACK (SDL_Color){0, 0, 0, 0}
+# define WHITE (SDL_Color){255, 255, 255, 0}
 
 # define GUI_ALIAS_ON_BMP "gui_images/foot_bar_aliasing_on.bmp"
 # define GUI_ALIAS_OFF_BMP "gui_images/foot_bar_aliasing_off.bmp"

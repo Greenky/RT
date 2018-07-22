@@ -51,11 +51,11 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		if (step_obj->type == SPHERE)
 			rt_data->objects_arr[len].texture_index = 0;
 		else if (step_obj->type == CYLINDER)
-			rt_data->objects_arr[len].texture_index = 1;
+			rt_data->objects_arr[len].texture_index = 3;
 		else if (step_obj->type == CONE)
-			rt_data->objects_arr[len].texture_index = 1;
+			rt_data->objects_arr[len].texture_index = 2;
 		else
-			rt_data->objects_arr[len].texture_index = -1;
+			rt_data->objects_arr[len].texture_index = 1;
 		// ------------------------------------------------------------------------
 		rt_data->objects_arr[len].is_cartoon = 0;
 		rt_data->objects_arr[len].next = NULL;

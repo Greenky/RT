@@ -118,13 +118,13 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
 			if (nor.x != 0)
 			{
-				i = (int) ((nor.x > 0 ? nor.x : -nor.x) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
 			}
 			else
 			{
-				i = (int) ((nor.z > 0 ? nor.z : -nor.z) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
 			}
 		}
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);

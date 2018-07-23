@@ -42,16 +42,20 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		rt_data->objects_arr[len].angle_coef = step_obj->angle_coef;
 		rt_data->objects_arr[len].basis = step_obj->basis;
 		rt_data->objects_arr[len].mirror_coef = step_obj->mirror_coef;
-		rt_data->objects_arr[len].transperent_coef = step_obj->transperent_coef;
 		rt_data->objects_arr[len].axis_dimensions = step_obj->axis_dimensions;
 		rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
 		rt_data->objects_arr[len].mirror_coef = step_obj->mirror_coef;
+
 		// KOSTIL ----------------------------------------------------------------- // TODO udolit
 
+		// Transperency ------------------------
+		rt_data->objects_arr[len].transperent_coef = (step_obj->type == CYLINDER ? 0.6f : 0);
+
+		// Textures ---------------------
 		if (step_obj->type == SPHERE)
 			rt_data->objects_arr[len].texture_index = 0;
 		else if (step_obj->type == CYLINDER)
-			rt_data->objects_arr[len].texture_index = 3;
+			rt_data->objects_arr[len].texture_index = -1;
 		else if (step_obj->type == CONE)
 			rt_data->objects_arr[len].texture_index = 2;
 		else

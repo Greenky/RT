@@ -117,6 +117,11 @@ int		draw_scene(t_rt *rt_data)
 
 		pixel.y++;
 	}
+    if (rt_data->take_screenshot == 0)
+    {
+        draw_clicked_info(rt_data);
+        draw_gui(rt_data);
+    }
 	return (0);
 }
 void	draw_pixel(t_rt *rt_data, t_cl_data cl_data, t_objects *objects, t_light *lights, t_dot pixel)
@@ -127,6 +132,7 @@ void	draw_pixel(t_rt *rt_data, t_cl_data cl_data, t_objects *objects, t_light *l
 
 	primary_ray = compute_ray(cl_data.camera, pixel);
 	closest_inter = find_closest_inter(cl_data, objects, primary_ray);
+    rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;

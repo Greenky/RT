@@ -43,11 +43,11 @@ int			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ra
 				clost_to_light.distance =
 						distance(light_ray.origin, clost_to_light.point);
 			if (clost_to_light.distance < distance_to_light)
-				return (FALSE);
+				return (TRUE);
 		}
 		current++;
 	}
-	return (TRUE);
+	return (FALSE);
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,

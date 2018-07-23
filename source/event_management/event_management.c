@@ -10,77 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
-
-void	change_sphere(t_objects *object, int arrow)
-{
-	if (arrow == LEFT1 && object->radius >= 1.0)
-		object->radius -= 0.1;
-	else if (arrow == RIGHT1 && object->radius <= 50.0)
-		object->radius += 0.1;
-	else if (arrow == LEFT2)
-		object->origin.x -= 0.1;
-	else if (arrow == RIGHT2)
-		object->origin.x += 0.1;
-	else if (arrow == LEFT3)
-		object->origin.y -= 0.1;
-	else if (arrow == RIGHT3)
-		object->origin.y += 0.1;
-	else if (arrow == LEFT4)
-		object->origin.z -= 0.1;
-	else if (arrow == RIGHT4)
-		object->origin.z += 0.1;
-}
-
-void	change_cylinder(t_objects *object, int arrow)
-{
-	if (arrow == LEFT1 && object->radius >= 1.0)
-		object->radius -= 0.1;
-	else if (arrow == RIGHT1 && object->radius <= 50.0)
-		object->radius += 0.1;
-	else if (arrow == LEFT2)
-		object->origin.x -= 0.1;
-	else if (arrow == RIGHT2)
-		object->origin.x += 0.1;
-	else if (arrow == LEFT3)
-		object->origin.y -= 0.1;
-	else if (arrow == RIGHT3)
-		object->origin.y += 0.1;
-	else if (arrow == LEFT4)
-		object->origin.z -= 0.1;
-	else if (arrow == RIGHT4)
-		object->origin.z += 0.1;
-}
-
-void	change_cone(t_objects *object, int arrow)
-{
-	if (arrow == LEFT1 && object->angle_coef >= 0.2)
-		object->angle_coef -= 0.1;
-	else if (arrow == RIGHT1 && object->angle_coef <= 3.0)
-		object->angle_coef += 0.1;
-	else if (arrow == LEFT2)
-		object->origin.x -= 0.1;
-	else if (arrow == RIGHT2)
-		object->origin.x += 0.1;
-	else if (arrow == LEFT3)
-		object->origin.y -= 0.1;
-	else if (arrow == RIGHT3)
-		object->origin.y += 0.1;
-	else if (arrow == LEFT4)
-		object->origin.z -= 0.1;
-	else if (arrow == RIGHT4)
-		object->origin.z += 0.1;
-}
-
-void	change_object(t_objects *object, int arrow)
-{
-	if (object->type == SPHERE)
-		change_sphere(object, arrow);
-	else if (object->type == CYLINDER)
-		change_cylinder(object, arrow);
-	else if (object->type == CONE)
-		change_cone(object, arrow);
-}
+#include "../../includes/rt_functions.h"
 
 int		check_arrow_type(SDL_Event *event)
 {
@@ -123,7 +53,7 @@ void	gui_interaction_event(t_rt *rt_data, SDL_Event *event)
 	}
 }
 
-int	check_foot_press_type(SDL_Event *event)
+int		check_foot_press_type(SDL_Event *event)
 {
 	if (event->button.x >= 0 && event->button.x <= 195
 		&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
@@ -132,9 +62,9 @@ int	check_foot_press_type(SDL_Event *event)
 			&& event->button.y >= SCR_SIZE - 83 && event->button.y <= SCR_SIZE - 20)
 		return (ALIASING);
 	else if (event->button.x >= 195 && event->button.x <= 550
-             && event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
-        return (SAVE);
-    return (NONE);
+			&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
+		return (SAVE);
+	return (NONE);
 }
 
 void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
@@ -197,7 +127,7 @@ void	create_gui(t_rt *rt_data, SDL_Event *event, int flag)
 		filter_panel_interaction_event(rt_data, event);
 }
 
-int	check_if_in_gui(t_rt *rt_data, SDL_Event *event)
+int		check_if_in_gui(t_rt *rt_data, SDL_Event *event)
 {
 	if (event->button.x >= 0 && event->button.x <= 200
 			&& event->button.y >= 0 && event->button.y <= 400)
@@ -212,7 +142,7 @@ int	check_if_in_gui(t_rt *rt_data, SDL_Event *event)
 		return (NO_GUI);
 }
 
-int mouse_click_event(t_rt *rt_data, SDL_Event *event)
+int		mouse_click_event(t_rt *rt_data, SDL_Event *event)
 {
 	t_ray		primary_ray;
 	t_intersect	closest_inter;
@@ -247,10 +177,9 @@ int mouse_click_event(t_rt *rt_data, SDL_Event *event)
 	return (0);
 }
 
-
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
-	int		running;
+	int			running;
 	cl_float3	res;
 
 	running = 1;
@@ -290,47 +219,14 @@ int			exit_x(t_rt *rt_data, SDL_Event *event)
 
 int			key_down(t_rt *rt_data, SDL_Event *event)
 {
-	if (event->key.keysym.sym == SDLK_w)
-	{
-		rt_data->cl_data.camera.origin =
-				vect_diff(rt_data->cl_data.camera.origin,
-						  vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP)); // new
-	}
-	else if (event->key.keysym.sym == SDLK_s)
-	{
-		rt_data->cl_data.camera.origin =
-				vect_sum(rt_data->cl_data.camera.origin,
-						 vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP)); // new
-	}
-	else if (event->key.keysym.sym == SDLK_d)
-	{
-		rt_data->cl_data.camera.origin =
-				vect_sum(rt_data->cl_data.camera.origin,
-						 vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP)); // new
-	}
-	else if (event->key.keysym.sym == SDLK_a)
-	{
-		rt_data->cl_data.camera.origin =
-				vect_diff(rt_data->cl_data.camera.origin,
-						  vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP)); // new
-	}
-	else if (event->key.keysym.sym == SDLK_UP ||
-			 event->key.keysym.sym == SDLK_DOWN ||
-			 event->key.keysym.sym == SDLK_RIGHT ||
-			 event->key.keysym.sym == SDLK_LEFT ||
-			 event->key.keysym.sym == SDLK_PAGEUP ||
-			 event->key.keysym.sym == SDLK_PAGEDOWN)
+	if (check_camera_key(event->key.keysym.sym, SHIFT))
+		manage_camera_origin(event->key.keysym.sym, rt_data);
+	else if (check_camera_key(event->key.keysym.sym, ROTATE))
 		rotating_camera(event->key.keysym.sym, rt_data);
 	else if (event->key.keysym.sym == SDLK_SPACE)
-	{
-		rt_data->cl_data.camera.basis = rt_data->cl_data.camera.initial_basis; // new
-		rt_data->cl_data.camera.origin = VEC(0, 0, -20); // new
-		rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0); // new
-	}
-	else if (event->key.keysym.sym == SDLK_7)
-		rt_data->objects->axis_dimensions.y -= 0.1;
-	else if (event->key.keysym.sym == SDLK_8)
-		rt_data->objects->axis_dimensions.y += 0.1;
+		reset_camera_settings(rt_data);
+	else if (event->key.keysym.sym >= SDLK_KP_1 && event->key.keysym.sym <= SDLK_KP_0)
+		manage_ellipsoid_axes(event->key.keysym.sym, rt_data);
 	else
 		return (0);
 	draw_scene(rt_data);
@@ -339,52 +235,24 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 	return (0);
 }
 
-void		rotating_camera(int keycode, t_rt *rt_data)
+int		check_camera_key(int keycode, int type_of_motion)
 {
-	double		angle;
-
-	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
-			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
-	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
-		rt_data->cl_data.camera.angle_rot.x += angle;
-	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
-		rt_data->cl_data.camera.angle_rot.y -= angle;
+	if (type_of_motion == ROTATE)
+	{
+		if (keycode == SDLK_UP || keycode == SDLK_DOWN || keycode == SDLK_RIGHT ||
+			keycode == SDLK_LEFT || keycode == SDLK_PAGEUP || keycode == SDLK_PAGEDOWN)
+			return (TRUE);
+		else
+			return (FALSE);
+	}
+	else if (type_of_motion == SHIFT)
+	{
+		if (keycode == SDLK_w || keycode == SDLK_s || keycode == SDLK_d ||
+			keycode == SDLK_a)
+			return (TRUE);
+		else
+			return (FALSE);
+	}
 	else
-		rt_data->cl_data.camera.angle_rot.z += angle;
-	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data);
-}
-
-t_coord_sys	init_basis_after_rot(t_rt *rt_data)
-{
-	t_coord_sys		new_basis;
-	cl_float3		x_cam_sys;
-	cl_float3		y_cam_sys;
-
-	new_basis = matrix_mult_matrix(rt_data->cl_data.camera.initial_basis,
-								   rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.z, VEC(0, 0, 1))); // new
-	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_y); // new
-	new_basis = matrix_mult_matrix(new_basis,
-								   rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.y, y_cam_sys)); // new
-	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis), new_basis.b_x); // new
-	new_basis = matrix_mult_matrix(new_basis,
-								   (rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.x, x_cam_sys))); // new
-	return (new_basis);
-}
-
-t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis)
-{
-	t_coord_sys rot_matrix;
-
-	rot_matrix.b_x.x = cosf(angle) + (1 - cosf(angle)) * find_square(axis.x);
-	rot_matrix.b_y.x = (1 - cosf(angle)) * axis.x * axis.y - sinf(angle) * axis.z;
-	rot_matrix.b_z.x = (1 - cosf(angle)) * axis.x * axis.z + sinf(angle) * axis.y;
-
-	rot_matrix.b_x.y = (1 - cosf(angle)) * axis.y * axis.x + sinf(angle) * axis.z;
-	rot_matrix.b_y.y = cosf(angle) + (1 - cosf(angle)) * find_square(axis.y);
-	rot_matrix.b_z.y = (1 - cosf(angle)) * axis.y * axis.z - sinf(angle) * axis.x;
-
-	rot_matrix.b_x.z = (1 - cosf(angle)) * axis.z * axis.x - sinf(angle) * axis.y;
-	rot_matrix.b_y.z = (1 - cosf(angle)) * axis.z * axis.y + sinf(angle) * axis.x;
-	rot_matrix.b_z.z = cosf(angle) + (1 - cosf(angle)) * find_square(axis.z);
-	return (rot_matrix);
+		return (FALSE);
 }

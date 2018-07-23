@@ -26,7 +26,7 @@ set(SOURCE_FILES  source/main.c
 		source/math_functions/actions_on_vectors2.c
 		source/math_functions/algebraic_operations.c
 		source/draw_scene.c
-		source/event_management.c
+		source/event_management/event_management.c
 		source/find_normal_to_figure.c
 		source/find_pixel_color.c
 		source/manage_pixel.c
@@ -36,7 +36,7 @@ set(SOURCE_FILES  source/main.c
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
-		source/gui/gui.c)
+		source/gui/gui.c source/find_intersection/ellipsoid_find_closest_intersec.c source/parcing_function/ellipsoid_parcing.c source/event_management/change_object.c source/event_management/rotating_and_shift_camera.c source/event_management/handle_axis_dimensions_for_ellipsoid.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

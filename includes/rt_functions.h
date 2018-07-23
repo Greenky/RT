@@ -6,7 +6,7 @@
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:03:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/23 21:51:51 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void		error_caster(int line_number, char *s1, char *s2);
 cl_float3	matrix_mult_vect(t_coord_sys a, cl_float3 v);
 t_coord_sys	matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
 t_coord_sys	count_inverse_matrix(t_coord_sys a);
+t_coord_sys	create_coord_system(t_coord_sys basis);
 void		normalize_basis(t_coord_sys *a);
 
 cl_float3	vect_diff(cl_float3 v1, cl_float3 v2);
@@ -273,4 +274,5 @@ void		draw_gui(t_rt *rt_data);
 
 void		make_screenshot(t_rt *rt_data);
 void		swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i);
+void		init_arrays(t_rt *rt_data);
 #endif

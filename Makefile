@@ -24,11 +24,8 @@ SOURCES         =   source/draw_scene.c \
                     source/event_management.c \
                     source/find_fd.c \
                     source/find_normal_to_figure.c \
-                    source/find_pixel_color.c \
                     source/main.c \
-                    source/manage_pixel.c \
                     source/run_rtv1.c \
-                    source/some_find_color_func.c \
                     source/parcing_function/add_shape_and_light.c \
                     source/parcing_function/cam_parcing.c \
                     source/parcing_function/cone_parcing.c \
@@ -56,7 +53,12 @@ SOURCES         =   source/draw_scene.c \
                     source/gui/gui_draw_objects_info_2.c \
                     source/gui/gui_init_bmp.c           \
                     source/gui/gui_utils.c              \
-                    source/gui/gui.c
+                    source/gui/gui.c                    \
+                    source/color_functions/perlin_noise.c \
+                    source/color_functions/other_color_disruptions.c \
+                    source/color_functions/find_pixel_color.c \
+                    source/color_functions/some_find_color_func.c \
+                    source/color_functions/manage_pixel.c
 
         
 C_RED = \033[31m
@@ -105,6 +107,10 @@ $(OBJDIR)%.o: source/parcing_function/%.c $(HEADERS) $(LIBFT)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/gui/%.c $(HEADERS) $(LIBFT)
+	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+
+$(OBJDIR)%.o: source/color_functions/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 

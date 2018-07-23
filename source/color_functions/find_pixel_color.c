@@ -93,7 +93,7 @@ t_channel	find_lamp_coef(t_cl_data cl_data,
 	float 			a;
 	t_ray			light_ray;
 	t_channel		lamp_coef;
-    t_channel       trancperent_add;
+//    t_channel       trancperent_add;
 	float			*cos_angle;
 
 	ft_bzero(&lamp_coef, sizeof(t_channel));
@@ -134,7 +134,7 @@ t_channel	find_lamp_coef(t_cl_data cl_data,
 		// -------------------------------------------------------------------------------------------------------
         ft_bzero(&trancperent_add, sizeof(t_channel));
 		if (!is_shadows_here(light_ray, closest_inter.normal, r) ||
-			is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter, &trancperent_add))
+			is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter))
         {
 //			printf()
 //            add_coef(&lamp_coef, trancperent_add, 0.5);

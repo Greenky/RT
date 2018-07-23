@@ -24,12 +24,12 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 		return (FALSE);
 }
 
-int			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-										t_intersect closest_inter)
+int			is_figure_first_inter_by_light(t_cl_data cl_data,
+				t_objects *objects, t_ray light_ray, t_intersect closest_inter)
 {
 	t_intersect		clost_to_light;
 	float			distance_to_light;
-	int 			current;
+	int				current;
 
 	current = 0;
 	distance_to_light = distance(light_ray.origin, closest_inter.point);

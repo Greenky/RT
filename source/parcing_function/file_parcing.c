@@ -12,8 +12,6 @@
 
 #include "../../includes/rt_functions.h"
 
-// New functions --------------------------------------------------
-
 void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 {
 	t_objects *step_obj;
@@ -116,7 +114,7 @@ void			file_parcing(char *file, t_rt *rt_data)
 	correct_plane_normal(rt_data);
 }
 
-void    		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
+void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
 {
 	int			ret;
 	char		*line;

@@ -248,6 +248,27 @@ void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
 int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
 int mouse_click_event(t_rt *rt_data, SDL_Event *event);
 
+void		cone_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		cylinder_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		sphere_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		arrows_active_unactive(t_rt *rt_data, SDL_Rect pos, float *min_max, float value);
 
+char*		ftoa(float f, int tochnost);
+void		blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos);
 
+void		draw_sphere_info(t_rt *rt_data, t_objects *object);
+void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
+void		draw_cone_info(t_rt *rt_data, t_objects *object);
+void		draw_object_info(t_rt *rt_data, int i);
+void		sdl_error(char *str);
+
+void		init_gui_bmps(t_rt *rt_data);
+void		init_foot_gui_bmps(t_rt *rt_data);
+void		init_bar_positions(t_rt	*rt_data);
+
+void		draw_clicked_info(t_rt *rt_data);
+void		draw_filter_bar(t_rt *rt_data);
+void		draw_foot_info(t_rt *rt_data);
+void		draw_bar(t_rt *rt_data);
+void		draw_gui(t_rt *rt_data);
 #endif

@@ -29,10 +29,10 @@ set(SOURCE_FILES  source/main.c
 		source/draw_scene.c
 		source/event_management.c
 		source/find_normal_to_figure.c
-		source/find_pixel_color.c
-		source/manage_pixel.c
+		trash/find_pixel_color.c
+		trash/manage_pixel.c
 		source/run_rtv1.c
-		source/some_find_color_func.c
+		trash/some_find_color_func.c
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
@@ -45,7 +45,9 @@ set(SOURCE_FILES  source/main.c
 		source/gui/gui_draw_objects_info_2.c
 		source/gui/gui_init_bmp.c
 		source/gui/gui_utils.c
-		source/gui/gui.c)
+		source/gui/gui.c
+		source/color_functions/perlin_noise.c
+		source/color_functions/other_color_disruptions.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

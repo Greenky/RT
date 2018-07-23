@@ -75,7 +75,9 @@
 # define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
+
 # define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
+//# define interpolate(a, b, x) ((double)a * (double)(1.0 - (1.0 - cos(x * 3.1415927)) * 0.5) + (double)b * (double)(1.0 - cos(x * 3.1415927)) * 0.5)
 //# define interpolate(a, b, x) a * (1 - x) + b * x
 // ---------------------------------------------------------------------------------
 
@@ -275,4 +277,9 @@ void		draw_gui(t_rt *rt_data);
 void		make_screenshot(t_rt *rt_data);
 void		swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i);
 void		init_arrays(t_rt *rt_data);
+
+uint32_t	rgb_to_int(t_channel rgb);
+void		perlin_noise_disruption(SDL_Surface *surface);
+void		plasma_disruption(SDL_Surface *surface);
+void		check_mate_disruption(SDL_Surface *surface);
 #endif

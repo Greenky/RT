@@ -21,6 +21,7 @@ set(SOURCE_FILES  source/main.c
 		source/parcing_function/parce_peripherals.c
 		source/parcing_function/parce_peripherals_v2.c
 		source/parcing_function/light_parcing.c
+		source/parcing_function/list_to_objects.c
 		source/math_functions/actions_on_matrix.c
 		source/math_functions/actions_on_vectors.c
 		source/math_functions/actions_on_vectors2.c
@@ -36,7 +37,16 @@ set(SOURCE_FILES  source/main.c
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
-		source/gui/gui.c)
+		source/gui/gui_object_change.c
+		source/gui/gui_check_buttons.c
+		source/gui/gui_control_bars_show.c
+		source/gui/create_gui.c
+		source/gui/gui_draw_objects_info.c
+		source/gui/gui_draw_objects_info_2.c
+		source/gui/gui_init_bmp.c
+		source/gui/gui_utils.c
+		source/gui/gui.c
+		source/parcing_function/list_to_objects.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

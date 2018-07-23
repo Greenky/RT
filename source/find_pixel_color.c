@@ -12,12 +12,13 @@
 
 #include "../includes/rt_functions.h"
 
-uint32_t	find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r)
+uint32_t	find_color(t_cl_data cl_data, t_light *lights,
+					t_objects *objects, t_intersect closest_inter, t_ray r)
 {
 	t_light			*current_lamp;
 	t_channel		light_coef;
 	int				current;
-	float 			i;
+	float			i;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
 	if (closest_inter.fig->is_cartoon)
@@ -28,7 +29,8 @@ uint32_t	find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_in
 			return (0xFFFFFF);
 	}
 	current = 0;
-	closest_inter.normal = choose_normal(*closest_inter.fig, closest_inter.point);
+	closest_inter.normal = choose_normal(*closest_inter.fig,
+										closest_inter.point);
 	while (current < cl_data.num_of_lights)
 	{
 		current_lamp = (lights) + current;
@@ -58,11 +60,12 @@ void		trancperent_add_coef(t_channel *coef1, t_channel coef2, float coef)
     coef1->red += coef2.red * coef;
 }
 
-t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, t_ray ray, t_objects *this)
+t_intersect	find_closest_reflected_inter(t_cl_data cl_data,
+						t_objects *objects, t_ray ray, t_objects *this)
 {
 	t_intersect	tmp_inter;
 	t_intersect	closest_inter;
-	int current;
+	int			current;
 
 	closest_inter.distance = INFINITY;
 	current = 0;
@@ -70,7 +73,8 @@ t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, 
 	{
 		tmp_inter.fig = &objects[current];
 		choose_intersection(ray, &tmp_inter);
-		if (tmp_inter.distance < closest_inter.distance && tmp_inter.fig != this)
+		if (tmp_inter.distance < closest_inter.distance
+			&& tmp_inter.fig != this)
 			closest_inter = tmp_inter;
 		current++;
 	}
@@ -78,10 +82,9 @@ t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, 
 	return (closest_inter);
 }
 
-//---------------------------------------------------------------------------------------
-
-t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
-			t_intersect closest_inter, t_ray r, t_light *lights)
+t_channel	find_lamp_coef(t_cl_data cl_data,
+				t_objects *objects, t_light *current_lamp,
+				t_intersect closest_inter, t_ray r, t_light *lights)
 {
 	t_ray			reflected_ray;
 	t_intersect		reflected_inter;
@@ -113,16 +116,20 @@ t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current
 		// -------------------------------------------------------------------------------------------------------
 
 		// Reflection calculation --------------------------------------------------------------------------------
-		if (closest_inter.fig->mirror_coef > 0 && cl_data.reflect_rate < cl_data.max_reflections)
+		if (closest_inter.fig->mirror_coef > 0
+			&& cl_data.reflect_rate < cl_data.max_reflections)
 		{
 			cl_data.reflect_rate++;
 			reflected_ray.origin = closest_inter.point;
 			a = 2 * vect_scalar_mult(r.direction, closest_inter.normal);
-			reflected_ray.direction = vect_diff(r.direction, vect_mult_scalar(closest_inter.normal, a));
-			reflected_inter = find_closest_reflected_inter(cl_data, objects, reflected_ray, closest_inter.fig);
+			reflected_ray.direction = vect_diff(r.direction,
+					vect_mult_scalar(closest_inter.normal, a));
+			reflected_inter = find_closest_reflected_inter(cl_data,
+								objects, reflected_ray, closest_inter.fig);
 			if (reflected_inter.distance != INFINITY)
-				add_coef(&lamp_coef, int_to_channels(find_color(cl_data, lights, objects, reflected_inter, reflected_ray)),
-						 closest_inter.fig->mirror_coef);
+				add_coef(&lamp_coef, int_to_channels(find_color(cl_data,
+						lights, objects, reflected_inter, reflected_ray)),
+						closest_inter.fig->mirror_coef);
 		}
 		// -------------------------------------------------------------------------------------------------------
         ft_bzero(&trancperent_add, sizeof(t_channel));
@@ -130,7 +137,7 @@ t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current
 			is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter, &trancperent_add))
         {
 //			printf()
-            add_coef(&lamp_coef, trancperent_add, 0.5);
+//            add_coef(&lamp_coef, trancperent_add, 0.5);
             return (lamp_coef);
         }
 		cos_angle = find_cos_angle(light_ray, closest_inter, closest_inter.normal, r);

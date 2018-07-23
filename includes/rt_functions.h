@@ -6,7 +6,7 @@
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:03:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/23 21:51:51 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,62 +192,87 @@ void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
 
 
 /*error manager*/
-void			error_exit(int error_name,t_rt *rt_data);
-void			freesher(t_light *light, t_objects *shapes);
-void			error_caster(int line_number, char *s1, char *s2);
+void		error_exit(int error_name,t_rt *rt_data);
+void		freesher(t_light *light, t_objects *shapes);
+void		error_caster(int line_number, char *s1, char *s2);
 /*math_functions*/
-cl_float3		matrix_mult_vect(t_coord_sys a, cl_float3 v);
-t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
-t_coord_sys		count_inverse_matrix(t_coord_sys a);
-void			normalize_basis(t_coord_sys *a);
+cl_float3	matrix_mult_vect(t_coord_sys a, cl_float3 v);
+t_coord_sys	matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
+t_coord_sys	count_inverse_matrix(t_coord_sys a);
+t_coord_sys	create_coord_system(t_coord_sys basis);
+void		normalize_basis(t_coord_sys *a);
 
-cl_float3		vect_diff(cl_float3 v1, cl_float3 v2);
-cl_float3		vect_sum(cl_float3 v1, cl_float3 v2);
-cl_float3		vect_mult_scalar(cl_float3 v1, float multiplier);
-cl_float3		vect_cross_product(cl_float3 a, cl_float3 b);
-float			vect_scalar_mult(cl_float3 v1, cl_float3 v2);
-cl_float3		normalize_vector(cl_float3 a);
-cl_float3		scale_vector(cl_float3 v, int flag, cl_float3 scale_coef);
+cl_float3	vect_diff(cl_float3 v1, cl_float3 v2);
+cl_float3	vect_sum(cl_float3 v1, cl_float3 v2);
+cl_float3	vect_mult_scalar(cl_float3 v1, float multiplier);
+cl_float3	vect_cross_product(cl_float3 a, cl_float3 b);
+float		vect_scalar_mult(cl_float3 v1, cl_float3 v2);
+cl_float3	normalize_vector(cl_float3 a);
+cl_float3	scale_vector(cl_float3 v, int flag, cl_float3 scale_coef);
 
-float			find_square(float a);
-float			distance(cl_float3 v1, cl_float3 v2);
-float			length(cl_float3 v);
+float		find_square(float a);
+float		distance(cl_float3 v1, cl_float3 v2);
+float		length(cl_float3 v);
 
-void			cl_start(t_rt *rt);
-void			cl_init(t_rt *rt);
+void		cl_start(t_rt *rt);
+void		cl_init(t_rt *rt);
 
-t_channel		int_to_channels(int col);
-void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);
-void 			load_texture(SDL_Surface **textures, int index, char *path);
+t_channel	int_to_channels(int col);
+void		get_texture(t_intersect *closest_inter, t_cl_data cl_data);
+void 		load_texture(SDL_Surface **textures, int index, char *path);
 
-void			draw_clicked_info(t_rt *rt_data);
-void			draw_bar(t_rt *rt_data);
+void		draw_clicked_info(t_rt *rt_data);
+void		draw_bar(t_rt *rt_data);
 
-void			init_gui_bmps(t_rt	*rt_data);
-void			init_foot_gui_bmps(t_rt *rt_data);
+void		init_gui_bmps(t_rt	*rt_data);
+void		init_foot_gui_bmps(t_rt *rt_data);
+void		init_bar_positions(t_rt	*rt_data);
+void		draw_gui(t_rt *rt_data);
 
-void			init_bar_positions(t_rt	*rt_data);
-void			draw_gui(t_rt *rt_data);
+void		*draw_strings(void *thread_data_void);
+void		set_tread_param(t_rt *scene, t_thread_data *thread_num);
 
-void	*draw_strings(void *thread_data_void);
-void	set_tread_param(t_rt *scene, t_thread_data *thread_num);
+void		change_sphere(t_objects *object, int arrow);
+void		change_cylinder(t_objects *object, int arrow);
+void		change_cone(t_objects *object, int arrow);
+void		change_object(t_objects *object, int arrow);
 
-void	change_sphere(t_objects *object, int arrow);
-void	change_cylinder(t_objects *object, int arrow);
-void	change_cone(t_objects *object, int arrow);
-void	change_object(t_objects *object, int arrow);
+int			check_arrow_type(SDL_Event *event);
+void		gui_interaction_event(t_rt *rt_data, SDL_Event *event);
+int			check_foot_press_type(SDL_Event *event);
 
-int		check_arrow_type(SDL_Event *event);
-void	gui_interaction_event(t_rt *rt_data, SDL_Event *event);
-int		check_foot_press_type(SDL_Event *event);
+void		foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+void		filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
 
-void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
-void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+void		create_gui(t_rt *rt_data, SDL_Event *event, int flag);
+int			check_if_in_gui(t_rt *rt_data, SDL_Event *event);
+int			mouse_click_event(t_rt *rt_data, SDL_Event *event);
 
-void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
-int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
-int mouse_click_event(t_rt *rt_data, SDL_Event *event);
+void		cone_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		cylinder_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		sphere_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		arrows_active_unactive(t_rt *rt_data, SDL_Rect pos, float *min_max, float value);
 
+char*		ftoa(float f, int tochnost);
+void		blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos);
 
+void		draw_sphere_info(t_rt *rt_data, t_objects *object);
+void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
+void		draw_cone_info(t_rt *rt_data, t_objects *object);
+void		draw_object_info(t_rt *rt_data, int i);
+void		sdl_error(char *str);
 
+void		init_gui_bmps(t_rt *rt_data);
+void		init_foot_gui_bmps(t_rt *rt_data);
+void		init_bar_positions(t_rt	*rt_data);
+
+void		draw_clicked_info(t_rt *rt_data);
+void		draw_filter_bar(t_rt *rt_data);
+void		draw_foot_info(t_rt *rt_data);
+void		draw_bar(t_rt *rt_data);
+void		draw_gui(t_rt *rt_data);
+
+void		make_screenshot(t_rt *rt_data);
+void		swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i);
+void		init_arrays(t_rt *rt_data);
 #endif

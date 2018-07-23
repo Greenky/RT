@@ -23,7 +23,7 @@ cl_float3	choose_normal(t_objects figure, cl_float3 inter)
 	else if (figure.type == PLANE)
 		return (find_normal_to_plane(figure, inter));
 	else
-		return VEC(1, 1, 1); // idk, let it be
+		return (VEC(1, 1, 1));
 }
 
 cl_float3	find_normal_to_sphere(t_objects sphere, cl_float3 inter)
@@ -32,7 +32,8 @@ cl_float3	find_normal_to_sphere(t_objects sphere, cl_float3 inter)
 	cl_float3		normal_to_sphere_unit;
 
 	normal_to_sphere = vect_diff(inter, sphere.origin);
-	normal_to_sphere_unit = vect_mult_scalar(normalize_vector(normal_to_sphere), -1);
+	normal_to_sphere_unit =
+		vect_mult_scalar(normalize_vector(normal_to_sphere), -1);
 	return (normal_to_sphere_unit);
 }
 
@@ -48,8 +49,8 @@ cl_float3	find_normal_to_cone(t_objects cone, cl_float3 inter)
 		return (VEC(0, 0, 1));
 	height = -vect_scalar_mult(inter_orig, inter_orig) /
 		vect_scalar_mult(cone.basis.b_z, inter_orig);
-	normal = vect_diff(vect_sum(cone.origin, vect_mult_scalar(cone.basis.b_z,
-															   height)), inter);
+	normal = vect_diff(vect_sum(cone.origin,
+					vect_mult_scalar(cone.basis.b_z, height)), inter);
 	normal_unit = normalize_vector(normal);
 	return (normal_unit);
 }

@@ -29,7 +29,7 @@ float		is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_r
 {
 	t_intersect		clost_to_light;
 	float			distance_to_light;
-	int 			current;
+	int				current;
 
 	current = 0;
 	distance_to_light = distance(light_ray.origin, closest_inter.point);

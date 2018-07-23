@@ -70,24 +70,6 @@ t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, 
 
 //---------------------------------------------------------------------------------------
 
-cl_float3	povorot_normali(cl_float3 vector, cl_float angle)
-{
-	cl_float3	new;
-
-	new.x = vector.x * cosf(angle) - vector.y * sinf(angle);
-	new.y = vector.x * sinf(angle) - vector.y * cosf(angle);
-	return (new);
-}
-
-void		disrupt_normal(t_intersect *closest_inter)
-{
-	if((int)closest_inter->point.x / 2.0 >= 0.5 && (int)closest_inter->point.x / 2.0 <= 1.5)
-	{
-//		closest_inter->normal = vect_mult_scalar(closest_inter->normal, 1);
-		closest_inter->normal = povorot_normali(closest_inter->normal, 0.8);
-	}
-}
-
 t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
 			t_intersect closest_inter, t_ray r, t_light *lights)
 {

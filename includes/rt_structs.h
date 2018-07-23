@@ -20,7 +20,7 @@ enum	e_lights {AMBIENT, POINT, DIRECT};
 enum	e_object_data {RADIUS, POS_X, POS_Y, POS_Z, ANGLE_KOEF};
 enum	e_buttons {LEFT1, LEFT2, LEFT3, LEFT4, RIGHT1, RIGHT2, RIGHT3, RIGHT4, NONE};
 enum	e_foot_buttons {FILTERS, SAVE, ALIASING};
-enum	e_filters {SEPIA, GREYSCALE, NEGATIVE, PIXEL};
+enum	e_filters {NOFILTER, SEPIA, GREYSCALE, NEGATIVE, PIXEL};
 enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI, NO_GUI};
 
 typedef struct		s_dot

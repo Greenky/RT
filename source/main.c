@@ -157,7 +157,7 @@ int			main(int argc, char **argv)
 	init_gui_bmps(&rt_data);
 	init_foot_gui_bmps(&rt_data);
 	rt_data.aliasing = 0;
-	rt_data.filter = 1;
+	rt_data.filter = NOFILTER;
 	rt_data.gui.filter_gui = 0;
 	init_bar_positions(&rt_data);
 //	cl_init(&rt_data);

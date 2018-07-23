@@ -139,33 +139,36 @@ int	check_foot_press_type(SDL_Event *event)
 
 void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 {
-	int         flag;
-    SDL_Surface *surface;
-    static int  img_num;
-    char        *num;
-    char        *scr_name;
+	int			flag;
+	SDL_Surface	*surface;
+	static int	img_num;
+	char		*num;
+	char		*scr_name;
 
 	flag = check_foot_press_type(event);
 	if (flag == FILTERS)
+	{
 		rt_data->gui.filter_gui = !rt_data->gui.filter_gui;
+		rt_data->filter = NONE;
+	}
 	else if (flag == ALIASING)
 		rt_data->aliasing = !rt_data->aliasing;
-    else
-    {
-        rt_data->take_screenshot = 1;
-        draw_scene(rt_data);
-        surface = SDL_GetWindowSurface(rt_data->window);
-        surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
-        num = ft_itoa(img_num);
-        scr_name = ft_strjoin("ScreenShot", num);
-        free(num);
-        num = scr_name;
-        scr_name = ft_strjoin(scr_name, ".jpg");
-        free(num);
-        SDL_SaveBMP(surface, scr_name);
-        rt_data->take_screenshot = 0;
-        img_num++;
-    }
+	else
+	{
+		rt_data->take_screenshot = 1;
+		draw_scene(rt_data);
+		surface = SDL_GetWindowSurface(rt_data->window);
+		surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+		num = ft_itoa(img_num);
+		scr_name = ft_strjoin("ScreenShot", num);
+		free(num);
+		num = scr_name;
+		scr_name = ft_strjoin(scr_name, ".jpg");
+		free(num);
+		SDL_SaveBMP(surface, scr_name);
+		rt_data->take_screenshot = 0;
+		img_num++;
+	}
 }
 
 void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
@@ -343,17 +346,11 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
 			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
 	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
-	{
 		rt_data->cl_data.camera.angle_rot.x += angle;
-	}
 	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
-	{
 		rt_data->cl_data.camera.angle_rot.y -= angle;
-	}
 	else
-	{
 		rt_data->cl_data.camera.angle_rot.z += angle;
-	}
 	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data);
 }
 

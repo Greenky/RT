@@ -42,7 +42,7 @@ uint32_t	rgb_to_int(t_channel rgb)
 	int c = rgb.red;
 	c = (c << 8) | rgb.green;
 	c = (c << 8) | rgb.blue;
-	return c;
+	return ((uint32_t)c);
 }
 
 //double	dist(double a, double c, double d, double d)

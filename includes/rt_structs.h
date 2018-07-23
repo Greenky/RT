@@ -20,7 +20,7 @@ enum	e_lights {AMBIENT, POINT, DIRECT};
 enum	e_object_data {RADIUS, POS_X, POS_Y, POS_Z, ANGLE_KOEF};
 enum	e_buttons {LEFT1, LEFT2, LEFT3, LEFT4, RIGHT1, RIGHT2, RIGHT3, RIGHT4, NONE};
 enum	e_foot_buttons {FILTERS, SAVE, ALIASING};
-enum	e_filters {SEPIA, GREYSCALE, NEGATIVE, PIXEL};
+enum	e_filters {NOFILTER, SEPIA, GREYSCALE, NEGATIVE, PIXEL};
 enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI, NO_GUI};
 
 typedef struct		s_dot
@@ -29,18 +29,11 @@ typedef struct		s_dot
 	int				y;
 }					t_dot;
 
-typedef struct		s_vector
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_vector;
-
 typedef struct		s_channel
 {
-	float			red;
-	float			green;
-	float			blue;
+	int			red;
+	int			green;
+	int			blue;
 }					t_channel;
 
 typedef struct	s_ray
@@ -63,8 +56,6 @@ typedef struct	s_camera
 	t_coord_sys		basis;
 	cl_float3		angle_rot;
 	int				is_set;
-
-	double			dest;//TODO delete if unnecessary
 }				t_camera;
 
 typedef struct		s_light // ADDED TYPE, fix
@@ -196,6 +187,12 @@ typedef struct	s_rt
 	int				max_reflections;
 	int				line_number;
 }				t_rt;
+
+typedef struct		s_thread_data
+{
+	t_rt			*scene;
+	int				string_num;
+}					t_thread_data;
 
 typedef struct	s_parce
 {

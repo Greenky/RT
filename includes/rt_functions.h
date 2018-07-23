@@ -29,7 +29,9 @@
 # include <errno.h>
 # include "libft.h"
 # include "rt_structs.h"
+# include <pthread.h>
 
+# define THREAD_MAX 20
 # define FALSE 0
 # define TRUE 1
 
@@ -73,6 +75,8 @@
 # define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
+# define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
+//# define interpolate(a, b, x) a * (1 - x) + b * x
 // ---------------------------------------------------------------------------------
 
 unsigned int **g_wall; // GLOBAL
@@ -128,7 +132,7 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 //------------------------------------------------------------------------------------
 
-void			draw_pixel(t_rt *rt, t_cl_data cl_data, t_objects *objects, t_light *lights, t_dot pixel);
+void			draw_pixel(t_rt *rt, t_objects *objects, t_light *lights, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
 void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
@@ -158,8 +162,8 @@ t_ray			find_light_ray(cl_float3 origin, cl_float3 end);
 uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
-int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter);
+float			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
+												  t_intersect closest_inter, t_channel *trad);
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
@@ -224,4 +228,26 @@ void			init_foot_gui_bmps(t_rt *rt_data);
 
 void			init_bar_positions(t_rt	*rt_data);
 void			draw_gui(t_rt *rt_data);
+
+void	*draw_strings(void *thread_data_void);
+void	set_tread_param(t_rt *scene, t_thread_data *thread_num);
+
+void	change_sphere(t_objects *object, int arrow);
+void	change_cylinder(t_objects *object, int arrow);
+void	change_cone(t_objects *object, int arrow);
+void	change_object(t_objects *object, int arrow);
+
+int		check_arrow_type(SDL_Event *event);
+void	gui_interaction_event(t_rt *rt_data, SDL_Event *event);
+int		check_foot_press_type(SDL_Event *event);
+
+void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+
+void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
+int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
+int mouse_click_event(t_rt *rt_data, SDL_Event *event);
+
+
+
 #endif

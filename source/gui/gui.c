@@ -312,6 +312,9 @@ void		draw_clicked_info(t_rt *rt_data)
 void		draw_filter_bar(t_rt *rt_data)
 {
 	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 430, 0, 0};
+	printf("qq\n");
+	if (rt_data->filter == NONE)
+		rt_data->filter = GREYSCALE;
 	if (rt_data->filter == SEPIA)
 		SDL_BlitSurface(rt_data->gui.sepia, NULL,
 			rt_data->screen_surface, &rt_data->gui.pos);
@@ -329,19 +332,18 @@ void		draw_filter_bar(t_rt *rt_data)
 void		draw_foot_info(t_rt *rt_data)
 {
 	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 100, 0, 0};
-	rt_data->aliasing ?
-	SDL_BlitSurface(rt_data->gui.aliasing_on_foot, NULL,
-					rt_data->screen_surface, &rt_data->gui.pos)
-	  : SDL_BlitSurface(rt_data->gui.aliasing_off_foot, NULL,
+	if (rt_data->aliasing)
+		SDL_BlitSurface(rt_data->gui.aliasing_on_foot, NULL,
 						rt_data->screen_surface, &rt_data->gui.pos);
-	rt_data->gui.filter_gui ? draw_filter_bar(rt_data) : 0;
+	else
+		SDL_BlitSurface(rt_data->gui.aliasing_off_foot, NULL,
+						rt_data->screen_surface, &rt_data->gui.pos);
+	if (rt_data->gui.filter_gui)
+		draw_filter_bar(rt_data);
 }
 
 void		draw_bar(t_rt *rt_data)
 {
-	SDL_Rect	bar_pos;
-
-	bar_pos = (SDL_Rect){0, 0, 0, 0};
 	SDL_BlitSurface(rt_data->gui.bar, NULL, rt_data->screen_surface, &rt_data->gui.bar_pos);
 	SDL_BlitSurface(rt_data->gui.big_text_area, NULL, rt_data->screen_surface, &rt_data->gui.big_text_area_pos);
 }

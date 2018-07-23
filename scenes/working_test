@@ -18,7 +18,7 @@
     sphere:
         cen: (-0.5, 2, 2)
         rad: 2
-        col: 0x00ffff
+        col: 0xffffff
         b_p: 1000
         mir: 0
     plane:
@@ -57,7 +57,7 @@
         dir: (0.1, 1, 0)
         ang: 30
         b_p: 1000
-        mir: 0
+        mir: 0.1
     cylinder:
         col: 0xFFAAAA
         cen: (-2.5, -6, 2)

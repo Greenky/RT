@@ -44,6 +44,8 @@ cl_float3	find_normal_to_cone(t_objects cone, cl_float3 inter)
 	cl_float3		inter_orig;
 
 	inter_orig = vect_diff(cone.origin, inter);
+	if (inter_orig.x == 0 && inter_orig.y == 0 && inter_orig.z == 0)
+		return (VEC(0, 0, 1));
 	height = -vect_scalar_mult(inter_orig, inter_orig) /
 		vect_scalar_mult(cone.basis.b_z, inter_orig);
 	normal = vect_diff(vect_sum(cone.origin, vect_mult_scalar(cone.basis.b_z,

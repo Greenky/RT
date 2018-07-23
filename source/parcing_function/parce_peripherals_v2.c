@@ -12,9 +12,9 @@
 
 #include "../../includes/rt_functions.h"
 
-t_channel				int_to_channels(int col)
+t_channel		int_to_channels(int col)
 {
-	t_channel channels;
+	t_channel	channels;
 
 	channels.blue = col & 255;
 	channels.green = col >> 8 & 255;
@@ -22,7 +22,7 @@ t_channel				int_to_channels(int col)
 	return (channels);
 }
 
-t_channel				parce_color(char *line, int line_number)
+t_channel		parce_color(char *line, int line_number)
 {
 	int			i;
 	int			j;
@@ -48,18 +48,14 @@ t_channel				parce_color(char *line, int line_number)
 	return ((t_channel){0, 0, 0});
 }
 
-
-
 cl_float3		parce_vector(char *line, int line_number)
 {
 	int		i;
-	//int		flag;
 	float	a;
 	float	b;
 	float	c;
 
 	i = 1;
-	//flag = 0;
 	if (begin_with(line, "("))
 	{
 		a = float_finder(line, &i, line_number);
@@ -76,7 +72,7 @@ cl_float3		parce_vector(char *line, int line_number)
 	return (VEC(0, 0, 0));
 }
 
-float	float_finder(char *line, int *i, int line_number)
+float			float_finder(char *line, int *i, int line_number)
 {
 	float	a;
 

@@ -25,9 +25,9 @@ int				cone_parce(int fd, t_rt *rt_data)
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
-        cone_data_fill(&line, cone, rt_data->line_number, &flag);
+		cone_data_fill(&line, cone, rt_data->line_number, &flag);
 		ft_strdel(&line);
-		if (flag == CONE_IS_PARSED)// 15
+		if (flag == CONE_IS_PARSED)
 			break ;
 	}
 	if (k < 0 || flag != CONE_IS_PARSED)
@@ -36,7 +36,8 @@ int				cone_parce(int fd, t_rt *rt_data)
 	return (0);
 }
 
-void		cone_data_fill(char **line, t_objects *cone, int line_number, int *flag)
+void			cone_data_fill(char **line, t_objects *cone,
+									int line_number, int *flag)
 {
 	char		*new_line;
 
@@ -65,24 +66,12 @@ void		cone_data_fill(char **line, t_objects *cone, int line_number, int *flag)
 		more_cone_data_fill(line, cone, line_number, flag);
 }
 
-void		more_cone_data_fill(char **line, t_objects *cone, int line_number, int *flag)
+static void		more_cone_data_fill2(char **line, t_objects *cone,
+										int line_number, int *flag)
 {
-	float mirror;
+	float	mirror;
 
-	if (begin_with(*line, "ang:"))
-	{
-		*line = trim_from(*line, 4);
-		cone->angle_coef = fminf(1, fmaxf(0.05, tanf(ANGLE_IN_DEGREES(str_to_float(*line, 0, line_number)))));
-		*flag = *flag | (1 << 3);
-	}
-	else if (begin_with(*line, "b_p:"))
-	{
-		*line = trim_from(*line, 4);
-		if ((cone->bling_phong = ft_atoi(*line)) <= 0)
-			error_caster(line_number, "no such biling-phong coef. as ", *line);
-		*flag = *flag | (1 << 4);
-	}
-	else if (begin_with(*line, "mir:"))
+	if (begin_with(*line, "mir:"))
 	{
 		*line = trim_from(*line, 4);
 		mirror = str_to_float(*line, 0, line_number);
@@ -93,4 +82,25 @@ void		more_cone_data_fill(char **line, t_objects *cone, int line_number, int *fl
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);
+}
+
+void			more_cone_data_fill(char **line, t_objects *cone,
+									int line_number, int *flag)
+{
+	if (begin_with(*line, "ang:"))
+	{
+		*line = trim_from(*line, 4);
+		cone->angle_coef = fminf(1, fmaxf(0.05,
+			tanf(ANGLE_IN_DEGREES(str_to_float(*line, 0, line_number)))));
+		*flag = *flag | (1 << 3);
+	}
+	else if (begin_with(*line, "b_p:"))
+	{
+		*line = trim_from(*line, 4);
+		if ((cone->bling_phong = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		*flag = *flag | (1 << 4);
+	}
+	else
+		more_cone_data_fill2(line, cone, line_number, flag);
 }

@@ -24,8 +24,8 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 		return (FALSE);
 }
 
-int			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-										t_intersect closest_inter)
+float		is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
+										t_intersect closest_inter, t_channel *trancparent_add)
 {
 	t_intersect		clost_to_light;
 	float			distance_to_light;
@@ -43,7 +43,10 @@ int			is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ra
 				clost_to_light.distance =
 						distance(light_ray.origin, clost_to_light.point);
 			if (clost_to_light.distance < distance_to_light)
-				return (TRUE);
+            {
+                add_coef(trancparent_add, clost_to_light.texture_color, clost_to_light.fig->transperent_coef);
+                return (TRUE);
+            }
 		}
 		current++;
 	}
@@ -76,12 +79,12 @@ uint32_t	find_color_hex(t_channel light_coef, t_intersect closest_inter)
 	uint32_t	color_hex;
 
 	color_hex = 0;
-	color_hex += find_color_channel(closest_inter.texture_color.red,
-									light_coef.red, 16);
-	color_hex += find_color_channel(closest_inter.texture_color.green,
-									light_coef.green, 8);
-	color_hex += find_color_channel(closest_inter.texture_color.blue,
-									light_coef.blue, 0);
+    color_hex += find_color_channel(closest_inter.texture_color.red,
+                                    light_coef.red, 16);
+    color_hex += find_color_channel(closest_inter.texture_color.green,
+                                    light_coef.green, 8);
+    color_hex += find_color_channel(closest_inter.texture_color.blue,
+                                    light_coef.blue, 0);
 	return (color_hex);
 }
 

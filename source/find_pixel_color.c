@@ -80,24 +80,6 @@ t_intersect	find_closest_reflected_inter(t_cl_data cl_data, t_objects *objects, 
 
 //---------------------------------------------------------------------------------------
 
-cl_float3	povorot_normali(cl_float3 vector, cl_float angle)
-{
-	cl_float3	new;
-
-	new.x = vector.x * cosf(angle) - vector.y * sinf(angle);
-	new.y = vector.x * sinf(angle) - vector.y * cosf(angle);
-	return (new);
-}
-
-void		disrupt_normal(t_intersect *closest_inter)
-{
-	if((int)closest_inter->point.x / 2.0 >= 0.5 && (int)closest_inter->point.x / 2.0 <= 1.5)
-	{
-//		closest_inter->normal = vect_mult_scalar(closest_inter->normal, 1);
-		closest_inter->normal = povorot_normali(closest_inter->normal, 0.8);
-	}
-}
-
 t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
 			t_intersect closest_inter, t_ray r, t_light *lights)
 {
@@ -108,6 +90,7 @@ t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current
 	float 			a;
 	t_ray			light_ray;
 	t_channel		lamp_coef;
+    t_channel       trancperent_add;
 	float			*cos_angle;
 
 	ft_bzero(&lamp_coef, sizeof(t_channel));
@@ -142,10 +125,14 @@ t_channel	find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current
 						 closest_inter.fig->mirror_coef);
 		}
 		// -------------------------------------------------------------------------------------------------------
-
+        ft_bzero(&trancperent_add, sizeof(t_channel));
 		if (!is_shadows_here(light_ray, closest_inter.normal, r) ||
-			is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter))
-			return (lamp_coef);
+			is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter, &trancperent_add))
+        {
+//			printf()
+            add_coef(&lamp_coef, trancperent_add, 0.5);
+            return (lamp_coef);
+        }
 		cos_angle = find_cos_angle(light_ray, closest_inter, closest_inter.normal, r);
 		add_coef(&lamp_coef, current_lamp->color, cos_angle[0] *
 				current_lamp->intensity);

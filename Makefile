@@ -41,6 +41,7 @@ SOURCES         =   source/draw_scene.c \
                     source/parcing_function/sphere_parcing.c \
                     source/math_functions/actions_on_matrix.c \
                     source/math_functions/actions_on_vectors.c \
+                    source/math_functions/actions_on_vectors2.c \
                     source/math_functions/algebraic_operations.c \
                     source/find_intersection/cone_find_closest_intersect.c \
                     source/find_intersection/cyl_find_closest_intersect.c \

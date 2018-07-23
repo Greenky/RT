@@ -255,7 +255,7 @@ void		event_management(t_rt *rt_data, SDL_Event *event)
 	res.x = 0;
 	res.y = 0;
 	res.z = 0;
-	rt_data->cl_data.camera.angle_rot = res; // new
+	rt_data->cl_data.camera.angle_rot = res;
 	while (running)
 	{
 		while (SDL_PollEvent(event))
@@ -325,16 +325,9 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 		rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0); // new
 	}
 	else if (event->key.keysym.sym == SDLK_7)
-	{
-		//printf("type = %d\n", rt_data->objects->type);
 		rt_data->objects->axis_dimensions.y -= 0.1;
-		//handle_axis_dimensions(rt_data->objects);
-	}
 	else if (event->key.keysym.sym == SDLK_8)
-	{
 		rt_data->objects->axis_dimensions.y += 0.1;
-		//handle_axis_dimensions(rt_data->objects);
-	}
 	else
 		return (0);
 	draw_scene(rt_data);
@@ -351,18 +344,17 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
 	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
 	{
-		rt_data->cl_data.camera.angle_rot.x += angle; // new
+		rt_data->cl_data.camera.angle_rot.x += angle;
 	}
 	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
 	{
-		rt_data->cl_data.camera.angle_rot.y -= angle; // new
+		rt_data->cl_data.camera.angle_rot.y -= angle;
 	}
 	else
 	{
-		rt_data->cl_data.camera.angle_rot.z += angle; // new
+		rt_data->cl_data.camera.angle_rot.z += angle;
 	}
-//	printf("x = %f, y = %f, z = %f\n", rt_data->camera.angle_rot.x, rt_data->camera.angle_rot.y, rt_data->camera.angle_rot.z);//TODO delete
-	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data); // new
+	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data);
 }
 
 t_coord_sys	init_basis_after_rot(t_rt *rt_data)
@@ -370,7 +362,6 @@ t_coord_sys	init_basis_after_rot(t_rt *rt_data)
 	t_coord_sys		new_basis;
 	cl_float3		x_cam_sys;
 	cl_float3		y_cam_sys;
-	//cl_float3		z_cam_sys;
 
 	new_basis = matrix_mult_matrix(rt_data->cl_data.camera.initial_basis,
 								   rot_matrix_about_the_axis(rt_data->cl_data.camera.angle_rot.z, VEC(0, 0, 1))); // new
@@ -400,36 +391,3 @@ t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis)
 	rot_matrix.b_z.z = cosf(angle) + (1 - cosf(angle)) * find_square(axis.z);
 	return (rot_matrix);
 }
-
-
-//------------------------------------------------------------------
-
-//
-//t_channel				int_to_channels(int col)
-//{
-//	t_channel channels;
-//
-//	channels.blue = col & 255;
-//	channels.green = col >> 8 & 255;
-//	channels.red = col >> 16 & 255;
-//	return (channels);
-//}
-////
-//t_intersect	find_closest_reflected_inter(t_cl_data cl_data,__constant t_objects *objects, t_ray ray, __constant t_objects *this)
-//{
-//t_intersect	tmp_inter;
-//t_intersect	closest_inter;
-//int current;
-//
-//closest_inter.distance = INFINITY;
-//current = 0;
-//while (current < cl_data.num_of_objects)
-//{
-//	tmp_inter.fig = &objects[current];
-//	choose_intersection(ray, &tmp_inter);
-//	if (tmp_inter.distance < closest_inter.distance && tmp_inter.fig != this)
-//		closest_inter = tmp_inter;
-//	current++;
-//}
-//return (closest_inter);
-//}

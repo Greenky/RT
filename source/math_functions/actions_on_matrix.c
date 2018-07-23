@@ -29,15 +29,12 @@ t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b)
 	new.b_x.x = a.b_x.x * b.b_x.x + a.b_y.x * b.b_x.y + a.b_z.x * b.b_x.z;
 	new.b_x.y = a.b_x.y * b.b_x.x + a.b_y.y * b.b_x.y + a.b_z.y * b.b_x.z;
 	new.b_x.z = a.b_x.z * b.b_x.x + a.b_y.z * b.b_x.y + a.b_z.z * b.b_x.z;
-
-    new.b_y.x = a.b_x.x * b.b_y.x + a.b_y.x * b.b_y.y + a.b_z.x * b.b_y.z;
-    new.b_y.y = a.b_x.y * b.b_y.x + a.b_y.y * b.b_y.y + a.b_z.y * b.b_y.z;
-    new.b_y.z = a.b_x.z * b.b_y.x + a.b_y.z * b.b_y.y + a.b_z.z * b.b_y.z;
-
-    new.b_z.x = a.b_x.x * b.b_z.x + a.b_y.x * b.b_z.y + a.b_z.x * b.b_z.z;
-    new.b_z.y = a.b_x.y * b.b_z.x + a.b_y.y * b.b_z.y + a.b_z.y * b.b_z.z;
-    new.b_z.z = a.b_x.z * b.b_z.x + a.b_y.z * b.b_z.y + a.b_z.z * b.b_z.z;
-
+	new.b_y.x = a.b_x.x * b.b_y.x + a.b_y.x * b.b_y.y + a.b_z.x * b.b_y.z;
+	new.b_y.y = a.b_x.y * b.b_y.x + a.b_y.y * b.b_y.y + a.b_z.y * b.b_y.z;
+	new.b_y.z = a.b_x.z * b.b_y.x + a.b_y.z * b.b_y.y + a.b_z.z * b.b_y.z;
+	new.b_z.x = a.b_x.x * b.b_z.x + a.b_y.x * b.b_z.y + a.b_z.x * b.b_z.z;
+	new.b_z.y = a.b_x.y * b.b_z.x + a.b_y.y * b.b_z.y + a.b_z.y * b.b_z.z;
+	new.b_z.z = a.b_x.z * b.b_z.x + a.b_y.z * b.b_z.y + a.b_z.z * b.b_z.z;
 	return (new);
 }
 
@@ -47,8 +44,8 @@ t_coord_sys		count_inverse_matrix(t_coord_sys a)
 	t_coord_sys	m;
 
 	determinant = a.b_x.x * (a.b_y.y * a.b_z.z - a.b_z.y * a.b_y.z) -
-				  a.b_y.x * (a.b_x.y * a.b_z.z - a.b_z.y * a.b_x.z) +
-				  a.b_z.x * (a.b_x.y * a.b_y.z - a.b_y.y * a.b_x.z);
+				a.b_y.x * (a.b_x.y * a.b_z.z - a.b_z.y * a.b_x.z) +
+				a.b_z.x * (a.b_x.y * a.b_y.z - a.b_y.y * a.b_x.z);
 	determinant = 1 / determinant;
 	m.b_x.x = (a.b_y.y * a.b_z.z - a.b_z.y * a.b_y.z) * determinant;
 	m.b_x.y = (a.b_z.y * a.b_x.z - a.b_x.y * a.b_z.z) * determinant;

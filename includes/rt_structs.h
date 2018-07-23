@@ -197,6 +197,12 @@ typedef struct	s_rt
 	int				line_number;
 }				t_rt;
 
+typedef struct		s_thread_data
+{
+	t_rt			*scene;
+	int				string_num;
+}					t_thread_data;
+
 typedef struct	s_parce
 {
 	char		*name;

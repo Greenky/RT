@@ -28,7 +28,6 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		step_obj = step_obj->next;
 	}
 	rt_data->cl_data.num_of_objects = len;
-//	rt_data->camera.num_of_objects = len;
 	rt_data->objects_arr = (t_objects *)malloc(sizeof(t_objects) * len);
 	len = 0;
 	step_obj = rt_data->objects;
@@ -111,8 +110,6 @@ void			file_parcing(char *file, t_rt *rt_data)
 	rt_data->cl_data.camera.is_set = 0; // new
 	rt_data->cl_data.max_reflections = 5;
 	line_reader(rt_data, fd, arr);
-//	if (!rt_data->camera.is_set)
-//		error_exit(CAM_ERROR, rt_data);
 	if (!rt_data->cl_data.camera.is_set)
 		error_exit(CAM_ERROR, rt_data);
 	init_arrays(rt_data);
@@ -162,7 +159,7 @@ void		parcer_functions(char **str, t_rt *rt_data, const t_parce arr[], int fd)
 	}
 }
 
-void		correct_plane_normal(t_rt *rt_data)//перенести
+void		correct_plane_normal(t_rt *rt_data)
 {
     t_objects	*object_list;
 

@@ -12,24 +12,26 @@
 
 #include "../../includes/rt_functions.h"
 
-int				light_parce(int fd, t_rt *rt_data)
+int			light_parce(int fd, t_rt *rt_data)
 {
-	int flag;
-	char *line;
-	int k;
-	t_light *light;
+	int		flag;
+	char	*line;
+	int		k;
+	t_light	*light;
 
 	flag = 0;
-	light = (t_light *) malloc(sizeof(t_light));
+	light = (t_light *)malloc(sizeof(t_light));
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
 		feelings(&line, light, rt_data->line_number, &flag);
 		ft_strdel(&line);
-		if (flag == DIRECT_LIGHT_IS_PARSED || flag == POINT_LIGHT_IS_PARSED || flag == AMBIENT_LIGHT_IS_PARSED)
-			break;
+		if (flag == DIRECT_LIGHT_IS_PARSED
+			|| flag == POINT_LIGHT_IS_PARSED || flag == AMBIENT_LIGHT_IS_PARSED)
+			break ;
 	}
-	if (k < 0 || (flag != DIRECT_LIGHT_IS_PARSED && flag != POINT_LIGHT_IS_PARSED && flag != AMBIENT_LIGHT_IS_PARSED))
+	if (k < 0 || (flag != DIRECT_LIGHT_IS_PARSED
+		&& flag != POINT_LIGHT_IS_PARSED && flag != AMBIENT_LIGHT_IS_PARSED))
 	{
 		free(light);
 		perror("RT");
@@ -56,31 +58,14 @@ void		feelings(char **line, t_light *light, int line_number, int *flag)
 		light->type = POINT;
 		*flag = (*flag & ~(1 << 3)) | (1 << 4);
 	}
-	else if (ft_strequ(*line, "direct"))
-	{
-		light->type = DIRECT;
-		*flag = (*flag & ~(1 << 4)) | (1 << 3);
-	}
-	else if (begin_with(*line, "dir:") && (*flag & (1 << 3)))
-	{
-		*line = trim_from(*line, 4);
-		light->direct = parce_vector(*line, line_number);
-		*flag = *flag | (1 << 2);
-	}
-	else if (begin_with(*line, "cen:") && (*flag & (1 << 4)))
-	{
-		*line = trim_from(*line, 4);
-		light->origin = parce_vector(*line, line_number);
-		*flag = *flag | (1 << 2);
-	}
 	else
 		more_of_feelings(line, light, line_number, flag);
 }
 
-void		more_of_feelings(char **line, t_light *light, int line_number,
+static void	even_more_of_feelings(char **line, t_light *light, int line_number,
 									int *flag)
 {
-	float		intensity;
+	float	intensity;
 
 	if (begin_with(*line, "col:"))
 	{
@@ -101,3 +86,26 @@ void		more_of_feelings(char **line, t_light *light, int line_number,
 		error_caster(line_number, "no such parameter as ", *line);
 }
 
+void		more_of_feelings(char **line, t_light *light, int line_number,
+									int *flag)
+{
+	if (ft_strequ(*line, "direct"))
+	{
+		light->type = DIRECT;
+		*flag = (*flag & ~(1 << 4)) | (1 << 3);
+	}
+	else if (begin_with(*line, "dir:") && (*flag & (1 << 3)))
+	{
+		*line = trim_from(*line, 4);
+		light->direct = parce_vector(*line, line_number);
+		*flag = *flag | (1 << 2);
+	}
+	else if (begin_with(*line, "cen:") && (*flag & (1 << 4)))
+	{
+		*line = trim_from(*line, 4);
+		light->origin = parce_vector(*line, line_number);
+		*flag = *flag | (1 << 2);
+	}
+	else
+		even_more_of_feelings(line, light, line_number, flag);
+}

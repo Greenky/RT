@@ -16,7 +16,7 @@ void		add_shape(t_rt *rt_data, t_objects *shape)
 {
 	t_objects	*step;
 
-    shape->basis = create_coord_system(shape->basis);
+	shape->basis = create_coord_system(shape->basis);
 	shape->next = NULL;
 	step = rt_data->objects;
 	if (step)

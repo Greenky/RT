@@ -23,6 +23,7 @@ set(SOURCE_FILES  source/main.c
 		source/parcing_function/light_parcing.c
 		source/math_functions/actions_on_matrix.c
 		source/math_functions/actions_on_vectors.c
+		source/math_functions/actions_on_vectors2.c
 		source/math_functions/algebraic_operations.c
 		source/draw_scene.c
 		source/event_management.c

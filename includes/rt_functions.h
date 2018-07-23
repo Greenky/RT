@@ -29,7 +29,9 @@
 # include <errno.h>
 # include "libft.h"
 # include "rt_structs.h"
+# include <pthread.h>
 
+# define THREAD_MAX 20
 # define FALSE 0
 # define TRUE 1
 
@@ -130,7 +132,7 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 //------------------------------------------------------------------------------------
 
-void			draw_pixel(t_rt *rt, t_cl_data cl_data, t_objects *objects, t_light *lights, t_dot pixel);
+void			draw_pixel(t_rt *rt, t_objects *objects, t_light *lights, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
 void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
@@ -226,4 +228,26 @@ void			init_foot_gui_bmps(t_rt *rt_data);
 
 void			init_bar_positions(t_rt	*rt_data);
 void			draw_gui(t_rt *rt_data);
+
+void	*draw_strings(void *thread_data_void);
+void	set_tread_param(t_rt *scene, t_thread_data *thread_num);
+
+void	change_sphere(t_objects *object, int arrow);
+void	change_cylinder(t_objects *object, int arrow);
+void	change_cone(t_objects *object, int arrow);
+void	change_object(t_objects *object, int arrow);
+
+int		check_arrow_type(SDL_Event *event);
+void	gui_interaction_event(t_rt *rt_data, SDL_Event *event);
+int		check_foot_press_type(SDL_Event *event);
+
+void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+
+void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
+int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
+int mouse_click_event(t_rt *rt_data, SDL_Event *event);
+
+
+
 #endif

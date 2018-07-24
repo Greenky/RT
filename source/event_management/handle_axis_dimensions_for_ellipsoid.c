@@ -30,7 +30,8 @@ void	handle_axis_dimensions(t_objects *ellipsoid)
 
 	biggest_axis = find_biggest_axis(ellipsoid);
 	ellipsoid->radius = biggest_axis;
-	ellipsoid->axis_dimensions = vect_mult_scalar(ellipsoid->axis_dimensions, 1 / biggest_axis);
+	ellipsoid->axis_dimensions =
+			vect_mult_scalar(ellipsoid->axis_dimensions, 1 / biggest_axis);
 }
 
 void	check_axis_dimensions(float *length)
@@ -41,25 +42,8 @@ void	check_axis_dimensions(float *length)
 		*length = 10;
 }
 
-void	manage_ellipsoid_axes(int keycode, t_rt *rt_data)
+void	manage_ellipsoid_keys(int keycode, t_objects *ellipsoid)
 {
-	t_objects	*ellipsoid;
-	int			idx;
-
-	idx = 0;
-	while (idx < rt_data->cl_data.num_of_objects)
-	{
-		if (rt_data->objects_arr[idx].type == ELLIPSOID &&
-			rt_data->objects_arr[idx].is_cartoon == 1)
-		{
-			ellipsoid = &(rt_data->objects_arr[idx]);
-			break ;
-		}
-		idx++;
-	}
-	if (idx == rt_data->cl_data.num_of_objects)
-		return ;
-	ellipsoid->axis_dimensions = vect_mult_scalar(ellipsoid->axis_dimensions, ellipsoid->radius);
 	if (keycode == SDLK_KP_7)
 		ellipsoid->axis_dimensions.x -= 0.1;
 	else if (keycode == SDLK_KP_8)
@@ -72,6 +56,29 @@ void	manage_ellipsoid_axes(int keycode, t_rt *rt_data)
 		ellipsoid->axis_dimensions.z -= 0.1;
 	else if (keycode == SDLK_KP_2)
 		ellipsoid->axis_dimensions.z += 0.1;
+}
+
+void	manage_ellipsoid_axes(int keycode, t_rt *rt_data)
+{
+	t_objects	*ellipsoid;
+	int			idx;
+
+	idx = -1;
+	ellipsoid = NULL;
+	while (++idx < rt_data->cl_data.num_of_objects)
+	{
+		if (rt_data->objects_arr[idx].type == ELLIPSOID &&
+			rt_data->objects_arr[idx].is_cartoon == 1)
+		{
+			ellipsoid = &(rt_data->objects_arr[idx]);
+			break ;
+		}
+	}
+	if (idx == rt_data->cl_data.num_of_objects)
+		return ;
+	ellipsoid->axis_dimensions =
+		vect_mult_scalar(ellipsoid->axis_dimensions, ellipsoid->radius);
+	manage_ellipsoid_keys(keycode, ellipsoid);
 	check_axis_dimensions(&ellipsoid->axis_dimensions.x);
 	check_axis_dimensions(&ellipsoid->axis_dimensions.y);
 	check_axis_dimensions(&ellipsoid->axis_dimensions.z);

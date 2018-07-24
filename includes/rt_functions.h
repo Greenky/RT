@@ -294,6 +294,7 @@ void		blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos);
 void		draw_sphere_info(t_rt *rt_data, t_objects *object);
 void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
 void		draw_cone_info(t_rt *rt_data, t_objects *object);
+void		draw_ellipsoid_info(t_rt *rt_data, t_objects *object);
 void		draw_object_info(t_rt *rt_data, int i);
 void		sdl_error(char *str);
 

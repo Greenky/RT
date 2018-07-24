@@ -65,7 +65,7 @@ void		ray_tracing(t_rt *rt_data)
 	load_texture(rt_data->cl_data.textures, 4, "textures/spoody_man.bmp");
 //	plasma_disruption(rt_data->cl_data.textures[2]);
 //	perlin_noise_disruption(rt_data->cl_data.textures[1]);
-	check_mate_disruption(rt_data->cl_data.textures[0]);
+//	check_mate_disruption(rt_data->cl_data.textures[0]);
 	draw_scene(rt_data);
 //	draw_bar(rt_data);
 //	text_output(rt_data);

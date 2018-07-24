@@ -61,7 +61,7 @@
 
 # define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
-# define W_TITLE "RT by BOBMA_RAKETA"
+# define W_TITLE "RT by BOMBA_RAKETA"
 
 # define DEEP_BLUE (SDL_Color){33, 150, 243, 0}
 # define SKY_BLUE (SDL_Color){144, 202, 249, 0}
@@ -165,7 +165,7 @@ uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_i
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
 int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter, t_channel *trad, float dist); //TODO TINI ZROBI DIBIL
+												  t_intersect closest_inter, t_channel *trad, float dist);
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);

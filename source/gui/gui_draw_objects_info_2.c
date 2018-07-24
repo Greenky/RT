@@ -61,7 +61,6 @@ void		draw_ellipsoid_info(t_rt *rt_data, t_objects *object)
 	draw_ellipsoid_info_2(rt_data, object);
 }
 
-
 static void	draw_sphere_info_2(t_rt *rt_data, t_objects *object)
 {
 	SDL_Rect	pos;

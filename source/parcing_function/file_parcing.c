@@ -23,7 +23,7 @@ void		file_parcing(char *file, t_rt *rt_data)
 					{"cylinder:", &cylinder_parce},
 					{"ellipsoid:", &ellipsoid_parce}
 			};
-	int		fd;
+	int				fd;
 
 	fd = find_fd(file);
 	rt_data->objects = NULL;

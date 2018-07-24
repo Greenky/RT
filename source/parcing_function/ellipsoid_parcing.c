@@ -12,7 +12,7 @@
 
 #include "../../includes/rt_functions.h"
 
-int					ellipsoid_parce(int fd, t_rt *rt_data)//TODO check
+int				ellipsoid_parce(int fd, t_rt *rt_data)
 {
 	int			ret;
 	int			flag;
@@ -22,15 +22,14 @@ int					ellipsoid_parce(int fd, t_rt *rt_data)//TODO check
 	flag = 0;
 	ellipsoid = (t_objects *)malloc(sizeof(t_objects));
 	ellipsoid->type = ELLIPSOID;
-	while ((ret = get_next_line(fd, &line)) > 0)
+	while ((ret = get_next_line(fd, &line)) > 0 && (rt_data->line_number)++)
 	{
-		(rt_data->line_number)++;
 		ellipsoid_fill(&line, ellipsoid, rt_data->line_number, &flag);
 		ft_strdel(&line);
-		if (flag == ELLIPSOID_IS_PARSED)//TODO add define for this
+		if (flag == ELLIPSOID_IS_PARSED)
 			break ;
 	}
-	if (ret < 0 || flag != ELLIPSOID_IS_PARSED)//TODO add define for this
+	if (ret < 0 || flag != ELLIPSOID_IS_PARSED)
 	{
 		free(ellipsoid);
 		error_exit(ERROR, NULL);
@@ -42,7 +41,8 @@ int					ellipsoid_parce(int fd, t_rt *rt_data)//TODO check
 	return (0);
 }
 
-void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *flag)//TODO check
+void			ellipsoid_fill(char **line,
+					t_objects *ellipsoid, int line_number, int *flag)
 {
 	char *new_line;
 
@@ -65,14 +65,14 @@ void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *f
 	{
 		*line = trim_from(*line, 11);
 		ellipsoid->axis_dimensions = parce_vector(*line, line_number);
-		*flag = *flag | (1 << 2);//TODO check
+		*flag = *flag | (1 << 2);
 	}
 	else
 		more_ellipsoid_fill(line, ellipsoid, line_number, flag);
 }
 
 void			more_ellipsoid_fill(char **line,
-								t_objects *ellipsoid, int line_number, int *flag)
+					t_objects *ellipsoid, int line_number, int *flag)
 {
 	float	mirror;
 

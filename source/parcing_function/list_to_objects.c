@@ -28,7 +28,7 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].transperent_coef =
 			(step_obj->type == SPHERE ? 0.5f : 0);
 	if (step_obj->type == SPHERE)
-		rt_data->objects_arr[len].texture_index = -1;
+		rt_data->objects_arr[len].texture_index = 4;
 	else if (step_obj->type == CYLINDER)
 		rt_data->objects_arr[len].texture_index = 3;
 	else if (step_obj->type == CONE)

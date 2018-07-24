@@ -143,7 +143,7 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 //------------------------------------------------------------------------------------
 
-void			draw_pixel(t_rt *rt, t_objects *objects, t_light *lights, t_dot pixel);
+void			draw_pixel(t_rt *rt, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
 void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
@@ -191,14 +191,14 @@ cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
 
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
-t_channel		find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
-								t_intersect closest_inter, t_ray r, t_light *lights);
+t_channel		find_lamp_coef(t_rt *rt_data, t_light *current_lamp,
+								t_intersect closest_inter, t_ray r);
 t_ray			find_light_ray(cl_float3 origin, t_light *light);
-uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r);
+uint32_t		find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
-int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter, t_channel *trad, float dist);
+t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
+												  t_intersect closest_inter, t_light *current);
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);

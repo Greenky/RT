@@ -57,14 +57,14 @@ void		ray_tracing(t_rt *rt_data)
 								SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
 								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
-
 	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
 	load_texture(rt_data->cl_data.textures, 0, "textures/Earth_1024x512.bmp");
 	load_texture(rt_data->cl_data.textures, 1, "textures/Brick_Wall.bmp");
 	load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
 	load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
+	load_texture(rt_data->cl_data.textures, 4, "textures/spoody_man.bmp");
 //	plasma_disruption(rt_data->cl_data.textures[2]);
-	perlin_noise_disruption(rt_data->cl_data.textures[1]);
+//	perlin_noise_disruption(rt_data->cl_data.textures[1]);
 	check_mate_disruption(rt_data->cl_data.textures[0]);
 	draw_scene(rt_data);
 //	draw_bar(rt_data);
@@ -73,7 +73,6 @@ void		ray_tracing(t_rt *rt_data)
 //	cl_start(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	event_management(rt_data, &event);
-//	system("leaks RT");
 }
 
 t_ray		compute_ray(t_camera camera, t_dot pixel)
@@ -93,13 +92,15 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 void 		load_texture(SDL_Surface **textures, int index, char *path)
 {
 	SDL_Surface *texture;
+	SDL_Surface	*new_text;
 	if (!(texture = SDL_LoadBMP(path)))
 	{
 		printf("SDL_LoadBMP failed: %s\n", SDL_GetError());
 		exit(1);
 	}
-	texture = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
-	textures[index] = texture;
+	new_text = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
+	SDL_FreeSurface(texture);
+	textures[index] = new_text;
 }
 
 void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
@@ -125,7 +126,8 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		texture = cl_data.textures[closest_inter->fig->texture_index];
 		if (closest_inter->fig->type == SPHERE)
 		{
-			u = acosf(nor.y);
+			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
+			u = acosf(-nor.y);
 			v = atan2f(nor.z, -nor.x);
 			j = (int) (u * texture->h * M_1_PI);
 			i = (int) (v * texture->w * M_1_PI / 2);
@@ -159,7 +161,6 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
 			}
 		}
-//        i < 0 ?
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 	}
 	else

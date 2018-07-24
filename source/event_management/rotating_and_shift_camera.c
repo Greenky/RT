@@ -96,6 +96,6 @@ void	manage_camera_origin(int keycode, t_rt *rt_data)
 void	reset_camera_settings(t_rt *rt_data)
 {
 	rt_data->cl_data.camera.basis = rt_data->cl_data.camera.initial_basis;
-	rt_data->cl_data.camera.origin = VEC(0, 0, -10);
+	rt_data->cl_data.camera.origin = VEC(0, 0, -20);
 	rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0);
 }

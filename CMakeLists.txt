@@ -42,6 +42,7 @@ set(SOURCE_FILES
 		source/find_intersection/sphere_find_closest_intersect.c
 		source/find_intersection/ellipsoid_find_closest_intersect.c
 
+		source/event_management/event_management.c
 		source/event_management/rotating_and_shift_camera.c 
 		source/event_management/handle_axis_dimensions_for_ellipsoid.c
 		source/gui/gui_object_change.c

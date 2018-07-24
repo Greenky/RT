@@ -24,21 +24,24 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 		return (FALSE);
 }
 
-int			is_figure_first_inter_by_light(t_cl_data cl_data,
-				t_objects *objects, t_ray light_ray,
-				t_intersect closest_inter, t_channel *shadow, float dist)
+t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
+				t_intersect closest_inter, t_light *current_lamp)
 {
 	t_intersect		close_to_light;
 	t_intersect		tmp;
+	t_channel		*shadow;
 	float			distance_to_light;
 	int				current;
 
 	current = 0;
 	tmp.distance = INFINITY;
-	distance_to_light = dist;
-	while (current < cl_data.num_of_objects)
+	if (current_lamp->type == POINT)
+		distance_to_light = length(vect_diff(current_lamp->origin, light_ray.origin));
+	else
+		distance_to_light = INFINITY;
+	while (current < rt_data->cl_data.num_of_objects)
 	{
-		close_to_light.fig = &objects[current];
+		close_to_light.fig = &rt_data->objects_arr[current];
 		if (close_to_light.fig != closest_inter.fig)
 		{
 			choose_intersection(light_ray, &close_to_light);
@@ -52,12 +55,13 @@ int			is_figure_first_inter_by_light(t_cl_data cl_data,
 	}
 	if (tmp.distance != INFINITY)
 	{
-		get_texture(&tmp, cl_data);
+		shadow = (t_channel *)ft_memalloc(sizeof(t_channel));
+		get_texture(&tmp, rt_data->cl_data);
 		if (tmp.fig->transperent_coef)
 			add_coef(shadow, tmp.texture_color, tmp.fig->transperent_coef);
-		return (FALSE);
+		return (shadow);
 	}
-	return (TRUE);
+	return (NULL);
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,

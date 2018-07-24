@@ -76,6 +76,4 @@ void	manage_ellipsoid_axes(int keycode, t_rt *rt_data)
 	check_axis_dimensions(&ellipsoid->axis_dimensions.y);
 	check_axis_dimensions(&ellipsoid->axis_dimensions.z);
 	handle_axis_dimensions(ellipsoid);
-	/*printf("axis_dimensions.x = %f, axis_dimensions.y = %f, axis_dimensions.z = %f\n",
-		fig->axis_dimensions.x, fig->axis_dimensions.y, fig->axis_dimensions.z);//TODO delete*/
 }

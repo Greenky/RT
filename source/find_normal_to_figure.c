@@ -14,12 +14,18 @@
 
 cl_float3	choose_normal(t_objects figure, cl_float3 inter)
 {
+	cl_float3 nor;
 	if (figure.type == SPHERE)
 		return (find_normal_to_sphere(figure, inter));
 	else if (figure.type == CYLINDER)
 		return (find_normal_to_cylinder(figure, inter));
 	else if (figure.type == CONE)
-		return (find_normal_to_cone(figure, inter));
+	{
+		nor = find_normal_to_cone(figure, inter);
+		if (nor.x != nor.x)
+			nor = VEC(1, 0 , 0);
+		return (nor);
+	}
 	else if (figure.type == PLANE)
 		return (find_normal_to_plane(figure, inter));
 	else

@@ -160,12 +160,12 @@ void			handle_axis_dimensions(t_objects *ellipsoid);//new
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
 								t_intersect closest_inter, t_ray r, t_light *lights);
-t_ray			find_light_ray(cl_float3 origin, cl_float3 end);
+t_ray			find_light_ray(cl_float3 origin, t_light *light);
 uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
 int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter); //, t_channel *trad); TODO TINI ZROBI DIBIL
+												  t_intersect closest_inter, t_channel *trad, float dist); //TODO TINI ZROBI DIBIL
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);

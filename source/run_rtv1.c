@@ -61,7 +61,7 @@ void		ray_tracing(t_rt *rt_data)
 	load_texture(rt_data->cl_data.textures, 1, "textures/Brick_Wall.bmp");
 	load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
 	load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
-	plasma_disruption(rt_data->cl_data.textures[2]);
+//	plasma_disruption(rt_data->cl_data.textures[2]);
 //	perlin_noise_disruption(rt_data->cl_data.textures[1]);
 	check_mate_disruption(rt_data->cl_data.textures[0]);
 	draw_scene(rt_data);
@@ -116,8 +116,6 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		return ;
 	}
 	nor = choose_normal(*closest_inter->fig, closest_inter->point);
-    if (nor.x != nor.x)
-        printf("JOPA");
 	i = 0;
 	j = 0;
 	if (closest_inter->fig->texture_index != -1)
@@ -133,12 +131,12 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		else if (closest_inter->fig->type == CYLINDER || closest_inter->fig->type == CONE)
 		{
 			v = atan2f(nor.z, -nor.x);
-//            if (closest_inter->fig->type == CONE)
-//            {
-//                u = length(vect_diff(closest_inter->fig->origin, closest_inter->point));
-//                u *= cosf(atanf(closest_inter->fig->angle_coef));
-//                closest_inter->fig->radius = u;
-//            }
+            if (closest_inter->fig->type == CONE)
+            {
+                u = length(vect_diff(closest_inter->fig->origin, closest_inter->point));
+                u *= cosf(atanf(closest_inter->fig->angle_coef));
+                closest_inter->fig->radius = u;
+            }
 			nor = vect_mult_scalar(nor, closest_inter->fig->radius);
 			u = length(vect_diff(vect_sum(nor, closest_inter->point), closest_inter->fig->origin));
 			i = (int)(v * texture->w * M_1_PI);

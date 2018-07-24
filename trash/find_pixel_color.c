@@ -76,17 +76,30 @@ t_channel	find_lamp_coef(t_cl_data cl_data,
 {
 	t_ray			reflected_ray;
 	t_intersect		reflected_inter;
+	t_ray			trancparent_ray;
+	t_intersect		trancparent_inter;
 	float			a;
 	t_ray			light_ray;
 	t_channel		lamp_coef;
+	t_channel		shadow_col;
 	float			*cos_angle;
 
+	ft_bzero(&shadow_col, sizeof(t_channel));
 	ft_bzero(&lamp_coef, sizeof(t_channel));
 	if (current_lamp->type == AMBIENT)
 		add_coef(&lamp_coef, current_lamp->color, current_lamp->intensity);
 	else
 	{
-		light_ray = find_light_ray(current_lamp->origin, closest_inter.point);
+		light_ray = find_light_ray(closest_inter.point, current_lamp);
+		if (closest_inter.fig->transperent_coef > 0)
+		{
+			trancparent_ray.origin = closest_inter.point;
+			trancparent_ray.direction = r.direction;
+			trancparent_inter = find_closest_reflected_inter(cl_data, objects, trancparent_ray, closest_inter.fig);
+			if (reflected_inter.distance != INFINITY)
+				add_coef(&lamp_coef, int_to_channels(find_color(cl_data, lights, objects, trancparent_inter, trancparent_ray)),
+						 closest_inter.fig->transperent_coef);
+		}
 		if (closest_inter.fig->mirror_coef > 0
 			&& cl_data.reflect_rate < cl_data.max_reflections)
 		{
@@ -102,10 +115,16 @@ t_channel	find_lamp_coef(t_cl_data cl_data,
 						lights, objects, reflected_inter, reflected_ray)),
 						closest_inter.fig->mirror_coef);
 		}
+		if (current_lamp->type == POINT)
+			a = length(vect_diff(current_lamp->origin, closest_inter.point));
+		else
+			a = INFINITY;
 		if (!is_shadows_here(light_ray, closest_inter.normal, r) ||
-		!is_figure_first_inter_by_light(cl_data,
-							objects, light_ray, closest_inter))
+		!is_figure_first_inter_by_light(cl_data, objects, light_ray, closest_inter, &shadow_col, a))
+		{
+			add_coef(&lamp_coef, shadow_col, 0.5);
 			return (lamp_coef);
+		}
 		cos_angle = find_cos_angle(light_ray,
 					closest_inter, closest_inter.normal, r);
 		add_coef(&lamp_coef, current_lamp->color, cos_angle[0] *
@@ -117,11 +136,14 @@ t_channel	find_lamp_coef(t_cl_data cl_data,
 	return (lamp_coef);
 }
 
-t_ray		find_light_ray(cl_float3 origin, cl_float3 end)
+t_ray		find_light_ray(cl_float3 origin, t_light *light)
 {
 	t_ray		light_ray;
 
 	light_ray.origin = origin;
-	light_ray.direction = vect_diff(end, origin);
+	if (light->type == POINT)
+		light_ray.direction = vect_diff(light->origin, origin);
+	else
+		light_ray.direction = light->direct;
 	return (light_ray);
 }

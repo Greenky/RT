@@ -20,8 +20,10 @@ void		file_parcing(char *file, t_rt *rt_data)
 					{"sphere:", &sphere_parce},
 					{"plane:", &plane_parce},
 					{"cone:", &cone_parce},
-					{"cylinder:", &cylinder_parce} };
-	int				fd;
+					{"cylinder:", &cylinder_parce},
+					{"ellipsoid:", &ellipsoid_parce}
+			};
+	int		fd;
 
 	fd = find_fd(file);
 	rt_data->objects = NULL;

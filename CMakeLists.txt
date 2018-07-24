@@ -13,7 +13,6 @@ set(SOURCE_FILES
 		source/find_fd.c
 		source/error_manager.c
 		source/draw_scene.c
-		source/event_management.c
 		source/find_normal_to_figure.c
 		source/run_rtv1.c
 		source/sdl_keys.c
@@ -24,6 +23,7 @@ set(SOURCE_FILES
 		source/parcing_function/sphere_parcing.c
 		source/parcing_function/cone_parcing.c
 		source/parcing_function/cylinder_parcing.c
+		source/parcing_function/ellipsoid_parcing.c
 		source/parcing_function/cam_parcing.c
 		source/parcing_function/add_shape_and_light.c
 		source/parcing_function/parce_peripherals.c
@@ -40,7 +40,10 @@ set(SOURCE_FILES
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
+		source/find_intersection/ellipsoid_find_closest_intersect.c
 
+		source/event_management/rotating_and_shift_camera.c 
+		source/event_management/handle_axis_dimensions_for_ellipsoid.c
 		source/gui/gui_object_change.c
 		source/gui/gui_check_buttons.c
 		source/gui/gui_control_bars_show.c

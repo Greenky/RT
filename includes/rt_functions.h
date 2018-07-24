@@ -38,8 +38,11 @@
 # define DIVISION 0
 # define MULTIPLICATION 1
 
+# define SHIFT 0
+# define ROTATE 1
+
 # define SCR_SIZE 1000
-# define OBJ_NUM 6
+# define OBJ_NUM 7
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
@@ -49,6 +52,7 @@
 # define CONE_IS_PARSED 63
 # define CYLINDER_IS_PARSED 63
 # define PLANE_IS_PARSED 31
+# define ELLIPSOID_IS_PARSED 31//TODO check!!
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(SCR_SIZE / 2))
@@ -114,6 +118,11 @@ void			sphere_fill(char **line, t_objects *sphere, int l_num, int *flag);
 int				plane_parce(int fd, t_rt *rt_data);
 void			plane_fill(char **line, t_objects *plane, int l_num, int *flag);
 
+int				ellipsoid_parce(int fd, t_rt *rt_data);//TODO check
+void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *flag);//TODO check
+void			more_ellipsoid_fill(char **line,
+									t_objects *ellipsoid, int line_number, int *flag);
+
 void			add_shape(t_rt *rt_data, t_objects *shape);
 void			add_light(t_rt *rt_data, t_light *light);
 
@@ -140,13 +149,38 @@ void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
 t_ray			compute_ray(t_camera camera, t_dot pixel);
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
-void			rotating_camera(int keycode, t_rt *rt_data);
-int				exit_x(t_rt *rt_data, SDL_Event *event);
-int				key_down(t_rt *rt_data, SDL_Event *event);
+
+
+
+/*
+**	event_management.c
+*/
 
 void			event_management(t_rt *rt_data, SDL_Event *event);
+int				exit_x(t_rt *rt_data, SDL_Event *event);
+int				key_down(t_rt *rt_data, SDL_Event *event);
+int				check_camera_key(int keycode, int type_of_motion);
+
+/*
+**	rotating_and_shift_camera.c
+*/
+
+void			rotating_camera(int keycode, t_rt *rt_data);
 t_coord_sys		init_basis_after_rot(t_rt *rt_data);
 t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis);
+void			manage_camera_origin(int keycode, t_rt *rt_data);
+void			reset_camera_settings(t_rt *rt_data);
+
+/*
+**	handle_axis_dimensions_for_ellipsoid.c
+*/
+
+float			find_biggest_axis(t_objects *ellipsoid);
+void			handle_axis_dimensions(t_objects *ellipsoid);
+void			check_axis_dimensions(float *length);
+void			manage_ellipsoid_axes(int keycode, t_rt *rt_data);
+
+
 
 cl_float3		choose_normal(t_objects figure, cl_float3 inter);
 cl_float3		find_normal_to_sphere(t_objects sphere, cl_float3 inter);
@@ -155,7 +189,6 @@ cl_float3		find_normal_to_plane(t_objects plane, cl_float3 inter);
 cl_float3		find_normal_to_cylinder(t_objects cyl, cl_float3 inter);
 cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
-void			handle_axis_dimensions(t_objects *ellipsoid);//new
 
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
@@ -186,7 +219,7 @@ void			cone_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cone_discriminant(t_ray r, float *coefficient, float coef);
 
 void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
-
+t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
 //------------------------------------------------------------------------------------
 
 

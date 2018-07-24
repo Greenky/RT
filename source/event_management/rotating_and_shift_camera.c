@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event_management.c                                 :+:      :+:    :+:   */
+/*   rotating_and_shift_camera.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/02 14:23:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 13:34:58 by dadavyde         ###   ########.fr       */
+/*   Created: 2018/07/23 18:01:00 by dadavyde          #+#    #+#             */
+/*   Updated: 2018/07/23 18:01:00 by dadavyde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "../../includes/rt_functions.h"
 
-void		event_management(t_rt *rt_data, SDL_Event *event)
+void		rotating_camera(int keycode, t_rt *rt_data)
 {
-	int			running;
-	cl_float3	res;
+	double		angle;
 
-	running = 1;
-	SDL_UpdateWindowSurface(rt_data->window);
-	res.x = 0;
-	res.y = 0;
-	res.z = 0;
-	rt_data->cl_data.camera.angle_rot = res;
-	while (running)
-	{
-		while (SDL_PollEvent(event))
-		{
-			if (!exit_x(rt_data, event))
-				running = 0;
-			if (event->type == SDL_KEYDOWN)
-				key_down(rt_data, event);
-			if (event->type == SDL_MOUSEBUTTONDOWN)
-				mouse_click_event(rt_data, event);
-		}
-	}
+	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
+			 keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
+	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
+		rt_data->cl_data.camera.angle_rot.x += angle;
+	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
+		rt_data->cl_data.camera.angle_rot.y -= angle;
+	else
+		rt_data->cl_data.camera.angle_rot.z += angle;
+	rt_data->cl_data.camera.basis = init_basis_after_rot(rt_data);
 }
 
 t_coord_sys	init_basis_after_rot(t_rt *rt_data)
@@ -81,4 +71,31 @@ t_coord_sys	rot_matrix_about_the_axis(float angle, cl_float3 axis)
 	rot_matrix.b_z.z = cosf(angle)
 					+ (1 - cosf(angle)) * find_square(axis.z);
 	return (rot_matrix);
+}
+
+void	manage_camera_origin(int keycode, t_rt *rt_data)
+{
+	if (keycode == SDLK_w)
+		rt_data->cl_data.camera.origin =
+			vect_diff(rt_data->cl_data.camera.origin,
+			vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP));
+	else if (keycode == SDLK_s)
+		rt_data->cl_data.camera.origin =
+			vect_sum(rt_data->cl_data.camera.origin,
+			vect_mult_scalar(rt_data->cl_data.camera.basis.b_z, SHIFT_STEP));
+	else if (keycode == SDLK_d)
+		rt_data->cl_data.camera.origin =
+			vect_sum(rt_data->cl_data.camera.origin,
+			vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP));
+	else if (keycode == SDLK_a)
+		rt_data->cl_data.camera.origin =
+			vect_diff(rt_data->cl_data.camera.origin,
+			vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP));
+}
+
+void	reset_camera_settings(t_rt *rt_data)
+{
+	rt_data->cl_data.camera.basis = rt_data->cl_data.camera.initial_basis;
+	rt_data->cl_data.camera.origin = VEC(0, 0, -10);
+	rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0);
 }

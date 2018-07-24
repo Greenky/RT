@@ -14,12 +14,19 @@
 
 cl_float3	choose_normal(t_objects figure, cl_float3 inter)
 {
+	cl_float3 nor;
+
 	if (figure.type == SPHERE)
 		return (find_normal_to_sphere(figure, inter));
 	else if (figure.type == CYLINDER)
 		return (find_normal_to_cylinder(figure, inter));
 	else if (figure.type == CONE)
-		return (find_normal_to_cone(figure, inter));
+	{
+		nor = find_normal_to_cone(figure, inter);
+		if (nor.x != nor.x)
+			nor = VEC(1, 0, 0);
+		return (nor);
+	}
 	else if (figure.type == PLANE)
 		return (find_normal_to_plane(figure, inter));
 	else if (figure.type == ELLIPSOID)
@@ -47,6 +54,8 @@ cl_float3	find_normal_to_cone(t_objects cone, cl_float3 inter)
 	cl_float3		inter_orig;
 
 	inter_orig = vect_diff(cone.origin, inter);
+	if (inter_orig.x == 0 && inter_orig.y == 0 && inter_orig.z == 0)
+		return (VEC(0, 0, 1));
 	height = -vect_scalar_mult(inter_orig, inter_orig) /
 		vect_scalar_mult(cone.basis.b_z, inter_orig);
 	normal = vect_diff(vect_sum(cone.origin,

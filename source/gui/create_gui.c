@@ -27,10 +27,6 @@ void	gui_interaction_event(t_rt *rt_data, SDL_Event *event)
 void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 {
 	int			flag;
-	SDL_Surface	*surface;
-	static int	img_num;
-	char		*num;
-	char		*scr_name;
 
 	flag = check_foot_press_type(event);
 	if (flag == FILTERS)
@@ -42,19 +38,7 @@ void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 		rt_data->aliasing = !rt_data->aliasing;
 	else
 	{
-		rt_data->take_screenshot = 1;
-		draw_scene(rt_data);
-		surface = SDL_GetWindowSurface(rt_data->window);
-		surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
-		num = ft_itoa(img_num);
-		scr_name = ft_strjoin("ScreenShot", num);
-		free(num);
-		num = scr_name;
-		scr_name = ft_strjoin(scr_name, ".jpg");
-		free(num);
-		SDL_SaveBMP(surface, scr_name);
-		rt_data->take_screenshot = 0;
-		img_num++;
+		make_screenshot(rt_data);
 	}
 }
 
@@ -106,14 +90,7 @@ int		mouse_click_event(t_rt *rt_data, SDL_Event *event)
 	{
 		if (closest_inter.distance != INFINITY)
 			while (++i < rt_data->cl_data.num_of_objects)
-			{
-				if (closest_inter.fig->type != PLANE
-					&& closest_inter.fig == (rt_data->objects_arr + i))
-					rt_data->objects_arr[i].is_cartoon =
-							rt_data->objects_arr[i].is_cartoon ? 0 : 1;
-				else
-					rt_data->objects_arr[i].is_cartoon = 0;
-			}
+				swap_cartoon(closest_inter, rt_data, i);
 	}
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);

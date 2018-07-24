@@ -29,13 +29,6 @@ typedef struct		s_dot
 	int				y;
 }					t_dot;
 
-typedef struct		s_vector
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_vector;
-
 typedef struct		s_channel
 {
 	int			red;
@@ -63,8 +56,6 @@ typedef struct	s_camera
 	t_coord_sys		basis;
 	cl_float3		angle_rot;
 	int				is_set;
-
-	double			dest;//TODO delete if unnecessary
 }				t_camera;
 
 typedef struct		s_light // ADDED TYPE, fix

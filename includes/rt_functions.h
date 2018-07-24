@@ -6,7 +6,7 @@
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:03:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/23 21:51:51 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@
 # define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
+
 # define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
+//# define interpolate(a, b, x) ((double)a * (double)(1.0 - (1.0 - cos(x * 3.1415927)) * 0.5) + (double)b * (double)(1.0 - cos(x * 3.1415927)) * 0.5)
 //# define interpolate(a, b, x) a * (1 - x) + b * x
 // ---------------------------------------------------------------------------------
 
@@ -191,12 +193,12 @@ cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
 								t_intersect closest_inter, t_ray r, t_light *lights);
-t_ray			find_light_ray(cl_float3 origin, cl_float3 end);
+t_ray			find_light_ray(cl_float3 origin, t_light *light);
 uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
 int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter);
+												  t_intersect closest_inter, t_channel *trad, float dist); //TODO TINI ZROBI DIBIL
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
@@ -225,61 +227,61 @@ t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
 
 
 /*error manager*/
-void			error_exit(int error_name,t_rt *rt_data);
-void			freesher(t_light *light, t_objects *shapes);
-void			error_caster(int line_number, char *s1, char *s2);
+void		error_exit(int error_name,t_rt *rt_data);
+void		freesher(t_light *light, t_objects *shapes);
+void		error_caster(int line_number, char *s1, char *s2);
 /*math_functions*/
-cl_float3		matrix_mult_vect(t_coord_sys a, cl_float3 v);
-t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
-t_coord_sys		count_inverse_matrix(t_coord_sys a);
-void			normalize_basis(t_coord_sys *a);
+cl_float3	matrix_mult_vect(t_coord_sys a, cl_float3 v);
+t_coord_sys	matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
+t_coord_sys	count_inverse_matrix(t_coord_sys a);
+t_coord_sys	create_coord_system(t_coord_sys basis);
+void		normalize_basis(t_coord_sys *a);
 
-cl_float3		vect_diff(cl_float3 v1, cl_float3 v2);
-cl_float3		vect_sum(cl_float3 v1, cl_float3 v2);
-cl_float3		vect_mult_scalar(cl_float3 v1, float multiplier);
-cl_float3		vect_cross_product(cl_float3 a, cl_float3 b);
-float			vect_scalar_mult(cl_float3 v1, cl_float3 v2);
-cl_float3		normalize_vector(cl_float3 a);
-cl_float3		scale_vector(cl_float3 v, int flag, cl_float3 scale_coef);
+cl_float3	vect_diff(cl_float3 v1, cl_float3 v2);
+cl_float3	vect_sum(cl_float3 v1, cl_float3 v2);
+cl_float3	vect_mult_scalar(cl_float3 v1, float multiplier);
+cl_float3	vect_cross_product(cl_float3 a, cl_float3 b);
+float		vect_scalar_mult(cl_float3 v1, cl_float3 v2);
+cl_float3	normalize_vector(cl_float3 a);
+cl_float3	scale_vector(cl_float3 v, int flag, cl_float3 scale_coef);
 
-float			find_square(float a);
-float			distance(cl_float3 v1, cl_float3 v2);
-float			length(cl_float3 v);
+float		find_square(float a);
+float		distance(cl_float3 v1, cl_float3 v2);
+float		length(cl_float3 v);
 
-void			cl_start(t_rt *rt);
-void			cl_init(t_rt *rt);
+void		cl_start(t_rt *rt);
+void		cl_init(t_rt *rt);
 
-t_channel		int_to_channels(int col);
-void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);
-void 			load_texture(SDL_Surface **textures, int index, char *path);
+t_channel	int_to_channels(int col);
+void		get_texture(t_intersect *closest_inter, t_cl_data cl_data);
+void 		load_texture(SDL_Surface **textures, int index, char *path);
 
-void			draw_clicked_info(t_rt *rt_data);
-void			draw_bar(t_rt *rt_data);
+void		draw_clicked_info(t_rt *rt_data);
+void		draw_bar(t_rt *rt_data);
 
-void			init_gui_bmps(t_rt	*rt_data);
-void			init_foot_gui_bmps(t_rt *rt_data);
+void		init_gui_bmps(t_rt	*rt_data);
+void		init_foot_gui_bmps(t_rt *rt_data);
+void		init_bar_positions(t_rt	*rt_data);
+void		draw_gui(t_rt *rt_data);
 
-void			init_bar_positions(t_rt	*rt_data);
-void			draw_gui(t_rt *rt_data);
+void		*draw_strings(void *thread_data_void);
+void		set_tread_param(t_rt *scene, t_thread_data *thread_num);
 
-void	*draw_strings(void *thread_data_void);
-void	set_tread_param(t_rt *scene, t_thread_data *thread_num);
+void		change_sphere(t_objects *object, int arrow);
+void		change_cylinder(t_objects *object, int arrow);
+void		change_cone(t_objects *object, int arrow);
+void		change_object(t_objects *object, int arrow);
 
-void	change_sphere(t_objects *object, int arrow);
-void	change_cylinder(t_objects *object, int arrow);
-void	change_cone(t_objects *object, int arrow);
-void	change_object(t_objects *object, int arrow);
+int			check_arrow_type(SDL_Event *event);
+void		gui_interaction_event(t_rt *rt_data, SDL_Event *event);
+int			check_foot_press_type(SDL_Event *event);
 
-int		check_arrow_type(SDL_Event *event);
-void	gui_interaction_event(t_rt *rt_data, SDL_Event *event);
-int		check_foot_press_type(SDL_Event *event);
+void		foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
+void		filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
 
-void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
-void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event);
-
-void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
-int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
-int mouse_click_event(t_rt *rt_data, SDL_Event *event);
+void		create_gui(t_rt *rt_data, SDL_Event *event, int flag);
+int			check_if_in_gui(t_rt *rt_data, SDL_Event *event);
+int			mouse_click_event(t_rt *rt_data, SDL_Event *event);
 
 void		cone_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
 void		cylinder_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
@@ -304,4 +306,13 @@ void		draw_filter_bar(t_rt *rt_data);
 void		draw_foot_info(t_rt *rt_data);
 void		draw_bar(t_rt *rt_data);
 void		draw_gui(t_rt *rt_data);
+
+void		make_screenshot(t_rt *rt_data);
+void		swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i);
+void		init_arrays(t_rt *rt_data);
+
+uint32_t	rgb_to_int(t_channel rgb);
+void		perlin_noise_disruption(SDL_Surface *surface);
+void		plasma_disruption(SDL_Surface *surface);
+void		check_mate_disruption(SDL_Surface *surface);
 #endif

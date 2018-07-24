@@ -47,137 +47,6 @@ uint32_t	rgb_to_int(t_channel rgb)
 	return ((uint32_t)c);
 }
 
-//double	dist(double a, double c, double d, double d)
-//{
-//	return (sqrt(double((a - c) * (a - c) + (b - d) * (b - d))));
-//}
-
-
-
-
-inline double findnoise2(double x,double y)
-{
-	int n=(int)x+(int)y*57;
-	n=(n<<13)^n;
-	int nn=(n*(n*n*60493+19990303)+1376312589)&0x7fffffff;
-	return 1.0-((double)nn/1073741824.0);
-}
-
-
-inline double interpolate(double a,double b,double x)
-{
-	double ft=x * 3.1415927;
-	double f=(1.0-cos(ft))* 0.5;
-	return a*(1.0-f)+b*f;
-}
-
-double noise(double x,double y)
-{
-	double floorx=(double)((int)x);
-	double floory=(double)((int)y);
-	double s,t,u,v;
-	s=findnoise2(floorx,floory);
-	t=findnoise2(floorx+1,floory);
-	u=findnoise2(floorx,floory+1);
-	v=findnoise2(floorx+1,floory+1);
-	double int1=interpolate(s,t,x-floorx);
-	double int2=interpolate(u,v,x-floorx);
-	return interpolate(int1,int2,y-floory);
-}
-
-int		perlin_noise(int x, int y, double p, double zoom)
-{
-	int	octaves = 2;
-	double getnoise = 0;
-	t_channel	channel;
-	for (int a = 0; a < octaves - 1; a++)
-	{
-		double	frequency = pow(2,a);
-		double	amplitude = pow(p, a);
-		getnoise += noise(((double)x)*frequency/zoom,((double)y)/zoom*frequency)*amplitude;
-	}
-	int color= (int)((getnoise*128.0)+128.0);
-	if(color > 255)
-		color = 255;
-	if(color<0)
-		color=0;
-	channel = int_to_channels(color);
-	channel.red = (int)((50.0 / 255.0) * (double)color);
-	channel.green = (int)((100.0 / 255.0) * (double)color);
-	channel.blue = (int)((150.0 / 255.0) * (double)color);
-	color = rgb_to_int(channel);
-	return (color);
-}
-
-void		perlin_noise_disruption(SDL_Surface *surface)
-{
-	int	y;
-	int	x;
-	int	color;
-
-	color = 0;
-	y = -1;
-	while (++y < surface->h)
-	{
-		x = -1;
-		while (++x < surface->w)
-		{
-			color = perlin_noise(x, y, 1/2, 4.2);
-			set_pixel(surface, x, y, color);
-		}
-	}
-}
-
-void		check_mate_disruption(SDL_Surface *surface)
-{
-	int	i;
-	int	j;
-	int	color;
-
-	color = 0;
-	j = -1;
-	while (++j < surface->h)
-	{
-		i = -1;
-		if (j % 20 == 0)
-			color = (color == 0) ? 0xFFFFFF : 0;
-		while (++i < surface->w)
-		{
-			if (i % 20 == 0)
-				color = (color == 0) ? 0xFFFFFF : 0;
-			set_pixel(surface, i, j, color);
-		}
-	}
-}
-
-void		disrupt_texture(SDL_Surface *surface)
-{
-	int	i;
-	int	j;
-	int	color;
-	t_channel	rgb;
-	double time = clock() / 50.0;
-//	int	paletteShift;
-
-	j = -1;
-	while (++j < surface->h)
-	{
-		i = -1;
-		while (++i < surface->w)
-		{
-			double value = sin(dist(i + time, j, surface->h / 2, surface->h / 2) / 8.0)
-						   + sin(dist(i, j, surface->h / 4, surface->w / 4) / 8.0)
-						   + sin(dist(i, j + time / 7, (surface->w / 4 * 3), surface->w / 4) / 7.0)
-						   + + sin(dist(i, j, (surface->w / 4 * 3), 100.0) / 8.0);
-			color = (int)((4 + value)) * 32;
-			rgb.red = color;
-			rgb.green = color * 2;
-			rgb.blue = 255 - color;
-			set_pixel(surface, i, j, rgb_to_int(rgb));
-		}
-	}
-}
-
 void		ray_tracing(t_rt *rt_data)
 {
 	SDL_Event	event;
@@ -192,9 +61,9 @@ void		ray_tracing(t_rt *rt_data)
 	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
 	load_texture(rt_data->cl_data.textures, 0, "textures/Earth_1024x512.bmp");
 	load_texture(rt_data->cl_data.textures, 1, "textures/Brick_Wall.bmp");
-    load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
-    load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
-	disrupt_texture(rt_data->cl_data.textures[2]);
+	load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
+	load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
+//	plasma_disruption(rt_data->cl_data.textures[2]);
 	perlin_noise_disruption(rt_data->cl_data.textures[1]);
 	check_mate_disruption(rt_data->cl_data.textures[0]);
 	draw_scene(rt_data);
@@ -264,6 +133,12 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		else if (closest_inter->fig->type == CYLINDER || closest_inter->fig->type == CONE)
 		{
 			v = atan2f(nor.z, -nor.x);
+            if (closest_inter->fig->type == CONE)
+            {
+                u = length(vect_diff(closest_inter->fig->origin, closest_inter->point));
+                u *= cosf(atanf(closest_inter->fig->angle_coef));
+                closest_inter->fig->radius = u;
+            }
 			nor = vect_mult_scalar(nor, closest_inter->fig->radius);
 			u = length(vect_diff(vect_sum(nor, closest_inter->point), closest_inter->fig->origin));
 			i = (int)(v * texture->w * M_1_PI);
@@ -275,15 +150,16 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
 			if (nor.x != 0)
 			{
-				i = (int) ((nor.x > 0 ? nor.x : -nor.x) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
 			}
 			else
 			{
-				i = (int) ((nor.z > 0 ? nor.z : -nor.z) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : -nor.y) * 100) % texture->h;
+				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z) * 100) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
 			}
 		}
+//        i < 0 ?
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 	}
 	else

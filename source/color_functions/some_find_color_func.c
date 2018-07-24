@@ -25,7 +25,8 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 }
 
 int			is_figure_first_inter_by_light(t_cl_data cl_data,
-											  t_objects *objects, t_ray light_ray, t_intersect closest_inter, t_channel *shadow, float dist)
+				t_objects *objects, t_ray light_ray,
+				t_intersect closest_inter, t_channel *shadow, float dist)
 {
 	t_intersect		close_to_light;
 	t_intersect		tmp;
@@ -45,9 +46,7 @@ int			is_figure_first_inter_by_light(t_cl_data cl_data,
 				close_to_light.distance =
 						distance(light_ray.origin, close_to_light.point);
 			if (close_to_light.distance < distance_to_light)
-			{
 				tmp = close_to_light;
-			}
 		}
 		current++;
 	}
@@ -61,37 +60,8 @@ int			is_figure_first_inter_by_light(t_cl_data cl_data,
 	return (TRUE);
 }
 
-//int			is_figure_first_inter_by_light(t_cl_data cl_data,
-//				t_objects *objects, t_ray light_ray, t_intersect closest_inter, t_channel *shadow, float dist)
-//{
-//	t_intersect		close_to_light;
-////	t_intersect		tmp_inter;
-//	float			distance_to_light;
-//	int				current;
-//
-//	current = 0;
-//	distance_to_light = dist;
-//	while (current < cl_data.num_of_objects)
-//	{
-//		close_to_light.fig = &objects[current];
-//		if (close_to_light.fig != closest_inter.fig)
-//		{
-//			choose_intersection(light_ray, &close_to_light);
-//			if (close_to_light.distance < distance_to_light)
-//			{
-//				get_texture(&close_to_light, cl_data);
-//				if (close_to_light.fig->transperent_coef)
-//					add_coef(shadow, close_to_light.texture_color, close_to_light.fig->transperent_coef);
-//				return (FALSE);
-//			}
-//		}
-//		current++;
-//	}
-//	return (TRUE);
-//}
-
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
-							 cl_float3 normal, t_ray r)
+							cl_float3 normal, t_ray r)
 {
 	cl_float3		light_ray_unit;
 	float			*cos_angle;
@@ -105,8 +75,8 @@ float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
 		cos_angle[0] = 0;
 	bisector = normalize_vector(vect_sum(r.direction, light_ray_unit));
 	cos_angle[1] = (float)(pow(vect_scalar_mult(bisector, normal),
-							   closest_inter.fig->bling_phong) *
-						   pow(closest_inter.fig->bling_phong, 0.75) * 2);
+							closest_inter.fig->bling_phong) *
+							pow(closest_inter.fig->bling_phong, 0.75) * 2);
 	if (cos_angle[1] < 0)
 		cos_angle[1] = 0;
 	return (cos_angle);
@@ -127,7 +97,7 @@ uint32_t	find_color_hex(t_channel light_coef, t_intersect closest_inter)
 }
 
 uint32_t	find_color_channel(float fig_color_channel,
-							   float light_color_channel, int step)
+							float light_color_channel, int step)
 {
 	uint32_t	mult;
 

@@ -16,6 +16,8 @@ set(SOURCE_FILES
 		source/event_management.c
 		source/find_normal_to_figure.c
 		source/run_rtv1.c
+		source/sdl_keys.c
+		source/opencl_functions.c
 
 		source/parcing_function/file_parcing.c
 		source/parcing_function/plane_parcing.c

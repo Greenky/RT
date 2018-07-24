@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   change_object.c                                    :+:      :+:    :+:   */
+/*   gui_object_change.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 17:52:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/23 17:52:00 by dadavyde         ###   ########.fr       */
+/*   Created: 2018/07/23 17:29:18 by ikachko           #+#    #+#             */
+/*   Updated: 2018/07/23 17:29:19 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../includes/rt_functions.h"
 
 void	change_sphere(t_objects *object, int arrow)
 {

@@ -59,13 +59,13 @@ void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *f
 	{
 		*line = trim_from(*line, 4);
 		ellipsoid->color = parce_color(*line, line_number);
-		*flag = *flag | 2;
+		*flag = *flag | (1 << 1);
 	}
-	else if (begin_with(*line, "axis:"))
+	else if (begin_with(*line, "axis sizes:"))
 	{
-		*line = trim_from(*line, 5);
+		*line = trim_from(*line, 11);
 		ellipsoid->axis_dimensions = parce_vector(*line, line_number);
-		*flag = *flag | 4;//TODO check
+		*flag = *flag | (1 << 2);//TODO check
 	}
 	else
 		more_ellipsoid_fill(line, ellipsoid, line_number, flag);

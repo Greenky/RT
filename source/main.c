@@ -32,23 +32,23 @@ void	cl_init(t_rt *rt)
 	close(fd);
 
 	rt->cl.err = clGetPlatformIDs(1, &rt->cl.platform_id,
-								  &rt->cl.platforms_num);
+								&rt->cl.platforms_num);
 
 	rt->cl.err = clGetDeviceIDs(rt->cl.platform_id, CL_DEVICE_TYPE_DEFAULT,
 								1, &rt->cl.device_id, &rt->cl.devices_num);
 
 	rt->cl.context = clCreateContext(NULL, 1, &rt->cl.device_id, NULL,
-									 NULL, &rt->cl.err);
+									NULL, &rt->cl.err);
 
 	rt->cl.queue = clCreateCommandQueue(rt->cl.context, rt->cl.device_id,
 										0, &rt->cl.err);
 
 	rt->cl.program = clCreateProgramWithSource(rt->cl.context, 1,
-											   (const char **)&src, (const size_t *)&src_size, &rt->cl.err);
+										(const char **)&src, (const size_t *)&src_size, &rt->cl.err);
 //	ft_putendl("clCreateProgramWithSource done.");
 
 	rt->cl.err = clBuildProgram(rt->cl.program, 1, &rt->cl.device_id, NULL,
-										 NULL, NULL);
+										NULL, NULL);
 
 //	ft_putendl("clBuildProgram done.");
 	if (rt->cl.err != CL_SUCCESS) {

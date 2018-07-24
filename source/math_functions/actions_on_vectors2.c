@@ -43,7 +43,7 @@ cl_float3	normalize_vector(cl_float3 a)
 	return (normal);
 }
 
-cl_float3	change_vector(cl_float3 v, int flag, cl_float3 mult_coef)
+cl_float3	scale_vector(cl_float3 v, int flag, cl_float3 mult_coef)
 {
 	if (flag == DIVISION)
 	{

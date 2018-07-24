@@ -42,7 +42,7 @@
 # define ROTATE 1
 
 # define SCR_SIZE 1000
-# define OBJ_NUM 6
+# define OBJ_NUM 7
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
@@ -52,7 +52,7 @@
 # define CONE_IS_PARSED 63
 # define CYLINDER_IS_PARSED 63
 # define PLANE_IS_PARSED 31
-# define ELLIPSOID_IS_PARSED 15//TODO check!!
+# define ELLIPSOID_IS_PARSED 31//TODO check!!
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(SCR_SIZE / 2))
@@ -148,10 +148,16 @@ t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray pri
 t_ray			compute_ray(t_camera camera, t_dot pixel);
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
 
-int				exit_x(t_rt *rt_data, SDL_Event *event);
-int				key_down(t_rt *rt_data, SDL_Event *event);
+
+
+/*
+**	event_management.c
+*/
 
 void			event_management(t_rt *rt_data, SDL_Event *event);
+int				exit_x(t_rt *rt_data, SDL_Event *event);
+int				key_down(t_rt *rt_data, SDL_Event *event);
+int				check_camera_key(int keycode, int type_of_motion);
 
 /*
 **	rotating_and_shift_camera.c
@@ -275,6 +281,27 @@ void	create_gui(t_rt *rt_data, SDL_Event *event, int flag);
 int	check_if_in_gui(t_rt *rt_data, SDL_Event *event);
 int mouse_click_event(t_rt *rt_data, SDL_Event *event);
 
+void		cone_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		cylinder_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		sphere_control_bars_show(t_rt *rt_data, SDL_Rect pos, int flag, t_objects *sphere);
+void		arrows_active_unactive(t_rt *rt_data, SDL_Rect pos, float *min_max, float value);
 
+char*		ftoa(float f, int tochnost);
+void		blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos);
 
+void		draw_sphere_info(t_rt *rt_data, t_objects *object);
+void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
+void		draw_cone_info(t_rt *rt_data, t_objects *object);
+void		draw_object_info(t_rt *rt_data, int i);
+void		sdl_error(char *str);
+
+void		init_gui_bmps(t_rt *rt_data);
+void		init_foot_gui_bmps(t_rt *rt_data);
+void		init_bar_positions(t_rt	*rt_data);
+
+void		draw_clicked_info(t_rt *rt_data);
+void		draw_filter_bar(t_rt *rt_data);
+void		draw_foot_info(t_rt *rt_data);
+void		draw_bar(t_rt *rt_data);
+void		draw_gui(t_rt *rt_data);
 #endif

@@ -18,9 +18,15 @@
     sphere:
         cen: (-0.5, 2, 2)
         rad: 2
-        col: 0x00ffff
+        col: 0xff0000
         b_p: 1000
-        mir: 0.4
+        mir: 0
+    ellipsoid:
+        cen: (0, 0, 0)
+        col: 0x554a87
+        axis sizes: (1.5, 0.5, 0.2)
+        b_p: 1000
+        mir: 0
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)

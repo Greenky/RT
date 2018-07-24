@@ -12,8 +12,6 @@
 
 #include "../../includes/rt_functions.h"
 
-// New functions --------------------------------------------------
-
 void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 {
 	t_objects *step_obj;
@@ -54,7 +52,7 @@ void			init_arrays(t_rt *rt_data) //TODO розбити по функціям
 		else if (step_obj->type == CONE)
 			rt_data->objects_arr[len].texture_index = 2;
 		else
-			rt_data->objects_arr[len].texture_index = 1;
+			rt_data->objects_arr[len].texture_index = -1;
 		// ------------------------------------------------------------------------
 		rt_data->objects_arr[len].is_cartoon = 0;
 		rt_data->objects_arr[len].next = NULL;
@@ -100,7 +98,8 @@ void			file_parcing(char *file, t_rt *rt_data)
 					{"sphere:", &sphere_parce},
 					{"plane:", &plane_parce},
 					{"cone:", &cone_parce},
-					{"cylinder:", &cylinder_parce}
+					{"cylinder:", &cylinder_parce},
+					{"ellipsoid:", &ellipsoid_parce}
 			};
 	int		fd;
 
@@ -116,7 +115,7 @@ void			file_parcing(char *file, t_rt *rt_data)
 	correct_plane_normal(rt_data);
 }
 
-void    		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
+void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])
 {
 	int			ret;
 	char		*line;

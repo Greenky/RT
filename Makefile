@@ -21,7 +21,9 @@ RTV_FLAGS       =   -F frameworks -framework SDL2 -framework SDL2_ttf -framework
 
 SOURCES         =   source/draw_scene.c \
                     source/error_manager.c \
-                    source/event_management.c \
+                    source/event_management/event_management.c \
+                    source/event_management/handle_axis_dimensions_for_ellipsoid.c \
+                    source/event_management/rotating_and_shift_camera.c \
                     source/find_fd.c \
                     source/find_normal_to_figure.c \
                     source/find_pixel_color.c \
@@ -47,6 +49,14 @@ SOURCES         =   source/draw_scene.c \
                     source/find_intersection/cyl_find_closest_intersect.c \
                     source/find_intersection/plane_find_closest_intersect.c \
                     source/find_intersection/sphere_find_closest_intersect.c \
+                    source/gui/gui_object_change.c      \
+                    source/gui/gui_check_buttons.c      \
+                    source/gui/create_gui.c             \
+                    source/gui/gui_control_bars_show.c  \
+                    source/gui/gui_draw_objects_info.c  \
+                    source/gui/gui_draw_objects_info_2.c \
+                    source/gui/gui_init_bmp.c           \
+                    source/gui/gui_utils.c              \
                     source/gui/gui.c
 
         
@@ -77,6 +87,10 @@ all: $(NAME)
 
 $(NAME): $(OBJDIR) $(OBJ) $(LIBFT)
 	@$(CC)  $(OBJ) $(RTV_FLAGS) -o $@ $(LIBFT)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+
+$(OBJDIR)%.o: source/event_management/%.c $(HEADERS) $(LIBFT)
+	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/find_intersection/%.c $(HEADERS) $(LIBFT)

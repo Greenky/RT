@@ -31,7 +31,6 @@ void	handle_axis_dimensions(t_objects *ellipsoid)
 	biggest_axis = find_biggest_axis(ellipsoid);
 	ellipsoid->radius = biggest_axis;
 	ellipsoid->axis_dimensions = vect_mult_scalar(ellipsoid->axis_dimensions, 1 / biggest_axis);
-	//printf("axis_dimensions.x = %f, axis_dimensions.y = %f, axis_dimensions.z = %f\n", ellipsoid->axis_dimensions.x, ellipsoid->axis_dimensions.y, ellipsoid->axis_dimensions.z);//TODO delete
 }
 
 void	check_axis_dimensions(float *length)
@@ -44,30 +43,39 @@ void	check_axis_dimensions(float *length)
 
 void	manage_ellipsoid_axes(int keycode, t_rt *rt_data)
 {
-	t_objects	*fig;
+	t_objects	*ellipsoid;
+	int			idx;
 
-	fig = &(rt_data->objects_arr[0]);
-	/*while (fig && fig->type != SPHERE)//check selection ellipsoid
-		fig = fig->next;//change when user interface will be
-	if (fig == NULL)
-		return;*/
-	fig->axis_dimensions = vect_mult_scalar(fig->axis_dimensions, fig->radius);
+	idx = 0;
+	while (idx < rt_data->cl_data.num_of_objects)
+	{
+		if (rt_data->objects_arr[idx].type == ELLIPSOID &&
+			rt_data->objects_arr[idx].is_cartoon == 1)
+		{
+			ellipsoid = &(rt_data->objects_arr[idx]);
+			break ;
+		}
+		idx++;
+	}
+	if (idx == rt_data->cl_data.num_of_objects)
+		return ;
+	ellipsoid->axis_dimensions = vect_mult_scalar(ellipsoid->axis_dimensions, ellipsoid->radius);
 	if (keycode == SDLK_KP_7)
-		fig->axis_dimensions.x -= 0.1;
+		ellipsoid->axis_dimensions.x -= 0.1;
 	else if (keycode == SDLK_KP_8)
-		fig->axis_dimensions.x += 0.1;
+		ellipsoid->axis_dimensions.x += 0.1;
 	else if (keycode == SDLK_KP_4)
-		fig->axis_dimensions.y -= 0.1;
+		ellipsoid->axis_dimensions.y -= 0.1;
 	else if (keycode == SDLK_KP_5)
-		fig->axis_dimensions.y += 0.1;
+		ellipsoid->axis_dimensions.y += 0.1;
 	else if (keycode == SDLK_KP_1)
-		fig->axis_dimensions.z -= 0.1;
+		ellipsoid->axis_dimensions.z -= 0.1;
 	else if (keycode == SDLK_KP_2)
-		fig->axis_dimensions.z += 0.1;
-	check_axis_dimensions(&fig->axis_dimensions.x);
-	check_axis_dimensions(&fig->axis_dimensions.y);
-	check_axis_dimensions(&fig->axis_dimensions.z);
-	handle_axis_dimensions(fig);
-	printf("axis_dimensions.x = %f, axis_dimensions.y = %f, axis_dimensions.z = %f\n",
-		fig->axis_dimensions.x, fig->axis_dimensions.y, fig->axis_dimensions.z);//TODO delete
+		ellipsoid->axis_dimensions.z += 0.1;
+	check_axis_dimensions(&ellipsoid->axis_dimensions.x);
+	check_axis_dimensions(&ellipsoid->axis_dimensions.y);
+	check_axis_dimensions(&ellipsoid->axis_dimensions.z);
+	handle_axis_dimensions(ellipsoid);
+	/*printf("axis_dimensions.x = %f, axis_dimensions.y = %f, axis_dimensions.z = %f\n",
+		fig->axis_dimensions.x, fig->axis_dimensions.y, fig->axis_dimensions.z);//TODO delete*/
 }

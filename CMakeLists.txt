@@ -8,35 +8,37 @@ execute_process(COMMAND make -C ../libft)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
 # -O3 -flto=thin -Ofast -march=native -mtune=native")
 
-set(SOURCE_FILES  source/main.c
-		source/parcing_function/file_parcing.c
+set(SOURCE_FILES
+		source/main.c
 		source/find_fd.c
+		source/error_manager.c
+		source/draw_scene.c
+		source/event_management.c
+		source/find_normal_to_figure.c
+		source/run_rtv1.c
+
+		source/parcing_function/file_parcing.c
 		source/parcing_function/plane_parcing.c
 		source/parcing_function/sphere_parcing.c
 		source/parcing_function/cone_parcing.c
 		source/parcing_function/cylinder_parcing.c
 		source/parcing_function/cam_parcing.c
-		source/error_manager.c
 		source/parcing_function/add_shape_and_light.c
 		source/parcing_function/parce_peripherals.c
 		source/parcing_function/parce_peripherals_v2.c
 		source/parcing_function/light_parcing.c
 		source/parcing_function/list_to_objects.c
+
 		source/math_functions/actions_on_matrix.c
 		source/math_functions/actions_on_vectors.c
 		source/math_functions/actions_on_vectors2.c
 		source/math_functions/algebraic_operations.c
-		source/draw_scene.c
-		source/event_management.c
-		source/find_normal_to_figure.c
-		trash/find_pixel_color.c
-		trash/manage_pixel.c
-		source/run_rtv1.c
-		trash/some_find_color_func.c
+
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
+
 		source/gui/gui_object_change.c
 		source/gui/gui_check_buttons.c
 		source/gui/gui_control_bars_show.c
@@ -46,8 +48,12 @@ set(SOURCE_FILES  source/main.c
 		source/gui/gui_init_bmp.c
 		source/gui/gui_utils.c
 		source/gui/gui.c
+
 		source/color_functions/perlin_noise.c
-		source/color_functions/other_color_disruptions.c)
+		source/color_functions/other_color_disruptions.c
+		source/color_functions/find_pixel_color.c
+		source/color_functions/manage_pixel.c
+		source/color_functions/some_find_color_func.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

@@ -54,11 +54,12 @@ int				perlin_noise(int x, int y, double p, double zoom)
 	int			octaves;
 	double		getnoise;
 	t_channel	channel;
-//	int			a;
+	int			a;
 
 	octaves = 2;
 	getnoise = 0;
-//	a = -1;
+	a = -1;
+	while (++a < )
 	for (int a = 0; a < octaves - 1; a++)
 	{
 		double	frequency = pow(2,a);

@@ -28,8 +28,6 @@ uint32_t	find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, 
 			return (0xFFFFFF);
 	}
 	current = 0;
-	closest_inter.normal = choose_normal(*closest_inter.fig,
-										closest_inter.point);
 	while (current < rt_data->cl_data.num_of_lights)
 	{
 		current_lamp = (rt_data->lights_arr) + current;
@@ -67,26 +65,6 @@ t_intersect	find_closest_reflected_inter(t_rt *rt_data, t_ray ray, t_objects *th
 	get_texture(&closest_inter, rt_data->cl_data);
 	return (closest_inter);
 }
-
-//void	find_transparent(t_channel *lamp_coef, t_ray r,
-//						t_intersect closest_inter, t_rt *rt_data)
-//{
-//	t_ray	transparent_ray;
-//	t_intersect	transparent_inter;
-//
-//
-//	if (closest_inter.fig->transperent_coef > 0)
-//	{
-//		transparent_ray.origin = closest_inter.point;
-//		transparent_ray.direction = r.direction;
-//		transparent_inter = find_closest_reflected_inter(rt_data->cl_data,
-//				rt_data->objects, transparent_ray, closest_inter.fig);
-//		if (transparent_inter.distance != INFINITY)
-//			add_coef(lamp_coef, int_to_channels(find_color(rt_data->cl_data,
-//					rt_data->lights, rt_data->objects, transparent_inter, transparent_ray)),
-//					closest_inter.fig->transperent_coef);
-//	}
-//}
 
 t_channel	find_lamp_coef(t_rt *rt_data, t_cl_data cl_data, t_intersect closest_inter, t_ray r)
 {

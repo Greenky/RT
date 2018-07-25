@@ -54,12 +54,35 @@ void			more_sphere_fill(char **line,
 		sphere->mirror_coef = mirror;
 		*flag = *flag | (1 << 3);
 	}
+	else if (begin_with(*line, "trancper:"))
+	{
+		*line = trim_from(*line, 9);
+		mirror = str_to_float(*line, 0, line_number);
+		if (mirror > 1 || mirror < 0)
+			error_caster(line_number, "no such trancparency coef. as ", *line);
+		sphere->transperent_coef = mirror;
+		*flag = *flag | (1 << 4);
+	}
 	else if (begin_with(*line, "b_p:"))
 	{
 		*line = trim_from(*line, 4);
 		if ((sphere->bling_phong = ft_atoi(*line)) <= 0)
 			error_caster(line_number, "no such biling-phong coef. as ", *line);
-		*flag = *flag | (1 << 4);
+		*flag = *flag | (1 << 5);
+	}
+	else if (begin_with(*line, "texture index:"))
+	{
+		*line = trim_from(*line, 14);
+		if ((sphere->texture_index = ft_atoi(*line)) < -1 || sphere->texture_index > 12)
+			error_caster(line_number, "no such texture index. as ", *line);
+		mirror = 0;
+		while ((*line)[(int)mirror] && (*line)[(int)mirror] != ',')
+			mirror++;
+		*line = trim_from(*line, (int)mirror + 1);
+		sphere->texture_repeat = (begin_with(*line, "repeat") ? ft_atoi((*line) + 7) : 1);
+		if (sphere->texture_repeat < 0)
+			error_caster(line_number, "no such texture repeat number. as ", *line);
+		*flag = *flag | (1 << 6);
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);

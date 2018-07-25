@@ -73,6 +73,7 @@ typedef struct		s_objects
 {
 	int					type;
 	int 				texture_index;
+	int 				texture_repeat;
 	int 				is_cartoon;
 	t_channel			color;
 	float				radius;

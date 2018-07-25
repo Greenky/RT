@@ -63,9 +63,21 @@ void		ray_tracing(t_rt *rt_data)
 	load_texture(rt_data->cl_data.textures, 2, "textures/Stonewall15_512x512.bmp");
 	load_texture(rt_data->cl_data.textures, 3, "textures/Grass.bmp");
 	load_texture(rt_data->cl_data.textures, 4, "textures/spoody_man.bmp");
-//	plasma_disruption(rt_data->cl_data.textures[2]);
-//	perlin_noise_disruption(rt_data->cl_data.textures[1]);
-//	check_mate_disruption(rt_data->cl_data.textures[0]);
+	load_texture(rt_data->cl_data.textures, 5, "textures/floor_tiles.bmp");
+	load_texture(rt_data->cl_data.textures, 6, "textures/Stone_02_COLOR.bmp");
+	load_texture(rt_data->cl_data.textures, 7, "textures/Floor_Wdn.bmp");
+	load_texture(rt_data->cl_data.textures, 8, "textures/metallplates.bmp");
+	load_texture(rt_data->cl_data.textures, 9, "textures/camo.bmp");
+
+	load_texture(rt_data->cl_data.textures, 10, "textures/camo.bmp");
+	load_texture(rt_data->cl_data.textures, 11, "textures/camo.bmp");
+	load_texture(rt_data->cl_data.textures, 12, "textures/camo.bmp");
+	plasma_disruption(rt_data->cl_data.textures[10]);
+	perlin_noise_disruption(rt_data->cl_data.textures[11]);
+	check_mate_disruption(rt_data->cl_data.textures[12]);
+
+	load_texture(rt_data->cl_data.textures, 13, "textures/floor_tiles_NRM.bmp");
+	load_texture(rt_data->cl_data.textures, 14, "textures/Stone_02_NRM.bmp");
 	draw_scene(rt_data);
 //	draw_bar(rt_data);
 //	text_output(rt_data);
@@ -95,7 +107,7 @@ void 		load_texture(SDL_Surface **textures, int index, char *path)
 	SDL_Surface	*new_text;
 	if (!(texture = SDL_LoadBMP(path)))
 	{
-		printf("SDL_LoadBMP failed: %s\n", SDL_GetError());
+		ft_putendl_fd(SDL_GetError(), 2);
 		exit(1);
 	}
 	new_text = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
@@ -107,6 +119,7 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 {
 	cl_float3 nor;
 	SDL_Surface *texture;
+	t_channel normal_channel;
 
 	float u;
 	float v;
@@ -124,13 +137,13 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 	if (closest_inter->fig->texture_index != -1)
 	{
 		texture = cl_data.textures[closest_inter->fig->texture_index];
-		if (closest_inter->fig->type == SPHERE)
+		if (closest_inter->fig->type == SPHERE || closest_inter->fig->type == ELLIPSOID)
 		{
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
 			u = acosf(-nor.y);
 			v = atan2f(nor.z, -nor.x);
-			j = (int) (u * texture->h * M_1_PI);
-			i = (int) (v * texture->w * M_1_PI / 2);
+			j = (int) (u * texture->h * M_1_PI * closest_inter->fig->texture_repeat) % texture->h;
+			i = (int) (v * texture->w * M_1_PI / 2 * closest_inter->fig->texture_repeat) % texture->w;
 		}
 		else if (closest_inter->fig->type == CYLINDER || closest_inter->fig->type == CONE)
 		{
@@ -143,8 +156,8 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
             }
 			nor = vect_mult_scalar(nor, closest_inter->fig->radius);
 			u = length(vect_diff(vect_sum(nor, closest_inter->point), closest_inter->fig->origin));
-			i = (int)(v * texture->w * M_1_PI);
-			j = (int)(u * 100) % texture->h;
+			i = (int)(v * texture->w * M_1_PI * closest_inter->fig->texture_repeat);
+			j = (int)(u * 100 * closest_inter->fig->texture_repeat) % texture->h;
 		}
 		else if (closest_inter->fig->type == PLANE)
 		{
@@ -152,20 +165,29 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
 			if (nor.x != 0)
 			{
-				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
+				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 50 * closest_inter->fig->texture_repeat) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
 			}
 			else
 			{
-				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z) * 100) % texture->w;
-				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 100) % texture->h;
+				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z ) * 50 * closest_inter->fig->texture_repeat) % texture->w;
+				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
 			}
 		}
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
+		if (closest_inter->fig->texture_index == 5 || closest_inter->fig->texture_index == 6)
+		{
+			texture = cl_data.textures[closest_inter->fig->texture_index + 8];
+			normal_channel = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
+			closest_inter->normal = normalize_vector(VEC(normal_channel.red, normal_channel.green, normal_channel.blue));
+		}
+		else
+			closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
 	}
 	else
 	{
 		closest_inter->texture_color =  closest_inter->fig->color;
+		closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
 	}
 }
 

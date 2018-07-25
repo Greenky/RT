@@ -35,9 +35,49 @@ int				sphere_parce(int fd, t_rt *rt_data)
 		free(sphere);
 		error_exit(ERROR, NULL);
 	}
-	sphere->basis.b_z = VEC(-1, 0, 0);
+	sphere->basis.b_z = VEC(1, 0.2, 0);
 	add_shape(rt_data, sphere);
 	return (0);
+}
+
+void			even_even_more_sphere_fill(char **line,
+						t_objects *sphere, int line_number, int *flag)
+{
+	float	mirror;
+
+	if (begin_with(*line, "texture index:"))
+	{
+		*line = trim_from(*line, 14);
+		if ((sphere->texture_index = ft_atoi(*line)) < -1
+			|| sphere->texture_index > 12)
+			error_caster(line_number, "no such texture index. as ", *line);
+		mirror = 0;
+		while ((*line)[(int)mirror] && (*line)[(int)mirror] != ',')
+			mirror++;
+		*line = trim_from(*line, (int)mirror + 1);
+		sphere->texture_repeat = (begin_with(*line, "repeat")
+								? ft_atoi((*line) + 7) : 1);
+		if (sphere->texture_repeat < 0)
+			error_caster(line_number,
+						"no such texture repeat number. as ", *line);
+		*flag = *flag | (1 << 6);
+	}
+	else
+		error_caster(line_number, "no such parameter as ", *line);
+}
+
+void			even_more_sphere_fill(char **line,
+						t_objects *sphere, int line_number, int *flag)
+{
+	if (begin_with(*line, "b_p:"))
+	{
+		*line = trim_from(*line, 4);
+		if ((sphere->bling_phong = ft_atoi(*line)) <= 0)
+			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		*flag = *flag | (1 << 5);
+	}
+	else
+		even_even_more_sphere_fill(line, sphere, line_number, flag);
 }
 
 void			more_sphere_fill(char **line,
@@ -54,15 +94,17 @@ void			more_sphere_fill(char **line,
 		sphere->mirror_coef = mirror;
 		*flag = *flag | (1 << 3);
 	}
-	else if (begin_with(*line, "b_p:"))
+	else if (begin_with(*line, "trancper:"))
 	{
-		*line = trim_from(*line, 4);
-		if ((sphere->bling_phong = ft_atoi(*line)) <= 0)
-			error_caster(line_number, "no such biling-phong coef. as ", *line);
+		*line = trim_from(*line, 9);
+		mirror = str_to_float(*line, 0, line_number);
+		if (mirror > 1 || mirror < 0)
+			error_caster(line_number, "no such trancparency coef. as ", *line);
+		sphere->transperent_coef = mirror;
 		*flag = *flag | (1 << 4);
 	}
 	else
-		error_caster(line_number, "no such parameter as ", *line);
+		even_more_sphere_fill(line, sphere, line_number, flag);
 }
 
 void			sphere_fill(char **line,

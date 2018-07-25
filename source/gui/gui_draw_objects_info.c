@@ -108,4 +108,6 @@ void		draw_object_info(t_rt *rt_data, int i)
 		draw_cylinder_info(rt_data, &rt_data->objects_arr[i]);
 	else if (rt_data->objects_arr[i].type == CONE)
 		draw_cone_info(rt_data, &rt_data->objects_arr[i]);
+	else if (rt_data->objects_arr[i].type == ELLIPSOID)
+		draw_ellipsoid_info(rt_data, &rt_data->objects_arr[i]);
 }

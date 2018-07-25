@@ -25,21 +25,8 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].transperent_coef = step_obj->transperent_coef;
 	rt_data->objects_arr[len].axis_dimensions = step_obj->axis_dimensions;
 	rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
-
-	rt_data->objects_arr[len].transperent_coef = (step_obj->type == SPHERE ? 0.2f : 0);
-	if (step_obj->type == SPHERE) //TODO delete this part!!!
-		rt_data->objects_arr[len].texture_index = -1;
-	else if (step_obj->type == CYLINDER) {
-		rt_data->objects_arr[len].texture_index = -1;
-		rt_data->objects_arr[len].cap[0].dist = 1;
-		rt_data->objects_arr[len].cap[0].normal = VEC(1, 2, 1);
-		rt_data->objects_arr[len].cap[1].dist = -1;
-		rt_data->objects_arr[len].cap[1].normal = VEC(3, -2, 1);
-	}
-		else if (step_obj->type == CONE)
-		rt_data->objects_arr[len].texture_index = 2;
-	else
-		rt_data->objects_arr[len].texture_index = 1;
+	rt_data->objects_arr[len].texture_repeat = step_obj->texture_repeat;
+	rt_data->objects_arr[len].texture_index = step_obj->texture_index;
 	rt_data->objects_arr[len].is_cartoon = 0;
 	rt_data->objects_arr[len].next = NULL;
 }

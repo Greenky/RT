@@ -80,6 +80,7 @@ typedef struct		s_objects
 {
 	int					type;
 	int 				texture_index;
+	int 				texture_repeat;
 	int 				is_cartoon;
 	t_channel			color;
 	float				radius;
@@ -110,6 +111,7 @@ typedef struct	s_cl_data
 	int				num_of_lights;
 	int				reflect_rate;
 	int				max_reflections;
+	t_light			*current_lamp;
 	SDL_Surface		**textures; // NEW VARIABLE
 	t_camera		camera;
 }				t_cl_data;
@@ -190,9 +192,6 @@ typedef struct	s_rt
 	t_objects		*objects;
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
-	int				bar_is_shown;
-	int				reflect_rate;
-	int				max_reflections;
 	int				line_number;
 }				t_rt;
 

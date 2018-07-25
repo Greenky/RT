@@ -15,8 +15,8 @@
 void	error_exit(int error_name, t_rt *rt_data)
 {
 	if (error_name == NUM_OF_ARG)
-		ft_putstr_fd("Input must include one parameter\nUsage: ./RT\t[scene]\n",
-					2);
+		ft_putstr_fd("Input must include one parameter\nUsage:"
+							 "./RT\t[scene]\n", 2);
 	else if (error_name == ERROR)
 		perror("RT");
 	else if (error_name == CAM_ERROR)
@@ -59,7 +59,6 @@ void	error_caster(int line_number, char *s1, char *s2)
 	ft_putstr("\"");
 	ft_putstr(s2);
 	ft_putendl("\"");
-	line = ft_strjoin(s1, s2);
 	ft_strdel(&s2);
 	s2 = ft_strjoin("say \"", line);
 	ft_strdel(&line);

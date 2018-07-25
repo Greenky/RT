@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/rt_functions.h"
-///*
 
 int			draw_scene(t_rt *scene)
 {
@@ -38,6 +37,42 @@ int			draw_scene(t_rt *scene)
 	return (0);
 }
 
+/*
+**int		draw_scene(t_rt *rt_data)
+**{
+**	t_dot	pixel;
+**	pixel.y = 0;
+**	while (pixel.y < SCR_SIZE)
+**	{
+**		pixel.x = 0;
+**		while (pixel.x < SCR_SIZE)
+**		{
+**			draw_pixel(rt_data, rt_data->objects_arr,
+** rt_data->lights_arr, pixel);
+**			pixel.x++;
+**		}
+**		pixel.y++;
+**	}
+**	return (0);
+**}
+**void	draw_pixel(t_rt *rt_data, t_objects *objects,
+** t_light *lights, t_dot pixel)
+**{
+**	t_ray		primary_ray;
+**	uint32_t	color;
+**	t_intersect	closest_inter;
+**	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
+**	closest_inter = find_closest_inter(rt_data->cl_data, objects, primary_ray);
+**	rt_data->cl_data.reflect_rate = 0;
+**	if (closest_inter.distance == INFINITY)
+**		color = 0;
+**	else
+**		color = find_color(rt_data->cl_data, lights, objects,
+** closest_inter, primary_ray);
+**	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
+**}
+*/
+
 void		*draw_strings(void *thread_data_void)
 {
 	t_dot			pixel;
@@ -50,9 +85,7 @@ void		*draw_strings(void *thread_data_void)
 		pixel.x = 0;
 		while (pixel.x < SCR_SIZE)
 		{
-			draw_pixel(thread_data->scene,
-				thread_data->scene->objects_arr,
-					thread_data->scene->lights_arr, pixel);
+			draw_pixel(thread_data->scene, pixel);
 			pixel.x++;
 		}
 		pixel.y += THREAD_MAX;
@@ -102,58 +135,21 @@ uint32_t	apply_filter(uint32_t color, int filter)
 	return (color);
 }
 
-void		draw_pixel(t_rt *rt_data,
-				t_objects *objects, t_light *lights, t_dot pixel)
+void		draw_pixel(t_rt *rt_data, t_dot pixel)
 {
 	t_ray		primary_ray;
 	uint32_t	color;
 	t_intersect	closest_inter;
 //	(void)lights;
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
-	closest_inter = find_closest_inter(rt_data->cl_data, objects, primary_ray);
+	closest_inter = find_closest_inter(rt_data->cl_data, rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else
-//		color = 0xFFFFFF;
-		color = find_color(rt_data->cl_data, lights,
-						objects, closest_inter, primary_ray);
+		color = find_color(rt_data, rt_data->cl_data,closest_inter, primary_ray);
 	if (rt_data->filter != -1)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
 }
-//*/
-
-
-/*int		draw_scene(t_rt *rt_data)
-{
-	t_dot	pixel;
-	pixel.y = 0;
-	while (pixel.y < SCR_SIZE)
-	{
-		pixel.x = 0;
-		while (pixel.x < SCR_SIZE)
-		{
-			draw_pixel(rt_data, rt_data->objects_arr, rt_data->lights_arr, pixel);
-			pixel.x++;
-		}
-		pixel.y++;
-	}
-	return (0);
-}
-void	draw_pixel(t_rt *rt_data, t_objects *objects, t_light *lights, t_dot pixel)
-{
-	t_ray		primary_ray;
-	uint32_t	color;
-	t_intersect	closest_inter;
-	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
-	closest_inter = find_closest_inter(rt_data->cl_data, objects, primary_ray);
-	rt_data->cl_data.reflect_rate = 0;
-	if (closest_inter.distance == INFINITY)
-		color = 0;
-	else
-		color = find_color(rt_data->cl_data, lights, objects, closest_inter, primary_ray);
-	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
-}
-*/

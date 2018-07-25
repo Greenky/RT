@@ -82,7 +82,6 @@ $        mir: 0
         mir: 1
         trancper: 0
         texture index: -1
-        mir: 0
 #        cap1_dist: -1
 #        cap1_norm: (0, 1, 0)
 #        cap2_dist: 1

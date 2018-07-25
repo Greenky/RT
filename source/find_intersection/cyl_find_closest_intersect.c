@@ -30,8 +30,6 @@ void	data_validation(t_objects *obj)
 		obj->cap[0].dist -= 0.1;
 	obj->cap[0].normal = (vect_scalar_mult(obj->cap[0].normal, obj->basis.b_z) < 0) ? (obj->cap[0].normal) : (vect_mult_scalar(obj->cap[0].normal, -1));
 	obj->cap[1].normal = (vect_scalar_mult(obj->cap[1].normal, obj->basis.b_z) >= 0) ? (obj->cap[1].normal) : (vect_mult_scalar(obj->cap[1].normal, -1));
-//	obj->cap[0].normal = matrix_mult_vect(count_inverse_matrix(obj->basis), obj->cap[0].normal);
-//	obj->cap[1].normal = matrix_mult_vect(count_inverse_matrix(obj->basis), obj->cap[1].normal);
 	obj->cap[0].normal = normalize_vector(obj->cap[0].normal);
 	obj->cap[1].normal = normalize_vector(obj->cap[1].normal);
 }

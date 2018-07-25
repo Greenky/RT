@@ -99,24 +99,6 @@ void 		load_texture(SDL_Surface **textures, int index, char *path)
 	textures[index] = new_text;
 }
 
-//int		*sph_ellips_texture(t_intersect *closest_inter, SDL_Surface *texture, cl_float3 nor)
-//{
-//	cl_float3	norm;
-//	float		uv[2];
-//	float		ij[2];
-//	float		u;
-//	float		v;
-//	int			i;
-//	int			j;
-//
-//	norm = matrix_mult_vect(closest_inter->fig->basis, nor);
-//	uv[0] = acosf(-nor.y);
-//	uv[1] = atan2f(nor.z, -nor.x);
-//	ij[0] = (int) (u * texture->h * M_1_PI * closest_inter->fig->texture_repeat) % texture->h;
-//	ij[1] = (int) (v * texture->w * M_1_PI / 2 * closest_inter->fig->texture_repeat) % texture->w;
-//
-//}
-
 void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 {
 	cl_float3 nor;

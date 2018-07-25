@@ -63,12 +63,11 @@ int		find_the_root(float coefficient[3], float discriminant, float t[2])
 	}
 	if (t[0] < 0 && t[1] < 0)
 		return (FALSE);
-	if ((t[1] < t[0] && t[1] >= 0)/* || t[0] < 0*/)
+	if ((t[1] < t[0] && t[1] >= 0))
 	{
 		tmp = t[0];
 		t[0] = t[1];
 		t[1] = tmp;
 	}
-//	printf("%f %f\n", t[0], t[1]);
 	return (TRUE);
 }

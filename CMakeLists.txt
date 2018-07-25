@@ -15,7 +15,7 @@ set(SOURCE_FILES
 		source/draw_scene.c
 		source/find_normal_to_figure.c
 		source/run_rtv1.c
-		trash/sdl_keys.c
+		source/figures_normals.c
 		source/opencl_functions.c
 
 		source/parcing_function/file_parcing.c

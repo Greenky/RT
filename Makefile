@@ -25,6 +25,7 @@ SOURCES         =   source/draw_scene.c \
                     source/event_management/handle_axis_dimensions_for_ellipsoid.c \
                     source/event_management/rotating_and_shift_camera.c \
                     source/find_fd.c \
+                    source/figures_normals.c    \
                     source/find_normal_to_figure.c \
                     source/main.c \
                     source/run_rtv1.c \

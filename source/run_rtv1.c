@@ -27,21 +27,11 @@ void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 		ellipsoid_find_closest_intersect(primary_ray, tmp_inter);
 }
 
-uint32_t	find_col_channel(float fig_color_channel, int step)
-{
-	uint32_t	mult;
-
-	if (fig_color_channel < 0)
-		return (0);
-	mult = (uint32_t)(fig_color_channel) >> 8;
-	if (mult > 0xFF)
-		mult = 0xFF;
-	return (mult << step);
-}
-
 uint32_t	rgb_to_int(t_channel rgb)
 {
-	int c = rgb.red;
+	int c;
+
+	c = rgb.red;
 	c = (c << 8) | rgb.green;
 	c = (c << 8) | rgb.blue;
 	return ((uint32_t)c);
@@ -68,21 +58,15 @@ void		ray_tracing(t_rt *rt_data)
 	load_texture(rt_data->cl_data.textures, 7, "textures/Floor_Wdn.bmp");
 	load_texture(rt_data->cl_data.textures, 8, "textures/metallplates.bmp");
 	load_texture(rt_data->cl_data.textures, 9, "textures/camo.bmp");
-
 	load_texture(rt_data->cl_data.textures, 10, "textures/camo.bmp");
 	load_texture(rt_data->cl_data.textures, 11, "textures/camo.bmp");
 	load_texture(rt_data->cl_data.textures, 12, "textures/camo.bmp");
 	plasma_disruption(rt_data->cl_data.textures[10]);
 	perlin_noise_disruption(rt_data->cl_data.textures[11]);
 	check_mate_disruption(rt_data->cl_data.textures[12]);
-
 	load_texture(rt_data->cl_data.textures, 13, "textures/floor_tiles_NRM.bmp");
 	load_texture(rt_data->cl_data.textures, 14, "textures/Stone_02_NRM.bmp");
 	draw_scene(rt_data);
-//	draw_bar(rt_data);
-//	text_output(rt_data);
-//	draw_clicked_info(rt_data);
-//	cl_start(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	event_management(rt_data, &event);
 }
@@ -97,7 +81,7 @@ t_ray		compute_ray(t_camera camera, t_dot pixel)
 	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
 	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
 	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
-													VEC(horizontal, -vertical, -DISTANCE)));
+						VEC(horizontal, -vertical, -DISTANCE)));
 	return (r);
 }
 
@@ -115,11 +99,31 @@ void 		load_texture(SDL_Surface **textures, int index, char *path)
 	textures[index] = new_text;
 }
 
+//int		*sph_ellips_texture(t_intersect *closest_inter, SDL_Surface *texture, cl_float3 nor)
+//{
+//	cl_float3	norm;
+//	float		uv[2];
+//	float		ij[2];
+//	float		u;
+//	float		v;
+//	int			i;
+//	int			j;
+//
+//	norm = matrix_mult_vect(closest_inter->fig->basis, nor);
+//	uv[0] = acosf(-nor.y);
+//	uv[1] = atan2f(nor.z, -nor.x);
+//	ij[0] = (int) (u * texture->h * M_1_PI * closest_inter->fig->texture_repeat) % texture->h;
+//	ij[1] = (int) (v * texture->w * M_1_PI / 2 * closest_inter->fig->texture_repeat) % texture->w;
+//
+//}
+
 void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 {
 	cl_float3 nor;
 	SDL_Surface *texture;
 	t_channel normal_channel;
+//	cl_float2	uv;
+//	cl_int2		ij;
 
 	float u;
 	float v;
@@ -137,9 +141,16 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 	if (closest_inter->fig->texture_index != -1)
 	{
 		texture = cl_data.textures[closest_inter->fig->texture_index];
-		if (closest_inter->fig->type == SPHERE || closest_inter->fig->type == ELLIPSOID)
+		if (closest_inter->fig->type == SPHERE
+			|| closest_inter->fig->type == ELLIPSOID)
 		{
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
+//			uv = (cl_float2){acosf(-nor.y), atan2f(nor.z, -nor.x)};
+//			ij = (cl_int2){(int) (v * texture->w * M_1_PI / 2
+//				* closest_inter->fig->texture_repeat) % texture->w,
+//				(int) (u * texture->h * M_1_PI
+//				* closest_inter->fig->texture_repeat) % texture->h};
+
 			u = acosf(-nor.y);
 			v = atan2f(nor.z, -nor.x);
 			j = (int) (u * texture->h * M_1_PI * closest_inter->fig->texture_repeat) % texture->h;
@@ -148,12 +159,12 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 		else if (closest_inter->fig->type == CYLINDER || closest_inter->fig->type == CONE)
 		{
 			v = atan2f(nor.z, -nor.x);
-            if (closest_inter->fig->type == CONE)
-            {
-                u = length(vect_diff(closest_inter->fig->origin, closest_inter->point));
-                u *= cosf(atanf(closest_inter->fig->angle_coef));
-                closest_inter->fig->radius = u;
-            }
+			if (closest_inter->fig->type == CONE)
+			{
+				u = length(vect_diff(closest_inter->fig->origin, closest_inter->point));
+				u *= cosf(atanf(closest_inter->fig->angle_coef));
+				closest_inter->fig->radius = u;
+			}
 			nor = vect_mult_scalar(nor, closest_inter->fig->radius);
 			u = length(vect_diff(vect_sum(nor, closest_inter->point), closest_inter->fig->origin));
 			i = (int)(v * texture->w * M_1_PI * closest_inter->fig->texture_repeat);
@@ -167,15 +178,11 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			{
 				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 50 * closest_inter->fig->texture_repeat) % texture->w;
 				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
-//				i = 0;
-//				j = 0;
 			}
 			else
 			{
 				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z ) * 50 * closest_inter->fig->texture_repeat) % texture->w;
 				j = (int) ((nor.x > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
-//				i = 0;
-//				j = 0;
 			}
 		}
 		if (j * texture->w + i > texture->w * texture->h || j * texture->w + i < 0)

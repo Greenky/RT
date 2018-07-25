@@ -85,7 +85,7 @@ static void		more_cone_data_fill3(char **line, t_objects *cone,
 								? ft_atoi((*line) + 7) : 1);
 		if (cone->texture_repeat < 0)
 			error_caster(line_number,
-						 "no such texture repeat number. as ", *line);
+						"no such texture repeat number. as ", *line);
 		*flag = *flag | (1 << 7);
 	}
 	else

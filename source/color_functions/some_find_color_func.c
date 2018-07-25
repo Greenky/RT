@@ -24,7 +24,7 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 		return (FALSE);
 }
 
-t_channel	*distance_of_shadow(t_intersect tmp, t_rt *rt_data)
+t_channel	*distance_of_shadow(t_intersect tmp, t_cl_data cl_data)
 {
 	t_channel		*shadow;
 
@@ -32,7 +32,7 @@ t_channel	*distance_of_shadow(t_intersect tmp, t_rt *rt_data)
 	if (tmp.distance != INFINITY)
 	{
 		shadow = (t_channel *)ft_memalloc(sizeof(t_channel));
-		get_texture(&tmp, rt_data->cl_data);
+		get_texture(&tmp, cl_data);
 		if (tmp.fig->transperent_coef)
 			add_coef(shadow, tmp.texture_color, tmp.fig->transperent_coef);
 		return (shadow);
@@ -65,7 +65,7 @@ t_channel	*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 				tmp = close_to_light;
 		}
 	}
-	return (distance_of_shadow(tmp, rt_data));
+	return (distance_of_shadow(tmp, rt_data->cl_data));
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,

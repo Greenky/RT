@@ -33,6 +33,7 @@ void	plane_find_closest_intersect(t_ray r, t_intersect *inter)
 			inter->point = vect_sum(r.origin,
 									vect_mult_scalar(r.direction,
 													inter->distance));
+			inter->normal = choose_normal(*inter->fig, inter->point);
 		}
 	}
 }

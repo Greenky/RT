@@ -61,7 +61,9 @@ set(SOURCE_FILES
 		source/color_functions/other_color_disruptions.c
 		source/color_functions/find_pixel_color.c
 		source/color_functions/manage_pixel.c
-		source/color_functions/some_find_color_func.c)
+		source/color_functions/some_find_color_func.c
+		source/color_functions/find_everything.c
+		source/color_functions/even_more_color_functions.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

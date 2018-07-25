@@ -21,7 +21,7 @@
         col: 0xff0000
         b_p: 1000
         mir: 0
-        trancper: 0.5
+        trancper: 0.8
         texture index: 4, repeat 1
 $    ellipsoid:
 $        cen: (1, 0, 2)
@@ -52,7 +52,7 @@ $        mir: 0
         b_p: 1
         mir: 0
         trancper: 0
-        texture index: 12, repeat 1
+        texture index: 1, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
@@ -60,7 +60,7 @@ $        mir: 0
         b_p: 1
         mir: 0
         trancper: 0
-        texture index: 11, repeat 2
+        texture index: 1, repeat 1
     plane:
         col: 0xAAAAFF
         cen: (0, 10, 8)

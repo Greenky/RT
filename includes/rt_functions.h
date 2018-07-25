@@ -189,7 +189,8 @@ cl_float3		find_normal_to_plane(t_objects plane, cl_float3 inter);
 cl_float3		find_normal_to_cylinder(t_objects cyl, cl_float3 inter);
 cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
-
+t_intersect	find_closest_reflected_inter(t_rt *rt_data,
+											t_ray ray, t_objects *this);
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
 								t_intersect closest_inter, t_ray r);

@@ -24,22 +24,35 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 		return (FALSE);
 }
 
-t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
+t_channel	*distance_of_shadow(t_intersect tmp, t_rt *rt_data)
+{
+	t_channel		*shadow;
+
+	ft_bzero(&shadow, sizeof(t_channel));
+	if (tmp.distance != INFINITY)
+	{
+		shadow = (t_channel *)ft_memalloc(sizeof(t_channel));
+		get_texture(&tmp, rt_data->cl_data);
+		if (tmp.fig->transperent_coef)
+			add_coef(shadow, tmp.texture_color, tmp.fig->transperent_coef);
+		return (shadow);
+	}
+	return (NULL);
+}
+
+t_channel	*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 				t_intersect closest_inter, t_light *current_lamp)
 {
 	t_intersect		close_to_light;
 	t_intersect		tmp;
-	t_channel		*shadow;
 	float			distance_to_light;
 	int				current;
 
-	current = 0;
+	current = -1;
 	tmp.distance = INFINITY;
-	if (current_lamp->type == POINT)
-		distance_to_light = length(vect_diff(current_lamp->origin, light_ray.origin));
-	else
-		distance_to_light = INFINITY;
-	while (current < rt_data->cl_data.num_of_objects)
+	distance_to_light = (current_lamp->type == POINT)
+		? length(vect_diff(current_lamp->origin, light_ray.origin)) : INFINITY;
+	while (++current < rt_data->cl_data.num_of_objects)
 	{
 		close_to_light.fig = &rt_data->objects_arr[current];
 		if (close_to_light.fig != closest_inter.fig)
@@ -51,17 +64,8 @@ t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 			if (close_to_light.distance < distance_to_light)
 				tmp = close_to_light;
 		}
-		current++;
 	}
-	if (tmp.distance != INFINITY)
-	{
-		shadow = (t_channel *)ft_memalloc(sizeof(t_channel));
-		get_texture(&tmp, rt_data->cl_data);
-		if (tmp.fig->transperent_coef)
-			add_coef(shadow, tmp.texture_color, tmp.fig->transperent_coef);
-		return (shadow);
-	}
-	return (NULL);
+	return (distance_of_shadow(tmp, rt_data));
 }
 
 float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
@@ -84,31 +88,4 @@ float		*find_cos_angle(t_ray light_ray, t_intersect closest_inter,
 	if (cos_angle[1] < 0)
 		cos_angle[1] = 0;
 	return (cos_angle);
-}
-
-uint32_t	find_color_hex(t_channel light_coef, t_intersect closest_inter)
-{
-	uint32_t	color_hex;
-
-	color_hex = 0;
-	color_hex += find_color_channel(closest_inter.texture_color.red,
-									light_coef.red, 16);
-	color_hex += find_color_channel(closest_inter.texture_color.green,
-									light_coef.green, 8);
-	color_hex += find_color_channel(closest_inter.texture_color.blue,
-									light_coef.blue, 0);
-	return (color_hex);
-}
-
-uint32_t	find_color_channel(float fig_color_channel,
-							float light_color_channel, int step)
-{
-	uint32_t	mult;
-
-	if (fig_color_channel < 0 || light_color_channel < 0)
-		return (0);
-	mult = (uint32_t)(fig_color_channel * light_color_channel) >> 8;
-	if (mult > 0xFF)
-		mult = 0xFF;
-	return (mult << step);
 }

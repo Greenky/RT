@@ -23,11 +23,11 @@ void		check_mate_disruption(SDL_Surface *surface)
 	while (++j < surface->h)
 	{
 		i = -1;
-		if (j % 20 == 0)
+		if (j % (surface->h / 64) == 0)
 			color = (color == 0) ? 0xFFFFFF : 0;
 		while (++i < surface->w)
 		{
-			if (i % 20 == 0)
+			if (i % (surface->w / 64) == 0)
 				color = (color == 0) ? 0xFFFFFF : 0;
 			set_pixel(surface, i, j, color);
 		}

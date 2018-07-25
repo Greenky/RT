@@ -22,6 +22,7 @@ int			plane_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	plane = (t_objects *)malloc(sizeof(t_objects));
 	plane->type = PLANE;
+	plane->transperent_coef = 0;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
@@ -64,15 +65,6 @@ static void	more_plane_fill(char **line,
 			error_caster(line_number, "no such biling-phong coef. as ", *line);
 		*flag = *flag | (1 << 4);
 	}
-	else if (begin_with(*line, "trancper:"))
-	{
-		*line = trim_from(*line, 9);
-		mirror = str_to_float(*line, 0, line_number);
-		if (mirror > 1 || mirror < 0)
-			error_caster(line_number, "no such trancparency coef. as ", *line);
-		plane->transperent_coef = mirror;
-		*flag = *flag | (1 << 5);
-	}
 	else if (begin_with(*line, "texture index:"))
 	{
 		*line = trim_from(*line, 14);
@@ -85,7 +77,7 @@ static void	more_plane_fill(char **line,
 		plane->texture_repeat = (begin_with(*line, "repeat") ? ft_atoi((*line) + 7) : 1);
 		if (plane->texture_repeat <= 0)
 			error_caster(line_number, "no such texture repeat number. as ", *line);
-		*flag = *flag | (1 << 6);
+		*flag = *flag | (1 << 5);
 	}
 	else
 		error_caster(line_number, "no such parameter as ", *line);

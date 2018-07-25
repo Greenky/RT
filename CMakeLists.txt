@@ -30,6 +30,7 @@ set(SOURCE_FILES
 		source/parcing_function/parce_peripherals_v2.c
 		source/parcing_function/light_parcing.c
 		source/parcing_function/list_to_objects.c
+		source/parcing_function/parce_limited.c
 
 		source/math_functions/actions_on_matrix.c
 		source/math_functions/actions_on_vectors.c

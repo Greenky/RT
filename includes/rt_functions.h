@@ -317,4 +317,5 @@ uint32_t	rgb_to_int(t_channel rgb);
 void		perlin_noise_disruption(SDL_Surface *surface);
 void		plasma_disruption(SDL_Surface *surface);
 void		check_mate_disruption(SDL_Surface *surface);
+void		parce_limited(char **line, t_objects *obj, int line_number);
 #endif

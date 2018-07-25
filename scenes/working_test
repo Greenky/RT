@@ -79,9 +79,9 @@ $        mir: 0
         dir: (0, -1, 0)
         rad: 1.2
         b_p: 1000
-        mir: 1
+        mir: 0
         trancper: 0
-        texture index: -1
+        texture index: 2
 #        cap1_dist: -1
 #        cap1_norm: (0, 1, 0)
 #        cap2_dist: 1

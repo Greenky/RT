@@ -28,6 +28,8 @@ void	handle_axis_dimensions(t_objects *ellipsoid)
 {
 	float		biggest_axis;
 
+	ellipsoid->cap[0] = INFINITY;
+	ellipsoid->cap[1] = INFINITY;
 	biggest_axis = find_biggest_axis(ellipsoid);
 	ellipsoid->radius = biggest_axis;
 	ellipsoid->axis_dimensions =

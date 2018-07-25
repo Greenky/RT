@@ -167,15 +167,11 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			{
 				i = (int) ((nor.x > 0 ? nor.x : texture->w + nor.x) * 50 * closest_inter->fig->texture_repeat) % texture->w;
 				j = (int) ((nor.y > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
-//				i = 0;
-//				j = 0;
 			}
 			else
 			{
 				i = (int) ((nor.z > 0 ? nor.z : texture->w + nor.z ) * 50 * closest_inter->fig->texture_repeat) % texture->w;
 				j = (int) ((nor.x > 0 ? nor.y : texture->h + nor.y) * 50 * closest_inter->fig->texture_repeat) % texture->h;
-//				i = 0;
-//				j = 0;
 			}
 		}
 		if (j * texture->w + i > texture->w * texture->h || j * texture->w + i < 0)
@@ -190,14 +186,9 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			normal_channel = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 			closest_inter->normal = normalize_vector(VEC(normal_channel.red - 128, normal_channel.green - 128, normal_channel.blue - 128));
 		}
-		else
-			closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
 	}
 	else
-	{
 		closest_inter->texture_color =  closest_inter->fig->color;
-		closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
-	}
 }
 
 t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray)

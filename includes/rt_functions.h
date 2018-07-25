@@ -47,12 +47,12 @@
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
 # define AMBIENT_LIGHT_IS_PARSED 35
-# define SPHERE_IS_PARSED 31
+# define SPHERE_IS_PARSED 127
 # define CAMERA_IS_PARSED 3
-# define CONE_IS_PARSED 63
-# define CYLINDER_IS_PARSED 63
-# define PLANE_IS_PARSED 31
-# define ELLIPSOID_IS_PARSED 31//TODO check!!
+# define CONE_IS_PARSED 255
+# define CYLINDER_IS_PARSED 255
+# define PLANE_IS_PARSED 127
+# define ELLIPSOID_IS_PARSED 127 //TODO check!!
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(SCR_SIZE / 2))
@@ -65,7 +65,7 @@
 
 # define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
-# define W_TITLE "RT by BOBMA_RAKETA"
+# define W_TITLE "RT by BOMBA_RAKETA"
 
 # define DEEP_BLUE (SDL_Color){33, 150, 243, 0}
 # define SKY_BLUE (SDL_Color){144, 202, 249, 0}
@@ -143,7 +143,7 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 //------------------------------------------------------------------------------------
 
-void			draw_pixel(t_rt *rt, t_objects *objects, t_light *lights, t_dot pixel);
+void			draw_pixel(t_rt *rt, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
 void			ray_tracing(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
@@ -191,14 +191,14 @@ cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
 
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
-t_channel		find_lamp_coef(t_cl_data cl_data, t_objects *objects, t_light *current_lamp,
-								t_intersect closest_inter, t_ray r, t_light *lights);
+t_channel		find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
+								t_intersect closest_inter, t_ray r);
 t_ray			find_light_ray(cl_float3 origin, t_light *light);
-uint32_t		find_color(t_cl_data cl_data, t_light *lights, t_objects *objects, t_intersect closest_inter, t_ray r);
+uint32_t		find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
-int				is_figure_first_inter_by_light(t_cl_data cl_data, t_objects *objects, t_ray light_ray,
-												  t_intersect closest_inter, t_channel *trad, float dist); //TODO TINI ZROBI DIBIL
+t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
+												  t_intersect closest_inter, t_light *current);
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
 uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
 uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
@@ -294,6 +294,7 @@ void		blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos);
 void		draw_sphere_info(t_rt *rt_data, t_objects *object);
 void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
 void		draw_cone_info(t_rt *rt_data, t_objects *object);
+void		draw_ellipsoid_info(t_rt *rt_data, t_objects *object);
 void		draw_object_info(t_rt *rt_data, int i);
 void		sdl_error(char *str);
 

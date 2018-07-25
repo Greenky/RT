@@ -21,55 +21,71 @@
         col: 0xff0000
         b_p: 1000
         mir: 0
-    ellipsoid:
-        cen: (0, 0, 0)
-        col: 0x554a87
-        axis sizes: (10, 2, 3)
-        b_p: 1000
-        mir: 0
+        trancper: 0.5
+        texture index: 4, repeat 1
+$    ellipsoid:
+$        cen: (1, 0, 2)
+$        col: 0x554a87
+$        axis sizes: (1.5, 0.5, 0.2)
+$        b_p: 1000
+$        mir: 0
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)
         nor: (1, 0, 0)
         b_p: 1
         mir: 0
+        trancper: 0
+        texture index: 1, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (0, -5, 3)
         nor: (0, 1, 0)
         b_p: 1
         mir: 0
+        trancper: 0
+        texture index: 1, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (5, 0, 3)
         nor: (-1, 0, 0)
         b_p: 1
         mir: 0
+        trancper: 0
+        texture index: 12, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
         nor: (0, -1, 0)
         b_p: 1
         mir: 0
+        trancper: 0
+        texture index: 11, repeat 2
     plane:
         col: 0xAAAAFF
         cen: (0, 10, 8)
         nor: (0, 0, -1)
         b_p: 1
         mir: 0
+        trancper: 0
+        texture index: 1, repeat 2
     cone:
         col: 0xAAFFAA
         cen: (2, 0, 2)
         dir: (0.1, 1, 0)
         ang: 30
         b_p: 1000
-        mir: 0.1
+        mir: 0
+        trancper: 0
+        texture index: -1
     cylinder:
         col: 0xFFAAAA
         cen: (-2.5, -6, 2)
         dir: (-0.6, 2, 0)
         rad: 1.2
         b_p: 1000
-        mir: 0
+        mir: 1
+        trancper: 0
+        texture index: -1
 #################
 $ b_p - biling - phong

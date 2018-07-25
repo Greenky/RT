@@ -74,7 +74,7 @@ void	change_cone(t_objects *object, int arrow)
 
 void	change_object(t_objects *object, int arrow)
 {
-	if (object->type == SPHERE)
+	if (object->type == SPHERE || object->type == ELLIPSOID)
 		change_sphere(object, arrow);
 	else if (object->type == CYLINDER)
 		change_cylinder(object, arrow);

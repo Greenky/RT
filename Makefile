@@ -28,7 +28,6 @@ SOURCES         =   source/draw_scene.c \
                     source/find_normal_to_figure.c \
                     source/main.c \
                     source/run_rtv1.c \
-                    source/sdl_keys.c   \
                     source/opencl_functions.c   \
                     source/parcing_function/add_shape_and_light.c \
                     source/parcing_function/cam_parcing.c \

@@ -25,16 +25,25 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].transperent_coef = step_obj->transperent_coef;
 	rt_data->objects_arr[len].axis_dimensions = step_obj->axis_dimensions;
 	rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
-	rt_data->objects_arr[len].transperent_coef =
-			(step_obj->type == SPHERE ? 0.5f : 0);
-	if (step_obj->type == SPHERE)
-		rt_data->objects_arr[len].texture_index = -1;
-	else if (step_obj->type == CYLINDER)
-		rt_data->objects_arr[len].texture_index = 3;
-	else if (step_obj->type == CONE)
-		rt_data->objects_arr[len].texture_index = 2;
-	else
-		rt_data->objects_arr[len].texture_index = -1;
+	rt_data->objects_arr[len].texture_repeat = step_obj->texture_repeat;
+	rt_data->objects_arr[len].texture_index = step_obj->texture_index;
+	//
+//	if (step_obj->type != SPHERE)
+//	{
+//		rt_data->objects_arr[len].texture_repeat = 1;
+//		rt_data->objects_arr[len].transperent_coef = 0;
+//	}
+//	if (step_obj->type == CYLINDER)
+//		rt_data->objects_arr[len].texture_index = 4;
+//	else if (step_obj->type == CONE)
+//		rt_data->objects_arr[len].texture_index = 2;
+//	else if (step_obj->type == ELLIPSOID)
+//		rt_data->objects_arr[len].texture_index = 5;
+//	else if (step_obj->type == PLANE){
+//		rt_data->objects_arr[len].texture_repeat = 2;
+//		rt_data->objects_arr[len].texture_index = 7;
+//	}
+	//
 	rt_data->objects_arr[len].is_cartoon = 0;
 	rt_data->objects_arr[len].next = NULL;
 }

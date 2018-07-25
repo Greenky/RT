@@ -15,7 +15,7 @@ set(SOURCE_FILES
 		source/draw_scene.c
 		source/find_normal_to_figure.c
 		source/run_rtv1.c
-		source/sdl_keys.c
+		trash/sdl_keys.c
 		source/opencl_functions.c
 
 		source/parcing_function/file_parcing.c
@@ -42,8 +42,11 @@ set(SOURCE_FILES
 		source/find_intersection/sphere_find_closest_intersect.c
 		source/find_intersection/ellipsoid_find_closest_intersect.c
 
+		source/event_management/event_management.c
 		source/event_management/rotating_and_shift_camera.c 
 		source/event_management/handle_axis_dimensions_for_ellipsoid.c
+		source/event_management/event_management.c
+
 		source/gui/gui_object_change.c
 		source/gui/gui_check_buttons.c
 		source/gui/gui_control_bars_show.c
@@ -163,4 +166,4 @@ add_executable(RT ${SOURCE_FILES} ${HEADERS})
 set_target_properties(RT PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
-target_link_libraries(RT ${SDL} ${SDL_image} ${SDL_ttf} ${OpenCL_LIBRARY} -lft)
+target_link_libraries(RT ${SDL} ${SDL_image} ${SDL_ttf} ${OpenCL_LIBRARY} -lft pthread)

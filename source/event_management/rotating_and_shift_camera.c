@@ -17,7 +17,7 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 	double		angle;
 
 	angle = (keycode == SDLK_UP || keycode == SDLK_RIGHT ||
-			 keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
+			keycode == SDLK_PAGEDOWN) ? ANGLE : -ANGLE;
 	if (keycode == SDLK_UP || keycode == SDLK_DOWN)
 		rt_data->cl_data.camera.angle_rot.x += angle;
 	else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
@@ -73,7 +73,7 @@ t_coord_sys	rot_matrix_about_the_axis(float angle, cl_float3 axis)
 	return (rot_matrix);
 }
 
-void	manage_camera_origin(int keycode, t_rt *rt_data)
+void		manage_camera_origin(int keycode, t_rt *rt_data)
 {
 	if (keycode == SDLK_w)
 		rt_data->cl_data.camera.origin =
@@ -93,9 +93,9 @@ void	manage_camera_origin(int keycode, t_rt *rt_data)
 			vect_mult_scalar(rt_data->cl_data.camera.basis.b_x, SHIFT_STEP));
 }
 
-void	reset_camera_settings(t_rt *rt_data)
+void		reset_camera_settings(t_rt *rt_data)
 {
 	rt_data->cl_data.camera.basis = rt_data->cl_data.camera.initial_basis;
-	rt_data->cl_data.camera.origin = VEC(0, 0, -10);
+	rt_data->cl_data.camera.origin = VEC(0, 0, -20);
 	rt_data->cl_data.camera.angle_rot = VEC(0, 0, 0);
 }

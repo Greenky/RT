@@ -60,30 +60,31 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 		rotating_camera(event->key.keysym.sym, rt_data);
 	else if (event->key.keysym.sym == SDLK_SPACE)
 		reset_camera_settings(rt_data);
-	else if (event->key.keysym.sym >= SDLK_KP_1 && event->key.keysym.sym <= SDLK_KP_0)
+	else if (event->key.keysym.sym >= SDLK_KP_1
+			&& event->key.keysym.sym <= SDLK_KP_0)
 		manage_ellipsoid_axes(event->key.keysym.sym, rt_data);
 	else
 		return (0);
 	draw_scene(rt_data);
-//	cl_start(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);
 }
 
-int		check_camera_key(int keycode, int type_of_motion)
+int			check_camera_key(int keycode, int type_of_motion)
 {
 	if (type_of_motion == ROTATE)
 	{
-		if (keycode == SDLK_UP || keycode == SDLK_DOWN || keycode == SDLK_RIGHT ||
-			keycode == SDLK_LEFT || keycode == SDLK_PAGEUP || keycode == SDLK_PAGEDOWN)
+		if (keycode == SDLK_UP || keycode == SDLK_DOWN
+			|| keycode == SDLK_RIGHT || keycode == SDLK_LEFT
+			|| keycode == SDLK_PAGEUP || keycode == SDLK_PAGEDOWN)
 			return (TRUE);
 		else
 			return (FALSE);
 	}
 	else if (type_of_motion == SHIFT)
 	{
-		if (keycode == SDLK_w || keycode == SDLK_s || keycode == SDLK_d ||
-			keycode == SDLK_a)
+		if (keycode == SDLK_w || keycode == SDLK_s
+			|| keycode == SDLK_d || keycode == SDLK_a)
 			return (TRUE);
 		else
 			return (FALSE);

@@ -51,7 +51,7 @@
 # define CAMERA_IS_PARSED 3
 # define CONE_IS_PARSED 255
 # define CYLINDER_IS_PARSED 255
-# define PLANE_IS_PARSED 127
+# define PLANE_IS_PARSED 63
 # define ELLIPSOID_IS_PARSED 127 //TODO check!!
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2

@@ -22,6 +22,7 @@ int			plane_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	plane = (t_objects *)malloc(sizeof(t_objects));
 	plane->type = PLANE;
+	plane->transperent_coef = 0;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;

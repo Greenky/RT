@@ -140,7 +140,7 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 	t_ray		primary_ray;
 	uint32_t	color;
 	t_intersect	closest_inter;
-
+//	(void)lights;
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);

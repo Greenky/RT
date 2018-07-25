@@ -6,7 +6,7 @@
 #### LIGHTS ####
     light:
         point
-        cen: (-3, 0, -8)
+        cen: (-3, -2, -3)
         col: 0xFFFFFF
         int: 0.5
     light:
@@ -75,12 +75,16 @@ $        mir: 0
         texture index: -1
     cylinder:
         col: 0xFFAAAA
-        cen: (-2.5, -6, 2)
-        dir: (-0.6, 2, 0)
+        cen: (0, 0, 0)
+        dir: (0, -1, 0)
         rad: 1.2
         b_p: 1000
         mir: 1
         trancper: 0
         texture index: -1
+#        cap1_dist: -1
+#        cap1_norm: (0, 1, 0)
+#        cap2_dist: 1
+#        cap2_norm: (0, -1, 0)
 #################
 $ b_p - biling - phong

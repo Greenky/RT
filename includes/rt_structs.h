@@ -68,6 +68,13 @@ typedef struct		s_light // ADDED TYPE, fix
 	struct s_light	*next;
 }					t_light;
 
+typedef struct 		s_cap
+{
+	float 			dist;
+//	cl_float3		point;
+	cl_float3		normal;
+}					t_cap;
+
 struct s_intersect;
 typedef struct		s_objects
 {
@@ -80,6 +87,7 @@ typedef struct		s_objects
 	float				angle_coef;
 	float				mirror_coef;
 	float				transperent_coef;
+	t_cap				cap[2];
 	cl_float3			origin;
 	cl_float3			normal;
 	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида

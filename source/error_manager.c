@@ -50,7 +50,7 @@ void	freesher(t_light *light, t_objects *shapes)
 
 void	error_caster(int line_number, char *s1, char *s2)
 {
-	char	*line;
+//	char	*line;
 
 	ft_putstr("error in line ");
 	ft_putnbr(line_number);
@@ -59,12 +59,12 @@ void	error_caster(int line_number, char *s1, char *s2)
 	ft_putstr("\"");
 	ft_putstr(s2);
 	ft_putendl("\"");
-	ft_strdel(&s2);
-	s2 = ft_strjoin("say \"", line);
-	ft_strdel(&line);
-	line = ft_strjoin(s2, "\"");
-	system(line);
-	ft_strdel(&s2);
-	ft_strdel(&line);
+//	ft_strdel(&s2);
+//	s2 = ft_strjoin("say \"", line);
+//	ft_strdel(&line);
+//	line = ft_strjoin(s2, "\"");
+//	system(line);
+//	ft_strdel(&s2);
+//	ft_strdel(&line);
 	exit(1);
 }

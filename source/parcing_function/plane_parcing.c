@@ -40,7 +40,33 @@ int			plane_parce(int fd, t_rt *rt_data)
 	return (0);
 }
 
-static void	even_even_more_plane_fill(char **line,
+//static void	even_even_more_plane_fill(char **line,
+//							t_objects *plane, int line_number, int *flag)
+//{
+//	float	mirror;
+//
+//	if (begin_with(*line, "texture index:"))
+//	{
+//		*line = trim_from(*line, 14);
+//		if ((plane->texture_index = ft_atoi(*line)) < -1
+//			|| plane->texture_index > 12)
+//			error_caster(line_number, "no such texture index. as ", *line);
+//		mirror = 0;
+//		while ((*line)[(int)mirror] && (*line)[(int)mirror] != ',')
+//			mirror++;
+//		*line = trim_from(*line, (int)mirror + 1);
+//		plane->texture_repeat = (begin_with(*line, "repeat")
+//			? ft_atoi((*line) + 7) : 1);
+//		if (plane->texture_repeat <= 0)
+//			error_caster(line_number,
+//				"no such texture repeat number. as ", *line);
+//		*flag = *flag | (1 << 6);
+//	}
+//	else
+//		error_caster(line_number, "no such parameter as ", *line);
+//}
+
+static void	even_more_plane_fill(char **line,
 							t_objects *plane, int line_number, int *flag)
 {
 	float	mirror;
@@ -56,32 +82,14 @@ static void	even_even_more_plane_fill(char **line,
 			mirror++;
 		*line = trim_from(*line, (int)mirror + 1);
 		plane->texture_repeat = (begin_with(*line, "repeat")
-			? ft_atoi((*line) + 7) : 1);
+								 ? ft_atoi((*line) + 7) : 1);
 		if (plane->texture_repeat <= 0)
 			error_caster(line_number,
-				"no such texture repeat number. as ", *line);
-		*flag = *flag | (1 << 6);
-	}
-	else
-		error_caster(line_number, "no such parameter as ", *line);
-}
-
-static void	even_more_plane_fill(char **line,
-							t_objects *plane, int line_number, int *flag)
-{
-	float	mirror;
-
-	if (begin_with(*line, "trancper:"))
-	{
-		*line = trim_from(*line, 9);
-		mirror = str_to_float(*line, 0, line_number);
-		if (mirror > 1 || mirror < 0)
-			error_caster(line_number, "no such trancparency coef. as ", *line);
-		plane->transperent_coef = mirror;
+						 "no such texture repeat number. as ", *line);
 		*flag = *flag | (1 << 5);
 	}
 	else
-		even_even_more_plane_fill(line, plane, line_number, flag);
+		error_caster(line_number, "no such parameter as ", *line);
 }
 
 static void	more_plane_fill(char **line,

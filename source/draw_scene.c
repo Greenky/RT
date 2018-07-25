@@ -108,7 +108,7 @@ void		draw_pixel(t_rt *rt_data,
 	t_ray		primary_ray;
 	uint32_t	color;
 	t_intersect	closest_inter;
-
+//	(void)lights;
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
 	closest_inter = find_closest_inter(rt_data->cl_data, objects, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
@@ -116,6 +116,7 @@ void		draw_pixel(t_rt *rt_data,
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else
+//		color = 0xFFFFFF;
 		color = find_color(rt_data->cl_data, lights,
 						objects, closest_inter, primary_ray);
 	if (rt_data->filter != -1)
@@ -124,8 +125,8 @@ void		draw_pixel(t_rt *rt_data,
 }
 //*/
 
-/*
-int		draw_scene(t_rt *rt_data)
+
+/*int		draw_scene(t_rt *rt_data)
 {
 	t_dot	pixel;
 	pixel.y = 0;

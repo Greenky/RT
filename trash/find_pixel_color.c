@@ -29,8 +29,8 @@ uint32_t	find_color(t_cl_data cl_data, t_light *lights,
 			return (0xFFFFFF);
 	}
 	current = 0;
-	closest_inter.normal = choose_normal(*closest_inter.fig,
-										closest_inter.point);
+//	closest_inter.normal = choose_normal(*closest_inter.fig,
+//										closest_inter.point);
 	while (current < cl_data.num_of_lights)
 	{
 		current_lamp = (lights) + current;

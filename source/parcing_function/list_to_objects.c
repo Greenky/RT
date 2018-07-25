@@ -27,11 +27,16 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].bling_phong = step_obj->bling_phong;
 
 	rt_data->objects_arr[len].transperent_coef = (step_obj->type == SPHERE ? 0.2f : 0);
-	if (step_obj->type == SPHERE)
+	if (step_obj->type == SPHERE) //TODO delete this part!!!
 		rt_data->objects_arr[len].texture_index = -1;
-	else if (step_obj->type == CYLINDER)
-		rt_data->objects_arr[len].texture_index = 3;
-	else if (step_obj->type == CONE)
+	else if (step_obj->type == CYLINDER) {
+		rt_data->objects_arr[len].texture_index = -1;
+		rt_data->objects_arr[len].cap[0].dist = 1;
+		rt_data->objects_arr[len].cap[0].normal = VEC(1, 2, 1);
+		rt_data->objects_arr[len].cap[1].dist = -1;
+		rt_data->objects_arr[len].cap[1].normal = VEC(3, -2, 1);
+	}
+		else if (step_obj->type == CONE)
 		rt_data->objects_arr[len].texture_index = 2;
 	else
 		rt_data->objects_arr[len].texture_index = 1;

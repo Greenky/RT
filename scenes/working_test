@@ -10,11 +10,6 @@
         col: 0xFFFFFF
         int: 0.5
     light:
-        point
-        cen: (3, 0, -8)
-        col: 0xFFFFFF
-        int: 0.2
-    light:
         ambient
         col: 0xAAAAFF
         int: 0.1
@@ -25,9 +20,9 @@
         rad: 3
         col: 0xff0000
         b_p: 1000
-        mir: 0.5
-        trancper: 0
-        texture index: 2, repeat 5
+        mir: 0
+        trancper: 0.8
+        texture index: 4, repeat 1
 $    ellipsoid:
 $        cen: (1, 0, 2)
 $        col: 0x554a87

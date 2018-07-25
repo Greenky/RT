@@ -166,4 +166,4 @@ add_executable(RT ${SOURCE_FILES} ${HEADERS})
 set_target_properties(RT PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_HOME_DIRECTORY})
 
-target_link_libraries(RT ${SDL} ${SDL_image} ${SDL_ttf} ${OpenCL_LIBRARY} -lft)
+target_link_libraries(RT ${SDL} ${SDL_image} ${SDL_ttf} ${OpenCL_LIBRARY} -lft pthread)

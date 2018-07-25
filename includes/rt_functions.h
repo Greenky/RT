@@ -191,10 +191,10 @@ cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
 
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
-t_channel		find_lamp_coef(t_rt *rt_data, t_light *current_lamp,
+t_channel		find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
 								t_intersect closest_inter, t_ray r);
 t_ray			find_light_ray(cl_float3 origin, t_light *light);
-uint32_t		find_color(t_rt *rt_data, t_intersect closest_inter, t_ray r);
+uint32_t		find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
 t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,

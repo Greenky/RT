@@ -148,7 +148,7 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else
-		color = find_color(rt_data, closest_inter, primary_ray);
+		color = find_color(rt_data, rt_data->cl_data,closest_inter, primary_ray);
 	if (rt_data->filter != -1)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);

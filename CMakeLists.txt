@@ -45,7 +45,6 @@ set(SOURCE_FILES
 		source/event_management/event_management.c
 		source/event_management/rotating_and_shift_camera.c 
 		source/event_management/handle_axis_dimensions_for_ellipsoid.c
-		source/event_management/event_management.c
 
 		source/gui/gui_object_change.c
 		source/gui/gui_check_buttons.c

@@ -22,8 +22,8 @@ int				cone_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	cone = (t_objects *)malloc(sizeof(t_objects));
 	cone->type = CONE;
-	cone->cap[0] = INFINITY;
-	cone->cap[1] = INFINITY;
+	cone->cap[0].dist = INFINITY;
+	cone->cap[1].dist = INFINITY;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;

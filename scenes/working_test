@@ -16,8 +16,8 @@
 ################
 #### SHAPES ####
     sphere:
-        cen: (-0.5, 2, 2)
-        rad: 1.5
+        cen: (-0.5, 2, 0)
+        rad: 3
         col: 0xff0000
         b_p: 1000
         mir: 0
@@ -79,9 +79,10 @@ $        mir: 0
         dir: (0, -1, 0)
         rad: 1.2
         b_p: 1000
-        mir: 0
+        mir: 1
         trancper: 0
-        texture index: 2
+        texture index: -1
+        mir: 0
 #        cap1_dist: -1
 #        cap1_norm: (0, 1, 0)
 #        cap2_dist: 1

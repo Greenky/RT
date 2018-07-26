@@ -22,8 +22,8 @@ int				cylinder_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	cylinder = (t_objects *)malloc(sizeof(t_objects));
 	cylinder->type = CYLINDER;
-	cylinder->cap[0] = INFINITY;
-	cylinder->cap[1] = INFINITY;
+	cylinder->cap[0].dist = INFINITY;
+	cylinder->cap[1].dist = INFINITY;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;

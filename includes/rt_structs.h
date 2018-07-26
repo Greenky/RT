@@ -13,7 +13,7 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR};
+enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR, LOAD_BMP_ERROR};
 enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID};
 enum	e_lights {AMBIENT, POINT, DIRECT};
 

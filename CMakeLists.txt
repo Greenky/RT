@@ -4,7 +4,6 @@ project(RT)
 set(CMAKE_C_STANDARD 90)
 
 execute_process(COMMAND make -C ../libft)
-
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
 # -O3 -flto=thin -Ofast -march=native -mtune=native")
 

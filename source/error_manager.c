@@ -24,6 +24,12 @@ void	error_exit(int error_name, t_rt *rt_data)
 		ft_putendl("You have no camera, ma dudes");
 		system("say \"You have no camera, ma dudes\"");
 	}
+	else if (error_name == LOAD_BMP_ERROR)
+	{
+		ft_putendl("SDL_LoadBMP failed: ");
+		system("say \"SDL_LoadBMP failed\"");
+		ft_putendl(SDL_GetError());
+	}
 	if (rt_data != NULL)
 		freesher(rt_data->lights, rt_data->objects);
 	exit(1);

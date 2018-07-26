@@ -92,7 +92,7 @@ void 		load_texture(SDL_Surface **textures, int index, char *path)
 	if (!(texture = SDL_LoadBMP(path)))
 	{
 		ft_putendl_fd(SDL_GetError(), 2);
-		exit(1);
+		exit(1);//TODO fix this
 	}
 	new_text = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
 	SDL_FreeSurface(texture);
@@ -186,6 +186,7 @@ t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray prim
 
 	closest_inter.distance = INFINITY;
 	current = 0;
+
 	while (current < cl_data.num_of_objects)
 	{
 		tmp_inter.fig = &objects[current];
@@ -194,6 +195,7 @@ t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray prim
 			closest_inter = tmp_inter;
 		current++;
 	}
+
 	get_texture(&closest_inter, cl_data);
 	return (closest_inter);
 }

@@ -104,7 +104,7 @@ t_channel	find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
 	t_channel		lamp_coef;
 	t_channel		*shadow_col;
 
-	ft_bzero(&shadow_col, sizeof(t_channel));
+	shadow_col = NULL;
 	ft_bzero(&lamp_coef, sizeof(t_channel));
 	if (cl_data.current_lamp->type == AMBIENT)
 		add_coef(&lamp_coef, cl_data.current_lamp->color,

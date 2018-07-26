@@ -43,7 +43,22 @@ int			exit_x(t_rt *rt_data, SDL_Event *event)
 		|| (event->type == SDL_KEYDOWN &&
 		event->key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 	{
+
 		SDL_FreeSurface(rt_data->screen_surface);
+		SDL_FreeSurface(rt_data->gui.bar);
+		SDL_FreeSurface(rt_data->gui.arrow_left_active);
+		SDL_FreeSurface(rt_data->gui.arrow_right_active);
+		SDL_FreeSurface(rt_data->gui.arrow_left_unactive);
+		SDL_FreeSurface(rt_data->gui.arrow_right_unactive);
+		SDL_FreeSurface(rt_data->gui.little_text_area);
+		SDL_FreeSurface(rt_data->gui.big_text_area);
+		SDL_FreeSurface(rt_data->gui.checked);
+		SDL_FreeSurface(rt_data->gui.unchecked);
+		SDL_FreeSurface(rt_data->gui.aliasing_on_foot);
+		SDL_FreeSurface(rt_data->gui.sepia);
+		SDL_FreeSurface(rt_data->gui.greyscale);
+		SDL_FreeSurface(rt_data->gui.pixel);
+		SDL_FreeSurface(rt_data->gui.negative);
 		SDL_DestroyWindow(rt_data->window);
 		SDL_Quit();
 		return (0);
@@ -65,6 +80,7 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 		manage_ellipsoid_axes(event->key.keysym.sym, rt_data);
 	else
 		return (0);
+
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);

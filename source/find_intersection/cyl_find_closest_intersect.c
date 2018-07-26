@@ -154,7 +154,11 @@ float	limit_cylinder(t_objects cyl, t_ray r, t_intersect *inter, float t[2])
 		return (t[0]);
 	tmp_inter.fig = (t_objects *)malloc(sizeof(t_objects));
 	if (!find_cap_intersection(cap_norm_inter, cyl, &tmp_inter))
+	{
+		free(tmp_inter.fig);
 		return (INFINITY);
+	}
+
 	inter->normal = find_normal_to_plane(*tmp_inter.fig, tmp_inter.point);
 	plane_find_closest_intersect(r, &tmp_inter);
 	free(tmp_inter.fig);
@@ -181,6 +185,7 @@ void	cyl_find_closest_intersect(t_ray r, t_intersect *inter)
 		inter->distance = INFINITY;
 	else
 	{
+
 		inter->distance =
 			(!isinf(inter->fig->cap[0].dist) ||
 				!isinf(inter->fig->cap[1].dist)) ?
@@ -202,5 +207,6 @@ float	find_cyl_discriminant(t_ray r, float radius, float *coefficient)
 					find_square(radius);
 	discriminant = find_square(coefficient[B]) -
 					coefficient[A] * coefficient[C];
+
 	return (discriminant);
 }

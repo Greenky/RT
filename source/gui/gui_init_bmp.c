@@ -26,39 +26,39 @@ void	init_gui_bmps(t_rt *rt_data)
 							SDL_LoadBMP("gui_images/arrow_left_active.bmp"))
 		|| !(rt_data->gui.arrow_right_active =
 							SDL_LoadBMP("gui_images/arrow_right_active.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.arrow_left_unactive =
 				SDL_LoadBMP("gui_images/arrow_left_unactive.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.arrow_right_unactive =
 				SDL_LoadBMP("gui_images/arrow_right_unactive.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.little_text_area =
 				SDL_LoadBMP("gui_images/little_text_area.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.big_text_area =
 				SDL_LoadBMP("gui_images/big_text_area.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.checked =
 				SDL_LoadBMP("gui_images/checked.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.unchecked =
 				SDL_LoadBMP("gui_images/unchecked.bmp")))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 }
 
 void	init_foot_gui_bmps(t_rt *rt_data)
 {
 	if (!(rt_data->gui.aliasing_on_foot = SDL_LoadBMP(GUI_ALIAS_ON_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.aliasing_off_foot = SDL_LoadBMP(GUI_ALIAS_OFF_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.sepia = SDL_LoadBMP(GUI_SEPIA_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.greyscale = SDL_LoadBMP(GUI_GREYSCALE_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.negative = SDL_LoadBMP(GUI_NEGATIVE_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 	if (!(rt_data->gui.pixel = SDL_LoadBMP(GUI_PIXEL_BMP)))
-		sdl_error("SDL_LoadBMP failed: ");
+		error_exit(LOAD_BMP_ERROR, rt_data);
 }

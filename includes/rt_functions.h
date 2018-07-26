@@ -99,7 +99,6 @@ void			line_reader(t_rt *rt_data, int fd, const t_parce arr[]);
 void			parcer_functions(char **str, t_rt *rt_data, const t_parce arr[],
 							 int fd);
 void			correct_plane_normal(t_rt *rt_data);
-t_coord_sys		create_coord_system(t_coord_sys basis);
 
 int				cam_parce(int fd, t_rt *rt_data);
 void			camera_data_fill(char **line, t_camera *camera, int l_num, int *flag);
@@ -269,13 +268,9 @@ t_channel	int_to_channels(int col);
 void		get_texture(t_intersect *closest_inter, t_cl_data cl_data);
 void 		load_texture(SDL_Surface **textures, int index, char *path);
 
-void		draw_clicked_info(t_rt *rt_data);
-void		draw_bar(t_rt *rt_data);
-
+void		init_bar_positions(t_rt	*rt_data);
 void		init_gui_bmps(t_rt	*rt_data);
 void		init_foot_gui_bmps(t_rt *rt_data);
-void		init_bar_positions(t_rt	*rt_data);
-void		draw_gui(t_rt *rt_data);
 
 void		*draw_strings(void *thread_data_void);
 void		set_tread_param(t_rt *scene, t_thread_data *thread_num);
@@ -309,11 +304,6 @@ void		draw_cylinder_info(t_rt *rt_data, t_objects *object);
 void		draw_cone_info(t_rt *rt_data, t_objects *object);
 void		draw_ellipsoid_info(t_rt *rt_data, t_objects *object);
 void		draw_object_info(t_rt *rt_data, int i);
-void		sdl_error(char *str);
-
-void		init_gui_bmps(t_rt *rt_data);
-void		init_foot_gui_bmps(t_rt *rt_data);
-void		init_bar_positions(t_rt	*rt_data);
 
 void		draw_clicked_info(t_rt *rt_data);
 void		draw_filter_bar(t_rt *rt_data);

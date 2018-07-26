@@ -23,15 +23,15 @@ uint32_t	apply_filter(uint32_t color, int filter)
 	if (filter == GREYSCALE)
 	{
 		color = (uint32_t)(clr.red * 0.299 + clr.green * 0.587
-						   + clr.blue * 0.114);
+						+ clr.blue * 0.114);
 		return (color << 16 | color << 8 | color);
 	}
 	if (filter == SEPIA)
 	{
 		tmp = (t_channel){(uint32_t)(0.393 * clr.red + 0.769 * clr.green
-									 + 0.189 * clr.blue), (uint32_t)(0.349 * clr.red + 0.686 * clr.green
-																	 + 0.168 * clr.blue), (uint32_t)(0.272 * clr.red + 0.534 * clr.green
-																									 + 0.131 * clr.blue)};
+									+ 0.189 * clr.blue), (uint32_t)(0.349 * clr.red + 0.686 * clr.green
+									+ 0.168 * clr.blue), (uint32_t)(0.272 * clr.red + 0.534 * clr.green
+									+ 0.131 * clr.blue)};
 		clr = (t_channel){(uint32_t)((tmp.red > 255) ? 255 : tmp.red),
 						  (uint32_t)((tmp.green > 255) ? 255 : tmp.green),
 						  (uint32_t)((tmp.blue > 255) ? 255 : tmp.blue)};
@@ -49,7 +49,7 @@ void		draw_pixel_pixel(t_rt *rt_data, t_dot pixel)
 
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
 	closest_inter = find_closest_inter(rt_data->cl_data,
-									   rt_data->objects_arr, primary_ray);
+									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
@@ -125,6 +125,7 @@ void		*draw_strings(void *thread_data_void)
 		while (pixel.x < SCR_SIZE)
 		{
 			draw_pixel(thread_data->scene, pixel);
+
 			pixel.x++;
 		}
 		pixel.y += THREAD_MAX;
@@ -151,7 +152,9 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 	uint32_t	color;
 	t_intersect	closest_inter;
 
+
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
+
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
@@ -167,3 +170,63 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
 }
+
+
+
+/*int		draw_scene(t_rt *rt_data)
+{
+	int				idx;
+	idx = 0;
+
+
+	t_dot	pixel;
+	pixel.y = 0;
+	while (pixel.y < SCR_SIZE)
+	{
+		pixel.x = 0;
+		while (pixel.x < SCR_SIZE)
+		{
+			draw_pixel(rt_data, pixel);
+			if (pixel.x > 144)
+			{
+				system("leaks RT");
+				exit(0);
+			}
+			pixel.x++;
+		}
+
+		pixel.y++;
+	}
+	if (rt_data->take_screenshot == 0)
+	{
+		draw_clicked_info(rt_data);
+		draw_gui(rt_data);
+	}
+	return (0);
+}
+
+
+
+void	draw_pixel(t_rt *rt_data, t_dot pixel)
+{
+	t_ray		primary_ray;
+	uint32_t	color;
+	t_intersect	closest_inter;
+
+	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
+	closest_inter = find_closest_inter(rt_data->cl_data,
+									   rt_data->objects_arr, primary_ray);
+	rt_data->cl_data.max_reflections = 5;
+	rt_data->cl_data.max_trancparent = 5;
+	rt_data->cl_data.reflect_rate = 0;
+	rt_data->cl_data.trancparent_rate = 0;
+	if (closest_inter.distance == INFINITY)
+		color = 0;
+	else
+		color = find_color(rt_data,
+						   rt_data->cl_data, closest_inter, primary_ray);
+	if (rt_data->filter != -1)
+		color = apply_filter(color, rt_data->filter);
+	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
+
+}*/

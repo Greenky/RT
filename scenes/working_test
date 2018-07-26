@@ -78,8 +78,8 @@
         ang: 30
         b_p: 1000
         mir: 0
-        trancper: 0.4
-        texture index: -1
+        trancper: 0
+        texture index: 5
         limited: -
     cylinder:
         col: 0xFFAAAA

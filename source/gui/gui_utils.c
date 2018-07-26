@@ -49,16 +49,17 @@ void	blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos)
 	free(str_data);
 }
 
-void	sdl_error(char *str)
+/*void	sdl_error(char *str)
 {
 	ft_putstr(str);
 	ft_putendl(SDL_GetError());
 	exit(1);
-}
+}*/
 
 void	make_screenshot(t_rt *rt_data)
 {
 	SDL_Surface	*surface;
+	SDL_Surface	*convert_surface;
 	static int	img_num;
 	char		*num;
 	char		*scr_name;
@@ -66,14 +67,17 @@ void	make_screenshot(t_rt *rt_data)
 	rt_data->take_screenshot = 1;
 	draw_scene(rt_data);
 	surface = SDL_GetWindowSurface(rt_data->window);
-	surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+	convert_surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+	SDL_FreeSurface(surface);
 	num = ft_itoa(img_num);
 	scr_name = ft_strjoin("ScreenShot", num);
 	free(num);
 	num = scr_name;
 	scr_name = ft_strjoin(scr_name, ".jpg");
 	free(num);
-	SDL_SaveBMP(surface, scr_name);
+	SDL_SaveBMP(convert_surface, scr_name);
+	free(scr_name);
+	SDL_FreeSurface(convert_surface);
 	rt_data->take_screenshot = 0;
 	img_num++;
 }

@@ -60,8 +60,8 @@ void		draw_pixel_pixel(t_rt *rt_data, t_dot pixel)
 	if (rt_data->filter != -1)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
-	int	x = pixel.x - 1;
-	int	y = pixel.y - 1;
+	int	x = pixel.x - 1;//TODO fix
+	int	y = pixel.y - 1;//TODO fix
 	while(++y < pixel.y + 10 && y < SCR_SIZE)
 		while (++x < pixel.x + 10 && x < SCR_SIZE)
 			set_pixel(rt_data->screen_surface, x, y, color);

@@ -50,7 +50,7 @@
 # define SPHERE_IS_PARSED 127
 # define CAMERA_IS_PARSED 3
 # define CONE_IS_PARSED 255
-# define CYLINDER_IS_PARSED 255
+# define CYLINDER_IS_PARSED 1023
 # define PLANE_IS_PARSED 63
 # define ELLIPSOID_IS_PARSED 127 //TODO check!!
 # define STEP (1.0 / SCR_SIZE)
@@ -317,5 +317,5 @@ uint32_t	rgb_to_int(t_channel rgb);
 void		perlin_noise_disruption(SDL_Surface *surface);
 void		plasma_disruption(SDL_Surface *surface);
 void		check_mate_disruption(SDL_Surface *surface);
-void		parce_limited(char **line, t_objects *obj, int line_number);
+void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
 #endif

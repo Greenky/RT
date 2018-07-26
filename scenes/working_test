@@ -82,9 +82,7 @@ $        mir: 0
         mir: 0
         trancper: 0
         texture index: 2
-#        cap1_dist: -1
-#        cap1_norm: (0, 1, 0)
-#        cap2_dist: 1
-#        cap2_norm: (0, -1, 0)
+        limited_top: (1, 1, 0); 1
+        limited_bottom: (0, 1, 0); -1
 #################
 $ b_p - biling - phong

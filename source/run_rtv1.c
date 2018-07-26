@@ -179,6 +179,8 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			normal_channel = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 			closest_inter->normal = normalize_vector(VEC(normal_channel.red - 128, normal_channel.green - 128, normal_channel.blue - 128));
 		}
+		else if (closest_inter->fig->cap[0].dist == INFINITY && closest_inter->fig->cap[1].dist == INFINITY)
+			closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
 	}
 	else
 		closest_inter->texture_color =  closest_inter->fig->color;

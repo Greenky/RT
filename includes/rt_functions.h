@@ -213,17 +213,29 @@ int				find_the_root(float coefficient[3], float discriminant, float t[2]);
 
 void			cyl_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cyl_discriminant(t_ray r, float radius, float *coefficient);
+float			limit_cylinder(t_objects cyl, t_ray r, t_intersect *inter, float t[2]);
 
 void			plane_find_closest_intersect(t_ray r, t_intersect *inter);
 
 void			cone_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cone_discriminant(t_ray r, float *coefficient, float coef);
+float			limit_cone(t_objects con, t_ray r, t_intersect *inter, float t[2]);
 
 void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
 t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
+
+
+ /* limitation functions */
+
+void			data_validation(t_objects *obj);
+void			find_norm_intersections(t_ray r, t_objects obj, float t[2], float cap_norm_inter[2][2]);
+int 			handle_caps_overlap(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter);
+int 			hit_top_cap(float cap_norm_inter[2][2]);
+int 			hit_bottom_cap(float cap_norm_inter[2][2]);
+int				main_object_is_hit(t_intersect *inter, t_ray r, float t[2], float cap_norm_inter[2][2]);
+int				find_cap_intersection(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter);
+
 //------------------------------------------------------------------------------------
-
-
 
 
 

@@ -6,3 +6,4 @@ objects/
 libft/*.o
 libft/libft.a
 RT
+scenes/working_test

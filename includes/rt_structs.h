@@ -111,6 +111,8 @@ typedef struct	s_cl_data
 	int				num_of_lights;
 	int				reflect_rate;
 	int				max_reflections;
+	int				trancparent_rate;
+	int				max_trancparent;
 	t_light			*current_lamp;
 	SDL_Surface		**textures; // NEW VARIABLE
 	t_camera		camera;

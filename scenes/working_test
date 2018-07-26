@@ -8,7 +8,7 @@
         point
         cen: (0, 0, -2)
         col: 0xFFFFFF
-        int: 0.5
+        int: 0.4
     light:
         point
         cen: (2, 3, -3)

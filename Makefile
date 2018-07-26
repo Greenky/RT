@@ -42,6 +42,7 @@ SOURCES         =   source/draw_scene.c \
                     source/parcing_function/sphere_parcing.c    \
                     source/parcing_function/list_to_objects.c   \
                     source/parcing_function/ellipsoid_parcing.c \
+                    source/parcing_function/parce_limited.c \
                     source/math_functions/actions_on_matrix.c \
                     source/math_functions/actions_on_vectors.c \
                     source/math_functions/actions_on_vectors2.c \

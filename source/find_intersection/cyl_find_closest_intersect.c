@@ -26,32 +26,44 @@ void	data_validation(t_objects *obj)
 		obj->cap[1].dist = tmp_cap;
 		obj->cap[1].normal = tmp_norm;
 	}
-	if (obj->cap[0].dist == obj->cap[1].dist && !isinf(obj->cap[0].dist) && !isinf(obj->cap[1].dist))
+	if (obj->cap[0].dist == obj->cap[1].dist && !isinf(obj->cap[0].dist)
+		&& !isinf(obj->cap[1].dist))
 		obj->cap[0].dist -= 0.1;
-	obj->cap[0].normal = (vect_scalar_mult(obj->cap[0].normal, obj->basis.b_z) < 0) ? (obj->cap[0].normal) : (vect_mult_scalar(obj->cap[0].normal, -1));
-	obj->cap[1].normal = (vect_scalar_mult(obj->cap[1].normal, obj->basis.b_z) >= 0) ? (obj->cap[1].normal) : (vect_mult_scalar(obj->cap[1].normal, -1));
+	obj->cap[0].normal = (vect_scalar_mult(obj->cap[0].normal, obj->basis.b_z)
+	< 0) ? (obj->cap[0].normal) : (vect_mult_scalar(obj->cap[0].normal, -1));
+	obj->cap[1].normal = (vect_scalar_mult(obj->cap[1].normal, obj->basis.b_z)
+	>= 0) ? (obj->cap[1].normal) : (vect_mult_scalar(obj->cap[1].normal, -1));
 	obj->cap[0].normal = normalize_vector(obj->cap[0].normal);
 	obj->cap[1].normal = normalize_vector(obj->cap[1].normal);
 }
 
-void	find_norm_intersections(t_ray r, t_objects obj, float t[2], float cap_norm_inter[2][2])
+void	find_norm_intersections(t_ray r, t_objects obj,
+				float t[2], float cap_norm_inter[2][2])
 {
 	cl_float3	co[2];
 
-	co[0] = vect_diff(r.origin, vect_sum(obj.origin, vect_mult_scalar(obj.basis.b_z, obj.cap[0].dist)));
-	co[1] = vect_diff(r.origin, vect_sum(obj.origin, vect_mult_scalar(obj.basis.b_z, obj.cap[1].dist)));
-	cap_norm_inter[0][0] = vect_scalar_mult(r.direction, obj.cap[0].normal) * t[0] + vect_scalar_mult(co[0], obj.cap[0].normal);
-	cap_norm_inter[0][1] = vect_scalar_mult(r.direction, obj.cap[0].normal) * t[1] + vect_scalar_mult(co[0], obj.cap[0].normal);
-	cap_norm_inter[1][0] = vect_scalar_mult(r.direction, obj.cap[1].normal) * t[0] + vect_scalar_mult(co[1], obj.cap[1].normal);
-	cap_norm_inter[1][1] = vect_scalar_mult(r.direction, obj.cap[1].normal) * t[1] + vect_scalar_mult(co[1], obj.cap[1].normal);
+	co[0] = vect_diff(r.origin, vect_sum(obj.origin,
+			vect_mult_scalar(obj.basis.b_z, obj.cap[0].dist)));
+	co[1] = vect_diff(r.origin, vect_sum(obj.origin,
+			vect_mult_scalar(obj.basis.b_z, obj.cap[1].dist)));
+	cap_norm_inter[0][0] = vect_scalar_mult(r.direction, obj.cap[0].normal)
+		* t[0] + vect_scalar_mult(co[0], obj.cap[0].normal);
+	cap_norm_inter[0][1] = vect_scalar_mult(r.direction, obj.cap[0].normal)
+		* t[1] + vect_scalar_mult(co[0], obj.cap[0].normal);
+	cap_norm_inter[1][0] = vect_scalar_mult(r.direction, obj.cap[1].normal)
+		* t[0] + vect_scalar_mult(co[1], obj.cap[1].normal);
+	cap_norm_inter[1][1] = vect_scalar_mult(r.direction, obj.cap[1].normal)
+		* t[1] + vect_scalar_mult(co[1], obj.cap[1].normal);
 }
 
-int		find_cap_intersection(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter)
+int		find_cap_intersection(float cap_norm_inter[2][2],
+					t_objects obj, t_intersect *inter)
 {
 	int	ret;
 
 	ret = TRUE;
-	if (cap_norm_inter[0][0] >= 0 && cap_norm_inter[1][0] >= 0 && cap_norm_inter[0][1] < 0 && cap_norm_inter[1][1] < 0)
+	if (cap_norm_inter[0][0] >= 0 && cap_norm_inter[1][0]
+		>= 0 && cap_norm_inter[0][1] < 0 && cap_norm_inter[1][1] < 0)
 	{
 		if (cap_norm_inter[0][0] > cap_norm_inter[1][0])
 		{

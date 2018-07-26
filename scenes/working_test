@@ -1,14 +1,19 @@
 #### CAMERA ####
     camera:
         dir: (0, 0, -1)
-        cen: (0, 0, -10)
+        cen: (0, 0, -12)
 ################
 #### LIGHTS ####
     light:
         point
-        cen: (-3, -2, -3)
+        cen: (0, 0, -2)
         col: 0xFFFFFF
-        int: 0.5
+        int: 0.4
+    light:
+        point
+        cen: (2, 3, -3)
+        col: 0x7545FF
+        int: 0.3
     light:
         ambient
         col: 0xAAAAFF
@@ -16,19 +21,21 @@
 ################
 #### SHAPES ####
     sphere:
-        cen: (-0.5, 2, 0)
-        rad: 3
+        cen: (-0.5, 2, 2)
+        rad: 1
         col: 0xff0000
         b_p: 1000
         mir: 0
         trancper: 0.8
         texture index: 4, repeat 1
-$    ellipsoid:
-$        cen: (1, 0, 2)
-$        col: 0x554a87
-$        axis sizes: (1.5, 0.5, 0.2)
-$        b_p: 1000
-$        mir: 0
+    ellipsoid:
+        cen: (-1, -4, 2)
+        col: 0xff7581
+        axis sizes: (3, 1.5, 3)
+        b_p: 100
+        mir: 0
+        texture index: -1, repeat 0
+        trancper: 0
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)

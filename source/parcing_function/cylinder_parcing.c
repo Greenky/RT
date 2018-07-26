@@ -61,7 +61,7 @@ void			more_cylin_data_fill3(char **line,
 		*flag = *flag | (1 << 7);
 	}
 	else if (begin_with(*line, "limited"))
-		parce_limited(line, cylinder, line_number); // TODO TEST IT
+		parce_limited(line, cylinder, line_number, flag); // TODO TEST IT
 	else
 		error_caster(line_number, "no such parameter as ", *line);
 }

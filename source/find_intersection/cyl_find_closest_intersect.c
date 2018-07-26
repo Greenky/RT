@@ -101,7 +101,7 @@ int		main_object_is_hit
 	if (cap_norm_inter[0][0] < 0 && cap_norm_inter[1][0] < 0)
 	{
 		inter->point = vect_sum(r.origin, vect_mult_scalar(r.direction, t[0]));
-		inter->normal = find_normal_to_cylinder(*inter->fig, inter->point);
+		inter->normal = choose_normal(*inter->fig, inter->point);
 		return (TRUE);
 	}
 	return (FALSE);

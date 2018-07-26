@@ -67,5 +67,6 @@
         mir: 0
         trancper: 0
         texture index: 10, repeat 1
+        limited: -
 #################
 $ b_p - biling - phong

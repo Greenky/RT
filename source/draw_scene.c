@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/20 20:57:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 17:58:59 by dadavyde         ###   ########.fr       */
+/*   Created: 2018/07/26 16:26:43 by vmazurok          #+#    #+#             */
+/*   Updated: 2018/07/26 16:28:25 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,9 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
+	rt_data->cl_data.max_trancparent = 5;
 	rt_data->cl_data.reflect_rate = 0;
+	rt_data->cl_data.trancparent_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else

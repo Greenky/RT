@@ -127,12 +127,6 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			|| closest_inter->fig->type == ELLIPSOID)
 		{
 			nor = matrix_mult_vect(closest_inter->fig->basis, nor);
-//			uv = (cl_float2){acosf(-nor.y), atan2f(nor.z, -nor.x)};
-//			ij = (cl_int2){(int) (v * texture->w * M_1_PI / 2
-//				* closest_inter->fig->texture_repeat) % texture->w,
-//				(int) (u * texture->h * M_1_PI
-//				* closest_inter->fig->texture_repeat) % texture->h};
-
 			u = acosf(-nor.y);
 			v = atan2f(nor.z, -nor.x);
 			j = (int) (u * texture->h * M_1_PI * closest_inter->fig->texture_repeat) % texture->h;
@@ -179,11 +173,9 @@ void		get_texture(t_intersect *closest_inter, t_cl_data cl_data)
 			normal_channel = int_to_channels(((unsigned int *) texture->pixels)[j * texture->w + i]);
 			closest_inter->normal = normalize_vector(VEC(normal_channel.red - 128, normal_channel.green - 128, normal_channel.blue - 128));
 		}
-		else if (closest_inter->fig->cap[0].dist == INFINITY && closest_inter->fig->cap[1].dist == INFINITY)
-			closest_inter->normal = choose_normal(*closest_inter->fig, closest_inter->point);
 	}
 	else
-		closest_inter->texture_color =  closest_inter->fig->color;
+		closest_inter->texture_color = closest_inter->fig->color;
 }
 
 t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray)

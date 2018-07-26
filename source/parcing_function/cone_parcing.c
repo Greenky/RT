@@ -90,6 +90,8 @@ static void		more_cone_data_fill3(char **line, t_objects *cone,
 						"no such texture repeat number. as ", *line);
 		*flag = *flag | (1 << 7);
 	}
+	else if (begin_with(*line, "limited"))
+		parce_limited(line, cone, line_number, flag);
 	else
 		error_caster(line_number, "no such parameter as ", *line);
 }

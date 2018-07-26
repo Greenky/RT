@@ -20,8 +20,9 @@ t_channel	find_transparent(t_rt *rt_data,
 	t_channel		lamp_coef;
 
 	ft_bzero(&lamp_coef, sizeof(t_channel));
-	if (closest_inter.fig->transperent_coef > 0)
+	if (closest_inter.fig->transperent_coef > 0 && cl_data.trancparent_rate < cl_data.max_trancparent)
 	{
+		cl_data.trancparent_rate++;
 		transparent_ray.origin = closest_inter.point;
 		transparent_ray.direction = r.direction;
 		transparent_inter =

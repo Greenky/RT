@@ -78,8 +78,9 @@
         ang: 30
         b_p: 1000
         mir: 0
-        trancper: 0
+        trancper: 0.4
         texture index: -1
+        limited: -
     cylinder:
         col: 0xFFAAAA
         cen: (-3, 2.5, 0)
@@ -87,7 +88,7 @@
         rad: 1.2
         b_p: 1000
         mir: 1
-        trancper: 0
+        trancper: 0.4
         texture index: -1
         limited_top: (1, 1, 0); 1
         limited_bottom: (0, 1, 0); -1

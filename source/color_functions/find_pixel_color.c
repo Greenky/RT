@@ -21,6 +21,9 @@ uint32_t	find_color(t_rt *rt_data,
 	float			i;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
+//	if (closest_inter.normal.x != choose_normal(*closest_inter.fig, closest_inter.point).x)
+//		printf("AAAAA\n");
+//	closest_inter.normal = choose_normal(*closest_inter.fig, closest_inter.point);
 	if (closest_inter.fig->is_cartoon)
 	{
 		i = vect_scalar_mult(r.direction,

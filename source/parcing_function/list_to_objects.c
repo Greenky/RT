@@ -31,15 +31,15 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].cap[1] = step_obj->cap[1];
 	rt_data->objects_arr[len].is_cartoon = 0;
 	rt_data->objects_arr[len].next = NULL;
-//
-//	if (step_obj->type == CONE)
-//	{
-//		rt_data->objects_arr[len].cap[0].normal =
-//				normalize_vector(VEC(0, 1, 1));
-//		rt_data->objects_arr[len].cap[1].normal = VEC(0, -1, 0);
-//		rt_data->objects_arr[len].cap[0].dist =INFINITY;
-//		rt_data->objects_arr[len].cap[1].dist = -1;
-//	}
+
+	if (step_obj->type == SPHERE)
+	{
+		rt_data->objects_arr[len].cap[0].normal =
+				normalize_vector(VEC(0, 1, 1));
+		rt_data->objects_arr[len].cap[1].normal = VEC(0, -1, 0);
+		rt_data->objects_arr[len].cap[0].dist =INFINITY;
+		rt_data->objects_arr[len].cap[1].dist = -1;
+	}
 }
 
 void			fill_light(t_rt *rt_data, t_light *step_light, int len)

@@ -12,6 +12,34 @@
 
 #include "../../includes/rt_functions.h"
 
+float	limit_cone(t_objects con, t_ray r, t_intersect *inter, float t[2])
+{
+	float		cap_norm_inter[2][2];
+	t_intersect	tmp_inter;
+
+	data_validation(&con);
+	find_norm_intersections(r, con, t, cap_norm_inter);
+	if (isinf(con.cap[1].dist))
+	{
+		cap_norm_inter[1][0] = -INFINITY;
+		cap_norm_inter[1][1] = -INFINITY;
+	}
+	if (isinf(con.cap[0].dist))
+	{
+		cap_norm_inter[0][0] = -INFINITY;
+		cap_norm_inter[0][1] = -INFINITY;
+	}
+	if (main_object_is_hit(inter, r, t, cap_norm_inter))
+		return (t[0]);
+	tmp_inter.fig = (t_objects *)malloc(sizeof(t_objects));
+	if (!find_cap_intersection(cap_norm_inter, con, &tmp_inter))
+		return (INFINITY);
+	inter->normal = find_normal_to_plane(*tmp_inter.fig, tmp_inter.point);
+	plane_find_closest_intersect(r, &tmp_inter);
+	free(tmp_inter.fig);
+	return (tmp_inter.distance);
+}
+
 void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 {
 	float	discriminant;
@@ -32,9 +60,14 @@ void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 		inter->distance = INFINITY;
 	else
 	{
-		inter->point = vect_sum(r.origin, vect_mult_scalar(r.direction, t[0]));
-		inter->distance = t[0];
+		inter->distance =
+				(!isinf(inter->fig->cap[0].dist) ||
+				 !isinf(inter->fig->cap[1].dist)) ?
+				limit_cone(*inter->fig, r, inter, t) : t[0];
+		inter->point =
+				vect_sum(r.origin, vect_mult_scalar(r.direction, inter->distance));
 	}
+
 }
 
 float	find_cone_discriminant(t_ray r, float *coefficient, float coef)

@@ -25,6 +25,7 @@ void	sphere_find_closest_intersect(t_ray r, t_intersect *inter)
 	{
 		inter->point = vect_sum(r.origin, vect_mult_scalar(r.direction, t[0]));
 		inter->distance = t[0];
+		inter->normal = choose_normal(*inter->fig, inter->point);
 	}
 }
 
@@ -46,23 +47,28 @@ float	find_sphere_discriminant(t_ray r, t_objects *fig, float coefficient[3])
 int		find_the_root(float coefficient[3], float discriminant, float t[2])
 {
 	float	square_d;
+	float	tmp;
 
 	if (discriminant < 0)
 		return (FALSE);
 	else if (discriminant == 0)
 	{
 		t[0] = -coefficient[B] / coefficient[A];
-		t[1] = -1;
+		t[1] = -coefficient[B] / coefficient[A];
 	}
 	else
 	{
 		square_d = sqrtf(discriminant);
-		t[0] = (-coefficient[B] + square_d) / coefficient[A];
-		t[1] = (-coefficient[B] - square_d) / coefficient[A];
+		t[0] = (-coefficient[B] - square_d) / coefficient[A];
+		t[1] = (-coefficient[B] + square_d) / coefficient[A];
 	}
 	if (t[0] < 0 && t[1] < 0)
 		return (FALSE);
-	if ((t[1] < t[0] && t[1] >= 0) || t[0] < 0)
+	if ((t[1] < t[0] && t[1] >= 0))
+	{
+		tmp = t[0];
 		t[0] = t[1];
+		t[1] = tmp;
+	}
 	return (TRUE);
 }

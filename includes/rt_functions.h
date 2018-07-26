@@ -50,8 +50,8 @@
 # define SPHERE_IS_PARSED 127
 # define CAMERA_IS_PARSED 3
 # define CONE_IS_PARSED 255
-# define CYLINDER_IS_PARSED 255
-# define PLANE_IS_PARSED 127
+# define CYLINDER_IS_PARSED 1023
+# define PLANE_IS_PARSED 63
 # define ELLIPSOID_IS_PARSED 127 //TODO check!!
 # define STEP (1.0 / SCR_SIZE)
 # define SHIFT_STEP 0.2
@@ -189,7 +189,8 @@ cl_float3		find_normal_to_plane(t_objects plane, cl_float3 inter);
 cl_float3		find_normal_to_cylinder(t_objects cyl, cl_float3 inter);
 cl_float3		find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter);//new
 
-
+t_intersect	find_closest_reflected_inter(t_rt *rt_data,
+											t_ray ray, t_objects *this);
 void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
 								t_intersect closest_inter, t_ray r);
@@ -212,17 +213,29 @@ int				find_the_root(float coefficient[3], float discriminant, float t[2]);
 
 void			cyl_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cyl_discriminant(t_ray r, float radius, float *coefficient);
+float			limit_cylinder(t_objects cyl, t_ray r, t_intersect *inter, float t[2]);
 
 void			plane_find_closest_intersect(t_ray r, t_intersect *inter);
 
 void			cone_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_cone_discriminant(t_ray r, float *coefficient, float coef);
+float			limit_cone(t_objects con, t_ray r, t_intersect *inter, float t[2]);
 
 void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
 t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
+
+
+ /* limitation functions */
+
+void			data_validation(t_objects *obj);
+void			find_norm_intersections(t_ray r, t_objects obj, float t[2], float cap_norm_inter[2][2]);
+int 			handle_caps_overlap(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter);
+int 			hit_top_cap(float cap_norm_inter[2][2]);
+int 			hit_bottom_cap(float cap_norm_inter[2][2]);
+int				main_object_is_hit(t_intersect *inter, t_ray r, float t[2], float cap_norm_inter[2][2]);
+int				find_cap_intersection(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter);
+
 //------------------------------------------------------------------------------------
-
-
 
 
 
@@ -316,4 +329,5 @@ uint32_t	rgb_to_int(t_channel rgb);
 void		perlin_noise_disruption(SDL_Surface *surface);
 void		plasma_disruption(SDL_Surface *surface);
 void		check_mate_disruption(SDL_Surface *surface);
+void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
 #endif

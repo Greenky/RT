@@ -142,13 +142,15 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 	t_intersect	closest_inter;
 
 	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
-	closest_inter = find_closest_inter(rt_data->cl_data, rt_data->objects_arr, primary_ray);
+	closest_inter = find_closest_inter(rt_data->cl_data,
+									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else
-		color = find_color(rt_data, rt_data->cl_data,closest_inter, primary_ray);
+		color = find_color(rt_data,
+						rt_data->cl_data, closest_inter, primary_ray);
 	if (rt_data->filter != -1)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);

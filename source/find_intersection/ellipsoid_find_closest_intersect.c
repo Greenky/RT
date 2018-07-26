@@ -32,6 +32,7 @@ void	ellipsoid_find_closest_intersect(t_ray ray, t_intersect *inter)
 		inter->point = vect_sum(inter->point, inter->fig->origin);
 		inter->point = matrix_mult_vect(inter->fig->basis, inter->point);
 		inter->distance = distance(inter->point, ray.origin);
+		inter->normal = choose_normal(*inter->fig, inter->point);
 	}
 }
 

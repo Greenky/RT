@@ -4,4 +4,6 @@ cmake-build-debug/
 i686-w64-mingw32/
 objects/
 libft/*.o
+libft/libft.a
 RT
+scenes/working_test

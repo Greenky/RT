@@ -1,0 +1,62 @@
+#### CAMERA ####
+    camera:
+        dir: (0, 0, -1)
+        cen: (0, 0, -10)
+################
+#### LIGHTS ####
+    light:
+        point
+        cen: (-3, -2, -3)
+        col: 0xFFFFFF
+        int: 0.5
+    light:
+        ambient
+        col: 0xAAAAFF
+        int: 0.1
+################
+#### SHAPES ####
+    sphere:
+        cen: (-0.5, 2, 2)
+        rad: 1.5
+        col: 0xff0000
+        b_p: 1
+        mir: 0
+        trancper: 0.1
+        texture index: 1, repeat 1
+    plane:
+        col: 0xFFFFFF
+        cen: (-5, 0, 3)
+        nor: (1, 0, 0)
+        b_p: 1
+        mir: 0.5
+        texture index: -1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, -5, 3)
+        nor: (0, 1, 0)
+        b_p: 1
+        mir: 0.5
+        texture index: -1
+    plane:
+        col: 0xFFFFFF
+        cen: (5, 0, 3)
+        nor: (-1, 0, 0)
+        b_p: 1
+        mir: 0.5
+        texture index: -1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, 5, 3)
+        nor: (0, -1, 0)
+        b_p: 1
+        mir: 0.5
+        texture index: -1
+    plane:
+        col: 0xAAAAFF
+        cen: (0, 10, 8)
+        nor: (0, 0, -1)
+        b_p: 1
+        mir: 0.5
+        texture index: -1
+#################
+$ b_p - biling - phong

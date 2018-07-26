@@ -22,6 +22,8 @@ int				cone_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	cone = (t_objects *)malloc(sizeof(t_objects));
 	cone->type = CONE;
+	cone->cap[0].dist = INFINITY;
+	cone->cap[1].dist = INFINITY;
 	while ((k = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;
@@ -66,6 +68,32 @@ void			cone_data_fill(char **line, t_objects *cone,
 		more_cone_data_fill(line, cone, line_number, flag);
 }
 
+static void		more_cone_data_fill3(char **line, t_objects *cone,
+										int line_number, int *flag)
+{
+	float	mirror;
+
+	if (begin_with(*line, "texture index:"))
+	{
+		*line = trim_from(*line, 14);
+		if ((cone->texture_index = ft_atoi(*line)) < -1
+			|| cone->texture_index > 12)
+			error_caster(line_number, "no such texture index. as ", *line);
+		mirror = 0;
+		while ((*line)[(int)mirror] && (*line)[(int)mirror] != ',')
+			mirror++;
+		*line = trim_from(*line, (int)mirror + 1);
+		cone->texture_repeat = (begin_with(*line, "repeat")
+								? ft_atoi((*line) + 7) : 1);
+		if (cone->texture_repeat < 0)
+			error_caster(line_number,
+						"no such texture repeat number. as ", *line);
+		*flag = *flag | (1 << 7);
+	}
+	else
+		error_caster(line_number, "no such parameter as ", *line);
+}
+
 static void		more_cone_data_fill2(char **line, t_objects *cone,
 										int line_number, int *flag)
 {
@@ -88,22 +116,8 @@ static void		more_cone_data_fill2(char **line, t_objects *cone,
 		cone->transperent_coef = mirror;
 		*flag = *flag | (1 << 6);
 	}
-	else if (begin_with(*line, "texture index:"))
-	{
-		*line = trim_from(*line, 14);
-		if ((cone->texture_index = ft_atoi(*line)) < -1 || cone->texture_index > 12)
-			error_caster(line_number, "no such texture index. as ", *line);
-		mirror = 0;
-		while ((*line)[(int)mirror] && (*line)[(int)mirror] != ',')
-			mirror++;
-		*line = trim_from(*line, (int)mirror + 1);
-		cone->texture_repeat = (begin_with(*line, "repeat") ? ft_atoi((*line) + 7) : 1);
-		if (cone->texture_repeat < 0)
-			error_caster(line_number, "no such texture repeat number. as ", *line);
-		*flag = *flag | (1 << 7);
-	}
 	else
-		error_caster(line_number, "no such parameter as ", *line);
+		more_cone_data_fill3(line, cone, line_number, flag);
 }
 
 void			more_cone_data_fill(char **line, t_objects *cone,

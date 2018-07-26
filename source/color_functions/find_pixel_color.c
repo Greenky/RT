@@ -12,7 +12,8 @@
 
 #include "../includes/rt_functions.h"
 
-uint32_t	find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, t_ray r)
+uint32_t	find_color(t_rt *rt_data,
+					t_cl_data cl_data, t_intersect closest_inter, t_ray r)
 {
 	t_light			*current_lamp;
 	t_channel		light_coef;
@@ -32,7 +33,8 @@ uint32_t	find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, 
 	{
 		current_lamp = (rt_data->lights_arr) + current;
 		cl_data.current_lamp = current_lamp;
-		add_coef(&light_coef, find_lamp_coef(rt_data, cl_data, closest_inter, r), 1);
+		add_coef(&light_coef,
+				find_lamp_coef(rt_data, cl_data, closest_inter, r), 1);
 		current++;
 	}
 	return (find_color_hex(light_coef, closest_inter));
@@ -45,7 +47,8 @@ void		add_coef(t_channel *coef1, t_channel coef2, float coef)
 	coef1->red += coef2.red * coef;
 }
 
-t_intersect	find_closest_reflected_inter(t_rt *rt_data, t_ray ray, t_objects *this)
+t_intersect	find_closest_reflected_inter(t_rt *rt_data,
+									t_ray ray, t_objects *this)
 {
 	t_intersect	tmp_inter;
 	t_intersect	closest_inter;
@@ -64,73 +67,6 @@ t_intersect	find_closest_reflected_inter(t_rt *rt_data, t_ray ray, t_objects *th
 	}
 	get_texture(&closest_inter, rt_data->cl_data);
 	return (closest_inter);
-}
-
-t_channel	find_lamp_coef(t_rt *rt_data, t_cl_data cl_data, t_intersect closest_inter, t_ray r)
-{
-	t_ray			reflected_ray;
-	t_intersect		reflected_inter;
-	t_ray			trancparent_ray;
-	t_intersect		trancparent_inter;
-	float			a;
-	t_ray			light_ray;
-	t_channel		lamp_coef;
-	t_channel		*shadow_col;
-	float			*cos_angle;
-
-	ft_bzero(&shadow_col, sizeof(t_channel));
-	ft_bzero(&lamp_coef, sizeof(t_channel));
-	if (cl_data.current_lamp->type == AMBIENT)
-		add_coef(&lamp_coef, cl_data.current_lamp->color, cl_data.current_lamp->intensity);
-	else
-	{
-		light_ray = find_light_ray(closest_inter.point, cl_data.current_lamp);
-		// trancparentcy
-//		find_transparent(&lamp_coef, r, cl_data, rt_data);
-		if (closest_inter.fig->transperent_coef > 0)
-		{
-			trancparent_ray.origin = closest_inter.point;
-			trancparent_ray.direction = r.direction;
-			trancparent_inter = find_closest_reflected_inter(rt_data, trancparent_ray, closest_inter.fig);
-			if (trancparent_inter.distance != INFINITY)
-				add_coef(&lamp_coef, int_to_channels(find_color(rt_data, cl_data, trancparent_inter, trancparent_ray)),
-						closest_inter.fig->transperent_coef);
-		}
-		// reflection
-		if (closest_inter.fig->mirror_coef > 0
-			&& cl_data.reflect_rate < cl_data.max_reflections)
-		{
-			(cl_data.reflect_rate)++;
-			reflected_ray.origin = closest_inter.point;
-			a = 2 * vect_scalar_mult(r.direction, closest_inter.normal);
-			reflected_ray.direction = vect_diff(r.direction,
-							vect_mult_scalar(closest_inter.normal, a));
-			reflected_inter = find_closest_reflected_inter(rt_data, reflected_ray, closest_inter.fig);
-			if (reflected_inter.distance != INFINITY)
-				add_coef(&lamp_coef, int_to_channels(find_color(rt_data, cl_data,reflected_inter, reflected_ray)),
-						closest_inter.fig->mirror_coef);
-		}
-		//shadow
-		if (!is_shadows_here(light_ray, closest_inter.normal, r) ||
-			(shadow_col = is_figure_first_inter_by_light(rt_data, light_ray, closest_inter, cl_data.current_lamp)))
-		{
-			if (shadow_col)
-			{
-				add_coef(&lamp_coef, *shadow_col, 0.5);
-				free(shadow_col);
-			}
-			return (lamp_coef);
-		}
-		//shading
-		cos_angle = find_cos_angle(light_ray,
-								closest_inter, closest_inter.normal, r);
-		add_coef(&lamp_coef, cl_data.current_lamp->color, cos_angle[0] *
-				cl_data.current_lamp->intensity);
-		add_coef(&lamp_coef, (t_channel){1, 1, 1}, cos_angle[1] *
-				cl_data.current_lamp->intensity);
-		free(cos_angle);
-	}
-	return (lamp_coef);
 }
 
 t_ray		find_light_ray(cl_float3 origin, t_light *light)

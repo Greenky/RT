@@ -25,6 +25,7 @@ SOURCES         =   source/draw_scene.c \
                     source/event_management/handle_axis_dimensions_for_ellipsoid.c \
                     source/event_management/rotating_and_shift_camera.c \
                     source/find_fd.c \
+                    source/figures_normals.c    \
                     source/find_normal_to_figure.c \
                     source/main.c \
                     source/run_rtv1.c \
@@ -61,9 +62,11 @@ SOURCES         =   source/draw_scene.c \
                     source/gui/gui.c                    \
                     source/color_functions/perlin_noise.c \
                     source/color_functions/other_color_disruptions.c \
-                    source/color_functions/find_pixel_color.c \
-                    source/color_functions/some_find_color_func.c \
-                    source/color_functions/manage_pixel.c
+                    source/color_functions/find_pixel_color.c       \
+                    source/color_functions/find_everything.c        \
+                    source/color_functions/some_find_color_func.c   \
+                    source/color_functions/manage_pixel.c   \
+                    source/color_functions/even_more_color_functions.c
 
         
 C_RED = \033[31m

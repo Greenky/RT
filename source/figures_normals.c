@@ -66,16 +66,18 @@ cl_float3	find_normal_to_cylinder(t_objects cyl, cl_float3 inter)
 cl_float3	find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter)
 {
 	cl_float3	normal_to_ellipsoid;
-	cl_float3    inter_in_ell_sys;
+	cl_float3	inter_in_ell_sys;
 
 	inter_in_ell_sys = vect_diff(inter, ellipsoid.origin);
-   	inter_in_ell_sys = matrix_mult_vect(count_inverse_matrix(ellipsoid.basis), inter_in_ell_sys);
-	normal_to_ellipsoid.x = inter_in_ell_sys.x * 8
+	inter_in_ell_sys = matrix_mult_vect(count_inverse_matrix(ellipsoid.basis), inter_in_ell_sys);
+
+	normal_to_ellipsoid.x = inter_in_ell_sys.x * 2
 		/ find_square(ellipsoid.axis_dimensions.x * ellipsoid.radius);
-	normal_to_ellipsoid.y = inter_in_ell_sys.y * 8
+	normal_to_ellipsoid.y = inter_in_ell_sys.y * 2
 		/ find_square(ellipsoid.axis_dimensions.y * ellipsoid.radius);
-	normal_to_ellipsoid.z = inter_in_ell_sys.z * 8
+	normal_to_ellipsoid.z = inter_in_ell_sys.z * 2
 		/ find_square(ellipsoid.axis_dimensions.z * ellipsoid.radius);
+	//normal_to_ellipsoid = normalize_vector(normal_to_ellipsoid);
 	normal_to_ellipsoid = matrix_mult_vect(ellipsoid.basis, normal_to_ellipsoid);
 	normal_to_ellipsoid =
 		vect_mult_scalar(normalize_vector(normal_to_ellipsoid), -1);

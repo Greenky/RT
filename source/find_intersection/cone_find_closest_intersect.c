@@ -65,9 +65,10 @@ void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 				 !isinf(inter->fig->cap[1].dist)) ?
 				limit_cone(*inter->fig, r, inter, t) : t[0];
 		inter->point =
-				vect_sum(r.origin, vect_mult_scalar(r.direction, inter->distance));
+			vect_sum(r.origin, vect_mult_scalar(r.direction, inter->distance));
+		if (isinf(inter->fig->cap[0].dist) && isinf(inter->fig->cap[1].dist))
+			inter->normal = choose_normal(*inter->fig, inter->point);
 	}
-
 }
 
 float	find_cone_discriminant(t_ray r, float *coefficient, float coef)

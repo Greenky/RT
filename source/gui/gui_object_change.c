@@ -14,7 +14,7 @@
 
 void	change_sphere(t_objects *object, int arrow)
 {
-	if (arrow == LEFT1 && object->radius >= 1.0)
+	if (arrow == LEFT1 && object->radius >= 0.5)
 		object->radius -= 0.1;
 	else if (arrow == RIGHT1 && object->radius <= 50.0)
 		object->radius += 0.1;

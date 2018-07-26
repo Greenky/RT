@@ -50,7 +50,7 @@ void		sphere_control_bars_show(t_rt *rt_data,
 	min_max[1] = 100;
 	if (flag == RADIUS)
 	{
-		min_max[0] = 1.0;
+		min_max[0] = 0.5;
 		min_max[1] = 50.0;
 		arrows_active_unactive(rt_data, pos, min_max, sphere->radius);
 	}

@@ -22,6 +22,8 @@ int				sphere_parce(int fd, t_rt *rt_data)
 	flag = 0;
 	sphere = (t_objects *)malloc(sizeof(t_objects));
 	sphere->type = SPHERE;
+	sphere->cap[0].dist = INFINITY;
+	sphere->cap[1].dist = INFINITY;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;

@@ -23,6 +23,8 @@ int			plane_parce(int fd, t_rt *rt_data)
 	plane = (t_objects *)malloc(sizeof(t_objects));
 	plane->type = PLANE;
 	plane->transperent_coef = 0;
+	plane->cap[0].dist = INFINITY;
+	plane->cap[1].dist = INFINITY;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		(rt_data->line_number)++;

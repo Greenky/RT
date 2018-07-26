@@ -156,6 +156,8 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
 	rt_data->cl_data.reflect_rate = 0;
+	rt_data->cl_data.trancparent_rate = 0;
+	rt_data->cl_data.max_trancparent = 10;
 	if (closest_inter.distance == INFINITY)
 		color = 0;
 	else

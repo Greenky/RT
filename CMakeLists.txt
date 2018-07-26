@@ -63,7 +63,7 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c)
+		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

@@ -25,6 +25,6 @@ int			main(int argc, char **argv)
 	rt_data.filter = NOFILTER;
 	rt_data.gui.filter_gui = 0;
 	init_bar_positions(&rt_data);
-	ray_tracing(&rt_data);
+	run_rt(&rt_data);
 	return (0);
 }

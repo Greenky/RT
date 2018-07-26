@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_functions.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/23 21:51:51 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/07/26 18:40:13 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 
 void			draw_pixel(t_rt *rt, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
-void			ray_tracing(t_rt *rt_data);
+void			run_rt(t_rt *rt_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
 t_ray			compute_ray(t_camera camera, t_dot pixel);
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
@@ -267,7 +267,7 @@ void		cl_init(t_rt *rt);
 
 t_channel	int_to_channels(int col);
 void		get_texture(t_intersect *closest_inter, t_cl_data cl_data);
-void 		load_texture(SDL_Surface **textures, int index, char *path);
+void 		load_texture(SDL_Surface **textures, int index, const char *path);
 
 void		draw_clicked_info(t_rt *rt_data);
 void		draw_bar(t_rt *rt_data);
@@ -326,8 +326,8 @@ void		swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i);
 void		init_arrays(t_rt *rt_data);
 
 uint32_t	rgb_to_int(t_channel rgb);
-void		perlin_noise_disruption(SDL_Surface *surface);
-void		plasma_disruption(SDL_Surface *surface);
-void		check_mate_disruption(SDL_Surface *surface);
+int			perlin_noise_disruption(int j, int i);
+int			plasma_disruption(int j, int i);
+int			check_mate_disruption(int j, int i);
 void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   perlin_noise.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 22:25:32 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/23 22:25:34 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/07/26 18:47:21 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,22 @@ int				perlin_noise(int x, int y, double p, double zoom)
 	return (color);
 }
 
-void			perlin_noise_disruption(SDL_Surface *surface)
+int			perlin_noise_disruption(int j, int i)
 {
-	int	y;
-	int	x;
-	int	color;
-
-	color = 0;
-	y = -1;
-	while (++y < surface->h)
-	{
-		x = -1;
-		while (++x < surface->w)
-		{
-			color = perlin_noise(x, y, 1 / 2, 4.2);
-			set_pixel(surface, x, y, color);
-		}
-	}
+	return (perlin_noise(i, j, 1 / 2, 4.2));
+//	int	y;
+//	int	x;
+//	int	color;
+//
+//	color = 0;
+//	y = -1;
+//	while (++y < surface->h)
+//	{
+//		x = -1;
+//		while (++x < surface->w)
+//		{
+//			color = perlin_noise(x, y, 1 / 2, 4.2);
+//			set_pixel(surface, x, y, color);
+//		}
+//	}
 }

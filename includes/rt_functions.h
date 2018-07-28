@@ -141,12 +141,46 @@ void			more_of_feelings(char **line, t_light *light, int line_number,
 									int *flag);
 
 //------------------------------------------------------------------------------------
+/*
+**	draw_scene.c
+*/
 
-void			draw_pixel(t_rt *rt, t_dot pixel);
 int				draw_scene(t_rt *rt_data);
+void			*draw_strings(void *thread_data_void);
+void			set_tread_param(t_rt *scene, t_thread_data *thread_num);
+void			draw_pixel_with_aa(t_rt *rt_data, t_dot pixel);
+t_channel		get_pixel_color(t_rt *rt_data, t_dot pixel);
+
+/*
+**	draw_pixel_filter.c
+*/
+
+void			*draw_pixel_strings(void *thread_data_void);
+void			draw_pixel_pixel(t_rt *rt_data, t_dot pixel);
+
+/*
+**	apply_filter.c
+*/
+
+uint32_t		apply_filter(uint32_t color, int filter);
+
+/*
+**	run_rt.c
+*/
+
+
 void			run_rt(t_rt *rt_data);
+t_ray			compute_ray(t_camera camera, t_dot pixel, int aliasing);
+void 			load_texture(SDL_Surface **textures, int index, const char *path);
+void			texture_mapping(t_intersect *closest_inter, t_cl_data cl_data,
+							cl_float3 nor, SDL_Surface *texture);
+void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);;
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
-t_ray			compute_ray(t_camera camera, t_dot pixel);
+
+/*
+**	choose_intersection.c
+*/
+
 void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
 
 
@@ -194,14 +228,27 @@ void			add_coef(t_channel *coef1, t_channel coef2, float coef);
 t_channel		find_lamp_coef(t_rt *rt_data, t_cl_data cl_data,
 								t_intersect closest_inter, t_ray r);
 t_ray			find_light_ray(cl_float3 origin, t_light *light);
-uint32_t		find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, t_ray r);
+t_channel		find_color(t_rt *rt_data, t_cl_data cl_data,t_intersect closest_inter, t_ray r);
 
 int				is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r);
 t_channel		*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 												  t_intersect closest_inter, t_light *current);
 float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 normal, t_ray r);
-uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
-uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
+
+/*
+**	even_more_color_functions.c
+*/
+
+//uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
+//uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
+t_channel		fig_color_with_light(t_channel light_coef, t_intersect closest_inter);
+uint32_t		fig_color_with_light_channel(float fig_color, float light_color);
+t_channel		color_plus_color(t_channel color1, t_channel color2);
+uint32_t		channel_color_to_uint(t_channel color);
+
+/*
+**	manage_pixel.c
+*/
 
 void			set_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
@@ -265,15 +312,14 @@ void		cl_start(t_rt *rt);
 void		cl_init(t_rt *rt);
 
 t_channel	int_to_channels(int col);
-void		get_texture(t_intersect *closest_inter, t_cl_data cl_data);
-void 		load_texture(SDL_Surface **textures, int index, const char *path);
+
+
 
 void		init_bar_positions(t_rt	*rt_data);
 void		init_gui_bmps(t_rt	*rt_data);
 void		init_foot_gui_bmps(t_rt *rt_data);
 
-void		*draw_strings(void *thread_data_void);
-void		set_tread_param(t_rt *scene, t_thread_data *thread_num);
+
 
 void		change_sphere(t_objects *object, int arrow);
 void		change_cylinder(t_objects *object, int arrow);

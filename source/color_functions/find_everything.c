@@ -30,8 +30,7 @@ t_channel	find_transparent(t_rt *rt_data,
 								transparent_ray, closest_inter.fig);
 		if (transparent_inter.distance != INFINITY)
 			add_coef(&lamp_coef,
-			int_to_channels(find_color(rt_data, cl_data,
-			transparent_inter, transparent_ray)),
+			find_color(rt_data, cl_data, transparent_inter, transparent_ray),
 					closest_inter.fig->transperent_coef);
 	}
 	return (lamp_coef);
@@ -58,8 +57,8 @@ t_channel	find_reflection(t_rt *rt_data,
 						reflected_ray, closest_inter.fig);
 		if (reflected_inter.distance != INFINITY)
 			add_coef(&lamp_coef,
-					int_to_channels(find_color(rt_data,
-					cl_data, reflected_inter, reflected_ray)),
+					find_color(rt_data,
+					cl_data, reflected_inter, reflected_ray),
 					closest_inter.fig->mirror_coef);
 	}
 	return (lamp_coef);

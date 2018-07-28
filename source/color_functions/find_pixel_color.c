@@ -12,7 +12,7 @@
 
 #include "../includes/rt_functions.h"
 
-uint32_t	find_color(t_rt *rt_data,
+t_channel	find_color(t_rt *rt_data,
 					t_cl_data cl_data, t_intersect closest_inter, t_ray r)
 {
 	t_light			*current_lamp;
@@ -29,7 +29,7 @@ uint32_t	find_color(t_rt *rt_data,
 		i = vect_scalar_mult(r.direction,
 					choose_normal(*closest_inter.fig, closest_inter.point));
 		if (i < 0.2 && i >= 0)
-			return (0xFFFFFF);
+			return ((t_channel){0xFF, 0xFF, 0xFF});
 	}
 	current = 0;
 	while (current < rt_data->cl_data.num_of_lights)
@@ -40,7 +40,7 @@ uint32_t	find_color(t_rt *rt_data,
 				find_lamp_coef(rt_data, cl_data, closest_inter, r), 1);
 		current++;
 	}
-	return (find_color_hex(light_coef, closest_inter));
+	return (fig_color_with_light(light_coef, closest_inter));
 }
 
 void		add_coef(t_channel *coef1, t_channel coef2, float coef)

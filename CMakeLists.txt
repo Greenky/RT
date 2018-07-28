@@ -13,7 +13,7 @@ set(SOURCE_FILES
 		source/error_manager.c
 		source/draw_scene.c
 		source/find_normal_to_figure.c
-		source/run_rtv1.c
+		source/run_rt.c
 		source/figures_normals.c
 		source/opencl_functions.c
 
@@ -62,7 +62,7 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c)
+		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/color_functions/apply_filter.c source/color_functions/draw_pixel_filter.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

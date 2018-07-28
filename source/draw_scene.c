@@ -12,80 +12,6 @@
 
 #include "../includes/rt_functions.h"
 
-uint32_t	apply_filter(uint32_t color, int filter)
-{
-	t_channel	clr;
-	t_channel	tmp;
-
-	if (filter == NEGATIVE)
-		return (0xFFFFFF - color);
-	clr = int_to_channels(color);
-	if (filter == GREYSCALE)
-	{
-		color = (uint32_t)(clr.red * 0.299 + clr.green * 0.587
-						+ clr.blue * 0.114);
-		return (color << 16 | color << 8 | color);
-	}
-	if (filter == SEPIA)
-	{
-		tmp = (t_channel){(uint32_t)(0.393 * clr.red + 0.769 * clr.green
-		+ 0.189 * clr.blue), (uint32_t)(0.349 * clr.red + 0.686 * clr.green
-		+ 0.168 * clr.blue), (uint32_t)(0.272 * clr.red + 0.534 * clr.green
-		+ 0.131 * clr.blue)};
-		clr = (t_channel){(uint32_t)((tmp.red > 255) ? 255 : tmp.red),
-						  (uint32_t)((tmp.green > 255) ? 255 : tmp.green),
-						  (uint32_t)((tmp.blue > 255) ? 255 : tmp.blue)};
-		return ((uint32_t)clr.red << 16
-				| (uint32_t)clr.green << 8 | (uint32_t)clr.blue);
-	}
-	return (color);
-}
-
-void		draw_pixel_pixel(t_rt *rt_data, t_dot pixel)
-{
-	t_ray			primary_ray;
-	uint32_t		color;
-	t_intersect		closest_inter;
-
-	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
-	closest_inter = find_closest_inter(rt_data->cl_data,
-									rt_data->objects_arr, primary_ray);
-	rt_data->cl_data.max_reflections = 5;
-	rt_data->cl_data.reflect_rate = 0;
-	if (closest_inter.distance == INFINITY)
-		color = 0;
-	else
-		color = find_color(rt_data,
-					rt_data->cl_data, closest_inter, primary_ray);
-	if (rt_data->filter != -1)
-		color = apply_filter(color, rt_data->filter);
-	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
-	int	x = pixel.x - 1;//TODO fix
-	int	y = pixel.y - 1;//TODO fix
-	while(++y < pixel.y + 10 && y < SCR_SIZE)
-		while (++x < pixel.x + 10 && x < SCR_SIZE)
-			set_pixel(rt_data->screen_surface, x, y, color);
-}
-void		*draw_pixel_strings(void *thread_data_void)
-{
-	t_dot			pixel;
-	t_thread_data	*thread_data;
-
-	thread_data = (t_thread_data*)thread_data_void;
-	pixel.y = thread_data->string_num;
-	while (pixel.y < SCR_SIZE)
-	{
-		pixel.x = 0;
-		while (pixel.x < SCR_SIZE)
-		{
-			draw_pixel_pixel(thread_data->scene, pixel);
-			pixel.x += 10;
-		}
-		pixel.y += THREAD_MAX;
-	}
-	return (NULL);
-}
-
 int			draw_scene(t_rt *scene)
 {
 	pthread_t		threads[THREAD_MAX];
@@ -97,7 +23,7 @@ int			draw_scene(t_rt *scene)
 	while (idx < THREAD_MAX)
 	{
 		pthread_create(&threads[idx], NULL,
-			scene->filter == PIXEL ? draw_pixel_strings : draw_strings,
+					(scene->filter == PIXEL) ? draw_pixel_strings : draw_strings,
 					(thread_num + idx));
 		idx++;
 	}
@@ -118,17 +44,16 @@ void		*draw_strings(void *thread_data_void)
 	t_thread_data	*thread_data;
 
 	thread_data = (t_thread_data*)thread_data_void;
-	pixel.y = thread_data->string_num;
-	while (pixel.y < SCR_SIZE)
+	pixel.y = thread_data->string_num * thread_data->scene->aliasing;
+	while (pixel.y < SCR_SIZE * thread_data->scene->aliasing)
 	{
 		pixel.x = 0;
-		while (pixel.x < SCR_SIZE)
+		while (pixel.x < SCR_SIZE * thread_data->scene->aliasing)
 		{
-			draw_pixel(thread_data->scene, pixel);
-
-			pixel.x++;
+			draw_pixel_with_aa(thread_data->scene, pixel);
+			pixel.x += thread_data->scene->aliasing;
 		}
-		pixel.y += THREAD_MAX;
+		pixel.y += THREAD_MAX * thread_data->scene->aliasing;
 	}
 	return (NULL);
 }
@@ -146,15 +71,62 @@ void		set_tread_param(t_rt *scene, t_thread_data *thread_num)
 	}
 }
 
+void	draw_pixel_with_aa(t_rt *rt_data, t_dot pixel)
+{
+	uint32_t	color_hex;
+	t_channel	color;
+	t_dot		new_pixel;
+
+	new_pixel = pixel;
+	color = (t_channel){0, 0, 0};
+	rt_data->cl_data.max_trancparent = 5;
+	rt_data->cl_data.reflect_rate = 0;
+	rt_data->cl_data.trancparent_rate = 0;
+	while (new_pixel.y < pixel.y + rt_data->aliasing)
+	{
+		new_pixel.x = pixel.x;
+		while (new_pixel.x < pixel.x + rt_data->aliasing)
+		{
+			color = color_plus_color(color, get_pixel_color(rt_data, new_pixel));
+			new_pixel.x++;
+		}
+		new_pixel.y++;
+	}
+	color.red /= find_square(rt_data->aliasing);
+	color.green /= find_square(rt_data->aliasing);
+	color.blue /= find_square(rt_data->aliasing);
+	color_hex = channel_color_to_uint(color);
+	if (rt_data->filter != -1)
+		color_hex = apply_filter(color_hex, rt_data->filter);
+	set_pixel(rt_data->screen_surface, pixel.x / rt_data->aliasing,
+			pixel.y / rt_data->aliasing, color_hex);
+}
+
+t_channel	get_pixel_color(t_rt *rt_data, t_dot pixel)
+{
+	t_ray		primary_ray;
+	t_channel	color;
+	t_intersect	closest_inter;
+
+	primary_ray = compute_ray(rt_data->cl_data.camera, pixel, rt_data->aliasing);
+	closest_inter = find_closest_inter(rt_data->cl_data,
+						rt_data->objects_arr, primary_ray);
+	if (closest_inter.distance == INFINITY)
+		color = (t_channel){0, 0, 0};
+	else
+		color = find_color(rt_data,
+						rt_data->cl_data, closest_inter, primary_ray);
+	return (color);
+}
+
+/*
 void		draw_pixel(t_rt *rt_data, t_dot pixel)
 {
 	t_ray		primary_ray;
 	uint32_t	color;
 	t_intersect	closest_inter;
 
-
-	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
-
+	primary_ray = compute_ray(rt_data->cl_data.camera, pixel, rt_data->aliasing);
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);
 	rt_data->cl_data.max_reflections = 5;
@@ -170,7 +142,7 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 		color = apply_filter(color, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x, pixel.y, color);
 }
-
+*/
 
 
 /*int		draw_scene(t_rt *rt_data)

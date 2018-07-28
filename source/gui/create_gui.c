@@ -35,7 +35,7 @@ void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 		rt_data->filter = NONE;
 	}
 	else if (flag == ALIASING)
-		rt_data->aliasing = !rt_data->aliasing;
+		rt_data->aliasing = (rt_data->aliasing == 1) ? 2 : 1;
 	else
 	{
 		make_screenshot(rt_data);
@@ -80,7 +80,7 @@ int		mouse_click_event(t_rt *rt_data, SDL_Event *event)
 	int			i;
 
 	pixel = (t_dot){event->button.x, event->button.y};
-	primary_ray = compute_ray(rt_data->cl_data.camera, pixel);
+	primary_ray = compute_ray(rt_data->cl_data.camera, pixel, 1);
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);
 	i = -1;

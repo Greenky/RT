@@ -120,7 +120,7 @@ t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);
 t_coord_sys		count_inverse_matrix(t_coord_sys a);
 void			normalize_basis(t_coord_sys *a);
 
-t_ray		compute_ray(t_camera *camera, float2 pixel);
+t_ray		compute_ray(t_camera *camera, float2 pixel, int aliasing);
 int			find_the_root(float coefficient[3], float discriminant, float t[2]);
 float		find_sphere_discriminant(t_ray r,__constant t_objects *fig, float coefficient[3]);
 void		sphere_find_closest_intersect(t_ray r, t_intersect *inter);
@@ -367,7 +367,7 @@ void			normalize_basis(t_coord_sys *a)
 // MATH FUNCTIONS END
 // =====================================================================================================================
 
-t_ray		compute_ray(t_camera *camera, float2 pixel)
+t_ray		compute_ray(t_camera *camera, float2 pixel, int aliasing)
 {
 	t_ray	r;
 	float	vertical;
@@ -954,7 +954,7 @@ __kernel void	renderer(t_cl_data cl_data,
 
 	pixel.x = j;
 	pixel.y = i;
-	primary_ray = compute_ray(&cl_data.camera, pixel);
+	primary_ray = compute_ray(&cl_data.camera, pixel, antialias);//
 	closest_inter = find_closest_inter(cl_data, objects, primary_ray);
 	cl_data.reflect_rate = 0;
 	if (closest_inter.distance == INF)

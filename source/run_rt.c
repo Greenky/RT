@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_rtv1.c                                         :+:      :+:    :+:   */
+/*   run_rt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -40,6 +40,7 @@ void		run_rt(t_rt *rt_data)
 								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
 	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
+	rt_data->aliasing = 1;//TODO move if needed
 	i = -1;
 	while (++i < 12)
 		load_texture(rt_data->cl_data.textures, i, g_textures[i]);
@@ -53,15 +54,15 @@ void		run_rt(t_rt *rt_data)
 	event_management(rt_data, &event);
 }
 
-t_ray		compute_ray(t_camera camera, t_dot pixel)
+t_ray		compute_ray(t_camera camera, t_dot pixel, int antialias)
 {
 	t_ray	r;
 	float	vertical;
 	float	horizontal;
 
 	r.origin = camera.origin;
-	vertical = (float)((TOP_BOUND + pixel.y) * STEP);
-	horizontal = (float)((LEFT_BOUND + pixel.x) * STEP);
+	vertical = (float)((TOP_BOUND + (float)pixel.y / antialias) * STEP);
+	horizontal = (float)((LEFT_BOUND + (float)pixel.x / antialias) * STEP);
 	r.direction = normalize_vector(matrix_mult_vect(camera.basis,
 						VEC(horizontal, -vertical, -DISTANCE)));
 	return (r);

@@ -45,20 +45,20 @@ void	foot_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 void	filter_panel_interaction_event(t_rt *rt_data, SDL_Event *event)
 {
 	if (event->button.x >= 0 && event->button.x <= 300
-		&& event->button.y > SCR_SIZE - 430
-		&& event->button.y <= SCR_SIZE - 350)
+		&& event->button.y > WIN_SIZE - 430
+		&& event->button.y <= WIN_SIZE - 350)
 		rt_data->filter = GREYSCALE;
 	else if (event->button.x >= 0 && event->button.x <= 300
-			&& event->button.y > SCR_SIZE - 350
-			&& event->button.y <= SCR_SIZE - 280)
+			&& event->button.y > WIN_SIZE - 350
+			&& event->button.y <= WIN_SIZE - 280)
 		rt_data->filter = PIXEL;
 	else if (event->button.x >= 0 && event->button.x <= 300
-			&& event->button.y > SCR_SIZE - 280
-			&& event->button.y <= SCR_SIZE - 200)
+			&& event->button.y > WIN_SIZE - 280
+			&& event->button.y <= WIN_SIZE - 200)
 		rt_data->filter = SEPIA;
 	else if (event->button.x >= 0 && event->button.x <= 300
-			&& event->button.y > SCR_SIZE - 200
-			&& event->button.y <= SCR_SIZE - 130)
+			&& event->button.y > WIN_SIZE - 200
+			&& event->button.y <= WIN_SIZE - 130)
 		rt_data->filter = NEGATIVE;
 }
 

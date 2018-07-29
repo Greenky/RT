@@ -29,7 +29,7 @@ void		draw_clicked_info(t_rt *rt_data)
 
 void		draw_filter_bar(t_rt *rt_data)
 {
-	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 430, 0, 0};
+	rt_data->gui.pos = (SDL_Rect){0, WIN_SIZE - 430, 0, 0};
 	if (rt_data->filter == NONE)
 		rt_data->filter = GREYSCALE;
 	if (rt_data->filter == SEPIA)
@@ -48,7 +48,7 @@ void		draw_filter_bar(t_rt *rt_data)
 
 void		draw_foot_info(t_rt *rt_data)
 {
-	rt_data->gui.pos = (SDL_Rect){0, SCR_SIZE - 100, 0, 0};
+	rt_data->gui.pos = (SDL_Rect){0, WIN_SIZE - 100, 0, 0};
 	if (rt_data->aliasing == 2)
 		SDL_BlitSurface(rt_data->gui.aliasing_on_foot, NULL,
 						rt_data->screen_surface, &rt_data->gui.pos);

@@ -36,8 +36,8 @@ void		run_rt(t_rt *rt_data)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	rt_data->cl_data.camera.initial_basis = rt_data->cl_data.camera.basis; // new
 	rt_data->window = SDL_CreateWindow(W_TITLE, SDL_WINDOWPOS_UNDEFINED,
-								SDL_WINDOWPOS_UNDEFINED, SCR_SIZE,
-								SCR_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
+								SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
+								WIN_SIZE, SDL_WINDOW_ALLOW_HIGHDPI);
 	rt_data->screen_surface = SDL_GetWindowSurface(rt_data->window);
 	rt_data->cl_data.textures = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 20);
 	rt_data->aliasing = 1;//TODO move if needed

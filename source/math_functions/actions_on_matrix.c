@@ -59,23 +59,25 @@ t_coord_sys		count_inverse_matrix(t_coord_sys a)
 	return (m);
 }
 
-t_coord_sys		create_coord_system(t_coord_sys basis)
+void		create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis, cl_float3 *angle_rot)
 {
-	basis.b_z = normalize_vector(basis.b_z);
-	if (basis.b_z.x == 0 && basis.b_z.z == 0)
+	basis->b_z = normalize_vector(basis->b_z);
+	if (basis->b_z.x == 0 && basis->b_z.z == 0)
 	{
-		basis.b_y = VEC(1, 0, 0);
-		basis.b_x = VEC(0, 0, 1);
+		basis->b_y = VEC(1, 0, 0);
+		basis->b_x = VEC(0, 0, 1);
 	}
 	else
 	{
-		basis.b_y = VEC(0, -1, 0);
-		basis.b_x = vect_cross_product(basis.b_z, basis.b_y);
-		basis.b_x = normalize_vector(basis.b_x);
-		basis.b_y = vect_cross_product(basis.b_x, basis.b_z);
-		basis.b_x = vect_mult_scalar(basis.b_x, -1);
+		basis->b_y = VEC(0, -1, 0);
+		basis->b_x = vect_cross_product(basis->b_z, basis->b_y);
+		basis->b_x = normalize_vector(basis->b_x);
+		basis->b_y = vect_cross_product(basis->b_x, basis->b_z);
+		basis->b_x = vect_mult_scalar(basis->b_x, -1);
 	}
-	return (basis);
+	*init_basis = *basis;
+	*angle_rot = VEC(0, 0, 0);
+	//ft_bzero(&angle_rot, sizeof(cl_float3));
 }
 
 void			normalize_basis(t_coord_sys *a)

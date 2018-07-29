@@ -92,6 +92,8 @@ typedef struct		s_objects
 	cl_float3			normal;
 	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида
 	t_coord_sys			basis;
+	t_coord_sys			initial_basis;
+	cl_float3			angle_rot;//углы поворота фигур
 	int					bling_phong;
 	struct s_objects	*next;
 }					t_objects;

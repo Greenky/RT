@@ -74,7 +74,7 @@ void	cl_set_arguments(t_rt *rt)
 				sizeof(t_light) * rt->cl_data.num_of_lights,
 					rt->lights_arr, &rt->cl.err);
 	rt->cl.image = clCreateBuffer(rt->cl.context, CL_MEM_READ_WRITE,
-				sizeof(unsigned int) * SCR_SIZE * SCR_SIZE,  NULL, &rt->cl.err);
+				sizeof(unsigned int) * WIN_SIZE * WIN_SIZE,  NULL, &rt->cl.err);
 	rt->cl.err = clSetKernelArg(rt->cl.kernel, 0,
 				sizeof(t_cl_data), &rt->cl_data);
 	rt->cl.err = clSetKernelArg(rt->cl.kernel, 1,
@@ -90,9 +90,9 @@ void	cl_start(t_rt *rt)
 {
 	cl_set_arguments(rt);
 	rt->cl.err = clEnqueueNDRangeKernel(rt->cl.queue, rt->cl.kernel, 2, NULL,
-										(size_t[3]){SCR_SIZE, SCR_SIZE, 0}, NULL, 0, NULL, NULL);
+										(size_t[3]){WIN_SIZE, WIN_SIZE, 0}, NULL, 0, NULL, NULL);
 	rt->cl.err = clEnqueueReadBuffer(rt->cl.queue, rt->cl.image, CL_TRUE, 0,
-									 sizeof(unsigned int) * SCR_SIZE * SCR_SIZE,
+									 sizeof(unsigned int) * WIN_SIZE * WIN_SIZE,
 									 (unsigned int *)rt->screen_surface->pixels, 0, NULL, NULL);
 	cl_check_error_info(rt);
 	clReleaseMemObject(rt->cl.lights);

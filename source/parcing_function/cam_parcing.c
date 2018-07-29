@@ -31,8 +31,9 @@ int		cam_parce(int fd, t_rt *rt_data)
 	if (ret < 0 || flag != CAMERA_IS_PARSED)
 		error_exit(ERROR, NULL);
 	rt_data->cl_data.camera.is_set = 1;
-	rt_data->cl_data.camera.basis =
-			create_coord_system(rt_data->cl_data.camera.basis);
+	create_coord_system(&(rt_data->cl_data.camera.basis),
+					&(rt_data->cl_data.camera.initial_basis),
+					&(rt_data->cl_data.camera.angle_rot));
 	return (0);
 }
 

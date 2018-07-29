@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "rt_functions.h"
 
 int			draw_scene(t_rt *scene)
 {
@@ -45,10 +45,10 @@ void		*draw_strings(void *thread_data_void)
 
 	thread_data = (t_thread_data*)thread_data_void;
 	pixel.y = thread_data->string_num * thread_data->scene->aliasing;
-	while (pixel.y < SCR_SIZE * thread_data->scene->aliasing)
+	while (pixel.y < WIN_SIZE * thread_data->scene->aliasing)
 	{
 		pixel.x = 0;
-		while (pixel.x < SCR_SIZE * thread_data->scene->aliasing)
+		while (pixel.x < WIN_SIZE * thread_data->scene->aliasing)
 		{
 			draw_pixel_with_aa(thread_data->scene, pixel);
 			pixel.x += thread_data->scene->aliasing;
@@ -79,9 +79,6 @@ void	draw_pixel_with_aa(t_rt *rt_data, t_dot pixel)
 
 	new_pixel = pixel;
 	color = (t_channel){0, 0, 0};
-	rt_data->cl_data.max_trancparent = 5;
-	rt_data->cl_data.reflect_rate = 0;
-	rt_data->cl_data.trancparent_rate = 0;
 	while (new_pixel.y < pixel.y + rt_data->aliasing)
 	{
 		new_pixel.x = pixel.x;
@@ -153,10 +150,10 @@ void		draw_pixel(t_rt *rt_data, t_dot pixel)
 
 	t_dot	pixel;
 	pixel.y = 0;
-	while (pixel.y < SCR_SIZE)
+	while (pixel.y < WIN_SIZE)
 	{
 		pixel.x = 0;
-		while (pixel.x < SCR_SIZE)
+		while (pixel.x < WIN_SIZE)
 		{
 			draw_pixel(rt_data, pixel);
 			if (pixel.x > 144)

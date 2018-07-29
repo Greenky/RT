@@ -31,7 +31,8 @@
 # include "rt_structs.h"
 # include <pthread.h>
 
-# define THREAD_MAX 20
+# define THREAD_MAX 4
+# define PIXEL_SIZE 4
 # define FALSE 0
 # define TRUE 1
 
@@ -41,7 +42,7 @@
 # define SHIFT 0
 # define ROTATE 1
 
-# define SCR_SIZE 1000
+# define WIN_SIZE 1000
 # define OBJ_NUM 7
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
@@ -53,10 +54,10 @@
 # define CYLINDER_IS_PARSED 1023
 # define PLANE_IS_PARSED 63
 # define ELLIPSOID_IS_PARSED 127 //TODO check!!
-# define STEP (1.0 / SCR_SIZE)
+# define STEP (1.0 / WIN_SIZE)
 # define SHIFT_STEP 0.2
-# define LEFT_BOUND (-(SCR_SIZE / 2))
-# define TOP_BOUND (-(SCR_SIZE / 2))
+# define LEFT_BOUND (-(WIN_SIZE / 2))
+# define TOP_BOUND (-(WIN_SIZE / 2))
 # define A 0
 # define B 1
 # define C 2
@@ -192,17 +193,25 @@ void			choose_intersection(t_ray primary_ray, t_intersect *tmp_inter);
 void			event_management(t_rt *rt_data, SDL_Event *event);
 int				exit_x(t_rt *rt_data, SDL_Event *event);
 int				key_down(t_rt *rt_data, SDL_Event *event);
-int				check_camera_key(int keycode, int type_of_motion);
+int				check_sdl_key(int keycode, int type_of_motion);
 
 /*
 **	rotating_and_shift_camera.c
 */
 
 void			rotating_camera(int keycode, t_rt *rt_data);
-t_coord_sys		init_basis_after_rot(t_rt *rt_data);
+t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot);
 t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis);
 void			manage_camera_origin(int keycode, t_rt *rt_data);
 void			reset_camera_settings(t_rt *rt_data);
+
+/*
+**	rotating_objects.c
+*/
+
+void		rotating_object(int keycode, t_rt *rt_data);
+t_objects	*find_object(t_rt *rt_data);
+
 
 /*
 **	handle_axis_dimensions_for_ellipsoid.c
@@ -293,7 +302,7 @@ void		error_caster(int line_number, char *s1, char *s2);
 cl_float3	matrix_mult_vect(t_coord_sys a, cl_float3 v);
 t_coord_sys	matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
 t_coord_sys	count_inverse_matrix(t_coord_sys a);
-t_coord_sys	create_coord_system(t_coord_sys basis);
+void		create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis, cl_float3 *angle_rot);//changed
 void		normalize_basis(t_coord_sys *a);
 
 cl_float3	vect_diff(cl_float3 v1, cl_float3 v2);

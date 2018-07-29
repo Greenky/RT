@@ -4,14 +4,13 @@ project(RT)
 set(CMAKE_C_STANDARD 90)
 
 execute_process(COMMAND make -C ../libft)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
-# -O3 -flto=thin -Ofast -march=native -mtune=native")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror -O3 -flto=thin -Ofast -march=native -mtune=native")
 
 set(SOURCE_FILES
 		source/main.c
 		source/find_fd.c
 		source/error_manager.c
-		source/draw_scene.c
+		source/draw_scene/draw_scene.c
 		source/find_normal_to_figure.c
 		source/run_rt.c
 		source/figures_normals.c
@@ -62,7 +61,7 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/color_functions/apply_filter.c source/color_functions/draw_pixel_filter.c)
+		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

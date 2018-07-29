@@ -44,14 +44,14 @@ int		check_arrow_type(SDL_Event *event)
 int		check_foot_press_type(SDL_Event *event)
 {
 	if (event->button.x >= 0 && event->button.x <= 195
-		&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
+		&& event->button.y >= WIN_SIZE - 150 && event->button.y <= WIN_SIZE)
 		return (FILTERS);
 	else if (event->button.x >= 600 && event->button.x <= 680
-			&& event->button.y >= SCR_SIZE - 83
-			&& event->button.y <= SCR_SIZE - 20)
+			&& event->button.y >= WIN_SIZE - 83
+			&& event->button.y <= WIN_SIZE - 20)
 		return (ALIASING);
 	else if (event->button.x >= 195 && event->button.x <= 550
-			&& event->button.y >= SCR_SIZE - 150 && event->button.y <= SCR_SIZE)
+			&& event->button.y >= WIN_SIZE - 150 && event->button.y <= WIN_SIZE)
 		return (SAVE);
 	return (NONE);
 }
@@ -63,12 +63,12 @@ int		check_if_in_gui(t_rt *rt_data, SDL_Event *event)
 		return (FIGURE_GUI);
 	else if (rt_data->gui.filter_gui
 			&& event->button.x >= 0 && event->button.x <= 300
-			&& event->button.y >= SCR_SIZE - 430
-			&& event->button.y <= SCR_SIZE - 100)
+			&& event->button.y >= WIN_SIZE - 430
+			&& event->button.y <= WIN_SIZE - 100)
 		return (FILTER_GUI);
 	else if (event->button.x >= 0 && event->button.x <= 700
-			&& event->button.y >= SCR_SIZE - 100
-			&& event->button.y <= SCR_SIZE)
+			&& event->button.y >= WIN_SIZE - 100
+			&& event->button.y <= WIN_SIZE)
 		return (FOOT_GUI);
 	else
 		return (NO_GUI);

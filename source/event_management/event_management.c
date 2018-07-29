@@ -69,10 +69,10 @@ int			exit_x(t_rt *rt_data, SDL_Event *event)
 
 int			key_down(t_rt *rt_data, SDL_Event *event)
 {
-	if (check_camera_key(event->key.keysym.sym, SHIFT))
+	if (check_sdl_key(event->key.keysym.sym, SHIFT))
 		manage_camera_origin(event->key.keysym.sym, rt_data);
-	else if (check_camera_key(event->key.keysym.sym, ROTATE))
-		rotating_camera(event->key.keysym.sym, rt_data);
+	else if (check_sdl_key(event->key.keysym.sym, ROTATE))
+		rotating_object(event->key.keysym.sym, rt_data);
 	else if (event->key.keysym.sym == SDLK_SPACE)
 		reset_camera_settings(rt_data);
 	else if (event->key.keysym.sym >= SDLK_KP_1
@@ -80,13 +80,12 @@ int			key_down(t_rt *rt_data, SDL_Event *event)
 		manage_ellipsoid_axes(event->key.keysym.sym, rt_data);
 	else
 		return (0);
-
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);
 }
 
-int			check_camera_key(int keycode, int type_of_motion)
+int			check_sdl_key(int keycode, int type_of_motion)
 {
 	if (type_of_motion == ROTATE)
 	{

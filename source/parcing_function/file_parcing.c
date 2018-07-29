@@ -28,8 +28,11 @@ void		file_parcing(char *file, t_rt *rt_data)
 	fd = find_fd(file);
 	rt_data->objects = NULL;
 	rt_data->lights = NULL;
+	rt_data->cl_data.reflect_rate = 0;
 	rt_data->cl_data.camera.is_set = 0;
+	rt_data->cl_data.trancparent_rate = 0;
 	rt_data->cl_data.max_reflections = 5;
+	rt_data->cl_data.max_trancparent = 5;
 	line_reader(rt_data, fd, arr);
 	if (!rt_data->cl_data.camera.is_set)
 		error_exit(CAM_ERROR, rt_data);

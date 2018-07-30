@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 18:00:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/26 19:37:54 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/07/30 16:36:19 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,18 +140,37 @@ void		texture_mapping(t_intersect *closest_inter, t_cl_data cl_data,
 	}
 	else if (closest_inter->fig->type == PLANE)
 	{
-		nor = vect_diff(closest_inter->point, closest_inter->fig->origin);
-		nor = matrix_mult_vect(closest_inter->fig->basis, nor);
-		if (nor.x != 0)
-		{
-			i = (int) ((nor.x > 0 ? nor.x : w + nor.x) * 50 * closest_inter->fig->texture_repeat);
-			j = (int) ((nor.y > 0 ? nor.y : h + nor.y) * 50 * closest_inter->fig->texture_repeat);
-		}
-		else
-		{
-			i = (int) ((nor.z > 0 ? nor.z : w + nor.z ) * 50 * closest_inter->fig->texture_repeat);
-			j = (int) ((nor.x > 0 ? nor.y : h + nor.y) * 50 * closest_inter->fig->texture_repeat);
-		}
+		cl_float3 first = VEC(0.f, 1.f, 0.f);
+		cl_float3 buf_u = vect_cross_product(nor, first);
+		cl_float3 buf_v;
+		cl_float3 second = VEC(0.f, 0.f, 1.f);
+		if (fabsf(length(buf_u)) < 0.0001f)
+			buf_u = vect_cross_product(nor, second);
+		buf_v = vect_cross_product(nor, buf_u);
+		u = vect_scalar_mult(buf_u, closest_inter->point) + 5;
+		v = vect_scalar_mult(buf_v, closest_inter->point) + 5;
+//		u += 5;
+//		v += 5;
+//		printf("u - %.5f, v - %.5f\n", u, v);
+		i = (int)(50 * u * closest_inter->fig->texture_repeat);
+		j = (int)(50 * v * closest_inter->fig->texture_repeat);
+//		if (x < 0)
+//			x += w;
+//		if (y < 0)
+//			y += h;
+//		color = sdl->pic3[(int)(y * w + x)];
+//		nor = vect_diff(closest_inter->point, closest_inter->fig->origin);
+//		nor = matrix_mult_vect(closest_inter->fig->basis, nor);
+//		if (nor.x != 0)
+//		{
+//			i = (int) ((nor.x > 0 ? nor.x : w + nor.x) * 50 * closest_inter->fig->texture_repeat);
+//			j = (int) ((nor.y > 0 ? nor.y : h + nor.y) * 50 * closest_inter->fig->texture_repeat);
+//		}
+//		else
+//		{
+//			i = (int) ((nor.z > 0 ? nor.z : w + nor.z ) * 50 * closest_inter->fig->texture_repeat);
+//			j = (int) ((nor.x > 0 ? nor.y : h + nor.y) * 50 * closest_inter->fig->texture_repeat);
+//		}
 	}
 	if (closest_inter->fig->texture_index < 10)
 		closest_inter->texture_color = int_to_channels(((unsigned int *) texture->pixels)[(j % h) * w + (i % w)]);

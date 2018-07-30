@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dadavyde <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/17 14:33:17 by dadavyde          #+#    #+#              #
-#    Updated: 2018/06/17 14:33:21 by dadavyde         ###   ########.fr        #
+#    Updated: 2018/07/30 13:42:28 by vmazurok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,20 @@ WWW             =   -Wall -Wextra -Werror # НЕ ЗАБУДЬ ПОВЕРНУТИ
 C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native -Wall -Wextra -Werror
 RTV_FLAGS       =   -F frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_image -framework OpenCL
 
-SOURCES         =   source/draw_scene.c \
-                    source/error_manager.c \
+SOURCES         =   source/error_manager.c \
                     source/event_management/event_management.c \
                     source/event_management/handle_axis_dimensions_for_ellipsoid.c \
                     source/event_management/rotating_and_shift_camera.c \
+                    source/event_management/rotating_objects.c \
                     source/find_fd.c \
                     source/figures_normals.c    \
                     source/find_normal_to_figure.c \
                     source/main.c \
-                    source/run_rtv1.c \
+                    source/run_rt.c \
                     source/opencl_functions.c   \
+                    source/draw_scene/apply_filter.c \
+                    source/draw_scene/draw_pixel_filter.c \
+                    source/draw_scene/draw_scene.c \
                     source/parcing_function/add_shape_and_light.c \
                     source/parcing_function/cam_parcing.c \
                     source/parcing_function/cone_parcing.c \
@@ -52,6 +55,7 @@ SOURCES         =   source/draw_scene.c \
                     source/find_intersection/plane_find_closest_intersect.c \
                     source/find_intersection/sphere_find_closest_intersect.c \
                     source/find_intersection/ellipsoid_find_closest_intersect.c \
+                    source/find_intersection/choose_intersection.c \
                     source/gui/gui_object_change.c      \
                     source/gui/gui_check_buttons.c      \
                     source/gui/create_gui.c             \
@@ -124,6 +128,10 @@ $(OBJDIR)%.o: source/gui/%.c $(HEADERS) $(LIBFT)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/color_functions/%.c $(HEADERS) $(LIBFT)
+	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+
+$(OBJDIR)%.o: source/draw_scene/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 

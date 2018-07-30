@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 {

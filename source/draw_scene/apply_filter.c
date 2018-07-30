@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   apply_filter.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/28 15:21:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/28 15:21:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/30 13:37:16 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_functions.h"
+#include "../../includes/rt_functions.h"
 
 uint32_t	apply_filter(uint32_t color, int filter)
 {

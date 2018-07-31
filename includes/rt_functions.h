@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 18:23:04 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/07/31 21:02:22 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,4 +384,5 @@ void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
 void		*receive_data(int fd, void *dest, size_t size);
 void		send_data(int fd, void *src, size_t size);
 void		init_server(t_rt *rt_data, char *file);
+void		client_event_management(t_rt *rt_data, SDL_Event *event);
 #endif

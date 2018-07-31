@@ -6,7 +6,7 @@
 #    By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/17 14:33:17 by dadavyde          #+#    #+#              #
-#    Updated: 2018/07/31 17:02:56 by vmazurok         ###   ########.fr        #
+#    Updated: 2018/07/31 21:39:24 by vmazurok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SOURCES         =   source/error_manager.c \
                     source/math_functions/algebraic_operations.c \
                     source/find_intersection/cone_find_closest_intersect.c \
                     source/find_intersection/cyl_find_closest_intersect.c \
+                    source/find_intersection/cyl_find_limited.c \
                     source/find_intersection/plane_find_closest_intersect.c \
                     source/find_intersection/sphere_find_closest_intersect.c \
                     source/find_intersection/ellipsoid_find_closest_intersect.c \
@@ -110,41 +111,41 @@ all: $(NAME)
 
 $(NAME): $(OBJDIR) $(OBJ) $(LIBFT) $(S_OBJ) $(C_OBJ)
 	@$(CC)  $(OBJ) $(S_OBJ) $(RTV_FLAGS) -o $@ $(LIBFT)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 	@$(CC)  $(OBJ) $(C_OBJ) $(RTV_FLAGS) -o RT_CLIENT $(LIBFT)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" RT_CLIENT
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" RT_CLIENT
 
 $(OBJDIR)%.o: source/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/event_management/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/find_intersection/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/math_functions/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/parcing_function/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/gui/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/color_functions/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/draw_scene/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(LIBFT):
 	@make -C libft
@@ -156,11 +157,11 @@ clean:
 	@rm -f $(OBJ)
 	@make clean -C libft
 	@rm -rf $(OBJDIR)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_RED)[done]$(C_NONE)\n" $@
 
 fclean: clean
 	@make fclean -C libft
 	@rm -f $(NAME)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_RED)[done]$(C_NONE)\n" $@
 
 re: fclean all

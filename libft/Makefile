@@ -44,14 +44,14 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-50s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 clean:
 	@rm -f $(OBJ)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-50s$(C_RED)[done]$(C_NONE)\n" $@
 
 fclean: clean
 	@rm -f $(NAME)
-	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-39s$(C_RED)[done]$(C_NONE)\n" $@
+	@printf "$(C_YELLOW)LIBFT:$(C_NONE) %-50s$(C_RED)[done]$(C_NONE)\n" $@
 
 re: fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_find_closest_intersect.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:52:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 17:59:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/31 21:08:48 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,18 @@ void	cone_find_closest_intersect(t_ray r, t_intersect *inter)
 	t_ray	r_cone_sys;
 
 	r_cone_sys.origin = vect_diff(r.origin, inter->fig->origin);
-	r_cone_sys.origin =
-		matrix_mult_vect(count_inverse_matrix(inter->fig->basis),
-													r_cone_sys.origin);
-	r_cone_sys.direction =
-			matrix_mult_vect(count_inverse_matrix(inter->fig->basis),
-							r.direction);
+	r_cone_sys.origin = matrix_mult_vect(count_inverse_matrix(
+	inter->fig->basis), r_cone_sys.origin);
+	r_cone_sys.direction = matrix_mult_vect(count_inverse_matrix(
+	inter->fig->basis), r.direction);
 	discriminant = find_cone_discriminant(r_cone_sys, coefficient,
-					inter->fig->angle_coef);
+	inter->fig->angle_coef);
 	if (!find_the_root(coefficient, discriminant, t))
 		inter->distance = INFINITY;
 	else
 	{
-		inter->distance =
-				(!isinf(inter->fig->cap[0].dist) ||
-				 !isinf(inter->fig->cap[1].dist)) ?
-				limit_cone(*inter->fig, r, inter, t) : t[0];
+		inter->distance = (!isinf(inter->fig->cap[0].dist) || !isinf(
+	inter->fig->cap[1].dist)) ? limit_cone(*inter->fig, r, inter, t) : t[0];
 		inter->point =
 			vect_sum(r.origin, vect_mult_scalar(r.direction, inter->distance));
 		if (isinf(inter->fig->cap[0].dist) && isinf(inter->fig->cap[1].dist))

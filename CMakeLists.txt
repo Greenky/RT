@@ -37,6 +37,7 @@ set(SOURCE_FILES
 
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
+		source/find_intersection/cyl_find_limited.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
 		source/find_intersection/ellipsoid_find_closest_intersect.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_pixel_color.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 20:39:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 17:58:59 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/31 20:52:51 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ t_channel	find_color(t_rt *rt_data,
 	float			i;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
-//	if (closest_inter.normal.x != choose_normal(*closest_inter.fig, closest_inter.point).x)
-//		printf("AAAAA\n");
-//	closest_inter.normal = choose_normal(*closest_inter.fig, closest_inter.point);
 	if (closest_inter.fig->is_cartoon)
 	{
 		i = vect_scalar_mult(r.direction,

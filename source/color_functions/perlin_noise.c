@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 22:25:32 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/26 18:47:21 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/07/31 20:24:23 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ double			noise(double x, double y)
 	floory = (double)((int)y);
 	return (interpolate(
 			interpolate(
-					findnoise2(floorx, floory),
-					findnoise2(floorx + 1, floory), x - floorx),
+			findnoise2(floorx, floory),
+			findnoise2(floorx + 1, floory), x - floorx),
 			interpolate(
-					findnoise2(floorx, floory + 1),
-					findnoise2(floorx + 1, floory + 1),
-					x - floorx), y - floory));
+			findnoise2(floorx, floory + 1),
+			findnoise2(floorx + 1, floory + 1),
+			x - floorx), y - floory));
 }
 
 int				perlin_noise(int x, int y, double p, double zoom)
@@ -73,22 +73,7 @@ int				perlin_noise(int x, int y, double p, double zoom)
 	return (color);
 }
 
-int			perlin_noise_disruption(int j, int i)
+int				perlin_noise_disruption(int j, int i)
 {
 	return (perlin_noise(i, j, 1 / 2, 4.2));
-//	int	y;
-//	int	x;
-//	int	color;
-//
-//	color = 0;
-//	y = -1;
-//	while (++y < surface->h)
-//	{
-//		x = -1;
-//		while (++x < surface->w)
-//		{
-//			color = perlin_noise(x, y, 1 / 2, 4.2);
-//			set_pixel(surface, x, y, color);
-//		}
-//	}
 }

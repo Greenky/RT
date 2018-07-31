@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_pixel_filter.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/28 15:28:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/28 15:28:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/31 18:34:16 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void		draw_pixel_pixel(t_rt *rt_data, t_dot pixel)
 			set_pixel(rt_data->screen_surface, new_pixel.x, new_pixel.y, color_hex);
 	}
 }
+
 
 /*void		*draw_blur_pixel_strings(void *thread_data_void)
 {

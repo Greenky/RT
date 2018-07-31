@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 16:26:43 by vmazurok          #+#    #+#             */
-/*   Updated: 2018/07/26 16:53:32 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/07/31 18:35:46 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ int			draw_scene(t_rt *scene)
 	return (0);
 }
 
+void		set_tread_param(t_rt *scene, t_thread_data *thread_num)
+{
+	int		idx;
+
+	idx = 0;
+	while (idx < THREAD_MAX)
+	{
+		thread_num[idx].scene = scene;
+		thread_num[idx].string_num = idx;
+		idx++;
+	}
+}
+
 void		*draw_strings(void *thread_data_void)
 {
 	t_dot			pixel;
@@ -56,19 +69,6 @@ void		*draw_strings(void *thread_data_void)
 		pixel.y += THREAD_MAX * thread_data->scene->aliasing;
 	}
 	return (NULL);
-}
-
-void		set_tread_param(t_rt *scene, t_thread_data *thread_num)
-{
-	int		idx;
-
-	idx = 0;
-	while (idx < THREAD_MAX)
-	{
-		thread_num[idx].scene = scene;
-		thread_num[idx].string_num = idx;
-		idx++;
-	}
 }
 
 void	draw_pixel_with_aa(t_rt *rt_data, t_dot pixel)
@@ -96,7 +96,7 @@ void	draw_pixel_with_aa(t_rt *rt_data, t_dot pixel)
 	if (rt_data->filter != -1)
 		color_hex = apply_filter(color_hex, rt_data->filter);
 	set_pixel(rt_data->screen_surface, pixel.x / rt_data->aliasing,
-			pixel.y / rt_data->aliasing, color_hex);
+			  pixel.y / rt_data->aliasing, color_hex);
 }
 
 t_channel	get_pixel_color(t_rt *rt_data, t_dot pixel)

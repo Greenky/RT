@@ -6,7 +6,7 @@
 #    By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/17 14:33:17 by dadavyde          #+#    #+#              #
-#    Updated: 2018/07/30 13:42:28 by vmazurok         ###   ########.fr        #
+#    Updated: 2018/07/31 17:02:56 by vmazurok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,13 @@ WWW             =   -Wall -Wextra -Werror # НЕ ЗАБУДЬ ПОВЕРНУТИ
 C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native -Wall -Wextra -Werror
 RTV_FLAGS       =   -F frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_image -framework OpenCL
 
+SERVER_SRC		=	source/main.c
+
+CLIENT_SRC		=	source/client_main.c
+
 SOURCES         =   source/error_manager.c \
+                    source/run_rt.c \
+                    source/network_handling.c \
                     source/event_management/event_management.c \
                     source/event_management/handle_axis_dimensions_for_ellipsoid.c \
                     source/event_management/rotating_and_shift_camera.c \
@@ -27,8 +33,6 @@ SOURCES         =   source/error_manager.c \
                     source/find_fd.c \
                     source/figures_normals.c    \
                     source/find_normal_to_figure.c \
-                    source/main.c \
-                    source/run_rt.c \
                     source/opencl_functions.c   \
                     source/draw_scene/apply_filter.c \
                     source/draw_scene/draw_pixel_filter.c \
@@ -71,7 +75,8 @@ SOURCES         =   source/error_manager.c \
                     source/color_functions/find_everything.c        \
                     source/color_functions/some_find_color_func.c   \
                     source/color_functions/manage_pixel.c   \
-                    source/color_functions/even_more_color_functions.c
+                    source/color_functions/even_more_color_functions.c \
+                    source/color_functions/texture_mapping.c
 
         
 C_RED = \033[31m
@@ -91,6 +96,10 @@ INCLUDES_SDL = $(SDL) $(SDL_TTF) $(SDL_IMAGE)
 
 OBJ             =   $(addprefix $(OBJDIR), $(notdir $(SOURCES:.c=.o)))
 
+S_OBJ           =   $(addprefix $(OBJDIR), $(notdir $(SERVER_SRC:.c=.o)))
+
+C_OBJ           =   $(addprefix $(OBJDIR), $(notdir $(CLIENT_SRC:.c=.o)))
+
 OBJDIR          =   objects/
 
 LIBFT           =   libft/libft.a
@@ -99,8 +108,14 @@ NAME            =   RT
 
 all: $(NAME)
 
-$(NAME): $(OBJDIR) $(OBJ) $(LIBFT)
-	@$(CC)  $(OBJ) $(RTV_FLAGS) -o $@ $(LIBFT)
+$(NAME): $(OBJDIR) $(OBJ) $(LIBFT) $(S_OBJ) $(C_OBJ)
+	@$(CC)  $(OBJ) $(S_OBJ) $(RTV_FLAGS) -o $@ $(LIBFT)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
+	@$(CC)  $(OBJ) $(C_OBJ) $(RTV_FLAGS) -o RT_CLIENT $(LIBFT)
+	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" RT_CLIENT
+
+$(OBJDIR)%.o: source/%.c $(HEADERS) $(LIBFT)
+	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/event_management/%.c $(HEADERS) $(LIBFT)
@@ -112,10 +127,6 @@ $(OBJDIR)%.o: source/find_intersection/%.c $(HEADERS) $(LIBFT)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(OBJDIR)%.o: source/math_functions/%.c $(HEADERS) $(LIBFT)
-	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
-	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
-
-$(OBJDIR)%.o: source/%.c $(HEADERS) $(LIBFT)
 	@$(CC)  $(C_FLAGS) $(INCLUDES_SDL) $< -o $@ $(INCLUDES)
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-39s$(C_GREEN)[done]$(C_NONE)\n" $@
 

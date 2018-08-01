@@ -6,13 +6,13 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 23:20:57 by vmazurok          #+#    #+#             */
-/*   Updated: 2018/07/31 21:54:23 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 14:35:31 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/rt_functions.h"
 
-inline void	more_limited(char **line, t_objects *obj, int line_number,
+void		more_limited(char **line, t_objects *obj, int line_number,
 						int *flag)
 {
 	int i;

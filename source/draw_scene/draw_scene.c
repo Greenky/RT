@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 16:26:43 by vmazurok          #+#    #+#             */
-/*   Updated: 2018/07/31 21:00:11 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:43:50 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_channel	get_pixel_color(t_rt *rt_data, t_dot pixel)
 	closest_inter = find_closest_inter(rt_data->cl_data,
 						rt_data->objects_arr, primary_ray);
 	if (closest_inter.distance == INFINITY)
-		color = (t_channel){0, 0, 0};
+		color = (t_channel) {0, 0, 0};
 	else
 		color = find_color(rt_data,
 						rt_data->cl_data, closest_inter, primary_ray);

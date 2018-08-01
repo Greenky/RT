@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 20:39:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 20:52:51 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 18:49:36 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_channel	find_color(t_rt *rt_data,
 	if (closest_inter.fig->is_cartoon)
 	{
 		i = vect_scalar_mult(r.direction,
-					choose_normal(*closest_inter.fig, closest_inter.point));
+		choose_normal(*closest_inter.fig, closest_inter.point));
 		if (i < 0.2 && i >= 0)
 			return ((t_channel){0xFF, 0xFF, 0xFF});
 	}
@@ -75,8 +75,8 @@ t_ray		find_light_ray(cl_float3 origin, t_light *light)
 
 	light_ray.origin = origin;
 	if (light->type == POINT)
-		light_ray.direction = vect_diff(light->origin, origin);
+		light_ray.direction = normalize_vector(vect_diff(light->origin, origin));
 	else
-		light_ray.direction = light->direct;
+		light_ray.direction = normalize_vector(light->direct);
 	return (light_ray);
 }

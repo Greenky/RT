@@ -43,7 +43,7 @@ void		draw_pixel_pixel(t_rt *rt_data, t_dot pixel)
 	closest_inter = find_closest_inter(rt_data->cl_data,
 									rt_data->objects_arr, primary_ray);
 	if (closest_inter.distance == INFINITY)
-		color_hex = 0xFFFFFF;
+		color_hex = 0;
 	else
 		color_hex = channel_color_to_uint(find_color(rt_data,
 						rt_data->cl_data, closest_inter, primary_ray));

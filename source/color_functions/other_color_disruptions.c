@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 22:29:14 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/31 20:23:18 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 18:43:36 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ uint32_t	rgb_to_int(t_channel rgb)
 
 int			check_mate_disruption(int j, int i)
 {
+	j = j < 0 ? -j : j;
+	i = i < 0 ? -i : i;
 	if ((j % 50 < 25 && i % 50 < 25) || (j % 50 > 25 && i % 50 > 25))
 		return (j < 0 ? 0 : 0xFFFFFF);
 	else

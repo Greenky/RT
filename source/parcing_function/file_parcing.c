@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_parcing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:14:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:14:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:20:49 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		file_parcing(char *file, t_rt *rt_data)
 					{"cone:", &cone_parce},
 					{"cylinder:", &cylinder_parce},
 					{"ellipsoid:", &ellipsoid_parce}
-			};
+					};
 	int				fd;
 
 	fd = find_fd(file);
@@ -36,8 +36,8 @@ void		file_parcing(char *file, t_rt *rt_data)
 	line_reader(rt_data, fd, arr);
 	if (!rt_data->cl_data.camera.is_set)
 		error_exit(CAM_ERROR, rt_data);
-	init_arrays(rt_data);
 	correct_plane_normal(rt_data);
+	init_arrays(rt_data);
 }
 
 void		line_reader(t_rt *rt_data, int fd, const t_parce arr[])

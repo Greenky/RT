@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 20:40:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 21:45:46 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 14:33:12 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ t_coord_sys		count_inverse_matrix(t_coord_sys a)
 void			create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis,
 								cl_float3 *angle_rot)
 {
+	if (basis->b_z.x != basis->b_z.x ||
+	(basis->b_z.x == 0 && basis->b_z.y == 0 && basis->b_z.z == 0))
+		basis->b_z = VEC(0, 1, 0);
 	basis->b_z = normalize_vector(basis->b_z);
 	if (basis->b_z.x == 0 && basis->b_z.z == 0)
 	{

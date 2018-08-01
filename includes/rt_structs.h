@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 11:49:00 by vpaladii          #+#    #+#             */
-/*   Updated: 2018/07/07 11:49:00 by vpaladii         ###   ########.fr       */
+/*   Updated: 2018/07/31 17:50:36 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ typedef struct 		s_cap
 {
 	float 			dist;
 	cl_float3		normal;
+    t_coord_sys     basis;
+    t_coord_sys     init_basis;
+//	cl_float3		initial_normal;
 }					t_cap;
 
 struct s_intersect;
@@ -94,7 +97,7 @@ typedef struct		s_objects
 	cl_float3			normal;
 	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида
 	t_coord_sys			basis;
-	t_coord_sys			initial_basis;
+	t_coord_sys			init_basis;
 	cl_float3			angle_rot;//углы поворота фигур
 	int					bling_phong;
 	struct s_objects	*next;
@@ -144,7 +147,7 @@ typedef struct	s_gui
 {
 	int			filter_gui;
 	SDL_Rect	pos;
-	TTF_Font	*chunk_font;
+	TTF_Font	*c_font;
 	TTF_Font	*open_sans;
 
 	SDL_Surface	*bar;
@@ -172,7 +175,6 @@ typedef struct	s_gui
 	SDL_Rect	checked_pos;
 
 	SDL_Surface	*unchecked;
-	SDL_Rect	unchecked_pos;
 
 	SDL_Surface	*aliasing_on_foot;
 	SDL_Surface	*aliasing_off_foot;
@@ -199,6 +201,9 @@ typedef struct	s_rt
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
 	int				line_number;
+	int 			server_fd;
+	int 			server_mode;
+	int 			is_client;
 }				t_rt;
 
 typedef struct		s_thread_data

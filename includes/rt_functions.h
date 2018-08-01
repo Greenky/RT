@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/26 18:40:13 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 21:15:40 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # include "libft.h"
 # include "rt_structs.h"
 # include <pthread.h>
+# include <time.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <netdb.h>
 
 # define THREAD_MAX 4
 # define PIXEL_SIZE 4
@@ -62,7 +68,7 @@
 # define A 0
 # define B 1
 # define C 2
-# define ANGLE (M_PI * (5) / 180.0)
+# define ANGLE (M_PI * (10) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
 # define EPSILON 0.000001
 
@@ -70,7 +76,7 @@
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOMBA_RAKETA"
 
-# define DEEP_BLUE (SDL_Color){33, 150, 243, 0}
+# define D_BLUE (SDL_Color){33, 150, 243, 0}
 # define SKY_BLUE (SDL_Color){144, 202, 249, 0}
 # define BLACK (SDL_Color){0, 0, 0, 0}
 # define WHITE (SDL_Color){255, 255, 255, 0}
@@ -174,7 +180,6 @@ uint32_t		apply_filter(uint32_t color, int filter);
 **	run_rt.c
 */
 
-
 void			run_rt(t_rt *rt_data);
 t_ray			compute_ray(t_camera camera, t_dot pixel, int aliasing);
 void 			load_texture(SDL_Surface **textures, int index, const char *path);
@@ -205,7 +210,7 @@ int				check_sdl_key(int keycode, int type_of_motion);
 */
 
 void			rotating_camera(int keycode, t_rt *rt_data);
-t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot);
+t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot, cl_float3 z_cam_basis);
 t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis);
 void			manage_camera_origin(int keycode, t_rt *rt_data);
 void			reset_camera_settings(t_rt *rt_data);
@@ -284,6 +289,7 @@ float			limit_cone(t_objects con, t_ray r, t_intersect *inter, float t[2]);
 void			ellipsoid_find_closest_intersect(t_ray r, t_intersect *inter);//new
 t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
 
+void	        triangle_find_closest_intersect(t_ray r, t_intersect *inter);
 
  /* limitation functions */
 
@@ -382,7 +388,8 @@ int			check_mate_disruption(int j, int i);
 void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
 
 
-
-void	triangle_find_closest_intersect(t_ray r, t_intersect *inter);
-
+void		*receive_data(int fd, void *dest, size_t size);
+void		send_data(int fd, void *src, size_t size);
+void		init_server(t_rt *rt_data, char *file);
+void		client_event_management(t_rt *rt_data, SDL_Event *event);
 #endif

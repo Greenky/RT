@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 19:43:54 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/23 19:43:56 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/08/01 20:48:20 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,16 @@ char	*ftoa(float f, int tochnost)
 
 void	blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos)
 {
-	char	*str_data;
+	char		*str_data;
+	SDL_Surface *text;
 
 	str_data = ftoa(fdata, 1);
-	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.open_sans,
-		str_data, BLACK, WHITE), NULL, rt_data->screen_surface, pos);
+	text = TTF_RenderText_Shaded(rt_data->gui.open_sans, str_data,
+	BLACK, WHITE);
+	SDL_BlitSurface(text, NULL, rt_data->screen_surface, pos);
+	SDL_FreeSurface(text);
 	free(str_data);
 }
-
-/*void	sdl_error(char *str)
-{
-	ft_putstr(str);
-	ft_putendl(SDL_GetError());
-	exit(1);
-}*/
 
 void	make_screenshot(t_rt *rt_data)
 {
@@ -67,7 +63,8 @@ void	make_screenshot(t_rt *rt_data)
 	rt_data->take_screenshot = 1;
 	draw_scene(rt_data);
 	surface = SDL_GetWindowSurface(rt_data->window);
-	convert_surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+	convert_surface = SDL_ConvertSurfaceFormat(surface,
+	SDL_PIXELFORMAT_RGB24, 0);
 	SDL_FreeSurface(surface);
 	num = ft_itoa(img_num);
 	scr_name = ft_strjoin("ScreenShot", num);

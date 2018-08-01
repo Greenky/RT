@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_parcing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:41:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:41:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/31 21:56:20 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int				sphere_parce(int fd, t_rt *rt_data)
 
 	flag = 0;
 	sphere = (t_objects *)malloc(sizeof(t_objects));
-	sphere->type = SPHERE;
 	sphere->cap[0].dist = INFINITY;
 	sphere->cap[1].dist = INFINITY;
 	while ((ret = get_next_line(fd, &line)) > 0)
@@ -87,6 +86,7 @@ void			more_sphere_fill(char **line,
 {
 	float	mirror;
 
+	sphere->type = SPHERE;
 	if (begin_with(*line, "mir:"))
 	{
 		*line = trim_from(*line, 4);

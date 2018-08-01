@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_gui.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:33:30 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/23 18:33:32 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/08/01 20:31:35 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int		mouse_click_event(t_rt *rt_data, SDL_Event *event)
 			while (++i < rt_data->cl_data.num_of_objects)
 				swap_cartoon(closest_inter, rt_data, i);
 	}
+	if (rt_data->server_mode)
+		send_data(rt_data->server_fd, event, sizeof(SDL_Event));
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);

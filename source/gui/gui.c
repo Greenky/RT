@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 13:15:46 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/19 13:17:19 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/08/01 20:34:30 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void		draw_bar(t_rt *rt_data)
 void		draw_gui(t_rt *rt_data)
 {
 	TTF_Init();
-	rt_data->gui.chunk_font = TTF_OpenFont("fonts/OpenSans-Bold.ttf", 20);
+	rt_data->gui.c_font = TTF_OpenFont("fonts/OpenSans-Bold.ttf", 20);
 	rt_data->gui.open_sans = TTF_OpenFont("fonts/OpenSans-Regular.ttf", 15);
 	draw_clicked_info(rt_data);
 	draw_foot_info(rt_data);
-	TTF_CloseFont(rt_data->gui.chunk_font);//Added
-	TTF_CloseFont(rt_data->gui.open_sans);//Added
+	TTF_CloseFont(rt_data->gui.c_font);
+	TTF_CloseFont(rt_data->gui.open_sans);
 	TTF_Quit();
 }

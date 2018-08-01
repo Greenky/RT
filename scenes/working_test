@@ -1,14 +1,19 @@
 #### CAMERA ####
     camera:
         dir: (0, 0, -1)
-        cen: (0, 0, -10)
+        cen: (0, 0, -12)
 ################
 #### LIGHTS ####
     light:
         point
-        cen: (-3, -2, -3)
+        cen: (0, 0, -2)
         col: 0xFFFFFF
-        int: 0.6
+        int: 0.4
+    light:
+        point
+        cen: (2, 3, -3)
+        col: 0x7545FF
+        int: 0.3
     light:
         ambient
         col: 0xAAAAFF
@@ -17,47 +22,59 @@
 #### SHAPES ####
     sphere:
         cen: (-0.5, 2, 2)
-        rad: 1.5
+        rad: 1
         col: 0xff0000
         b_p: 1000
-        mir: 0.5
-        trancper: 0
-        texture index: 11, repeat 1
-    plane:
-        col: 0xFFFFFF
-        cen: (-5, 0, 3)
-        nor: (1, 0, 0)
-        b_p: 1
         mir: 0
-        texture index: 12, repeat 2
+        trancper: 0.8
+        texture index: 10, repeat 1
+    ellipsoid:
+        cen: (-1, -4, 2)
+        col: 0xff7581
+        axis sizes: (3, 1.5, 3)
+        b_p: 100
+        mir: 0
+        texture index: -1, repeat 0
+        trancper: 0
     plane:
         col: 0xFFFFFF
         cen: (0, -5, 3)
         nor: (0, 1, 0)
         b_p: 1
         mir: 0
-        texture index: 12, repeat 2
+        texture index: 10, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (5, 0, 3)
         nor: (-1, 0, 0)
         b_p: 1
         mir: 0
-        texture index: 12, repeat 2
+        texture index: 12, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
         nor: (0, -1, 0)
         b_p: 1
         mir: 0
-        texture index: 12, repeat 2
+        texture index: -1, repeat 5
     plane:
         col: 0xAAAAFF
         cen: (0, 10, 8)
         nor: (0, 0, -1)
         b_p: 1
         mir: 0
-        texture index: 12, repeat 2
+        texture index: -1, repeat 2
+    cylinder:
+        col: 0xFFAAAA
+        cen: (-3, 2.5, 0)
+        dir: (0, -1, 0)
+        rad: 1.2
+        b_p: 1000
+        mir: 1
+        trancper: 0.4
+        texture index: -1
+        limited_top: (-0.7, 0.7, 0); 1
+        limited_bottom: (0, -1, 0); -1
     cone:
         col: 0xAAFFAA
         cen: (2, 0, 2)
@@ -66,7 +83,7 @@
         b_p: 1000
         mir: 0
         trancper: 0
-        texture index: 10, repeat 1
+        texture index: 5
         limited: -
 #################
 $ b_p - biling - phong

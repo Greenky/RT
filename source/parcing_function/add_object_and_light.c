@@ -29,7 +29,7 @@ void		add_obj_to_list(t_rt *rt_data, t_objects *object)
 
 	if (object->type == TRIANGLE)
 		add_normal(object);
-	create_coord_system(&(object->basis), &(object->initial_basis), &(object->angle_rot));
+	create_coord_system(&(object->basis), &(object->init_basis), &(object->angle_rot));
 	object->next = NULL;
 	step = rt_data->objects;
 	if (step)

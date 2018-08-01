@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   rotating_objects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:48:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/29 16:48:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:09:38 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <OpenCL/opencl.h>
 #include "../../includes/rt_functions.h"
+
+void		if_isinf(t_objects *obj)
+{
+	if (!isinf(obj->cap[0].dist))
+		obj->cap[0].basis =
+init_basis_after_rot(obj->cap[0].init_basis, obj->angle_rot, obj->basis.b_z);
+	if (!isinf(obj->cap[1].dist))
+		obj->cap[1].basis =
+init_basis_after_rot(obj->cap[1].init_basis, obj->angle_rot, obj->basis.b_z);
+}
 
 void		rotating_object(int keycode, t_rt *rt_data)
 {
@@ -26,12 +36,16 @@ void		rotating_object(int keycode, t_rt *rt_data)
 	else
 	{
 		if (keycode == SDLK_UP || keycode == SDLK_DOWN)
-			obj->angle_rot.y += angle;
+			obj->angle_rot.x += angle;
 		else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
-			obj->angle_rot.x -= angle;
+			obj->angle_rot.y -= angle;
 		else
 			obj->angle_rot.z += angle;
-		obj->basis = init_basis_after_rot(obj->initial_basis, obj->angle_rot);
+		obj->basis = init_basis_after_rot(obj->init_basis, obj->angle_rot,
+		VEC(0, 0, 1));
+		if_isinf(obj);
+		obj->cap[0].normal = obj->cap[0].basis.b_z;
+		obj->cap[1].normal = obj->cap[1].basis.b_z;
 	}
 }
 

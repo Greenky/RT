@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_parcing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 14:15:13 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/23 14:15:17 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/07/31 21:47:12 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			more_cylin_data_fill3(char **line,
 	if (begin_with(*line, "texture index:"))
 	{
 		*line = trim_from(*line, 14);
-		if ((cylinder->texture_index = ft_atoi(*line)) < -4
+		if ((cylinder->texture_index = ft_atoi(*line)) < -1
 			|| cylinder->texture_index > 12)
 			error_caster(line_number, "no such texture index. as ", *line);
 		mirror = 0;
@@ -61,7 +61,7 @@ void			more_cylin_data_fill3(char **line,
 		*flag = *flag | (1 << 7);
 	}
 	else if (begin_with(*line, "limited"))
-		parce_limited(line, cylinder, line_number, flag); // TODO TEST IT
+		parce_limited(line, cylinder, line_number, flag);
 	else
 		error_caster(line_number, "no such parameter as ", *line);
 }
@@ -126,7 +126,7 @@ void			cylin_data_fill(char **line,
 	if (begin_with(*line, "rad:"))
 	{
 		*line = trim_from(*line, 4);
-		cylinder->radius = fmax(0.2, str_to_float(*line, 0, line_number));
+		cylinder->radius = fmaxf(0.2, str_to_float(*line, 0, line_number));
 		*flag = *flag | (1 << 3);
 	}
 	else if (begin_with(*line, "cen:"))

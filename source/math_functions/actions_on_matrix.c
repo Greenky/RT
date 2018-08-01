@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_on_matrix.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 20:40:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/09 20:40:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 14:33:12 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ t_coord_sys		count_inverse_matrix(t_coord_sys a)
 	return (m);
 }
 
-void		create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis, cl_float3 *angle_rot)
+void			create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis,
+								cl_float3 *angle_rot)
 {
+	if (basis->b_z.x != basis->b_z.x ||
+	(basis->b_z.x == 0 && basis->b_z.y == 0 && basis->b_z.z == 0))
+		basis->b_z = VEC(0, 1, 0);
 	basis->b_z = normalize_vector(basis->b_z);
 	if (basis->b_z.x == 0 && basis->b_z.z == 0)
 	{
@@ -76,8 +80,8 @@ void		create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis, cl_float3
 		basis->b_x = vect_mult_scalar(basis->b_x, -1);
 	}
 	*init_basis = *basis;
-	*angle_rot = VEC(0, 0, 0);
-	//ft_bzero(&angle_rot, sizeof(cl_float3));
+	if (angle_rot)
+		*angle_rot = VEC(0, 0, 0);
 }
 
 void			normalize_basis(t_coord_sys *a)

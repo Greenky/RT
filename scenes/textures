@@ -22,7 +22,45 @@
         vertex3: (3, 0, 0)
         b_p: 1
         mir: 0
+<<<<<<< HEAD
         trancper: 0
         texture index: -1, repeat 1
+=======
+        texture index: 8, repeat 1
+    plane:
+        col: 0xFFFFFF
+        cen: (0, 5, 3)
+        nor: (0, -1, 0)
+        b_p: 1
+        mir: 0
+        texture index: 3, repeat 2
+    plane:
+        col: 0xAAAAFF
+        cen: (0, 10, 8)
+        nor: (0, 0, -1)
+        b_p: 1
+        mir: 0
+        texture index: 6, repeat 2
+    cone:
+        col: 0xAAFFAA
+        cen: (2, 0, 2)
+        dir: (0.1, 1, 0)
+        ang: 30
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: 6
+        limited: -
+    cylinder:
+        col: 0xFFAAAA
+        cen: (-3, 2.5, 0)
+        dir: (0, -1, 0)
+        rad: 1.2
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: 9
+        limited: -
+>>>>>>> ab598290f4e3c51a3df8fe4ee1389f537e940109
 #################
 $ b_p - biling - phong

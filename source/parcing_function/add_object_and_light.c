@@ -12,21 +12,23 @@
 
 #include "../../includes/rt_functions.h"
 
-void		add_shape(t_rt *rt_data, t_objects *shape)
+void		add_shape(t_rt *rt_data, t_objects *object)
 {
 	t_objects	*step;
 
-	create_coord_system(&(shape->basis), &(shape->initial_basis), &(shape->angle_rot));
-	shape->next = NULL;
+	if (object->type == TRIANGLE)
+		add_normal(object);
+	create_coord_system(&(object->basis), &(object->initial_basis), &(object->angle_rot));
+	object->next = NULL;
 	step = rt_data->objects;
 	if (step)
 	{
 		while (step->next)
 			step = step->next;
-		step->next = shape;
+		step->next = object;
 	}
 	else
-		rt_data->objects = shape;
+		rt_data->objects = object;
 }
 
 void		add_light(t_rt *rt_data, t_light *light)

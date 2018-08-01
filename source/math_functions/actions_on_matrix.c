@@ -76,7 +76,8 @@ void		create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis, cl_float3
 		basis->b_x = vect_mult_scalar(basis->b_x, -1);
 	}
 	*init_basis = *basis;
-	*angle_rot = VEC(0, 0, 0);
+	if (angle_rot)
+		*angle_rot = VEC(0, 0, 0);
 	//ft_bzero(&angle_rot, sizeof(cl_float3));
 }
 

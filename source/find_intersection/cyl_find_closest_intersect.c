@@ -158,7 +158,6 @@ float	limit_cylinder(t_objects cyl, t_ray r, t_intersect *inter, float t[2])
 		free(tmp_inter.fig);
 		return (INFINITY);
 	}
-
 	inter->normal = find_normal_to_plane(*tmp_inter.fig, tmp_inter.point);
 	plane_find_closest_intersect(r, &tmp_inter);
 	free(tmp_inter.fig);

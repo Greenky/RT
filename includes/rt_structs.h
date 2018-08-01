@@ -71,8 +71,10 @@ typedef struct		s_light // ADDED TYPE, fix
 typedef struct 		s_cap
 {
 	float 			dist;
-//	cl_float3		point;
 	cl_float3		normal;
+    t_coord_sys     basis;
+    t_coord_sys     init_basis;
+//	cl_float3		initial_normal;
 }					t_cap;
 
 struct s_intersect;
@@ -92,7 +94,7 @@ typedef struct		s_objects
 	cl_float3			normal;
 	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида
 	t_coord_sys			basis;
-	t_coord_sys			initial_basis;
+	t_coord_sys			init_basis;
 	cl_float3			angle_rot;//углы поворота фигур
 	int					bling_phong;
 	struct s_objects	*next;

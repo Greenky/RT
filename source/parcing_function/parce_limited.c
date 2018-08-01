@@ -23,6 +23,8 @@ void parce_limited(char **line, t_objects *obj, int line_number, int *flag)
 	{
 		*line = trim_from(*line, 12);
 		obj->cap[0].normal = normalize_vector(parce_vector(*line, line_number));
+		obj->cap[0].basis.b_z = normalize_vector(parce_vector(*line, line_number));
+		create_coord_system(&(obj->cap[0].basis), &(obj->cap[0].init_basis), NULL);
 		while ((*line)[i] && (*line)[i] != ';')
 			i++;
 		*line = trim_from(*line, i + 1);
@@ -33,6 +35,8 @@ void parce_limited(char **line, t_objects *obj, int line_number, int *flag)
 	{
 		*line = trim_from(*line, 15);
 		obj->cap[1].normal = normalize_vector(parce_vector(*line, line_number));
+		obj->cap[1].basis.b_z = normalize_vector(parce_vector(*line, line_number));
+		create_coord_system(&(obj->cap[1].basis), &(obj->cap[1].init_basis), NULL);
 		while ((*line)[i] && (*line)[i] != ';')
 			i++;
 		*line = trim_from(*line, i + 1);

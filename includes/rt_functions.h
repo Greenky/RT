@@ -61,7 +61,7 @@
 # define A 0
 # define B 1
 # define C 2
-# define ANGLE (M_PI * (5) / 180.0)
+# define ANGLE (M_PI * (10) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
 
 # define MAX_SRC_SIZE	0x100000
@@ -200,7 +200,7 @@ int				check_sdl_key(int keycode, int type_of_motion);
 */
 
 void			rotating_camera(int keycode, t_rt *rt_data);
-t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot);
+t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot, cl_float3 z_cam_basis);
 t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis);
 void			manage_camera_origin(int keycode, t_rt *rt_data);
 void			reset_camera_settings(t_rt *rt_data);

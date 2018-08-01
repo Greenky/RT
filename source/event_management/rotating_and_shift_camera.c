@@ -26,23 +26,19 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 		rt_data->cl_data.camera.angle_rot.z += angle;
 	rt_data->cl_data.camera.basis =
 			init_basis_after_rot(rt_data->cl_data.camera.initial_basis,
-								rt_data->cl_data.camera.angle_rot);
+								rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
 }
 
-t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot)
+t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot, cl_float3 z_cam_sys)
 {
 	t_coord_sys		new_basis;
-	cl_float3		x_cam_sys;
-	cl_float3		y_cam_sys;
-
+	cl_float3		x_cam_sys = VEC(1, 0, 0);
+	cl_float3		y_cam_sys = VEC(0, 1, 0);
+	z_cam_sys = VEC(0, 0, 1);
 	new_basis = matrix_mult_matrix(initial_basis,
-					rot_matrix_about_the_axis(angle_rot.z, VEC(0, 0, 1)));
-	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis),
-								new_basis.b_y);
+					rot_matrix_about_the_axis(angle_rot.z, z_cam_sys));
 	new_basis = matrix_mult_matrix(new_basis,
 		rot_matrix_about_the_axis(angle_rot.y, y_cam_sys));
-	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis),
-								new_basis.b_x);
 	new_basis = matrix_mult_matrix(new_basis,
 					(rot_matrix_about_the_axis(angle_rot.x, x_cam_sys)));
 	return (new_basis);

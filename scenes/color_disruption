@@ -22,42 +22,42 @@
         b_p: 1000
         mir: 0.5
         trancper: 0
-        texture index: 12, repeat 1
+        texture index: 11, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)
         nor: (1, 0, 0)
         b_p: 1
         mir: 0
-        texture index: 11, repeat 2
+        texture index: 12, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (0, -5, 3)
         nor: (0, 1, 0)
         b_p: 1
         mir: 0
-        texture index: 11, repeat 2
+        texture index: 12, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (5, 0, 3)
         nor: (-1, 0, 0)
         b_p: 1
         mir: 0
-        texture index: 11, repeat 2
+        texture index: 12, repeat 2
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
         nor: (0, -1, 0)
         b_p: 1
         mir: 0
-        texture index: 11, repeat 2
+        texture index: 12, repeat 2
     plane:
         col: 0xAAAAFF
         cen: (0, 10, 8)
         nor: (0, 0, -1)
         b_p: 1
         mir: 0
-        texture index: 11, repeat 2
+        texture index: 12, repeat 2
     cone:
         col: 0xAAFFAA
         cen: (2, 0, 2)

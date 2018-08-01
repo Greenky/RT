@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 11:49:00 by vpaladii          #+#    #+#             */
-/*   Updated: 2018/07/07 11:49:00 by vpaladii         ###   ########.fr       */
+/*   Updated: 2018/07/31 17:50:36 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ typedef struct	s_gui
 	SDL_Rect	checked_pos;
 
 	SDL_Surface	*unchecked;
-	SDL_Rect	unchecked_pos;
 
 	SDL_Surface	*aliasing_on_foot;
 	SDL_Surface	*aliasing_off_foot;
@@ -199,6 +198,9 @@ typedef struct	s_rt
 	t_light			*lights_arr; // масив для CL
 	t_objects		*objects_arr; // масив для CL
 	int				line_number;
+	int 			server_fd;
+	int 			server_mode;
+	int 			is_client;
 }				t_rt;
 
 typedef struct		s_thread_data

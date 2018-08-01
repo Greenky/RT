@@ -37,6 +37,7 @@ set(SOURCE_FILES
 
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
+		source/find_intersection/cyl_find_limited.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
 		source/find_intersection/ellipsoid_find_closest_intersect.c
@@ -61,7 +62,7 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c)
+		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c source/color_functions/texture_mapping.c source/network_handling.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

@@ -92,6 +92,8 @@ int		mouse_click_event(t_rt *rt_data, SDL_Event *event)
 			while (++i < rt_data->cl_data.num_of_objects)
 				swap_cartoon(closest_inter, rt_data, i);
 	}
+	if (rt_data->server_mode)
+		send_data(rt_data->server_fd, event, sizeof(SDL_Event));
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	return (0);

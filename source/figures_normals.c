@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figures_normals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 21:57:07 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/25 21:57:09 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/07/31 21:05:22 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,16 @@ cl_float3	find_normal_to_ellipsoid(t_objects ellipsoid, cl_float3 inter)
 	cl_float3	inter_in_ell_sys;
 
 	inter_in_ell_sys = vect_diff(inter, ellipsoid.origin);
-	inter_in_ell_sys = matrix_mult_vect(count_inverse_matrix(ellipsoid.basis), inter_in_ell_sys);
+	inter_in_ell_sys = matrix_mult_vect(count_inverse_matrix(ellipsoid.basis),
+	inter_in_ell_sys);
 	normal_to_ellipsoid.x = inter_in_ell_sys.x * 2
 		/ find_square(ellipsoid.axis_dimensions.x * ellipsoid.radius);
 	normal_to_ellipsoid.y = inter_in_ell_sys.y * 2
 		/ find_square(ellipsoid.axis_dimensions.y * ellipsoid.radius);
 	normal_to_ellipsoid.z = inter_in_ell_sys.z * 2
 		/ find_square(ellipsoid.axis_dimensions.z * ellipsoid.radius);
-	normal_to_ellipsoid = matrix_mult_vect(ellipsoid.basis, normal_to_ellipsoid);
+	normal_to_ellipsoid = matrix_mult_vect(ellipsoid.basis,
+	normal_to_ellipsoid);
 	normal_to_ellipsoid =
 		vect_mult_scalar(normalize_vector(normal_to_ellipsoid), -1);
 	return (normal_to_ellipsoid);

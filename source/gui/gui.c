@@ -74,7 +74,7 @@ void		draw_gui(t_rt *rt_data)
 	rt_data->gui.open_sans = TTF_OpenFont("fonts/OpenSans-Regular.ttf", 15);
 	draw_clicked_info(rt_data);
 	draw_foot_info(rt_data);
-	TTF_CloseFont(rt_data->gui.chunk_font);//Added
-	TTF_CloseFont(rt_data->gui.open_sans);//Added
+	TTF_CloseFont(rt_data->gui.chunk_font);
+	TTF_CloseFont(rt_data->gui.open_sans);
 	TTF_Quit();
 }

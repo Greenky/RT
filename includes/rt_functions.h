@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/26 18:40:13 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/07/31 21:02:22 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # include "libft.h"
 # include "rt_structs.h"
 # include <pthread.h>
+# include <time.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <netdb.h>
 
 # define THREAD_MAX 4
 # define PIXEL_SIZE 4
@@ -168,7 +174,6 @@ uint32_t		apply_filter(uint32_t color, int filter);
 /*
 **	run_rt.c
 */
-
 
 void			run_rt(t_rt *rt_data);
 t_ray			compute_ray(t_camera camera, t_dot pixel, int aliasing);
@@ -375,4 +380,9 @@ int			perlin_noise_disruption(int j, int i);
 int			plasma_disruption(int j, int i);
 int			check_mate_disruption(int j, int i);
 void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
+
+void		*receive_data(int fd, void *dest, size_t size);
+void		send_data(int fd, void *src, size_t size);
+void		init_server(t_rt *rt_data, char *file);
+void		client_event_management(t_rt *rt_data, SDL_Event *event);
 #endif

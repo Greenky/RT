@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 19:43:54 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/23 19:43:56 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/07/31 21:16:55 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,6 @@ void	blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos)
 	free(str_data);
 }
 
-/*void	sdl_error(char *str)
-{
-	ft_putstr(str);
-	ft_putendl(SDL_GetError());
-	exit(1);
-}*/
-
 void	make_screenshot(t_rt *rt_data)
 {
 	SDL_Surface	*surface;
@@ -67,7 +60,8 @@ void	make_screenshot(t_rt *rt_data)
 	rt_data->take_screenshot = 1;
 	draw_scene(rt_data);
 	surface = SDL_GetWindowSurface(rt_data->window);
-	convert_surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB24, 0);
+	convert_surface = SDL_ConvertSurfaceFormat(surface,
+	SDL_PIXELFORMAT_RGB24, 0);
 	SDL_FreeSurface(surface);
 	num = ft_itoa(img_num);
 	scr_name = ft_strjoin("ScreenShot", num);

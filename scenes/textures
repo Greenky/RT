@@ -67,6 +67,7 @@
         mir: 0
         trancper: 0
         texture index: 6
+        limited: -
     cylinder:
         col: 0xFFAAAA
         cen: (-3, 2.5, 0)
@@ -76,9 +77,6 @@
         mir: 0
         trancper: 0
         texture index: 9
-#        cap1_dist: -1
-#        cap1_norm: (0, 1, 0)
-#        cap2_dist: 1
-#        cap2_norm: (0, -1, 0)
+        limited: -
 #################
 $ b_p - biling - phong

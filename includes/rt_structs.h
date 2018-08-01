@@ -14,7 +14,7 @@
 # define RT_STRUCTS_H
 
 enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR, LOAD_BMP_ERROR};
-enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID};
+enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID, TRIANGLE};
 enum	e_lights {AMBIENT, POINT, DIRECT};
 
 enum	e_object_data {RADIUS, POS_X, POS_Y, POS_Z, ANGLE_KOEF};
@@ -71,7 +71,6 @@ typedef struct		s_light // ADDED TYPE, fix
 typedef struct 		s_cap
 {
 	float 			dist;
-//	cl_float3		point;
 	cl_float3		normal;
 }					t_cap;
 
@@ -88,6 +87,9 @@ typedef struct		s_objects
 	float				mirror_coef;
 	float				transperent_coef;
 	t_cap				cap[2];
+	cl_float3			v0;
+	cl_float3			v1;
+	cl_float3			v2;
 	cl_float3			origin;
 	cl_float3			normal;
 	cl_float3			axis_dimensions;//размеры осей x y z для эллипсоида

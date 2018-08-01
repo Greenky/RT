@@ -43,7 +43,7 @@
 # define ROTATE 1
 
 # define WIN_SIZE 1000
-# define OBJ_NUM 7
+# define OBJ_NUM 8
 # define DISTANCE 1
 # define DIRECT_LIGHT_IS_PARSED 15
 # define POINT_LIGHT_IS_PARSED 23
@@ -54,6 +54,7 @@
 # define CYLINDER_IS_PARSED 1023
 # define PLANE_IS_PARSED 63
 # define ELLIPSOID_IS_PARSED 127 //TODO check!!
+# define TRIANGLE_IS_PARSED 255
 # define STEP (1.0 / WIN_SIZE)
 # define SHIFT_STEP 0.2
 # define LEFT_BOUND (-(WIN_SIZE / 2))
@@ -63,6 +64,7 @@
 # define C 2
 # define ANGLE (M_PI * (5) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
+# define EPSILON 0.000001
 
 # define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
@@ -123,7 +125,10 @@ void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *f
 void			more_ellipsoid_fill(char **line,
 									t_objects *ellipsoid, int line_number, int *flag);
 
-void			add_shape(t_rt *rt_data, t_objects *shape);
+int             triangle_parce(int fd, t_rt *rt_data);
+void			triang_data_fill(char **line, t_objects *cylinder, int line_number, int *flag);
+
+void			add_obj_to_list(t_rt *rt_data, t_objects *object);
 void			add_light(t_rt *rt_data, t_light *light);
 
 int				begin_with(char *line, char *begin);
@@ -375,4 +380,9 @@ int			perlin_noise_disruption(int j, int i);
 int			plasma_disruption(int j, int i);
 int			check_mate_disruption(int j, int i);
 void		parce_limited(char **line, t_objects *obj, int line_number, int *flag);
+
+
+
+void	triangle_find_closest_intersect(t_ray r, t_intersect *inter);
+
 #endif

@@ -226,7 +226,6 @@ t_intersect	find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray prim
 			closest_inter = tmp_inter;
 		current++;
 	}
-
 	get_texture(&closest_inter, cl_data);
 	return (closest_inter);
 }

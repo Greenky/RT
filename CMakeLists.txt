@@ -23,7 +23,7 @@ set(SOURCE_FILES
 		source/parcing_function/cylinder_parcing.c
 		source/parcing_function/ellipsoid_parcing.c
 		source/parcing_function/cam_parcing.c
-		source/parcing_function/add_shape_and_light.c
+		source/parcing_function/add_object_and_light.c
 		source/parcing_function/parce_peripherals.c
 		source/parcing_function/parce_peripherals_v2.c
 		source/parcing_function/light_parcing.c
@@ -61,7 +61,7 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c)
+		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c source/find_intersection/triangle_find_closest_intersect.c source/parcing_function/triangle_parce.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

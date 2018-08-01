@@ -38,7 +38,7 @@ int				sphere_parce(int fd, t_rt *rt_data)
 		error_exit(ERROR, NULL);
 	}
 	sphere->basis.b_z = VEC(1, 0.2, 0);
-	add_shape(rt_data, sphere);
+    add_obj_to_list(rt_data, sphere);
 	return (0);
 }
 

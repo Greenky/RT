@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_shape.c                                        :+:      :+:    :+:   */
+/*   add_object_and_light.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,18 @@
 
 #include "../../includes/rt_functions.h"
 
-void		add_shape(t_rt *rt_data, t_objects *object)
+void		add_normal(t_objects *obj)
+{
+	cl_float3   v0v1;
+	cl_float3   v0v2;
+
+	v0v1 = vect_diff(obj->v1, obj->v0);
+	v0v2 = vect_diff(obj->v2, obj->v0);
+	obj->basis.b_z = vect_cross_product(v0v2, v0v1);
+	obj->basis.b_z = normalize_vector(obj->basis.b_z);
+}
+
+void		add_obj_to_list(t_rt *rt_data, t_objects *object)
 {
 	t_objects	*step;
 

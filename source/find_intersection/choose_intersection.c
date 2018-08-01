@@ -24,4 +24,6 @@ void		choose_intersection(t_ray primary_ray, t_intersect *tmp_inter)
 		plane_find_closest_intersect(primary_ray, tmp_inter);
 	else if (tmp_inter->fig->type == ELLIPSOID)
 		ellipsoid_find_closest_intersect(primary_ray, tmp_inter);
+	else if (tmp_inter->fig->type == TRIANGLE)
+        triangle_find_closest_intersect(primary_ray, tmp_inter);
 }

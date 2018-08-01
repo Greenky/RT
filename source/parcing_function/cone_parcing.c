@@ -34,7 +34,7 @@ int				cone_parce(int fd, t_rt *rt_data)
 	}
 	if (k < 0 || flag != CONE_IS_PARSED)
 		error_exit(ERROR, NULL);
-	add_shape(rt_data, cone);
+    add_obj_to_list(rt_data, cone);
 	return (0);
 }
 

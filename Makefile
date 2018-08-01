@@ -33,7 +33,7 @@ SOURCES         =   source/error_manager.c \
                     source/draw_scene/apply_filter.c \
                     source/draw_scene/draw_pixel_filter.c \
                     source/draw_scene/draw_scene.c \
-                    source/parcing_function/add_shape_and_light.c \
+                    source/parcing_function/add_object_and_light.c \
                     source/parcing_function/cam_parcing.c \
                     source/parcing_function/cone_parcing.c \
                     source/parcing_function/cylinder_parcing.c \
@@ -46,6 +46,7 @@ SOURCES         =   source/error_manager.c \
                     source/parcing_function/list_to_objects.c   \
                     source/parcing_function/ellipsoid_parcing.c \
                     source/parcing_function/parce_limited.c \
+                    source/parcing_function/triangle_parce.c \
                     source/math_functions/actions_on_matrix.c \
                     source/math_functions/actions_on_vectors.c \
                     source/math_functions/actions_on_vectors2.c \
@@ -56,6 +57,7 @@ SOURCES         =   source/error_manager.c \
                     source/find_intersection/sphere_find_closest_intersect.c \
                     source/find_intersection/ellipsoid_find_closest_intersect.c \
                     source/find_intersection/choose_intersection.c \
+                    source/find_intersection/triangle_find_closest_intersect.c \
                     source/gui/gui_object_change.c      \
                     source/gui/gui_check_buttons.c      \
                     source/gui/create_gui.c             \

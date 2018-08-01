@@ -32,6 +32,9 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].is_cartoon = 0;
 	rt_data->objects_arr[len].angle_rot = step_obj->angle_rot;
 	rt_data->objects_arr[len].initial_basis = step_obj->initial_basis;
+	rt_data->objects_arr[len].v0 = step_obj->v0;
+	rt_data->objects_arr[len].v1 = step_obj->v1;
+	rt_data->objects_arr[len].v2 = step_obj->v2;
 	rt_data->objects_arr[len].next = NULL;
 }
 

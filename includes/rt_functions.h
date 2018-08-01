@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 21:02:22 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 21:15:40 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOMBA_RAKETA"
 
-# define DEEP_BLUE (SDL_Color){33, 150, 243, 0}
+# define D_BLUE (SDL_Color){33, 150, 243, 0}
 # define SKY_BLUE (SDL_Color){144, 202, 249, 0}
 # define BLACK (SDL_Color){0, 0, 0, 0}
 # define WHITE (SDL_Color){255, 255, 255, 0}

@@ -29,8 +29,6 @@ void			fill_object(t_rt *rt_data, t_objects *step_obj, int len)
 	rt_data->objects_arr[len].texture_index = step_obj->texture_index;
 	rt_data->objects_arr[len].cap[0] = step_obj->cap[0];
 	rt_data->objects_arr[len].cap[1] = step_obj->cap[1];
-//    rt_data->objects_arr[len].cap[0].normal = matrix_mult_vect(count_inverse_matrix(rt_data->objects_arr[len].basis), rt_data->objects_arr[len].cap[0].normal);
-//    rt_data->objects_arr[len].cap[1].normal = matrix_mult_vect(count_inverse_matrix(rt_data->objects_arr[len].basis), rt_data->objects_arr[len].cap[1].normal);
 	rt_data->objects_arr[len].is_cartoon = 0;
 	rt_data->objects_arr[len].angle_rot = step_obj->angle_rot;
 	rt_data->objects_arr[len].init_basis = step_obj->init_basis;

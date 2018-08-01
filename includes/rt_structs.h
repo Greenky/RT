@@ -144,7 +144,7 @@ typedef struct	s_gui
 {
 	int			filter_gui;
 	SDL_Rect	pos;
-	TTF_Font	*chunk_font;
+	TTF_Font	*c_font;
 	TTF_Font	*open_sans;
 
 	SDL_Surface	*bar;

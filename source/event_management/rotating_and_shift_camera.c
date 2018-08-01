@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotating_and_shift_camera.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:01:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/23 18:01:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:15:28 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,19 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 		rt_data->cl_data.camera.angle_rot.z += angle;
 	rt_data->cl_data.camera.basis =
 			init_basis_after_rot(rt_data->cl_data.camera.initial_basis,
-								rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
+			rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
 }
 
-t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot, cl_float3 z_cam_sys)
+t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis,
+cl_float3 angle_rot, cl_float3 z_cam_sys)
 {
 	t_coord_sys		new_basis;
-	cl_float3		x_cam_sys = VEC(1, 0, 0);
-	cl_float3		y_cam_sys = VEC(0, 1, 0);
+	cl_float3		x_cam_sys;
+	cl_float3		y_cam_sys;
+
 	z_cam_sys = VEC(0, 0, 1);
+	x_cam_sys = VEC(1, 0, 0);
+	y_cam_sys = VEC(0, 1, 0);
 	new_basis = matrix_mult_matrix(initial_basis,
 					rot_matrix_about_the_axis(angle_rot.z, z_cam_sys));
 	new_basis = matrix_mult_matrix(new_basis,

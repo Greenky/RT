@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 19:43:54 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/31 21:16:55 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 20:48:20 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ char	*ftoa(float f, int tochnost)
 
 void	blit_surface_data(t_rt *rt_data, float fdata, SDL_Rect *pos)
 {
-	char	*str_data;
+	char		*str_data;
+	SDL_Surface *text;
 
 	str_data = ftoa(fdata, 1);
-	SDL_BlitSurface(TTF_RenderText_Shaded(rt_data->gui.open_sans,
-		str_data, BLACK, WHITE), NULL, rt_data->screen_surface, pos);
+	text = TTF_RenderText_Shaded(rt_data->gui.open_sans, str_data,
+	BLACK, WHITE);
+	SDL_BlitSurface(text, NULL, rt_data->screen_surface, pos);
+	SDL_FreeSurface(text);
 	free(str_data);
 }
 

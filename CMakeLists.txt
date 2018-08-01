@@ -14,7 +14,6 @@ set(SOURCE_FILES
 		source/find_normal_to_figure.c
 		source/run_rt.c
 		source/figures_normals.c
-		source/opencl_functions.c
 
 		source/parcing_function/file_parcing.c
 		source/parcing_function/plane_parcing.c

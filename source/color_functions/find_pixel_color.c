@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 20:39:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/08/01 18:49:36 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:30:43 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_ray		find_light_ray(cl_float3 origin, t_light *light)
 
 	light_ray.origin = origin;
 	if (light->type == POINT)
-		light_ray.direction = normalize_vector(vect_diff(light->origin, origin));
+		light_ray.direction =
+		normalize_vector(vect_diff(light->origin, origin));
 	else
 		light_ray.direction = normalize_vector(light->direct);
 	return (light_ray);

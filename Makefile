@@ -162,6 +162,7 @@ clean:
 fclean: clean
 	@make fclean -C libft
 	@rm -f $(NAME)
+	@rm -f RT_CLIENT
 	@printf "$(C_MAGENTA)RT:   $(C_NONE) %-50s$(C_RED)[done]$(C_NONE)\n" $@
 
 re: fclean all

@@ -67,14 +67,14 @@
     cylinder:
         col: 0xFFAAAA
         cen: (-1, 2.5, 0)
-        dir: (0, -1, 0)
+        dir: (-0.5, 1, 0)
         rad: 1.2
         b_p: 1000
-        mir: 1
-        trancper: 0.4
+        mir: 0
+        trancper: 0
         texture index: -1
-        limited_top: (0.5, 0.8, -1); 0
-        limited_bottom: (-0.4, 1, 0); -2
+        limited_top: (0.5, 0.8, 0); 0
+        limited_bottom: (-0.4, 1, 0); 2
     cone:
         col: 0xAAFFAA
         cen: (2, 0, 2)

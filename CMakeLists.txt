@@ -69,7 +69,7 @@ set(SOURCE_FILES
 		source/draw_scene/draw_pixel_filter.c
 		source/event_management/rotating_objects.c
 		source/find_intersection/triangle_find_closest_intersect.c
-		source/parcing_function/triangle_parce.c)
+		source/parcing_function/triangle_parce.c source/event_management/rotating_caps.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

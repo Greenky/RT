@@ -187,7 +187,7 @@ int				check_sdl_key(int keycode, int type_of_motion);
 
 void			rotating_camera(int keycode, t_rt *rt_data);
 t_coord_sys		init_basis_after_rot(t_coord_sys initial_basis,
-							cl_float3 angle_rot, cl_float3 z_cam_basis);
+										cl_float3 angle_rot);
 t_coord_sys		rot_matrix_about_the_axis(float angle, cl_float3 axis);
 void			manage_camera_origin(int keycode, t_rt *rt_data);
 void			reset_camera_settings(t_rt *rt_data);
@@ -196,12 +196,20 @@ void			reset_camera_settings(t_rt *rt_data);
 **	rotating_objects.c
 */
 
-void		rotating_object(int keycode, t_rt *rt_data);
-t_objects	*find_object(t_rt *rt_data);
-void		init_cap_basis_after_rot(t_coord_sys new_basis_obj,
-							t_objects *obj, cl_float3 angle_rot, int axis);
-void		init_obj_basis_after_rot(t_coord_sys init_basis_obj,
-                                     cl_float3 angle_rot, t_objects *obj);
+void			init_obj_basis_after_rot
+		(t_coord_sys init_basis_obj, cl_float3 angle_rot, t_objects *obj);
+void			check_caps_normals(t_objects *obj);
+void			rotating_object(int keycode, t_rt *rt_data);
+t_objects		*find_object(t_rt *rt_data);
+
+/*
+**	rotating_caps.c
+*/
+
+cl_float3		init_cap_axis
+		(t_coord_sys new_basis_obj, t_objects *obj, int axis, int cup_num);
+void			init_cap_basis_after_rot(t_coord_sys new_basis_obj,
+		t_objects *obj, cl_float3 angle_rot, int axis);
 
 /*
 **	handle_axis_dimensions_for_ellipsoid.c
@@ -211,6 +219,10 @@ float			find_biggest_axis(t_objects *ellipsoid);
 void			handle_axis_dimensions(t_objects *ellipsoid);
 void			check_axis_dimensions(float *length);
 void			manage_ellipsoid_axes(int keycode, t_rt *rt_data);
+
+/*
+**	else
+*/
 
 cl_float3		choose_normal(t_objects figure, cl_float3 inter);
 cl_float3		find_normal_to_sphere(t_objects sphere, cl_float3 inter);
@@ -306,7 +318,6 @@ t_coord_sys		matrix_mult_matrix(t_coord_sys a, t_coord_sys b);
 t_coord_sys		count_inverse_matrix(t_coord_sys a);
 void			create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis,
 								cl_float3 *angle_rot);
-void			normalize_basis(t_coord_sys *a);
 
 cl_float3		vect_diff(cl_float3 v1, cl_float3 v2);
 cl_float3		vect_sum(cl_float3 v1, cl_float3 v2);

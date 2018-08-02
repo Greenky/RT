@@ -83,10 +83,3 @@ void			create_coord_system(t_coord_sys *basis, t_coord_sys *init_basis,
 	if (angle_rot)
 		*angle_rot = VEC(0, 0, 0);
 }
-
-void			normalize_basis(t_coord_sys *a)
-{
-	a->b_x = normalize_vector(a->b_x);
-	a->b_y = normalize_vector(a->b_y);
-	a->b_z = normalize_vector(a->b_z);
-}

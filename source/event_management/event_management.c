@@ -78,7 +78,6 @@ int			exit_x(t_rt *rt_data, SDL_Event *event)
 		SDL_FreeSurface(rt_data->gui.negative);
 		SDL_DestroyWindow(rt_data->window);
 		SDL_Quit();
-		system("leaks RT");
 		return (0);
 	}
 	else

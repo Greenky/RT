@@ -80,6 +80,7 @@ typedef struct			s_cap
 	cl_float3			normal;
 	t_coord_sys			basis;
 	t_coord_sys			init_basis;
+	cl_float3			angle_rot;
 }						t_cap;
 
 struct s_intersect;

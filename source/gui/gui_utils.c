@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 19:43:54 by ikachko           #+#    #+#             */
-/*   Updated: 2018/08/01 20:48:20 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 11:42:15 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	make_screenshot(t_rt *rt_data)
 void	swap_cartoon(t_intersect closest_inter, t_rt *rt_data, int i)
 {
 	if (closest_inter.fig->type != PLANE
+		&& closest_inter.fig->type != TRIANGLE
 		&& closest_inter.fig == (rt_data->objects_arr + i))
 		rt_data->objects_arr[i].is_cartoon =
 				rt_data->objects_arr[i].is_cartoon ? 0 : 1;

@@ -6,7 +6,7 @@
 /*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/08/02 10:54:55 by ikachko          ###   ########.fr       */
+/*   Updated: 2018/08/02 11:02:59 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define RT_FUNCTIONS_H
 
 # include <OpenCL/opencl.h>
-//# include <SDL.h>
-//# include <SDL_ttf.h>
-//# include <SDL_image.h>
 # include "../frameworks/SDL2.framework/Headers/SDL.h"
 # include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 # include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"

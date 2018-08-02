@@ -55,7 +55,7 @@
 # define A 0
 # define B 1
 # define C 2
-# define ANGLE (M_PI * (10) / 180.0)
+# define ANGLE (M_PI * (7) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOMBA_RAKETA"
@@ -196,8 +196,12 @@ void			reset_camera_settings(t_rt *rt_data);
 **	rotating_objects.c
 */
 
-void			rotating_object(int keycode, t_rt *rt_data);
-t_objects		*find_object(t_rt *rt_data);
+void		rotating_object(int keycode, t_rt *rt_data);
+t_objects	*find_object(t_rt *rt_data);
+void		init_cap_basis_after_rot(t_coord_sys new_basis_obj,
+							t_objects *obj, cl_float3 angle_rot, int axis);
+void		init_obj_basis_after_rot(t_coord_sys init_basis_obj,
+                                     cl_float3 angle_rot, t_objects *obj);
 
 /*
 **	handle_axis_dimensions_for_ellipsoid.c

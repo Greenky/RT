@@ -27,6 +27,7 @@ enum	e_buttons {LEFT1, LEFT2, LEFT3, LEFT4,
 enum	e_foot_buttons {FILTERS, SAVE, ALIASING};
 enum	e_filters {NOFILTER, SEPIA, GREYSCALE, NEGATIVE, PIXEL};
 enum	e_gui{FIGURE_GUI, FOOT_GUI, FILTER_GUI, NO_GUI};
+enum	e_axis{AXIS_X, AXIS_Y, AXIS_Z};
 
 typedef struct			s_dot
 {

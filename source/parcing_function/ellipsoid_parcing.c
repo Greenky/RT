@@ -37,7 +37,7 @@ int				ellipsoid_parce(int fd, t_rt *rt_data)
 	ellipsoid->basis.b_z = VEC(0, 0, 1);
 	ellipsoid->radius = find_biggest_axis(ellipsoid);
 	handle_axis_dimensions(ellipsoid);
-    add_obj_to_list(rt_data, ellipsoid);
+	add_obj_to_list(rt_data, ellipsoid);
 	return (0);
 }
 

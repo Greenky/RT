@@ -59,7 +59,7 @@
         mir: 0
         trancper: 0
         texture index: -1
-        limited_top: (0.2, 1, 1); 1
-        limited_bottom: (0, 1, 0.3); -1
+        limited_top: (0, -1, 0); 1
+        limited_bottom: (0, -1, 0); -1
 #################
 $ b_p - biling - phong

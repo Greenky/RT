@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotating_and_shift_camera.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:01:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/23 18:01:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:15:28 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 		rt_data->cl_data.camera.angle_rot.z += angle;
 	rt_data->cl_data.camera.basis =
 			init_basis_after_rot(rt_data->cl_data.camera.initial_basis,
-								rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
+			rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
 }
 
 cl_float3	init_cap_axis

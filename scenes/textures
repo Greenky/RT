@@ -15,35 +15,6 @@
         int: 0.1
 ################
 #### SHAPES ####
-    sphere:
-        cen: (-0.5, 2, 2)
-        rad: 1.5
-        col: 0xff0000
-        b_p: 1000
-        mir: 0
-        trancper: 0
-        texture index: 5, repeat 5
-    plane:
-        col: 0xFFFFFF
-        cen: (-5, 0, 3)
-        nor: (1, 0, 0)
-        b_p: 1
-        mir: 0
-        texture index: 2, repeat 5
-    plane:
-        col: 0xFFFFFF
-        cen: (0, -5, 3)
-        nor: (0, 1, 0)
-        b_p: 1
-        mir: 0
-        texture index: 1, repeat 2
-    plane:
-        col: 0xFFFFFF
-        cen: (5, 0, 3)
-        nor: (-1, 0, 0)
-        b_p: 1
-        mir: 0
-        texture index: 8, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
@@ -57,7 +28,7 @@
         nor: (0, 0, -1)
         b_p: 1
         mir: 0
-        texture index: 6, repeat 2
+        texture index: 5, repeat 2
     cone:
         col: 0xAAFFAA
         cen: (2, 0, 2)

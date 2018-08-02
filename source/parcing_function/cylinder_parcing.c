@@ -34,7 +34,7 @@ int				cylinder_parce(int fd, t_rt *rt_data)
 	}
 	if (ret < 0 || flag != CYLINDER_IS_PARSED)
 		error_exit(ERROR, NULL);
-	add_shape(rt_data, cylinder);
+	add_obj_to_list(rt_data, cylinder);
 	return (0);
 }
 

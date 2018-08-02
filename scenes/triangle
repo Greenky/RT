@@ -1,0 +1,59 @@
+#### CAMERA ####
+    camera:
+        dir: (0, 0, -1)
+        cen: (0, 0, -12)
+################
+#### LIGHTS ####
+    light:
+        point
+        cen: (0, 0, -5)
+        col: 0xFFFFFF
+        int: 0.4
+    light:
+        point
+        cen: (-3, -2, -3)
+        col: 0xFFFFFF
+        int: 0.5
+    light:
+        ambient
+        col: 0xAAAAFF
+        int: 0.1
+################
+#### SHAPES ####
+    ellipsoid:
+        cen: (-1, -4, 2)
+        col: 0xff7581
+        axis sizes: (3, 1.5, 3)
+        b_p: 100
+        mir: 0
+        texture index: -1, repeat 0
+        trancper: 0
+    plane:
+        col: 0xFFFFFF
+        cen: (5, 0, 5)
+        nor: (0, 0, -1)
+        b_p: 1
+        mir: 0
+        texture index: -1, repeat 1
+    triangle:
+        col: 0xFFFF00
+        vertex1: (-3, 0, 0)
+        vertex2: (0, -3, 0)
+        vertex3: (3, 0, 0)
+        b_p: 1
+        mir: 0
+        trancper: 0
+        texture index: -1, repeat 1
+    cylinder:
+        col: 0xFFAAAA
+        cen: (0, 2.5, 0)
+        dir: (0, -1, 0)
+        rad: 1.2
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: -1
+        limited_top: (0, -1, 0); 1
+        limited_bottom: (0, -1, 0); -1
+#################
+$ b_p - biling - phong

@@ -22,11 +22,8 @@
         vertex3: (3, 0, 0)
         b_p: 1
         mir: 0
-<<<<<<< HEAD
         trancper: 0
         texture index: -1, repeat 1
-=======
-        texture index: 8, repeat 1
     plane:
         col: 0xFFFFFF
         cen: (0, 5, 3)
@@ -61,6 +58,5 @@
         trancper: 0
         texture index: 9
         limited: -
->>>>>>> ab598290f4e3c51a3df8fe4ee1389f537e940109
 #################
 $ b_p - biling - phong

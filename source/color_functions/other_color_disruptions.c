@@ -39,12 +39,12 @@ int			plasma_disruption(int j, int i)
 	double		value;
 
 	time = clock() / 50.0;
-	value = sin(dist(i + time, j, 100 / 2,
+	value = sin(DIST(i + time, j, 100 / 2,
 							100 / 2) / 8.0)
-						+ sin(dist(i, j, 100 / 4, 100 / 4) / 8.0)
-						+ sin(dist(i, j + time / 7, (100 / 4 * 3),
+						+ sin(DIST(i, j, 100 / 4, 100 / 4) / 8.0)
+						+ sin(DIST(i, j + time / 7, (100 / 4 * 3),
 								100 / 4) / 7.0)
-						+ sin(dist(i, j, (100 / 4 * 3), 100.0) / 8.0);
+						+ sin(DIST(i, j, (100 / 4 * 3), 100.0) / 8.0);
 	color = (int)((4 + value)) * 32;
 	return (rgb_to_int((t_channel){color, color * 2, 255 - color}));
 }

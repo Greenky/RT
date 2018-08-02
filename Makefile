@@ -33,7 +33,6 @@ SOURCES         =   source/error_manager.c \
                     source/find_fd.c \
                     source/figures_normals.c    \
                     source/find_normal_to_figure.c \
-                    source/opencl_functions.c   \
                     source/draw_scene/apply_filter.c \
                     source/draw_scene/draw_pixel_filter.c \
                     source/draw_scene/draw_scene.c \

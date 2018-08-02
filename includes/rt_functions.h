@@ -6,21 +6,20 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/08/01 21:15:40 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 10:57:28 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef RT_FUNCTIONS_H
+#ifndef RT_FUNCTIONS_H
 # define RT_FUNCTIONS_H
-
 # include <OpenCL/opencl.h>
-//# include <SDL.h>
-//# include <SDL_ttf.h>
-//# include <SDL_image.h>
+# include "rt_structs.h"
+# include <SDL.h>
+# include <SDL_ttf.h>
+# include <SDL_image.h>
 # include "../frameworks/SDL2.framework/Headers/SDL.h"
 # include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 # include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
-
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -28,7 +27,6 @@
 # include <stdio.h>
 # include <errno.h>
 # include "libft.h"
-# include "rt_structs.h"
 # include <pthread.h>
 # include <time.h>
 # include <sys/types.h>
@@ -36,18 +34,14 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <netdb.h>
-
 # define THREAD_MAX 4
 # define PIXEL_SIZE 4
 # define FALSE 0
 # define TRUE 1
-
 # define DIVISION 0
 # define MULTIPLICATION 1
-
 # define SHIFT 0
 # define ROTATE 1
-
 # define WIN_SIZE 1000
 # define OBJ_NUM 8
 # define DISTANCE 1
@@ -59,7 +53,7 @@
 # define CONE_IS_PARSED 1023
 # define CYLINDER_IS_PARSED 1023
 # define PLANE_IS_PARSED 63
-# define ELLIPSOID_IS_PARSED 127 //TODO check!!
+# define ELLIPSOID_IS_PARSED 127
 # define TRIANGLE_IS_PARSED 255
 # define STEP (1.0 / WIN_SIZE)
 # define SHIFT_STEP 0.2
@@ -70,39 +64,20 @@
 # define C 2
 # define ANGLE (M_PI * (10) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
-# define EPSILON 0.000001
-
-# define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOMBA_RAKETA"
-
 # define D_BLUE (SDL_Color){33, 150, 243, 0}
-# define SKY_BLUE (SDL_Color){144, 202, 249, 0}
 # define BLACK (SDL_Color){0, 0, 0, 0}
 # define WHITE (SDL_Color){255, 255, 255, 0}
-
 # define GUI_ALIAS_ON_BMP "gui_images/foot_bar_aliasing_on.bmp"
 # define GUI_ALIAS_OFF_BMP "gui_images/foot_bar_aliasing_off.bmp"
 # define GUI_SEPIA_BMP "gui_images/sepia.bmp"
 # define GUI_GREYSCALE_BMP "gui_images/greyscale.bmp"
 # define GUI_NEGATIVE_BMP "gui_images/negative.bmp"
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
+# define DIST(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
 
-
-# define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
-//# define interpolate(a, b, x) ((double)a * (double)(1.0 - (1.0 - cos(x * 3.1415927)) * 0.5) + (double)b * (double)(1.0 - cos(x * 3.1415927)) * 0.5)
-//# define interpolate(a, b, x) a * (1 - x) + b * x
-// ---------------------------------------------------------------------------------
-
-unsigned int **g_wall; // GLOBAL
-
-
-// ---------------------------------------------------------------------------------
-
-
-/*validate directory*/
 int				find_fd(char *file);
-/*parcing_function directory*/
 void			file_parcing(char *file, t_rt *rt_data);
 void			line_reader(t_rt *rt_data, int fd, const t_parce arr[]);
 void			parcer_functions(char **str, t_rt *rt_data, const t_parce arr[],
@@ -126,8 +101,8 @@ void			sphere_fill(char **line, t_objects *sphere, int l_num, int *flag);
 int				plane_parce(int fd, t_rt *rt_data);
 void			plane_fill(char **line, t_objects *plane, int l_num, int *flag);
 
-int				ellipsoid_parce(int fd, t_rt *rt_data);//TODO check
-void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *flag);//TODO check
+int				ellipsoid_parce(int fd, t_rt *rt_data);
+void			ellipsoid_fill(char **line, t_objects *ellipsoid, int line_number, int *flag);
 void			more_ellipsoid_fill(char **line,
 									t_objects *ellipsoid, int line_number, int *flag);
 
@@ -152,7 +127,6 @@ void			feelings(char **line, t_light *light, int line_number, int *flag);
 void			more_of_feelings(char **line, t_light *light, int line_number,
 									int *flag);
 
-//------------------------------------------------------------------------------------
 /*
 **	draw_scene.c
 */
@@ -185,7 +159,7 @@ t_ray			compute_ray(t_camera camera, t_dot pixel, int aliasing);
 void 			load_texture(SDL_Surface **textures, int index, const char *path);
 void			texture_mapping(t_intersect *closest_inter, t_cl_data cl_data,
 							cl_float3 nor, SDL_Surface *texture);
-void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);;
+void			get_texture(t_intersect *closest_inter, t_cl_data cl_data);
 t_intersect		find_closest_inter(t_cl_data cl_data, t_objects *objects, t_ray primary_ray);
 
 /*
@@ -258,8 +232,6 @@ float			*find_cos_angle(t_ray light_ray, t_intersect closest_inter, cl_float3 no
 **	even_more_color_functions.c
 */
 
-//uint32_t		find_color_hex(t_channel light_coef, t_intersect closest_inter);
-//uint32_t		find_color_channel(float fig_color_channel, float light_color_channel, int step);
 t_channel		fig_color_with_light(t_channel light_coef, t_intersect closest_inter);
 uint32_t		fig_color_with_light_channel(float fig_color, float light_color);
 t_channel		color_plus_color(t_channel color1, t_channel color2);
@@ -271,7 +243,6 @@ uint32_t		channel_color_to_uint(t_channel color);
 
 void			set_pixel(SDL_Surface *surface, int x, int y, uint32_t color);
 
-/* find_intersection directory */
 void			sphere_find_closest_intersect(t_ray r, t_intersect *inter);
 float			find_sphere_discriminant(t_ray r, t_objects *fig, float coefficient[3]);
 int				find_the_root(float coefficient[3], float discriminant, float t[2]);
@@ -291,7 +262,9 @@ t_ray			find_ray_for_imaginary_sphere(t_ray ray, t_objects *ellipsoid);
 
 void	        triangle_find_closest_intersect(t_ray r, t_intersect *inter);
 
- /* limitation functions */
+/*
+**	limitation functions
+*/
 
 void			data_validation(t_objects *obj);
 void			find_norm_intersections(t_ray r, t_objects obj, float t[2], float cap_norm_inter[2][2]);
@@ -301,15 +274,16 @@ int 			hit_bottom_cap(float cap_norm_inter[2][2]);
 int				main_object_is_hit(t_intersect *inter, t_ray r, float t[2], float cap_norm_inter[2][2]);
 int				find_cap_intersection(float cap_norm_inter[2][2], t_objects obj, t_intersect *inter);
 
-//------------------------------------------------------------------------------------
+/*
+**	error manager
+*/
 
-
-
-/*error manager*/
 void		error_exit(int error_name,t_rt *rt_data);
 void		freesher(t_light *light, t_objects *shapes);
 void		error_caster(int line_number, char *s1, char *s2);
-/*math_functions*/
+/*
+**	math_functions
+*/
 cl_float3	matrix_mult_vect(t_coord_sys a, cl_float3 v);
 t_coord_sys	matrix_mult_matrix(t_coord_sys a, t_coord_sys b);//new
 t_coord_sys	count_inverse_matrix(t_coord_sys a);

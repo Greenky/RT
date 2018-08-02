@@ -6,7 +6,7 @@
 #    By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/17 14:33:17 by dadavyde          #+#    #+#              #
-#    Updated: 2018/07/31 21:39:24 by vmazurok         ###   ########.fr        #
+#    Updated: 2018/08/02 10:38:04 by ikachko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ SOURCES         =   source/error_manager.c \
                     source/event_management/rotating_objects.c \
                     source/find_fd.c \
                     source/figures_normals.c    \
-                    source/find_normal_to_figure.c \
-                    source/opencl_functions.c   \
+                    source/find_normal_to_figure.c	\
                     source/draw_scene/apply_filter.c \
                     source/draw_scene/draw_pixel_filter.c \
                     source/draw_scene/draw_scene.c \

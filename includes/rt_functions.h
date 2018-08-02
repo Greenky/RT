@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_functions.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:03:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/08/01 21:15:40 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 10:54:55 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,9 @@
 # define C 2
 # define ANGLE (M_PI * (10) / 180.0)
 # define ANGLE_IN_DEGREES(angle) (M_PI * (angle) / 180.0)
-# define EPSILON 0.000001
-
-# define MAX_SRC_SIZE	0x100000
 # define VEC(a1, a2, a3) (cl_float3){{a1, a2, a3}}
 # define W_TITLE "RT by BOMBA_RAKETA"
-
 # define D_BLUE (SDL_Color){33, 150, 243, 0}
-# define SKY_BLUE (SDL_Color){144, 202, 249, 0}
 # define BLACK (SDL_Color){0, 0, 0, 0}
 # define WHITE (SDL_Color){255, 255, 255, 0}
 
@@ -89,9 +84,6 @@
 # define GUI_PIXEL_BMP "gui_images/pixel.bmp"
 
 
-# define dist(a, b, c, d) sqrt((double)((a - c) * (a - c) + (b - d) * (b - d)))
-//# define interpolate(a, b, x) ((double)a * (double)(1.0 - (1.0 - cos(x * 3.1415927)) * 0.5) + (double)b * (double)(1.0 - cos(x * 3.1415927)) * 0.5)
-//# define interpolate(a, b, x) a * (1 - x) + b * x
 // ---------------------------------------------------------------------------------
 
 unsigned int **g_wall; // GLOBAL

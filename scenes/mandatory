@@ -1,0 +1,65 @@
+#### CAMERA ####
+    camera:
+        dir: (0, 0, -1)
+        cen: (0, 0, -10)
+################
+#### LIGHTS ####
+    light:
+        direct
+        dir: (1, -1, -2)
+        col: 0xFFFFFF
+        int: 0.3
+    light:
+        point
+        cen: (2, 3, -3)
+        col: 0xFFFFFF
+        int: 0.4
+    light:
+        ambient
+        col: 0xFFFFFF
+        int: 0.1
+################
+#### SHAPES ####
+    sphere:
+        cen: (-0.5, 2, 2)
+        rad: 1
+        col: 0xff0000
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: -1
+    cylinder:
+        col: 0xFFAAAA
+        cen: (-3, 2.5, 0)
+        dir: (0, -1, 0)
+        rad: 1.2
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: -1
+        limited: -
+    cone:
+        col: 0xAAFFAA
+        cen: (2, 0, 2)
+        dir: (0.1, 1, 0)
+        ang: 30
+        b_p: 1000
+        mir: 0
+        trancper: 0
+        texture index: -1
+        limited: -
+    plane:
+        col: 0xAAAAFF
+        cen: (0, 10, 8)
+        nor: (0, -1, 0)
+        b_p: 1
+        mir: 0
+        texture index: -1
+    plane:
+        col: 0xAAAAFF
+        cen: (0, 10, 8)
+        nor: (0, 0, -1)
+        b_p: 1
+        mir: 0
+        texture index: -1, repeat 2
+################

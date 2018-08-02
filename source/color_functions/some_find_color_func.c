@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_find_color_func.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 20:07:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 17:59:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:28:45 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			is_shadows_here(t_ray light_ray, cl_float3 normal, t_ray r)
 	float	is_light_with_cam;
 
 	is_light_with_cam = vect_scalar_mult(r.direction, normal) *
-						-vect_scalar_mult(light_ray.direction, normal);
+	vect_scalar_mult(vect_mult_scalar(light_ray.direction, -1), normal);
 	if (is_light_with_cam >= 0)
 		return (TRUE);
 	else
@@ -51,7 +51,7 @@ t_channel	*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 	current = -1;
 	tmp.distance = INFINITY;
 	distance_to_light = (current_lamp->type == POINT)
-		? length(vect_diff(current_lamp->origin, light_ray.origin)) : INFINITY;
+	? distance(current_lamp->origin, closest_inter.point) : INFINITY;
 	while (++current < rt_data->cl_data.num_of_objects)
 	{
 		close_to_light.fig = &rt_data->objects_arr[current];
@@ -59,8 +59,8 @@ t_channel	*is_figure_first_inter_by_light(t_rt *rt_data, t_ray light_ray,
 		{
 			choose_intersection(light_ray, &close_to_light);
 			if (close_to_light.distance != INFINITY)
-				close_to_light.distance =
-						distance(light_ray.origin, close_to_light.point);
+				close_to_light.distance = (current_lamp->type == POINT) ?
+distance(light_ray.origin, close_to_light.point) : close_to_light.distance;
 			if (close_to_light.distance < distance_to_light)
 				tmp = close_to_light;
 		}

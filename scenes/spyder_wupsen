@@ -47,22 +47,6 @@
         mir: 0
         trancper: 0
         texture index: -1
-    sphere:
-        cen: (-0.3, 1.6, 2)
-        rad: 0.9
-        col: 0xffffff
-        b_p: 1000
-        mir: 0
-        trancper: 0
-        texture index: -1
-    sphere:
-        cen: (-0.3, 2.8, 2)
-        rad: 0.9
-        col: 0xffffff
-        b_p: 1000
-        mir: 0
-        trancper: 0
-        texture index: -1
     plane:
         col: 0xFFFFFF
         cen: (-5, 0, 3)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_pixel_color.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 20:39:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/06/17 17:58:59 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:30:43 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ t_channel	find_color(t_rt *rt_data,
 	float			i;
 
 	ft_bzero(&light_coef, sizeof(t_channel));
-//	if (closest_inter.normal.x != choose_normal(*closest_inter.fig, closest_inter.point).x)
-//		printf("AAAAA\n");
-//	closest_inter.normal = choose_normal(*closest_inter.fig, closest_inter.point);
 	if (closest_inter.fig->is_cartoon)
 	{
 		i = vect_scalar_mult(r.direction,
-					choose_normal(*closest_inter.fig, closest_inter.point));
+		choose_normal(*closest_inter.fig, closest_inter.point));
 		if (i < 0.2 && i >= 0)
 			return ((t_channel){0xFF, 0xFF, 0xFF});
 	}
@@ -78,8 +75,9 @@ t_ray		find_light_ray(cl_float3 origin, t_light *light)
 
 	light_ray.origin = origin;
 	if (light->type == POINT)
-		light_ray.direction = vect_diff(light->origin, origin);
+		light_ray.direction =
+		normalize_vector(vect_diff(light->origin, origin));
 	else
-		light_ray.direction = light->direct;
+		light_ray.direction = normalize_vector(light->direct);
 	return (light_ray);
 }

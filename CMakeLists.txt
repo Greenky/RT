@@ -14,7 +14,6 @@ set(SOURCE_FILES
 		source/find_normal_to_figure.c
 		source/run_rt.c
 		source/figures_normals.c
-		source/opencl_functions.c
 
 		source/parcing_function/file_parcing.c
 		source/parcing_function/plane_parcing.c
@@ -23,7 +22,7 @@ set(SOURCE_FILES
 		source/parcing_function/cylinder_parcing.c
 		source/parcing_function/ellipsoid_parcing.c
 		source/parcing_function/cam_parcing.c
-		source/parcing_function/add_shape_and_light.c
+		source/parcing_function/add_object_and_light.c
 		source/parcing_function/parce_peripherals.c
 		source/parcing_function/parce_peripherals_v2.c
 		source/parcing_function/light_parcing.c
@@ -37,6 +36,7 @@ set(SOURCE_FILES
 
 		source/find_intersection/cone_find_closest_intersect.c
 		source/find_intersection/cyl_find_closest_intersect.c
+		source/find_intersection/cyl_find_limited.c
 		source/find_intersection/plane_find_closest_intersect.c
 		source/find_intersection/sphere_find_closest_intersect.c
 		source/find_intersection/ellipsoid_find_closest_intersect.c
@@ -61,7 +61,15 @@ set(SOURCE_FILES
 		source/color_functions/manage_pixel.c
 		source/color_functions/some_find_color_func.c
 		source/color_functions/find_everything.c
-		source/color_functions/even_more_color_functions.c source/find_intersection/choose_intersection.c source/draw_scene/apply_filter.c source/draw_scene/draw_pixel_filter.c source/event_management/rotating_objects.c source/color_functions/texture_mapping.c source/network_handling.c)
+		source/color_functions/texture_mapping.c
+		source/network_handling.c
+		source/color_functions/even_more_color_functions.c
+		source/find_intersection/choose_intersection.c
+		source/draw_scene/apply_filter.c
+		source/draw_scene/draw_pixel_filter.c
+		source/event_management/rotating_objects.c
+		source/find_intersection/triangle_find_closest_intersect.c
+		source/parcing_function/triangle_parce.c)
 # LIBA for Windows --------------------------------------
 #		libft/atoif.c
 #		libft/author

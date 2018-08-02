@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_color_disruptions.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 22:29:14 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/26 18:34:51 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 11:00:32 by ikachko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,21 @@ uint32_t	rgb_to_int(t_channel rgb)
 	return ((uint32_t)c);
 }
 
-int		check_mate_disruption(int j, int i)
+int			check_mate_disruption(int j, int i)
 {
+	j = j < 0 ? -j : j;
+	i = i < 0 ? -i : i;
 	if ((j % 50 < 25 && i % 50 < 25) || (j % 50 > 25 && i % 50 > 25))
 		return (j < 0 ? 0 : 0xFFFFFF);
 	else
 		return (j < 0 ? 0xFFFFFF : 0);
 }
 
-int		plasma_disruption(int j, int i)
+int			plasma_disruption(int j, int i)
 {
-//	int			i;
-//	int			j;
 	int			color;
-	double		time;
-	double		value;
 
-	time = clock() / 50.0;
-//	j = -1;
-//	while (++j < surface->h)
-//	{
-//		i = -1;
-//		while (++i < surface->w)
-//		{
-			value = sin(dist(i + time, j, 100 / 2,
-							 100 / 2) / 8.0)
-						+ sin(dist(i, j, 100 / 4, 100 / 4) / 8.0)
-						+ sin(dist(i, j + time / 7, (100 / 4 * 3),
-								   100 / 4) / 7.0)
-						+ sin(dist(i, j, (100 / 4 * 3), 100.0) / 8.0);
-			color = (int)((4 + value)) * 32;
-			return(rgb_to_int((t_channel){color, color * 2, 255 - color}));
-//		}
-//	}
+	color = (int)(128.0 * sin(j / 16.0)
+				+ 128.0 + (128.0 * sin(i / 16.0))) / 2;
+	return (color);
 }
-

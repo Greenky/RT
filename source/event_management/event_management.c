@@ -6,11 +6,28 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 14:23:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 17:53:56 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 20:27:12 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/rt_functions.h"
+
+void		client_event_management(t_rt *rt_data, SDL_Event *event)
+{
+	while (rt_data->is_client)
+	{
+		event = (SDL_Event *)receive_data(rt_data->server_fd, event,
+		sizeof(SDL_Event));
+		if (event->type == SDL_QUIT
+			|| (event->type == SDL_KEYDOWN &&
+				event->key.keysym.scancode == SDL_SCANCODE_ESCAPE))
+			exit(0);
+		if (event->type == SDL_KEYDOWN)
+			key_down(rt_data, event);
+		if (event->type == SDL_MOUSEBUTTONDOWN)
+			mouse_click_event(rt_data, event);
+	}
+}
 
 void		event_management(t_rt *rt_data, SDL_Event *event)
 {
@@ -34,27 +51,13 @@ void		event_management(t_rt *rt_data, SDL_Event *event)
 			if (event->type == SDL_MOUSEBUTTONDOWN)
 				mouse_click_event(rt_data, event);
 		}
-//		client_event_management(rt_data, event);
-		while (rt_data->is_client)
-		{
-			event = (SDL_Event *)receive_data(rt_data->server_fd, event,
-			sizeof(SDL_Event));
-			if (event->type == SDL_QUIT
-				|| (event->type == SDL_KEYDOWN &&
-				event->key.keysym.scancode == SDL_SCANCODE_ESCAPE))
-				exit(0);
-			if (event->type == SDL_KEYDOWN)
-				key_down(rt_data, event);
-			if (event->type == SDL_MOUSEBUTTONDOWN)
-				mouse_click_event(rt_data, event);
-		}
+		client_event_management(rt_data, event);
 	}
 }
 
 int			exit_x(t_rt *rt_data, SDL_Event *event)
 {
-	if (event->type == SDL_QUIT
-		|| (event->type == SDL_KEYDOWN &&
+	if (event->type == SDL_QUIT || (event->type == SDL_KEYDOWN &&
 		event->key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 	{
 		send_data(rt_data->server_fd, event, sizeof(SDL_Event));

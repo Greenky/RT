@@ -31,6 +31,8 @@ cl_float3	choose_normal(t_objects figure, cl_float3 inter)
 		return (find_normal_to_plane(figure, inter));
 	else if (figure.type == ELLIPSOID)
 		return (find_normal_to_ellipsoid(figure, inter));
+	else if (figure.type == TRIANGLE)
+		return (find_normal_to_plane(figure, inter));
 	else
 		return (VEC(1, 1, 1));
 }

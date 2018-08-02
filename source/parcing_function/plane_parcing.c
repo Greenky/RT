@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_parcing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 12:41:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/07 12:41:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/07/31 21:49:35 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int			plane_parce(int fd, t_rt *rt_data)
 
 	flag = 0;
 	plane = (t_objects *)malloc(sizeof(t_objects));
-	plane->type = PLANE;
 	plane->transperent_coef = 0;
 	plane->cap[0].dist = INFINITY;
 	plane->cap[1].dist = INFINITY;
@@ -38,7 +37,7 @@ int			plane_parce(int fd, t_rt *rt_data)
 		free(plane);
 		error_exit(ERROR, NULL);
 	}
-	add_shape(rt_data, plane);
+	add_obj_to_list(rt_data, plane);
 	return (0);
 }
 
@@ -47,6 +46,7 @@ static void	even_more_plane_fill(char **line,
 {
 	float	mirror;
 
+	plane->type = PLANE;
 	if (begin_with(*line, "texture index:"))
 	{
 		*line = trim_from(*line, 14);

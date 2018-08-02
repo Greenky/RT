@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotating_and_shift_camera.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:01:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/23 18:01:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:15:28 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,95 @@ void		rotating_camera(int keycode, t_rt *rt_data)
 		rt_data->cl_data.camera.angle_rot.z += angle;
 	rt_data->cl_data.camera.basis =
 			init_basis_after_rot(rt_data->cl_data.camera.initial_basis,
-								rt_data->cl_data.camera.angle_rot);
+			rt_data->cl_data.camera.angle_rot, VEC(0, 0, 1));
 }
 
-t_coord_sys	init_basis_after_rot(t_coord_sys initial_basis, cl_float3 angle_rot)
+cl_float3	init_cap_axis
+		(t_coord_sys new_basis_obj, t_objects *obj, int axis, int cup_num)
 {
-	t_coord_sys		new_basis;
-	cl_float3		x_cam_sys;
-	cl_float3		y_cam_sys;
+    cl_float3	new_axis;
 
-	new_basis = matrix_mult_matrix(initial_basis,
-					rot_matrix_about_the_axis(angle_rot.z, VEC(0, 0, 1)));
-	y_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis),
-								new_basis.b_y);
-	new_basis = matrix_mult_matrix(new_basis,
-		rot_matrix_about_the_axis(angle_rot.y, y_cam_sys));
-	x_cam_sys = matrix_mult_vect(count_inverse_matrix(new_basis),
-								new_basis.b_x);
-	new_basis = matrix_mult_matrix(new_basis,
-					(rot_matrix_about_the_axis(angle_rot.x, x_cam_sys)));
-	return (new_basis);
+	if (axis == AXIS_Z)
+		new_axis =
+			matrix_mult_vect(count_inverse_matrix(obj->cap[cup_num].init_basis),
+							 obj->init_basis.b_z);
+	else if (axis == AXIS_Y)
+		new_axis =
+			matrix_mult_vect(count_inverse_matrix(obj->cap[cup_num].basis),
+							new_basis_obj.b_y);
+	else
+		new_axis =
+			matrix_mult_vect(count_inverse_matrix(obj->cap[cup_num].basis),
+							 new_basis_obj.b_x);
+	return (new_axis);
+}
+
+void	init_cap_basis_after_rot
+	(t_coord_sys new_basis_obj, t_objects *obj, cl_float3 angle_rot, int axis)
+{
+	cl_float3		new_axis;
+	t_coord_sys		basisss;
+	float			angle;
+
+	if (axis == AXIS_Z)
+		angle = angle_rot.z;
+	else if (axis == AXIS_Y)
+		angle = angle_rot.y;
+	else if (axis == AXIS_X)
+		angle = angle_rot.x;
+
+	if (!isinf(obj->cap[0].dist))
+	{
+		new_axis = init_cap_axis(new_basis_obj, obj, axis, 0);
+		basisss = (axis == AXIS_Z) ? obj->cap[0].init_basis : obj->cap[0].basis;
+		obj->cap[0].basis = matrix_mult_matrix(basisss,
+							rot_matrix_about_the_axis(-angle, new_axis));
+	}
+	if (!isinf(obj->cap[1].dist))
+	{
+		new_axis = init_cap_axis(new_basis_obj, obj, axis, 1);
+		basisss = (axis == AXIS_Z) ? obj->cap[1].init_basis : obj->cap[1].basis;
+		obj->cap[1].basis = matrix_mult_matrix(basisss,
+							rot_matrix_about_the_axis(-angle, new_axis));
+	}
+
+}
+
+void	init_obj_basis_after_rot
+		(t_coord_sys init_basis_obj, cl_float3 angle_rot, t_objects *obj)
+{
+	t_coord_sys		new_basis_obj;
+
+
+	new_basis_obj = matrix_mult_matrix(init_basis_obj,
+                         rot_matrix_about_the_axis(angle_rot.z, VEC(0, 0, 1)));
+	init_cap_basis_after_rot(new_basis_obj, obj, angle_rot, AXIS_Z);
+
+	new_basis_obj = matrix_mult_matrix(new_basis_obj,
+		rot_matrix_about_the_axis(angle_rot.y, VEC(0, 1, 0)));
+	init_cap_basis_after_rot(new_basis_obj, obj, angle_rot, AXIS_Y);
+
+	new_basis_obj = matrix_mult_matrix(new_basis_obj,
+					(rot_matrix_about_the_axis(angle_rot.x, VEC(1, 0, 0))));
+	init_cap_basis_after_rot(new_basis_obj, obj, angle_rot, AXIS_X);
+
+    obj->basis = new_basis_obj;
+}
+
+t_coord_sys	init_basis_after_rot
+		(t_coord_sys initial_basis, cl_float3 angle_rot, cl_float3 z_cam_sys)
+{
+    t_coord_sys		new_basis;
+    cl_float3		x_cam_sys = VEC(1, 0, 0);
+    cl_float3		y_cam_sys = VEC(0, 1, 0);
+
+    new_basis = matrix_mult_matrix(initial_basis,
+                       rot_matrix_about_the_axis(angle_rot.z, z_cam_sys));
+    new_basis = matrix_mult_matrix(new_basis,
+                       rot_matrix_about_the_axis(angle_rot.y, y_cam_sys));
+    new_basis = matrix_mult_matrix(new_basis,
+                       (rot_matrix_about_the_axis(angle_rot.x, x_cam_sys)));
+    return (new_basis);
 }
 
 t_coord_sys	rot_matrix_about_the_axis(float angle, cl_float3 axis)

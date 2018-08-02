@@ -3,15 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   rotating_objects.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dadavyde <dadavyde@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 16:48:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/29 16:48:00 by dadavyde         ###   ########.fr       */
+/*   Updated: 2018/08/01 22:09:38 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <OpenCL/opencl.h>
 #include "../../includes/rt_functions.h"
+
+void        check_caps_normals(t_objects *obj)
+{
+	float   cos;
+
+	if (!isinf(obj->cap[0].dist))
+	{
+		cos = vect_scalar_mult(obj->cap[0].init_basis.b_z, obj->init_basis.b_z);
+		if (cos > 0)
+			obj->cap[0].init_basis.b_z = vect_mult_scalar(obj->cap[0].init_basis.b_z, -1);
+	}
+	if (!isinf(obj->cap[1].dist))
+	{
+		cos = vect_scalar_mult(obj->cap[1].init_basis.b_z, obj->init_basis.b_z);
+		if (cos < 0)
+			obj->cap[1].init_basis.b_z = vect_mult_scalar(obj->cap[1].init_basis.b_z, -1);
+	}
+}
 
 void		rotating_object(int keycode, t_rt *rt_data)
 {
@@ -26,12 +44,16 @@ void		rotating_object(int keycode, t_rt *rt_data)
 	else
 	{
 		if (keycode == SDLK_UP || keycode == SDLK_DOWN)
-			obj->angle_rot.y += angle;
+			obj->angle_rot.x += angle;
 		else if (keycode == SDLK_RIGHT || keycode == SDLK_LEFT)
-			obj->angle_rot.x -= angle;
+			obj->angle_rot.y -= angle;
 		else
 			obj->angle_rot.z += angle;
-		obj->basis = init_basis_after_rot(obj->initial_basis, obj->angle_rot);
+//        if (!isinf(obj->cap[0].dist) || !isinf(obj->cap[1].dist))
+//            check_caps_normals(obj);
+		init_obj_basis_after_rot(obj->init_basis, obj->angle_rot, obj);
+		obj->cap[0].normal = obj->cap[0].basis.b_z;
+		obj->cap[1].normal = obj->cap[1].basis.b_z;
 	}
 }
 

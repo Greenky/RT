@@ -1,0 +1,20 @@
+#### CAMERA ####
+    camera:
+        dir: (0, 0, -1)
+        cen: (0, 0, -10)
+################
+#### LIGHTS ####
+    light:
+        point
+        cen: (-3, -2, -3)
+        col: 0xFFFFFF
+        int: 0.5
+    light:
+        ambient
+        col: 0xAAAAFF
+        int: 0.1
+################
+#### SHAPES ####
+    triangle:
+
+#################

@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 18:00:00 by dadavyde          #+#    #+#             */
-/*   Updated: 2018/07/31 18:30:10 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/01 21:51:56 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		run_rt(t_rt *rt_data)
 	i = -1;
 	while (++i < 12)
 		load_texture(rt_data->cl_data.textures, i, textures[i]);
-	rt_data->aliasing = 1;//TODO move if needed
+	rt_data->aliasing = 1;
 	draw_scene(rt_data);
 	SDL_UpdateWindowSurface(rt_data->window);
 	event_management(rt_data, &event);
@@ -63,7 +63,7 @@ const char *path)
 	if (!(texture = SDL_LoadBMP(path)))
 	{
 		ft_putendl_fd(SDL_GetError(), 2);
-		exit(1);//TODO fix this
+		exit(1);
 	}
 	new_text = SDL_ConvertSurfaceFormat(texture, SDL_PIXELFORMAT_ARGB8888, 0);
 	SDL_FreeSurface(texture);

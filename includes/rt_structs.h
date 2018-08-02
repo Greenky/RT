@@ -6,12 +6,16 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 11:49:00 by vpaladii          #+#    #+#             */
-/*   Updated: 2018/07/31 17:50:36 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 11:13:19 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
+# include <OpenCL/opencl.h>
+# include "../frameworks/SDL2.framework/Headers/SDL.h"
+# include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+# include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 
 enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR, LOAD_BMP_ERROR};
 enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID, TRIANGLE};

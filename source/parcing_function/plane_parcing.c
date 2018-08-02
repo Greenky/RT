@@ -37,7 +37,7 @@ int			plane_parce(int fd, t_rt *rt_data)
 		free(plane);
 		error_exit(ERROR, NULL);
 	}
-    add_obj_to_list(rt_data, plane);
+	add_obj_to_list(rt_data, plane);
 	return (0);
 }
 

@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   rt_structs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikachko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/07 11:49:00 by vpaladii          #+#    #+#             */
-/*   Updated: 2018/08/02 11:14:07 by ikachko          ###   ########.fr       */
+/*   Created: 2018/07/07 11:49:00 by dadavyde          #+#    #+#             */
+/*   Updated: 2018/08/02 11:34:24 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
+# include <OpenCL/opencl.h>
+# include "../frameworks/SDL2.framework/Headers/SDL.h"
+# include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+# include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 
 enum	e_error {NUM_OF_ARG, ERROR, CAM_ERROR, LOAD_BMP_ERROR};
 enum	e_figures {SPHERE, CYLINDER, CONE, PLANE, ELLIPSOID, TRIANGLE};

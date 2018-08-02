@@ -36,5 +36,3 @@ cl_float3	choose_normal(t_objects figure, cl_float3 inter)
 	else
 		return (VEC(1, 1, 1));
 }
-
-

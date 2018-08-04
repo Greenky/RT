@@ -6,17 +6,14 @@
 #    By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/17 14:33:17 by dadavyde          #+#    #+#              #
-#    Updated: 2018/08/02 11:10:58 by vmazurok         ###   ########.fr        #
+#    Updated: 2018/08/02 11:11:00 by vmazurok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC              =   gcc
 
+C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native
 
-WWW             =   -Wall -Wextra -Werror # НЕ ЗАБУДЬ ПОВЕРНУТИ МУДІЛА
-
-
-C_FLAGS         =   -c -O3 -flto=thin -Ofast -march=native -mtune=native -Wall -Wextra -Werror
 RTV_FLAGS       =   -F frameworks -framework SDL2 -framework SDL2_ttf -framework SDL2_image -framework OpenCL
 
 SERVER_SRC		=	source/main.c
@@ -30,6 +27,7 @@ SOURCES         =   source/error_manager.c \
                     source/event_management/handle_axis_dimensions_for_ellipsoid.c \
                     source/event_management/rotating_and_shift_camera.c \
                     source/event_management/rotating_objects.c \
+                    source/event_management/rotating_caps.c \
                     source/find_fd.c \
                     source/figures_normals.c \
                     source/find_normal_to_figure.c \

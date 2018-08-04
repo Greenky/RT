@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 21:20:44 by ikachko           #+#    #+#             */
-/*   Updated: 2018/07/31 19:02:41 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 17:24:46 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ t_channel	fig_color_with_light(t_channel light_coef,
 	t_channel	color;
 
 	color.red = fig_color_with_light_channel(
-			closest_inter.texture_color.red, light_coef.red);
+			closest_inter.texture_color.red, light_coef.red + (40 * closest_inter.fig->is_cartoon));
 	color.green = fig_color_with_light_channel(
-			closest_inter.texture_color.green, light_coef.green);
+			closest_inter.texture_color.green, light_coef.green + (40 * closest_inter.fig->is_cartoon));
 	color.blue = fig_color_with_light_channel(
-			closest_inter.texture_color.blue, light_coef.blue);
+			closest_inter.texture_color.blue, light_coef.blue + (40 * closest_inter.fig->is_cartoon));
 	return (color);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vmazurok <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 20:36:59 by vmazurok          #+#    #+#             */
-/*   Updated: 2018/07/30 20:42:16 by vmazurok         ###   ########.fr       */
+/*   Updated: 2018/08/02 16:22:00 by vmazurok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ cl_float3 nor, SDL_Surface *texture)
 	else if (closest_inter->fig->type == CYLINDER ||
 			closest_inter->fig->type == CONE)
 		pixel = cylindric_mapping(closest_inter, nor, h, w);
-	else if (closest_inter->fig->type == PLANE)
+	else if (closest_inter->fig->type == PLANE ||
+			closest_inter->fig->type == TRIANGLE)
 		pixel = plane_mapping(closest_inter, nor);
 	find_texture_color(closest_inter, cl_data, texture, pixel);
 }

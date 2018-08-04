@@ -7,8 +7,9 @@ The goal was to create Ray Tracing program with lot of functions, such as Graphi
 <b> How to use </b>
 
 In MAC OS, open the folder in terminal, type `make` then execute the binary `RT` with scene by first parameter. 
-Executable binary also included in repo.
-All scenes are based in "scenes\" folder.
+Executable binary also included in repo.</br>
+All scenes are based in "scenes\" folder.</br>
+Execution without parameters shows `usage`.</br>
 FLag [-s] after the scene turn on the server mode (works only in UNIT Factory) 
 
 <b> Сontrols </b>

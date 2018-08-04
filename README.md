@@ -19,11 +19,11 @@ Left mouse button   :	highlight the object, interact with user interface
 Arrow keys          :	rotate the camera, or in highlight mode rotate the object
 ```
 ***GUI capability***
->> In highlight the object mode - appears window with name, position controls and radius (for sphere and cylinder) or angle (for cone) adjustment.</br>
->> Filters button </br>
+>> In highlight the object mode - appears window with name, position controls and radius (for sphere and cylinder) or angle (for cone) adjustment.</p>
+>> Filters button </p>
 >> <li> Black and white
 >> <li> Sepia
 >> <li> Pixel
 >> <li> Inversion </li>
->> Save button saves image of current camera position in project folder </br>
+>> Save button saves image of current camera position in project folder </p>
 >> Antialiasing switch turns on antialiasing

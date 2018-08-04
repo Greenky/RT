@@ -22,5 +22,5 @@ Arrow keys          :	rotate the camera, or in highlight mode rotate the object
 >> <li> Sepia
 >> <li> Pixel
 >> <li> Inversion </li>
->> Save button saves image in project folder
->> Antialiasing switch turn on antialiasing
+Save button saves image in project folder </>
+Antialiasing switch turn on antialiasing

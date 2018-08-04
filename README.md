@@ -14,13 +14,13 @@ FLag [-s] after the scene turn on the server mode (works only in UNIT Factory)
 <b> Сontrols </b>
 ```
 W-A-S-D             :	for move the camera
-Right mouse button  : highlight the object, interact with user interface
+Right mouse button  :	highlight the object, interact with user interface
 Arrow keys          :	rotate the camera, or in highlight mode rotate the object
 ```
 ***GUI has filters buttin with filters such as***
->> <li> _Black and white_
->> <li> _Sepia_
->> <li> _Pixel_
->> <li> _Inversion_
+>> <li> Black and white
+>> <li> Sepia
+>> <li> Pixel
+>> <li> Inversion </li>
 >> Save button saves image in project folder
 >> Antialiasing switch turn on antialiasing

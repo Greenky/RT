@@ -23,4 +23,4 @@ Arrow keys          :	rotate the camera, or in highlight mode rotate the object
 >> <li> Pixel
 >> <li> Inversion </li>
 Save button saves image in project folder </p>
-Antialiasing switch turn on antialiasing
+Antialiasing switch turns on antialiasing
